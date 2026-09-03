@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @import "./02_components/button.css";
+@import "./02_components/tag.css";
 
 @theme {
   /* Typography */
@@ -33,6 +34,19 @@
   --color-accent-800:  #991b1b;
   --color-accent-900:  #7f1d1d;
   --color-accent-950:  #450a0a;
+
+  /* Brand Colors - Gold / Amber (Rankings, medals, trophies) */
+  --color-gold-50:     #fefce8;
+  --color-gold-100:    #fef9c3;
+  --color-gold-200:    #fef08a;
+  --color-gold-300:    #fde047;
+  --color-gold-400:    #facc15;
+  --color-gold-500:    #eab308;
+  --color-gold-600:    #c5830e;
+  --color-gold:        #c5830e;
+  --color-gold-700:    #a16207;
+  --color-gold-800:    #854d0e;
+  --color-gold-900:    #713f12;
 
   /* Neutrals / Dark Surface */
   --color-dark:        #111c2d;

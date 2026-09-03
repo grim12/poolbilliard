@@ -1,0 +1,34 @@
+{#
+    tag(text, url, color, variant, size, extraClass, target, ariaLabel)
+    - text: text inside tag
+    - url: if provided, renders <a>, otherwise <span>
+    - color: "primary" (default) | "accent" | "dark" | "gray" | "gold" | "gold-light"
+    - variant: "solid" (default) | "subtle" | "plain" | "outline"
+    - size: "md" (default) | "sm" | "lg"
+    - extraClass: additional utility classes
+    - target: target for link
+    - ariaLabel: aria-label for accessibility
+#}
+{% macro tag(
+    text,
+    url="",
+    color="primary",
+    variant="solid",
+    size="md",
+    extraClass="",
+    target="",
+    ariaLabel=""
+) -%}
+    {# Map modifiers — default values (primary, solid, md) have no extra class needed #}
+    {%- set colorClass = ("c-tag--" + color) if (color and color != "primary") else "" -%}
+    {%- set variantClass = ("c-tag--" + variant) if (variant and variant != "solid") else "" -%}
+    {%- set sizeClass = ("c-tag--" + size) if (size and size != "md") else "" -%}
+
+    {%- set classes = ["c-tag", colorClass, variantClass, sizeClass, extraClass] | select | join(" ") -%}
+
+    {%- if url -%}
+        <a href="{{ url }}" class="{{ classes }}"{% if target %} target="{{ target }}" rel="noopener noreferrer"{% endif %}{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}>{{ text | safe }}</a>
+    {%- else -%}
+        <span class="{{ classes }}"{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}>{{ text | safe }}</span>
+    {%- endif -%}
+{%- endmacro %}
