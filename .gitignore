@@ -1,2 +1,26 @@
-/.idea/
-/.junie/
+# OS files
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build artifacts
+_site/
+dist/
+ui/_site/
+ui/src/css/style.css
+.build/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.log
+
+# IDEs and editors
+.idea/
+*.sublime-workspace
+.vscode/
+.junie/
