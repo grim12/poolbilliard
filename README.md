@@ -21,6 +21,7 @@ poolbilliard/
 │   │   ├── styles/         # CSS architektura (Tailwind CSS 4 + PostCSS)
 │   │   │   ├── 01_base/    # Základní elementy (reset, typografie, layout)
 │   │   │   ├── 02_components/ # Komponentové styly BEM (.c-, .u-)
+│   │   │   ├── 03_themes/  # Kontextová témata (.t-dark)
 │   │   │   └── style.css   # Vstupní CSS bod s @theme definicemi
 │   │   ├── js/             # Vanilla JavaScript
 │   │   │   └── main.js     # Hlavní vstupní JS bod

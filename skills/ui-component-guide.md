@@ -9,7 +9,8 @@
 
 * **Šablonovací systém:** [Eleventy 3](https://www.11ty.dev/) + [Nunjucks](https://mozilla.github.io/nunjucks/) (`.njk`)
 * **CSS Framework:** [Tailwind CSS v4](https://tailwindcss.com/) přes `@tailwindcss/postcss`
-* **Metodika CSS:** BEM (`.c-` komponenty, `.u-` utility) psané prioritně pomocí `@apply`
+* **Metodika CSS:** BEM (`.c-` komponenty, `.u-` utility, `.t-` themes) psané prioritně pomocí `@apply`
+* **Písmo:** [Archivo](https://fonts.google.com/specimen/Archivo) (Google Fonts)
 * **JavaScript:** Vanilla JS (ES Modules) v `ui/src/js/main.js`
 
 ### Adresářová struktura (`ui/`)
@@ -25,8 +26,9 @@ ui/
 │   ├── _data/               # Mock data (turnaje.json, hraci.json...)
 │   ├── styles/
 │   │   ├── style.css        # Vstupní bod, @theme definice tokenů, @importy
-│   │   ├── 01_base/         # Typografie, globální reset a layout
-│   │   └── 02_components/   # Samostatný CSS soubor pro každou komponentu (button.css...)
+│   │   ├── 01_base/         # Typografie (typography.css), globální reset a layout
+│   │   ├── 02_components/   # Samostatný CSS soubor pro každou komponentu (button.css...)
+│   │   └── 03_themes/       # Témata sekcí (dark.css pro .t-dark...)
 │   ├── js/
 │   │   └── main.js          # Hlavní JavaScript
 │   ├── assets/              # Statické soubory (loga, ikony, obrázky)
@@ -38,7 +40,28 @@ ui/
 
 ---
 
-## 2. Pravidla pro tvorbu komponent
+## 2. Typografie a Témata
+
+### Typografická pravidla (`01_base/typography.css`)
+* Všechny nadpisy mají párové třídy (např. `h1, .h1 { ... }`), aby šlo styl přiřadit libovolnému HTML tagu bez nutnosti používat `<h1>`.
+* **Velikosti písma a řádkování:** Jsou nadefinovány v `@theme` (`--text-*`, `--leading-*`, `--tracking-*`) a aplikují se přes responsivní `@apply`:
+  * **H1 / .h1:** `@apply font-black tracking-tight-2 text-text-main leading-h1 text-4xl sm:text-6xl lg:text-7xl mb-6;` (32px mobile / 40px tablet / 52px desktop)
+  * **H2 / .h2:** `@apply font-black tracking-tight-2 text-text-main leading-h2 text-3xl sm:text-5xl lg:text-6xl mb-5;` (28px mobile / 34px tablet / 40px desktop)
+  * **H3 / .h3:** `@apply font-extrabold tracking-tight-2 text-text-main leading-h3 text-2xl sm:text-3xl lg:text-4xl mb-4;` (24px mobile / 28px tablet / 32px desktop)
+  * **p / .p:** `@apply font-normal text-text-muted tracking-normal text-base leading-body mb-4;` (16px)
+  * **.p--lg:** `@apply font-medium text-lg leading-body mb-5;` (18px)
+* **Výchozí barva textu / nadpisů:** `#10202D` (`--color-text-main`)
+* **Pravidlo pro první a poslední element (`:first-child`, `:last-child`):** Textové bloky mají automatický reset horního a dolního marginu:
+  * `&:first-child { @apply mt-0; }` — první prvek v kontejneru nemá horní margin.
+  * `&:last-child { @apply mb-0; }` — poslední prvek v kontejneru nemá spodní margin.
+
+### Témata (`03_themes/`)
+* Kontextová témata používají prefix `.t-` (např. `.t-dark`).
+* **`.t-dark`:** Pro sekce s tmavým pozadím. Automaticky přebarvuje text na světlý, nadpisy na bílé a oddělovače na poloprůhledné bílé linky.
+
+---
+
+## 3. Pravidla pro tvorbu komponent
 
 Každá nová komponenta se skládá ze 3 propojených částí:
 1. **CSS soubor** v `ui/src/styles/02_components/<component>.css`
@@ -59,42 +82,129 @@ Každá nová komponenta se skládá ze 3 propojených částí:
 
 ---
 
-### Pravidlo 2: Stylování pomocí `@apply`
+### Pravidlo 2: Stylování pomocí `@apply`, explicitní názvy tříd a responsivita
 
 Styly komponent píšeme do `@layer components` s využitím Tailwind utilit přes `@apply`.
 
+> ⚠️ **ZÁVAZNÁ PRAVIDLA PRO CSS, NÁZVY TŘÍD A RESPONZIVITU:**
+> - **NIKDY nepoužívejte ruční `@media` dotazy** (např. `@media (min-width: 640px)`). V `@media` nelze použít CSS proměnné a vede to k nesjednoceným breakpointům. Místo toho **VŽDY používejte responzivní utility přes `@apply`**, např.:
+>   - `@apply text-3xl sm:text-4xl lg:text-5xl;`
+>   - `@apply px-4 md:px-6 xl:px-8;`
+>   - `@apply flex-col md:flex-row;`
+> - **NIKDY nepoužívejte zřetězení názvů přes `&--modifier`** uvnitř bloku (např. `.c-button { &--accent {} }`). Vždy pište **celý název třídy** (`.c-button--accent {}`). Díky tomu funguje přímé full-text vyhledávání tříd v celém projektu a kód je přehledný.
+> - **Vnořování (CSS Nesting) používáme tam, kde to dává logický kontextový smysl:**
+>   - Kontextová témata a obalovače: `.t-dark { .c-button {} .c-button--primary {} }`
+>   - HTML tagy v tématech: `.t-dark { h1, .h1 { ... } }`
+>   - Pseudo-třídy a stavy: `&:disabled`, `&:hover` uvnitř konkrétní třídy
+>   - Vnořené elementy / potomci: `.c-button--with-arrow { svg { ... } }`
+
+**Příklad správně:**
 ```css
-/* ui/src/styles/02_components/button.css */
+/* ✅ SPRÁVNĚ */
+.t-dark {
+  .c-button {}
+  .c-button--primary {}
+}
+
+.c-button {
+  @apply inline-flex items-center ...;
+
+  &:disabled {
+    @apply opacity-50;
+  }
+}
+
+.c-button--primary {
+  @apply bg-primary-600 text-white;
+}
+
+.c-button--accent {
+  @apply bg-accent-600 text-white;
+}
+```
+
+**Příklad špatně:**
+```css
+/* ❌ ŠPATNĚ: SASS-style zřetězení názvů */
+.c-button {
+  &--primary {}
+  &--accent {}
+}
+```
+
+**Ukázka kompletní komponenty (`ui/src/styles/02_components/button.css`):**
+```css
 @layer components {
   /* Výchozí stav: Primary + Solid + MD */
   .c-button {
     @apply inline-flex items-center justify-center font-bold text-base leading-tight rounded-xl px-6 py-3.5 bg-primary-600 text-white border border-transparent shadow-xs transition-all duration-200 cursor-pointer select-none no-underline hover:bg-primary-700 active:bg-primary-800;
+
+    /* Disabled stav */
+    &:disabled,
+    &[aria-disabled="true"] {
+      @apply opacity-50 cursor-not-allowed pointer-events-none shadow-none;
+    }
   }
 
-  /* Disabled stav */
-  .c-button:disabled,
-  .c-button[aria-disabled="true"] {
-    @apply opacity-50 cursor-not-allowed pointer-events-none shadow-none;
+  /* Barevné modifikátory (celé názvy tříd) */
+  .c-button--primary {
+    @apply bg-primary-600 text-white border-transparent hover:bg-primary-700 active:bg-primary-800;
   }
 
-  /* Barevné modifikátory */
   .c-button--accent {
     @apply bg-accent-600 text-white border-transparent hover:bg-accent-700 active:bg-accent-800;
+  }
+
+  .c-button--dark {
+    @apply bg-dark text-white border-transparent hover:bg-dark-hover active:bg-slate-950;
   }
 
   /* Stylové modifikátory */
   .c-button--outline {
     @apply bg-white text-primary-600 border-primary-200 shadow-xs hover:bg-primary-50 hover:border-primary-300 active:bg-primary-100;
-  }
 
-  .c-button--accent.c-button--outline,
-  .c-button--outline.c-button--accent {
-    @apply bg-white text-accent-600 border-accent-200 shadow-xs hover:bg-accent-50 hover:border-accent-300 active:bg-accent-100;
+    &.c-button--accent {
+      @apply text-accent-600 border-accent-200 hover:bg-accent-50 hover:border-accent-300 active:bg-accent-100;
+    }
   }
 
   /* Velikosti */
   .c-button--sm { @apply px-4 py-2 text-sm rounded-lg; }
   .c-button--lg { @apply px-8 py-4 text-lg rounded-2xl; }
+
+  /* Vnořené elementy & ikony */
+  .c-button--with-arrow {
+    @apply gap-3;
+
+    svg,
+    .c-button_icon {
+      @apply transition-transform duration-200 shrink-0;
+    }
+
+    &:hover {
+      .c-button_icon,
+      svg {
+        @apply translate-x-0.5;
+      }
+    }
+  }
+}
+```
+
+Podobně i v tématech (`03_themes/dark.css`):
+```css
+.t-dark {
+  @apply bg-dark text-white;
+
+  h1, .h1,
+  h2, .h2,
+  h3, .h3 {
+    @apply text-white;
+  }
+
+  p, .p, .p--lg {
+    @apply text-slate-300;
+  }
 }
 ```
 

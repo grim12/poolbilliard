@@ -2,12 +2,11 @@
   /* Base tag styling: Primary + Solid + MD Pill (default without extra classes) */
   .c-tag {
     @apply inline-flex items-center justify-center font-bold text-xs uppercase tracking-wider rounded-full px-3 py-1 bg-primary-600 text-white leading-none select-none transition-all duration-150;
-  }
 
-  /* Link interaction (when applied on <a> or <button>) */
-  a.c-tag,
-  button.c-tag {
-    @apply cursor-pointer no-underline hover:opacity-90 active:scale-98;
+    /* Link interaction (when applied on <a> or <button>) */
+    &:is(a, button) {
+      @apply cursor-pointer no-underline hover:opacity-90 active:scale-98;
+    }
   }
 
   /* --- Color Overrides (Solid default) --- */
@@ -38,86 +37,72 @@
   /* --- Style Overrides: Subtle / Soft tint --- */
   .c-tag--subtle {
     @apply bg-primary-100 text-primary-800;
-  }
 
-  .c-tag--accent.c-tag--subtle,
-  .c-tag--subtle.c-tag--accent {
-    @apply bg-accent-100 text-accent-700;
-  }
+    &.c-tag--accent {
+      @apply bg-accent-100 text-accent-700;
+    }
 
-  .c-tag--dark.c-tag--subtle,
-  .c-tag--subtle.c-tag--dark {
-    @apply bg-gray-200 text-dark;
-  }
+    &.c-tag--dark {
+      @apply bg-gray-200 text-dark;
+    }
 
-  .c-tag--gray.c-tag--subtle,
-  .c-tag--subtle.c-tag--gray {
-    @apply bg-gray-100 text-gray-600;
-  }
+    &.c-tag--gray {
+      @apply bg-gray-100 text-gray-600;
+    }
 
-  .c-tag--gold.c-tag--subtle,
-  .c-tag--subtle.c-tag--gold {
-    @apply bg-gold-100 text-gold-800;
-  }
+    &.c-tag--gold {
+      @apply bg-gold-100 text-gold-800;
+    }
 
-  .c-tag--gold-light.c-tag--subtle,
-  .c-tag--subtle.c-tag--gold-light {
-    @apply bg-gold-50 text-gold-700;
+    &.c-tag--gold-light {
+      @apply bg-gold-50 text-gold-700;
+    }
   }
 
   /* --- Style Overrides: Plain / Text only --- */
   .c-tag--plain {
     @apply bg-transparent text-primary-800 px-0 py-0 rounded-none shadow-none;
-  }
 
-  .c-tag--accent.c-tag--plain,
-  .c-tag--plain.c-tag--accent {
-    @apply bg-transparent text-accent-600 px-0 py-0 rounded-none shadow-none;
-  }
+    &.c-tag--accent {
+      @apply bg-transparent text-accent-600 px-0 py-0 rounded-none shadow-none;
+    }
 
-  .c-tag--dark.c-tag--plain,
-  .c-tag--plain.c-tag--dark {
-    @apply bg-transparent text-dark px-0 py-0 rounded-none shadow-none;
-  }
+    &.c-tag--dark {
+      @apply bg-transparent text-dark px-0 py-0 rounded-none shadow-none;
+    }
 
-  .c-tag--gray.c-tag--plain,
-  .c-tag--plain.c-tag--gray {
-    @apply bg-transparent text-gray-400 px-0 py-0 rounded-none shadow-none;
-  }
+    &.c-tag--gray {
+      @apply bg-transparent text-gray-400 px-0 py-0 rounded-none shadow-none;
+    }
 
-  .c-tag--gold.c-tag--plain,
-  .c-tag--plain.c-tag--gold {
-    @apply bg-transparent text-gold-600 px-0 py-0 rounded-none shadow-none;
-  }
+    &.c-tag--gold {
+      @apply bg-transparent text-gold-600 px-0 py-0 rounded-none shadow-none;
+    }
 
-  .c-tag--gold-light.c-tag--plain,
-  .c-tag--plain.c-tag--gold-light {
-    @apply bg-transparent text-gold-300 px-0 py-0 rounded-none shadow-none;
+    &.c-tag--gold-light {
+      @apply bg-transparent text-gold-300 px-0 py-0 rounded-none shadow-none;
+    }
   }
 
   /* --- Style Overrides: Outline --- */
   .c-tag--outline {
     @apply bg-transparent text-primary-600 border border-primary-300;
-  }
 
-  .c-tag--accent.c-tag--outline,
-  .c-tag--outline.c-tag--accent {
-    @apply bg-transparent text-accent-600 border border-accent-300;
-  }
+    &.c-tag--accent {
+      @apply bg-transparent text-accent-600 border border-accent-300;
+    }
 
-  .c-tag--dark.c-tag--outline,
-  .c-tag--outline.c-tag--dark {
-    @apply bg-transparent text-dark border border-gray-400;
-  }
+    &.c-tag--dark {
+      @apply bg-transparent text-dark border border-gray-400;
+    }
 
-  .c-tag--gray.c-tag--outline,
-  .c-tag--outline.c-tag--gray {
-    @apply bg-transparent text-gray-500 border border-gray-300;
-  }
+    &.c-tag--gray {
+      @apply bg-transparent text-gray-500 border border-gray-300;
+    }
 
-  .c-tag--gold.c-tag--outline,
-  .c-tag--outline.c-tag--gold {
-    @apply bg-transparent text-gold-700 border border-gold-400;
+    &.c-tag--gold {
+      @apply bg-transparent text-gold-700 border border-gold-400;
+    }
   }
 
   /* --- Size Overrides (md is default) --- */

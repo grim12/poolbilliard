@@ -1,11 +1,43 @@
 @import "tailwindcss";
 
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
+
+@import "./01_base/typography.css";
 @import "./02_components/button.css";
 @import "./02_components/tag.css";
+@import "./03_themes/dark.css";
 
 @theme {
   /* Typography */
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Font Sizes */
+  --text-xs:           0.75rem;    /* 12px */
+  --text-sm:           0.875rem;   /* 14px */
+  --text-base:         1rem;       /* 16px */
+  --text-lg:           1.125rem;   /* 18px */
+  --text-xl:           1.25rem;    /* 20px */
+  --text-2xl:          1.5rem;     /* 24px */
+  --text-3xl:          1.75rem;    /* 28px */
+  --text-4xl:          2rem;       /* 32px */
+  --text-5xl:          2.125rem;   /* 34px */
+  --text-6xl:          2.5rem;     /* 40px */
+  --text-7xl:          3.25rem;    /* 52px */
+  --text-8xl:          4rem;       /* 64px */
+  --text-9xl:          4.5rem;     /* 72px */
+
+  /* Line Heights */
+  --leading-h1:        1.09;       /* 109% */
+  --leading-h2:        1.25;       /* 125% */
+  --leading-h3:        1.30;       /* 130% */
+  --leading-body:      1.50;       /* 150% */
+
+  /* Letter Spacing */
+  --tracking-tight-2:  -0.02em;    /* -2% */
+
+  /* Text Colors */
+  --color-text-main:   #10202D;
+  --color-text-muted:  #4A5A6B;
 
   /* Brand Colors - Primary (Deep Royal Blue) */
   --color-primary-50:  #edf5ff;

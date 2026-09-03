@@ -1,0 +1,26 @@
+@layer components {
+  /* Dark theme wrapper / section */
+  .t-dark {
+    @apply bg-dark text-white;
+
+    /* Headings inside dark theme */
+    h1, .h1,
+    h2, .h2,
+    h3, .h3,
+    h4, .h4,
+    h5, .h5,
+    h6, .h6 {
+      @apply text-white;
+    }
+
+    /* Paragraphs and body text inside dark theme */
+    p, .p, .p--lg {
+      @apply text-slate-300;
+    }
+
+    /* Borders and dividers inside dark theme */
+    hr, .border-default {
+      @apply border-white/10;
+    }
+  }
+}

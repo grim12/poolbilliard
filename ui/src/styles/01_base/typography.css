@@ -1,0 +1,42 @@
+@layer base {
+  body {
+    @apply font-sans antialiased text-text-main bg-white;
+  }
+
+  /* --- Text Blocks: Margin Resets for First/Last Child --- */
+  h1, .h1,
+  h2, .h2,
+  h3, .h3,
+  p, .p,
+  .p--lg {
+    &:first-child {
+      @apply mt-0;
+    }
+
+    &:last-child {
+      @apply mb-0;
+    }
+  }
+
+  /* --- Headings --- */
+  h1, .h1 {
+    @apply font-black tracking-tight-2 text-text-main leading-h1 text-4xl sm:text-6xl lg:text-7xl mb-6;
+  }
+
+  h2, .h2 {
+    @apply font-black tracking-tight-2 text-text-main leading-h2 text-3xl sm:text-5xl lg:text-6xl mb-5;
+  }
+
+  h3, .h3 {
+    @apply font-extrabold tracking-tight-2 text-text-main leading-h3 text-2xl sm:text-3xl lg:text-4xl mb-4;
+  }
+
+  /* --- Paragraphs & Body Text --- */
+  p, .p {
+    @apply font-normal text-text-muted tracking-normal text-base leading-body mb-4;
+  }
+
+  .p--lg {
+    @apply font-medium text-lg leading-body mb-5;
+  }
+}

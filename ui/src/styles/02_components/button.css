@@ -2,12 +2,12 @@
   /* Base button styling: Primary + Solid + MD (default without extra classes) */
   .c-button {
     @apply inline-flex items-center justify-center font-bold text-base leading-tight rounded-xl px-6 py-3.5 bg-primary-600 text-white border border-transparent shadow-xs transition-all duration-200 cursor-pointer select-none no-underline hover:bg-primary-700 active:bg-primary-800;
-  }
 
-  /* Disabled state */
-  .c-button:disabled,
-  .c-button[aria-disabled="true"] {
-    @apply opacity-50 cursor-not-allowed pointer-events-none shadow-none;
+    /* Disabled state */
+    &:disabled,
+    &[aria-disabled="true"] {
+      @apply opacity-50 cursor-not-allowed pointer-events-none shadow-none;
+    }
   }
 
   /* --- Color Overrides --- */
@@ -26,31 +26,27 @@
   /* --- Style Overrides: Outline --- */
   .c-button--outline {
     @apply bg-white text-primary-600 border-primary-200 shadow-xs hover:bg-primary-50 hover:border-primary-300 active:bg-primary-100;
-  }
 
-  .c-button--accent.c-button--outline,
-  .c-button--outline.c-button--accent {
-    @apply bg-white text-accent-600 border-accent-200 shadow-xs hover:bg-accent-50 hover:border-accent-300 active:bg-accent-100;
-  }
+    &.c-button--accent {
+      @apply text-accent-600 border-accent-200 hover:bg-accent-50 hover:border-accent-300 active:bg-accent-100;
+    }
 
-  .c-button--dark.c-button--outline,
-  .c-button--outline.c-button--dark {
-    @apply bg-white text-dark border-gray-300 shadow-xs hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200;
+    &.c-button--dark {
+      @apply text-dark border-gray-300 hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200;
+    }
   }
 
   /* --- Style Overrides: Link (Underline) --- */
   .c-button--link {
     @apply bg-transparent text-primary-600 border-transparent shadow-none px-0 py-1 rounded-none underline underline-offset-4 decoration-primary-600 hover:bg-transparent hover:text-primary-700 hover:decoration-primary-700 active:bg-transparent;
-  }
 
-  .c-button--accent.c-button--link,
-  .c-button--link.c-button--accent {
-    @apply bg-transparent text-accent-600 border-transparent shadow-none px-0 py-1 rounded-none underline underline-offset-4 decoration-accent-600 hover:bg-transparent hover:text-accent-700 hover:decoration-accent-700 active:bg-transparent;
-  }
+    &.c-button--accent {
+      @apply text-accent-600 decoration-accent-600 hover:text-accent-700 hover:decoration-accent-700;
+    }
 
-  .c-button--dark.c-button--link,
-  .c-button--link.c-button--dark {
-    @apply bg-transparent text-dark border-transparent shadow-none px-0 py-1 rounded-none underline underline-offset-4 decoration-dark hover:bg-transparent hover:text-dark-hover hover:decoration-dark-hover active:bg-transparent;
+    &.c-button--dark {
+      @apply text-dark decoration-dark hover:text-dark-hover hover:decoration-dark-hover;
+    }
   }
 
   /* --- Size Overrides (md is default) --- */
@@ -65,15 +61,17 @@
   /* --- Arrow / Icon modifier & hover animation --- */
   .c-button--with-arrow {
     @apply gap-3;
-  }
 
-  .c-button_icon,
-  .c-button--with-arrow svg {
-    @apply transition-transform duration-200 shrink-0;
-  }
+    svg,
+    .c-button_icon {
+      @apply transition-transform duration-200 shrink-0;
+    }
 
-  .c-button:hover .c-button_icon,
-  .c-button:hover svg {
-    @apply translate-x-0.5;
+    &:hover {
+      .c-button_icon,
+      svg {
+        @apply translate-x-0.5;
+      }
+    }
   }
 }
