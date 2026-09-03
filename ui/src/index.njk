@@ -3,7 +3,7 @@ layout: layouts/base.njk
 title: Poolbilliard — Český svaz poolbilliardu
 ---
 
-{% from "widgets/hero.njk" import hero %}
+{% from "widgets/hp-featured-articles.njk" import hpFeaturedArticles %}
 {% from "widgets/notices.njk" import notices %}
 {% from "widgets/event-banner.njk" import eventBanner %}
 {% from "widgets/tournaments.njk" import tournaments %}
@@ -15,7 +15,7 @@ title: Poolbilliard — Český svaz poolbilliardu
     {% include "layouts/header.njk" %}
 
     <main id="main-content">
-        {{ hero(
+        {{ hpFeaturedArticles(
             featured={
                 title: "Český tým ovládl mistrovství Evropy v Heyball!",
                 url: "#",

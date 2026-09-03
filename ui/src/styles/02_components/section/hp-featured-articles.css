@@ -1,13 +1,21 @@
 @layer components {
   /* ==========================================================================
-     Section: Hero (featured article + latest news sidebar)
+     Section: Homepage featured articles (main article + latest news sidebar)
      ========================================================================== */
 
-  .c-section--hero {
-    @apply bg-gradient-to-b from-primary-50 to-white;
+  .c-section--hp-featured-articles {
+    @apply bg-gradient-to-b from-primary-50 to-white pt-8;
 
     .c-section__grid {
-      @apply lg:grid-cols-[2fr_1fr] gap-5 lg:gap-6;
+      @apply md:grid-cols-[2fr_1fr] gap-4;
+    }
+
+    .c-section__featured {
+      @apply h-full;
+    }
+
+    .c-card--article-main {
+      @apply md:h-full;
     }
 
     .c-section__sidebar {

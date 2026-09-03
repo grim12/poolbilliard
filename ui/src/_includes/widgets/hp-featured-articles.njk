@@ -3,13 +3,13 @@
 {% from "macros/button.njk" import button %}
 
 {#
-    hero(featured, items, moreUrl, moreText)
+    hpFeaturedArticles(featured, items, moreUrl, moreText)
     - featured: { title, url, image, tagText, tagColor, date } — main featured article
     - items: array of { title, url, image, tagText, tagColor, date } — sidebar news list
     - moreUrl / moreText: link to the full news listing
 #}
-{% macro hero(featured, items=[], moreUrl="#", moreText="Další novinky") %}
-<section class="c-section c-section--hero">
+{% macro hpFeaturedArticles(featured, items=[], moreUrl="#", moreText="Další novinky") %}
+<section class="c-section c-section--hp-featured-articles">
     <div class="c-container">
         <div class="c-section__grid">
             <div class="c-section__featured">

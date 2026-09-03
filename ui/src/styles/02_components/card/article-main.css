@@ -4,7 +4,7 @@
      ========================================================================== */
 
   .c-card--article-main {
-    @apply block w-full relative overflow-hidden rounded-3xl bg-dark text-white aspect-[4/3] sm:aspect-[16/11] lg:aspect-[16/10] min-h-[360px] sm:min-h-[420px] transition-transform duration-300;
+    @apply block w-full relative overflow-hidden rounded-3xl bg-dark text-white min-h-90;
 
     .c-card__media {
       @apply absolute inset-0 w-full h-full overflow-hidden;
@@ -15,11 +15,11 @@
     }
 
     .c-card__overlay {
-      @apply absolute inset-0 bg-gradient-to-t from-dark/95 via-dark/50 to-dark/10 transition-opacity duration-300;
+      @apply absolute inset-0 bg-[linear-gradient(12deg,var(--color-primary-900)_17%,transparent_60%)] transition-opacity duration-300;
     }
 
     .c-card__body {
-      @apply relative z-10 flex flex-col justify-end h-full p-6 sm:p-8 lg:p-10;
+      @apply relative z-10 flex flex-col justify-end h-full p-6 sm:p-8 lg:pt-12 lg:pr-24 lg:pb-12 lg:pl-12;
     }
 
     .c-card__meta {
@@ -36,22 +36,18 @@
     }
 
     .c-card__title {
-      @apply font-black text-white text-2xl sm:text-3xl lg:text-4xl tracking-tight-2 leading-[1.15] sm:leading-h2 transition-colors duration-200;
+      @apply font-black text-white tracking-tight-2 leading-h1 text-4xl sm:text-6xl lg:text-7xl;
     }
 
     /* Hover + keyboard-focus interactions */
     &:hover,
     &:focus-within {
       .c-card__media img {
-        @apply scale-105;
+        @apply scale-105 -rotate-1;
       }
 
       .c-card__overlay {
         @apply opacity-90;
-      }
-
-      .c-card__title {
-        @apply text-primary-200;
       }
     }
   }

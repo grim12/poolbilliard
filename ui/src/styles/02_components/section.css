@@ -33,7 +33,7 @@
   }
 }
 
-@import "./section/hero.css";
+@import "./section/hp-featured-articles.css";
 @import "./section/notices.css";
 @import "./section/event-banner.css";
 @import "./section/tournaments.css";
