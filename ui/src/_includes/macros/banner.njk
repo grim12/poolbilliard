@@ -1,0 +1,68 @@
+{% from "macros/tag.njk" import tag %}
+{% from "macros/button.njk" import button %}
+
+{#
+    banner(title, text, image, imageAlt, tagText, tagColor, tagVariant, metaText, buttons, extraClass, headingLevel)
+    - title: Banner heading
+    - text: Optional supporting paragraph
+    - image: Background image URL
+    - imageAlt: Alt text (leave empty — decorative background image)
+    - tagText / tagColor / tagVariant: Optional badge (e.g. "ZA 2 MĚSÍCE")
+    - metaText: Optional small text next to the tag (e.g. "23. – 25. října 2026 · Bratislava")
+    - buttons: array of { text, url, color, variant, size, hasArrow } — rendered via the button() macro
+    - extraClass: Optional extra classes on root
+    - headingLevel: "h2" (default) | "h3" | "h1"
+#}
+{% macro banner(
+    title,
+    text="",
+    image="",
+    imageAlt="",
+    tagText="",
+    tagColor="accent",
+    tagVariant="solid",
+    metaText="",
+    buttons=[],
+    extraClass="",
+    headingLevel="h2"
+) -%}
+    {%- set classes = ["c-banner", extraClass] | select | join(" ") -%}
+    <div class="{{ classes }}">
+        {% if image %}
+            <div class="c-banner__media">
+                <img src="{{ image }}" alt="{{ imageAlt }}" loading="lazy" />
+            </div>
+        {% endif %}
+        <div class="c-banner__overlay"></div>
+        <div class="c-banner__content">
+            {% if tagText or metaText %}
+                <div class="c-banner__meta">
+                    {% if tagText %}
+                        {{ tag(text=tagText, color=tagColor, variant=tagVariant, size="sm") }}
+                    {% endif %}
+                    {% if metaText %}
+                        <span class="c-banner__meta-text">{{ metaText }}</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <{{ headingLevel }} class="c-banner__title">{{ title }}</{{ headingLevel }}>
+            {% if text %}
+                <p class="c-banner__text">{{ text }}</p>
+            {% endif %}
+            {% if buttons and buttons.length %}
+                <div class="c-banner__actions">
+                    {% for btn in buttons %}
+                        {{ button(
+                            text=btn.text,
+                            url=btn.url,
+                            color=btn.color or "accent",
+                            variant=btn.variant or "solid",
+                            size=btn.size or "lg",
+                            hasArrow=(btn.hasArrow if btn.hasArrow is defined else true)
+                        ) }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{%- endmacro %}

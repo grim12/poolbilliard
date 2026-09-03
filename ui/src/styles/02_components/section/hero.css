@@ -1,0 +1,21 @@
+@layer components {
+  /* ==========================================================================
+     Section: Hero (featured article + latest news sidebar)
+     ========================================================================== */
+
+  .c-section--hero {
+    @apply bg-gradient-to-b from-primary-50 to-white;
+
+    .c-section__grid {
+      @apply lg:grid-cols-[2fr_1fr] gap-5 lg:gap-6;
+    }
+
+    .c-section__sidebar {
+      @apply flex flex-col gap-4;
+    }
+
+    .c-section__sidebar-list {
+      @apply flex flex-col gap-4;
+    }
+  }
+}

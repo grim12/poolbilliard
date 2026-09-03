@@ -1,0 +1,29 @@
+@layer components {
+  /* ==========================================================================
+     Section: Tournaments (Nejbližší turnaje)
+     ========================================================================== */
+
+  .c-section--tournaments {
+    @apply bg-gray-100;
+
+    .c-section__grid {
+      @apply sm:grid-cols-2 lg:grid-cols-4 gap-4;
+    }
+
+    .c-section__footer {
+      @apply flex flex-wrap items-center gap-4;
+    }
+
+    .c-section__note {
+      @apply inline-flex items-center gap-2 text-sm text-text-muted;
+
+      svg {
+        @apply text-accent-600 shrink-0;
+      }
+
+      a {
+        @apply font-bold text-accent-600 no-underline hover:text-accent-700;
+      }
+    }
+  }
+}

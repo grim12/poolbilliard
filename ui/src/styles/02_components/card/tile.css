@@ -1,0 +1,45 @@
+@layer components {
+  /* ==========================================================================
+     Card: Tile (image link tile — used for the homepage link hub)
+     ========================================================================== */
+
+  .c-card--tile {
+    @apply block w-full relative overflow-hidden rounded-2xl bg-dark text-white aspect-[4/3] sm:aspect-[16/12];
+
+    .c-card__media {
+      @apply absolute inset-0 w-full h-full overflow-hidden;
+
+      img {
+        @apply w-full h-full object-cover transition-transform duration-700 ease-out;
+      }
+    }
+
+    .c-card__overlay {
+      @apply absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent transition-opacity duration-300;
+    }
+
+    .c-card__body {
+      @apply relative z-10 flex items-end justify-between gap-2 h-full p-5 sm:p-6;
+    }
+
+    .c-card__title {
+      @apply font-extrabold text-white text-lg sm:text-xl tracking-tight-2 transition-colors duration-200;
+    }
+
+    .c-card__arrow {
+      @apply shrink-0 text-white transition-transform duration-200;
+    }
+
+    /* Hover + keyboard-focus interactions */
+    &:hover,
+    &:focus-within {
+      .c-card__media img {
+        @apply scale-105;
+      }
+
+      .c-card__arrow {
+        @apply translate-x-0.5;
+      }
+    }
+  }
+}

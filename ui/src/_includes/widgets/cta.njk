@@ -1,0 +1,18 @@
+{% from "macros/banner.njk" import banner %}
+
+{#
+    cta(title, text, image, buttons)
+    - buttons: array of { text, url, color, variant } — rendered via the button() macro
+#}
+{% macro cta(title, text="", image="", buttons=[]) %}
+<section class="c-section c-section--cta">
+    <div class="c-container">
+        {{ banner(
+            title=title,
+            text=text,
+            image=image,
+            buttons=buttons
+        ) }}
+    </div>
+</section>
+{% endmacro %}

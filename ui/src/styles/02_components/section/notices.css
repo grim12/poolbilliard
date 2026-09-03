@@ -1,0 +1,13 @@
+@layer components {
+  /* ==========================================================================
+     Section: Notices (Zprávy výkonného výboru)
+     ========================================================================== */
+
+  .c-section--notices {
+    @apply bg-white pt-0;
+
+    .c-section__grid {
+      @apply sm:grid-cols-3 gap-4;
+    }
+  }
+}

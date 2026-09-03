@@ -23,3 +23,5 @@
 
 @import "./card/article-main.css";
 @import "./card/article-compact.css";
+@import "./card/tournament.css";
+@import "./card/tile.css";

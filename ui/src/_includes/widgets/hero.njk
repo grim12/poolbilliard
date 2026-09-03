@@ -1,0 +1,43 @@
+{% from "macros/card/article-main.njk" import card_article_main %}
+{% from "macros/card/article-compact.njk" import card_article_compact %}
+{% from "macros/button.njk" import button %}
+
+{#
+    hero(featured, items, moreUrl, moreText)
+    - featured: { title, url, image, tagText, tagColor, date } — main featured article
+    - items: array of { title, url, image, tagText, tagColor, date } — sidebar news list
+    - moreUrl / moreText: link to the full news listing
+#}
+{% macro hero(featured, items=[], moreUrl="#", moreText="Další novinky") %}
+<section class="c-section c-section--hero">
+    <div class="c-container">
+        <div class="c-section__grid">
+            <div class="c-section__featured">
+                {{ card_article_main(
+                    title=featured.title,
+                    url=featured.url,
+                    image=featured.image,
+                    tagText=featured.tagText,
+                    tagColor=featured.tagColor,
+                    date=featured.date
+                ) }}
+            </div>
+            <div class="c-section__sidebar">
+                <div class="c-section__sidebar-list">
+                    {% for item in items %}
+                        {{ card_article_compact(
+                            title=item.title,
+                            url=item.url,
+                            image=item.image,
+                            tagText=item.tagText,
+                            tagColor=item.tagColor,
+                            date=item.date
+                        ) }}
+                    {% endfor %}
+                </div>
+                {{ button(text=moreText, url=moreUrl, variant="outline", extraClass="w-full") }}
+            </div>
+        </div>
+    </div>
+</section>
+{% endmacro %}

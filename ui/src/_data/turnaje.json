@@ -1,0 +1,38 @@
+[
+  {
+    "title": "EuroTour 10-ball",
+    "url": "#",
+    "tagText": "MEZINÁRODNÍ",
+    "tagColor": "gold",
+    "dateText": "20. – 23. srpna 2026",
+    "locationText": "Itálie · Treviso",
+    "badge": false
+  },
+  {
+    "title": "Mistrovství ČR 9-ball",
+    "url": "#",
+    "tagText": "ČMBS",
+    "tagColor": "primary",
+    "dateText": "12. – 13. září 2026",
+    "locationText": "Praha · BC Řipská",
+    "badge": true
+  },
+  {
+    "title": "MR Dvojic",
+    "url": "#",
+    "tagText": "ČMBS",
+    "tagColor": "primary",
+    "dateText": "19. září 2026",
+    "locationText": "Praha · Rajská Zahrada",
+    "badge": false
+  },
+  {
+    "title": "MR Smíšených Dvojic",
+    "url": "#",
+    "tagText": "ČMBS",
+    "tagColor": "primary",
+    "dateText": "12. – 13. září 2026",
+    "locationText": "Praha · Rajská Zahrada",
+    "badge": false
+  }
+]

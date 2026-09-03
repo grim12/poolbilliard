@@ -1,0 +1,45 @@
+{#
+    leaderboard(title, players, linkText, linkUrl, featured, extraClass, headingLevel)
+    - title: Series / ranking name
+    - players: array of { name, club } — top 5, ordered by rank
+    - linkText: "Detail série" (default)
+    - linkUrl: Link URL
+    - featured: true -> highlights rank #1 in accent red (used for the main national ranking) | false (default, dark navy)
+    - extraClass: Optional extra classes on root
+    - headingLevel: "h3" (default) | "h4" | "h2"
+#}
+{% macro leaderboard(
+    title,
+    players=[],
+    linkText="Detail série",
+    linkUrl="#",
+    featured=false,
+    extraClass="",
+    headingLevel="h3"
+) -%}
+    {%- set classes = ["c-leaderboard", ("c-leaderboard--featured" if featured else ""), extraClass] | select | join(" ") -%}
+    <div class="{{ classes }}">
+        <div class="c-leaderboard__header">
+            <{{ headingLevel }} class="c-leaderboard__title">{{ title }}</{{ headingLevel }}>
+        </div>
+        <ol class="c-leaderboard__list">
+            {% for player in players %}
+                <li class="c-leaderboard__item{{ ' c-leaderboard__item--top' if loop.index == 1 }}">
+                    <span class="c-leaderboard__rank">{{ loop.index }}.</span>
+                    <span class="c-leaderboard__player">
+                        <span class="c-leaderboard__name">{{ player.name }}</span>
+                        {% if player.club %}<span class="c-leaderboard__club">{{ player.club }}</span>{% endif %}
+                    </span>
+                </li>
+            {% endfor %}
+        </ol>
+        <div class="c-leaderboard__footer">
+            <a href="{{ linkUrl }}" class="c-leaderboard__link">
+                <span>{{ linkText }}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 3.5L10.5 8L6 12.5"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+{%- endmacro %}

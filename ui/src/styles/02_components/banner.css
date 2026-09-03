@@ -1,0 +1,45 @@
+@layer components {
+  /* ==========================================================================
+     Banner — promo banner with background image (event highlight, CTA...)
+     ========================================================================== */
+
+  .c-banner {
+    @apply relative w-full overflow-hidden rounded-3xl bg-dark text-white min-h-[320px] sm:min-h-[380px] lg:min-h-[420px];
+  }
+
+  .c-banner__media {
+    @apply absolute inset-0 w-full h-full overflow-hidden;
+
+    img {
+      @apply w-full h-full object-cover;
+    }
+  }
+
+  .c-banner__overlay {
+    @apply absolute inset-0 bg-gradient-to-r from-dark from-10% via-dark/75 via-45% to-dark/10;
+  }
+
+  .c-banner__content {
+    @apply relative z-10 max-w-xl p-6 sm:p-10 lg:p-12;
+  }
+
+  .c-banner__meta {
+    @apply flex items-center gap-3 flex-wrap mb-3;
+  }
+
+  .c-banner__meta-text {
+    @apply text-sm font-medium text-white/85;
+  }
+
+  .c-banner__title {
+    @apply font-black text-white text-2xl sm:text-3xl lg:text-4xl tracking-tight-2 leading-[1.15] m-0;
+  }
+
+  .c-banner__text {
+    @apply text-white/85 text-sm sm:text-base leading-relaxed mt-3 mb-0 max-w-md;
+  }
+
+  .c-banner__actions {
+    @apply flex flex-wrap gap-3 mt-6;
+  }
+}

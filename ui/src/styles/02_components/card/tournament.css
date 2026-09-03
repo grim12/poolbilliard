@@ -1,0 +1,56 @@
+@layer components {
+  /* ==========================================================================
+     Card: Tournament (calendar list item)
+     ========================================================================== */
+
+  .c-card--tournament {
+    @apply block h-full rounded-2xl bg-white border border-gray-100 shadow-xs transition-shadow duration-200;
+
+    .c-card__link {
+      @apply flex flex-col h-full p-5;
+    }
+
+    .c-card__header {
+      @apply flex items-start justify-between mb-3;
+    }
+
+    .c-card__badge {
+      @apply inline-flex items-center justify-center w-8 h-8 rounded-full bg-gold-200 text-gold-700 shrink-0;
+    }
+
+    .c-card__row {
+      @apply flex items-start justify-between gap-2;
+    }
+
+    .c-card__title {
+      @apply font-extrabold text-text-main text-base sm:text-lg leading-snug tracking-tight-2 transition-colors duration-200;
+    }
+
+    .c-card__arrow {
+      @apply shrink-0 mt-1 text-text-main transition-transform duration-200;
+    }
+
+    .c-card__info {
+      @apply mt-auto pt-4;
+    }
+
+    .c-card__date,
+    .c-card__location {
+      @apply text-sm text-text-muted leading-snug m-0;
+    }
+
+    /* Hover + keyboard-focus interactions */
+    &:hover,
+    &:focus-within {
+      @apply shadow-md border-gray-200;
+
+      .c-card__title {
+        @apply text-primary-600;
+      }
+
+      .c-card__arrow {
+        @apply translate-x-0.5 text-primary-600;
+      }
+    }
+  }
+}

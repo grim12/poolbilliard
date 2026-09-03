@@ -1,0 +1,88 @@
+@layer components {
+  .c-header {
+    @apply relative z-50 bg-white border-b border-gray-100;
+  }
+
+  /* --- Topbar (secondary utility links) --- */
+  .c-header__topbar {
+    @apply hidden sm:block bg-gray-50 border-b border-gray-100;
+  }
+
+  .c-header__topbar-inner {
+    @apply flex items-center justify-between py-2 text-xs text-gray-500;
+  }
+
+  .c-header__topbar-links {
+    @apply flex items-center gap-5;
+
+    a {
+      @apply inline-flex items-center gap-1 no-underline hover:text-primary-600 transition-colors duration-150;
+    }
+  }
+
+  .c-header__topbar-socials {
+    @apply flex items-center gap-4;
+
+    a {
+      @apply inline-flex items-center text-gray-400 hover:text-primary-600 transition-colors duration-150;
+    }
+  }
+
+  .c-header__topbar-tv {
+    @apply gap-1.5 font-bold text-gray-700 hover:text-accent-600!;
+  }
+
+  /* --- Main bar --- */
+  .c-header__main-inner {
+    @apply flex items-center justify-between gap-4 py-3 lg:py-4;
+  }
+
+  .c-header__brand {
+    @apply flex items-center gap-2.5 shrink-0 no-underline;
+  }
+
+  .c-header__brand-mark {
+    @apply w-9 h-9 lg:w-10 lg:h-10 shrink-0;
+  }
+
+  .c-header__brand-text {
+    @apply flex flex-col leading-[0.95] text-text-main;
+  }
+
+  .c-header__brand-line {
+    @apply text-[11px] lg:text-xs font-semibold uppercase tracking-wider;
+  }
+
+  .c-header__brand-line--bold {
+    @apply text-base lg:text-lg font-black tracking-tight-2 text-primary-700;
+  }
+
+  .c-header__nav {
+    @apply hidden lg:flex items-center gap-1;
+  }
+
+  .c-header__nav-link {
+    @apply px-3 py-2 rounded-lg font-bold text-sm text-text-main no-underline transition-colors duration-150 hover:bg-gray-100;
+  }
+
+  .c-header__nav-link--is-active {
+    @apply bg-primary-50 text-primary-700 hover:bg-primary-50;
+  }
+
+  .c-header__actions {
+    @apply hidden lg:flex items-center shrink-0;
+  }
+
+  /* --- Mobile toggle & panel --- */
+  .c-header__toggle {
+    @apply lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-text-main hover:bg-gray-100 cursor-pointer;
+  }
+
+  .c-header__mobile-panel {
+    @apply lg:hidden flex flex-col items-stretch gap-1 border-t border-gray-100 px-4 py-4;
+
+    .c-header__nav-link {
+      @apply w-full text-left;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{% from "macros/card/tournament.njk" import card_tournament %}
+{% from "macros/button.njk" import button %}
+
+{#
+    tournaments(title, items, calendarUrl, calendarText, streamText, streamLinkText, streamUrl)
+    - items: array of { title, url, tagText, tagColor, dateText, locationText, badge }
+#}
+{% macro tournaments(
+    title,
+    items=[],
+    calendarUrl="#",
+    calendarText="Kompletní kalendář",
+    streamText="Přímé přenosy z turnajů sledujte na",
+    streamLinkText="ČMBS TV",
+    streamUrl="#"
+) %}
+<section class="c-section c-section--tournaments">
+    <div class="c-container">
+        <div class="c-section__header">
+            <h2 class="c-section__title h3">{{ title }}</h2>
+        </div>
+        <div class="c-section__grid">
+            {% for item in items %}
+                {{ card_tournament(
+                    title=item.title,
+                    url=item.url,
+                    tagText=item.tagText,
+                    tagColor=item.tagColor,
+                    dateText=item.dateText,
+                    locationText=item.locationText,
+                    badge=item.badge
+                ) }}
+            {% endfor %}
+        </div>
+        <div class="c-section__footer">
+            {{ button(text=calendarText, url=calendarUrl, variant="outline") }}
+            <p class="c-section__note">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9.5v5l4.5-2.5Z"/></svg>
+                {{ streamText }} <a href="{{ streamUrl }}">{{ streamLinkText }}</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endmacro %}

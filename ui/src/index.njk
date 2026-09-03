@@ -1,360 +1,150 @@
 ---
 layout: layouts/base.njk
-title: Poolbilliard — UI Komponenty
+title: Poolbilliard — Český svaz poolbilliardu
 ---
 
-{% from "macros/button.njk" import button %}
-{% from "macros/tag.njk" import tag %}
-{% from "macros/card/article-main.njk" import card_article_main %}
-{% from "macros/card/article-compact.njk" import card_article_compact %}
+{% from "widgets/hero.njk" import hero %}
+{% from "widgets/notices.njk" import notices %}
+{% from "widgets/event-banner.njk" import eventBanner %}
+{% from "widgets/tournaments.njk" import tournaments %}
+{% from "widgets/cta.njk" import cta %}
+{% from "widgets/leaderboards.njk" import leaderboards %}
+{% from "widgets/link-tiles.njk" import linkTiles %}
 
-<main class="max-w-5xl mx-auto px-4 py-12 space-y-16">
-  <header class="border-b border-gray-200 pb-6">
-    <h1 class="text-3xl font-bold tracking-tight text-text-main">Poolbilliard — UI Komponenty & Design Systém</h1>
-    <p class="mt-2 text-text-muted">Přehled typografie, barev, témat (`.t-dark`) a komponent (`.c-button`, `.c-tag`, `.c-card`).</p>
-  </header>
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
 
-  <!-- Typography Section -->
-  <section class="space-y-8">
-    <div>
-      <h2 class="text-2xl font-bold text-text-main">Typografie (Font Archivo)</h2>
-      <p class="text-sm text-text-muted mt-1">Základní typografické styly definované v <code>01_base/typography.css</code>. Dostupné jako HTML tagy (<code>h1-h3</code>, <code>p</code>) i jako pomocné třídy (<code>.h1-.h3</code>, <code>.p</code>, <code>.p--lg</code>).</p>
-    </div>
+    <main id="main-content">
+        {{ hero(
+            featured={
+                title: "Český tým ovládl mistrovství Evropy v Heyball!",
+                url: "#",
+                image: "https://loremflickr.com/1200/900/billiards,pool/all?lock=11",
+                tagText: "ČESKÁ REPRE",
+                tagColor: "accent",
+                date: "5. srpna 2026"
+            },
+            items=[
+                {
+                    title: "Vítězem 1. kola Junior Open je Alexandr Hofmann",
+                    url: "#",
+                    image: "https://loremflickr.com/300/300/billiards,pool/all?lock=2",
+                    tagText: "JUNIOR OPEN",
+                    tagColor: "gold",
+                    date: "5. června 2026"
+                },
+                {
+                    title: "Matouš Vlk ovládl první kolo ČPTour 2026",
+                    url: "#",
+                    image: "https://loremflickr.com/300/300/billiards,pool/all?lock=3",
+                    tagText: "ČPTOUR",
+                    tagColor: "primary",
+                    date: "25. února 2026"
+                },
+                {
+                    title: "MR 14.1 ovládl Jan Meisner",
+                    url: "#",
+                    image: "https://loremflickr.com/300/300/billiards,pool/all?lock=1",
+                    tagText: "MISTROVSTVÍ ČR",
+                    tagColor: "primary",
+                    date: "5. srpna 2026"
+                },
+                {
+                    title: "MR Heyball vyhrála Veronika Hubrtová",
+                    url: "#",
+                    image: "https://loremflickr.com/300/300/billiards,pool/all?lock=19",
+                    tagText: "MISTROVSTVÍ ČR",
+                    tagColor: "primary",
+                    date: "5. srpna 2026"
+                }
+            ],
+            moreUrl="#",
+            moreText="Další novinky"
+        ) }}
 
-    <div class="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 space-y-8">
-      {# H1 #}
-      <div class="space-y-2 border-b border-gray-100 pb-6">
-        <div class="flex items-center justify-between text-xs font-mono text-gray-400 uppercase tracking-wider">
-          <span>Heading 1 (&lt;h1&gt;, .h1)</span>
-          <span>52px / fw 900 (Black) / lh 109% / ls -2%</span>
-        </div>
-        <h1>Český svaz poolbilliardu</h1>
-        <div class="h1 text-primary-600">Nadpis H1 přes třídu .h1</div>
-      </div>
+        {{ notices(
+            title="Zprávy výkonného výboru",
+            subtitle="Oficiální rozhodnutí a důležité informace",
+            items=[
+                {
+                    title: "Termínový kalendář soutěží pro sezónu 2026 schválen",
+                    url: "#",
+                    tagText: "DŮLEŽITÉ",
+                    tagColor: "accent",
+                    date: "15. 11. 2025"
+                },
+                {
+                    title: "Změna registračního řádu: nové podmínky přestupů hráčů",
+                    url: "#",
+                    date: "15. 7. 2026"
+                },
+                {
+                    title: "Zápis z jednání VV ze dne 30. června 2026",
+                    url: "#",
+                    date: "2. 7. 2026"
+                }
+            ],
+            moreUrl="#",
+            moreText="Všechny zprávy VV"
+        ) }}
 
-      {# H2 #}
-      <div class="space-y-2 border-b border-gray-100 pb-6">
-        <div class="flex items-center justify-between text-xs font-mono text-gray-400 uppercase tracking-wider">
-          <span>Heading 2 (&lt;h2&gt;, .h2)</span>
-          <span>40px / fw 900 (Black) / lh 125% / ls -2%</span>
-        </div>
-        <h2>Mistrovství České republiky 2026</h2>
-        <div class="h2 text-primary-600">Nadpis H2 přes třídu .h2</div>
-      </div>
+        {{ eventBanner(
+            title="Federal Cup 2026",
+            text="Největší domácí akce sezóny. Tři dny zápasů, doprovodný program a přímé přenosy z hlavního stolu.",
+            image="https://loremflickr.com/1600/700/billiards,pool/all?lock=5",
+            tagText="ZA 2 MĚSÍCE",
+            metaText="23. – 25. října 2026 · Bratislava",
+            buttonText="Detail akce",
+            buttonUrl="#"
+        ) }}
 
-      {# H3 #}
-      <div class="space-y-2 border-b border-gray-100 pb-6">
-        <div class="flex items-center justify-between text-xs font-mono text-gray-400 uppercase tracking-wider">
-          <span>Heading 3 (&lt;h3&gt;, .h3)</span>
-          <span>32px / fw 800 (Extra Bold) / lh 130% / ls -2%</span>
-        </div>
-        <h3>Přehled turnajů a žebříček hráčů</h3>
-        <div class="h3 text-primary-600">Nadpis H3 přes třídu .h3</div>
-      </div>
+        {{ tournaments(
+            title="Nejbližší turnaje",
+            items=turnaje,
+            calendarUrl="#",
+            streamUrl="#"
+        ) }}
 
-      {# Paragraphs #}
-      <div class="space-y-4">
-        <div class="space-y-2">
-          <div class="flex items-center justify-between text-xs font-mono text-gray-400 uppercase tracking-wider">
-            <span>Paragraph Large (.p--lg)</span>
-            <span>18px / fw 500 (Medium) / lh 150%</span>
-          </div>
-          <p class="p--lg">
-            Hlavní úvodní odstavec (p--lg). Poolbilliard je moderní dynamický sport se staletou tradicí. Český svaz sdružuje aktivní hráče, kluby i juniorské naděje po celé republice.
-          </p>
-        </div>
+        {{ cta(
+            title="Hraješ s kamarády a chceš to zkusit závodně?",
+            text="Přestaň jen koukat a začni hrát na turnajích. Najdi si klub, kde budeš moct trénovat, a staň se součástí komunity hráčů, kteří to myslí vážně.",
+            image="https://loremflickr.com/1600/700/billiards,pool/all?lock=12",
+            buttons=[
+                { text: "Jak začít s poolem", url: "#", variant: "outline" },
+                { text: "Najdi si nejbližší klub", url: "#" }
+            ]
+        ) }}
 
-        <div class="space-y-2">
-          <div class="flex items-center justify-between text-xs font-mono text-gray-400 uppercase tracking-wider">
-            <span>Paragraph Standard (&lt;p&gt;, .p)</span>
-            <span>16px / fw 400 (Regular) / lh 150% / color #4A5A6B</span>
-          </div>
-          <p>
-            Standardní text odstavce. Každý víkend probíhají turnaje v kategoriích 8-ball, 9-ball, 10-ball a 14.1 nekonečná. Výsledky jsou automaticky započítávány do celorepublikového žebříčku.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+        {{ leaderboards(
+            title="Žebříčky",
+            subtitle="Nejlepší hráči aktuální sezóny, různé série, od juniorů po veterány",
+            series=zebricky,
+            moreUrl="#"
+        ) }}
 
-  <!-- Dark Theme Section -->
-  <section class="space-y-8">
-    <div>
-      <h2 class="text-2xl font-bold text-text-main">Témata: Tmavá sekce (.t-dark)</h2>
-      <p class="text-sm text-text-muted mt-1">Kontextová třída <code>.t-dark</code> pro tmavé sekce webu. Automaticky přepisuje barvy nadpisů na bílou a odstavců na světlý odstín.</p>
-    </div>
+        {{ linkTiles(items=[
+            {
+                title: "Začni hrát",
+                url: "#",
+                image: "https://loremflickr.com/500/400/billiards,pool/all?lock=13"
+            },
+            {
+                title: "Pravidla",
+                url: "#",
+                image: "https://loremflickr.com/500/400/billiards,pool/all?lock=1"
+            },
+            {
+                title: "Systémy soutěží",
+                url: "#",
+                image: "https://loremflickr.com/500/400/billiards,pool/all?lock=3"
+            },
+            {
+                title: "O svazu",
+                url: "#",
+                image: "https://loremflickr.com/500/400/billiards,pool/all?lock=17"
+            }
+        ]) }}
+    </main>
 
-    <div class="t-dark rounded-3xl p-8 md:p-12 space-y-8 shadow-xl">
-      <div class="flex items-center gap-3">
-        {{ tag(text="Extraliga 2026", color="gold") }}
-        {{ tag(text="Živé vysílání", color="accent", variant="subtle") }}
-      </div>
-
-      <div class="space-y-3">
-        <h2>Finálový víkend Poolbilliardu</h2>
-        <p class="p--lg">
-          Sledujte živý přenos z finálového stolu s komentářem a online statistikami.
-        </p>
-        <p>
-          Nejlepší hráči z celé ČR se utkají o titul mistra republiky v disciplíně 9-ball. Vstup pro diváky je zdarma.
-        </p>
-      </div>
-
-      <div class="flex flex-wrap gap-4 pt-4 border-t border-white/10">
-        {{ button(text="Sledovat live stream", color="accent", size="lg") }}
-        {{ button(text="Rozpis zápasů", color="primary", variant="outline", size="lg") }}
-        {{ button(text="Více informací", color="dark", variant="link") }}
-      </div>
-    </div>
-  </section>
-
-  <!-- Tag Showcase Section -->
-  <section class="space-y-8">
-    <div>
-      <h2 class="text-xl font-bold text-gray-900">Tag (.c-tag)</h2>
-      <p class="text-sm text-gray-500 mt-1">Defaultní vzhled je <strong>Primary + Solid + MD Pill</strong> (`class="c-tag"`). Modifikátory přepisují barvu (`--accent`, `--gold`, `--gray`, `--dark`), styl (`--subtle`, `--plain`, `--outline`) nebo velikost (`--sm`, `--lg`).</p>
-    </div>
-
-    <!-- 1. Original Figma Tag.png variants -->
-    <div class="space-y-3">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Varianty z Figmy (`Tag.png`)</h3>
-      <div class="bg-white border border-gray-200 rounded-2xl p-8 max-w-xs flex flex-col items-center gap-4">
-        {# 1. Red Solid pill #}
-        {{ tag(text="TAG", color="accent") }}
-
-        {# 2. Red Soft / Subtle pill #}
-        {{ tag(text="TAG", color="accent", variant="subtle") }}
-
-        {# 3. Blue Solid pill (Default) #}
-        {{ tag(text="TAG") }}
-
-        {# 4. Blue Soft / Subtle pill #}
-        {{ tag(text="TAG", variant="subtle") }}
-
-        {# 5. Blue Plain text #}
-        {{ tag(text="TAG", variant="plain") }}
-
-        {# 6. Gray Plain text #}
-        {{ tag(text="TAG", color="gray", variant="plain") }}
-
-        {# 7. Gold Plain text #}
-        {{ tag(text="TAG", color="gold", variant="plain") }}
-
-        {# 8. Light Gold Plain text #}
-        {{ tag(text="TAG", color="gold-light", variant="plain") }}
-      </div>
-    </div>
-
-    <!-- 2. Sizes showcase -->
-    <div class="space-y-3 pt-4 border-t border-gray-100">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Velikosti (SM, MD - default, LG)</h3>
-      <div class="flex flex-wrap items-center gap-4">
-        {{ tag(text="Turnaj", size="sm") }}
-        {{ tag(text="Turnaj") }}
-        {{ tag(text="Turnaj", size="lg") }}
-        <span class="text-gray-300">|</span>
-        {{ tag(text="Mistrovství ČR", color="accent", variant="subtle", size="sm") }}
-        {{ tag(text="Mistrovství ČR", color="accent", variant="subtle") }}
-        {{ tag(text="Mistrovství ČR", color="accent", variant="subtle", size="lg") }}
-      </div>
-    </div>
-
-    <!-- 3. Matrix of Styles and Colors -->
-    <div class="space-y-3 pt-4 border-t border-gray-100">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Matice stylů a barev</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        {# Solid #}
-        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
-          <p class="text-xs font-bold text-gray-500 uppercase">Solid (Výchozí)</p>
-          <div class="flex flex-wrap gap-2">
-            {{ tag(text="Primary") }}
-            {{ tag(text="Accent", color="accent") }}
-            {{ tag(text="Dark", color="dark") }}
-            {{ tag(text="Gold", color="gold") }}
-            {{ tag(text="Gray", color="gray") }}
-          </div>
-        </div>
-
-        {# Subtle / Soft #}
-        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
-          <p class="text-xs font-bold text-gray-500 uppercase">Subtle / Soft</p>
-          <div class="flex flex-wrap gap-2">
-            {{ tag(text="Primary", variant="subtle") }}
-            {{ tag(text="Accent", color="accent", variant="subtle") }}
-            {{ tag(text="Dark", color="dark", variant="subtle") }}
-            {{ tag(text="Gold", color="gold", variant="subtle") }}
-            {{ tag(text="Gray", color="gray", variant="subtle") }}
-          </div>
-        </div>
-
-        {# Outline #}
-        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
-          <p class="text-xs font-bold text-gray-500 uppercase">Outline</p>
-          <div class="flex flex-wrap gap-2">
-            {{ tag(text="Primary", variant="outline") }}
-            {{ tag(text="Accent", color="accent", variant="outline") }}
-            {{ tag(text="Dark", color="dark", variant="outline") }}
-            {{ tag(text="Gold", color="gold", variant="outline") }}
-            {{ tag(text="Gray", color="gray", variant="outline") }}
-          </div>
-        </div>
-
-        {# Plain / Text #}
-        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
-          <p class="text-xs font-bold text-gray-500 uppercase">Plain / Text</p>
-          <div class="flex flex-wrap gap-3 items-center">
-            {{ tag(text="Primary", variant="plain") }}
-            {{ tag(text="Accent", color="accent", variant="plain") }}
-            {{ tag(text="Dark", color="dark", variant="plain") }}
-            {{ tag(text="Gold", color="gold", variant="plain") }}
-            {{ tag(text="Gray", color="gray", variant="plain") }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. Interactive Links -->
-    <div class="space-y-3 pt-4 border-t border-gray-100">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Interaktivní štítky jako odkazy (`url="#"`)</h3>
-      <div class="flex flex-wrap items-center gap-3">
-        {{ tag(text="8-Ball", url="#", color="primary") }}
-        {{ tag(text="9-Ball", url="#", color="primary", variant="subtle") }}
-        {{ tag(text="10-Ball", url="#", color="accent") }}
-        {{ tag(text="Straight Pool", url="#", color="gold", variant="subtle") }}
-        {{ tag(text="Extraliga", url="#", variant="outline") }}
-      </div>
-    </div>
-  </section>
-
-  <!-- Button Showcase Section -->
-  <section class="space-y-8 pt-8 border-t border-gray-200">
-    <div>
-      <h2 class="text-xl font-bold text-gray-900">Button (.c-button)</h2>
-      <p class="text-sm text-gray-500 mt-1">Defaultní vzhled je <strong>Primary + Solid + MD</strong> (`class="c-button"`). Ostatní třídy pouze přepisují barvu, styl nebo velikost.</p>
-    </div>
-
-    <!-- 1. Original Figma Button.png variants -->
-    <div class="space-y-3">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Varianty z Figmy (`Button.png`)</h3>
-      <div class="bg-white border border-gray-200 rounded-2xl p-8 max-w-sm flex flex-col gap-5 items-start">
-        {# 1. Primary Solid (Default) #}
-        {{ button(text="Registrace na turnaje", url="#", extraClass="w-full justify-between") }}
-
-        {# 2. Primary Outline #}
-        {{ button(text="Registrace na turnaje", url="#", variant="outline", extraClass="w-full justify-between") }}
-
-        {# 3. Primary Link / Underline #}
-        {{ button(text="Registrace na turnaje", url="#", variant="link", extraClass="inline-flex") }}
-
-        {# 4. Accent Solid #}
-        {{ button(text="Registrace na turnaje", url="#", color="accent", extraClass="w-full justify-between") }}
-
-        {# 5. Accent Link / Underline #}
-        {{ button(text="Registrace na turnaje", url="#", color="accent", variant="link", extraClass="inline-flex") }}
-
-        {# 6. Dark Solid #}
-        {{ button(text="Registrace na turnaje", url="#", color="dark", extraClass="w-full justify-between") }}
-      </div>
-    </div>
-
-    <!-- 2. Sizes showcase: sm, md (default), lg -->
-    <div class="space-y-3 pt-4 border-t border-gray-100">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Velikosti (SM, MD - default, LG)</h3>
-      <div class="flex flex-wrap items-center gap-4">
-        {{ button(text="Small tlačítko", size="sm") }}
-        {{ button(text="Medium (default) tlačítko") }}
-        {{ button(text="Large tlačítko", size="lg") }}
-      </div>
-    </div>
-
-    <!-- 3. Color & Style Matrix showcase -->
-    <div class="space-y-3 pt-4 border-t border-gray-100">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Matice barev a stylů</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {# Primary #}
-        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
-          <p class="text-xs font-bold text-gray-500 uppercase">Primary (Default)</p>
-          <div>{{ button(text="Solid (default)", extraClass="w-full") }}</div>
-          <div>{{ button(text="Outline", variant="outline", extraClass="w-full") }}</div>
-          <div>{{ button(text="Link", variant="link") }}</div>
-        </div>
-
-        {# Accent #}
-        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
-          <p class="text-xs font-bold text-gray-500 uppercase">Accent (Červená)</p>
-          <div>{{ button(text="Solid", color="accent", extraClass="w-full") }}</div>
-          <div>{{ button(text="Outline", color="accent", variant="outline", extraClass="w-full") }}</div>
-          <div>{{ button(text="Link", color="accent", variant="link") }}</div>
-        </div>
-
-        {# Dark #}
-        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
-          <p class="text-xs font-bold text-gray-500 uppercase">Dark (Tmavá)</p>
-          <div>{{ button(text="Solid", color="dark", extraClass="w-full") }}</div>
-          <div>{{ button(text="Outline", color="dark", variant="outline", extraClass="w-full") }}</div>
-          <div>{{ button(text="Link", color="dark", variant="link") }}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. Without arrow / Disabled states -->
-    <div class="space-y-3 pt-4 border-t border-gray-100">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Speciální stavy</h3>
-      <div class="flex flex-wrap items-center gap-4">
-        {{ button(text="Bez šipky", hasArrow=false) }}
-        {{ button(text="Disabled tlačítko", disabled=true) }}
-        {{ button(text="Disabled outline", variant="outline", disabled=true) }}
-      </div>
-    </div>
-  </section>
-
-  <!-- Cards Showcase Section (.c-card) -->
-  <section class="space-y-8 pt-8 border-t border-gray-200">
-    <div>
-      <h2 class="text-2xl font-bold text-text-main">Karty článků (.c-card)</h2>
-      <p class="text-sm text-text-muted mt-1">
-        Karty pro novinky a články vytvořené v BEM struktuře s Nunjucks makry v <code>_includes/macros/card/</code>.
-        Obsahují subelementy (<code>.c-card__media</code>, <code>.c-card__overlay</code>, <code>.c-card__body</code>, <code>.c-card__meta</code>, <code>.c-card__title</code>) a vnořené komponenty (<code>.c-tag</code>).
-      </p>
-    </div>
-
-    <!-- 1. Standalone Variants from Article.png -->
-    <div class="space-y-4">
-      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Samostatné karty podle předlohy (Article.png)</h3>
-      
-      <div class="space-y-6">
-        {# Main featured card #}
-        <div>
-          <p class="text-xs font-mono text-gray-500 mb-2">1. Hlavní karta článku (<code>.c-card--article-main</code>)</p>
-          <div class="max-w-xl">
-            {{ card_article_main(
-              title="Český tým ovládl mistrovství Evropy v Heyball!",
-              url="#",
-              image="https://images.unsplash.com/photo-1612468552791-27742d57610b?auto=format&fit=crop&w=1200&q=80",
-              tagText="REPRE",
-              tagColor="accent",
-              date="5. srpna 2026"
-            ) }}
-          </div>
-        </div>
-
-        {# Compact horizontal card #}
-        <div>
-          <p class="text-xs font-mono text-gray-500 mb-2">2. Kompaktní karta článku (<code>.c-card--article-compact</code>)</p>
-          <div class="max-w-xl">
-            {{ card_article_compact(
-              title="Český tým ovládl mistrovství Evropy v Heyball!",
-              url="#",
-              image="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=400&q=80",
-              tagText="REPRE",
-              tagColor="primary",
-              tagVariant="plain",
-              date="5. srpna 2026"
-            ) }}
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </section>
-</main>
+    {% include "layouts/footer.njk" %}
+</div>

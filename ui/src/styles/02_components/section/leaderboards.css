@@ -1,0 +1,13 @@
+@layer components {
+  /* ==========================================================================
+     Section: Leaderboards (Žebříčky)
+     ========================================================================== */
+
+  .c-section--leaderboards {
+    @apply bg-gray-100;
+
+    .c-section__grid {
+      @apply sm:grid-cols-2 lg:grid-cols-4 gap-5;
+    }
+  }
+}

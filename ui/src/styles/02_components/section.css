@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Section (Base + Submodules)
+   ========================================================================== */
+
+@layer components {
+  /* Generic section base — every homepage section is <section class="c-section c-section--<type>"> */
+  .c-section {
+    @apply relative w-full py-12 sm:py-16 lg:py-20;
+  }
+
+  .c-section__header {
+    @apply mb-8 lg:mb-10;
+  }
+
+  .c-section__title {
+    @apply mb-2;
+  }
+
+  .c-section__subtitle {
+    @apply text-text-muted m-0;
+  }
+
+  .c-section__grid {
+    @apply grid grid-cols-1 gap-5 lg:gap-6;
+  }
+
+  .c-section__actions {
+    @apply flex flex-wrap items-center gap-4 mt-8;
+  }
+
+  .c-section__footer {
+    @apply mt-8;
+  }
+}
+
+@import "./section/hero.css";
+@import "./section/notices.css";
+@import "./section/event-banner.css";
+@import "./section/tournaments.css";
+@import "./section/cta.css";
+@import "./section/leaderboards.css";
+@import "./section/link-tiles.css";

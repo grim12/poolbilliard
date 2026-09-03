@@ -1,0 +1,22 @@
+{% from "macros/banner.njk" import banner %}
+
+{#
+    eventBanner(title, text, image, tagText, metaText, buttonText, buttonUrl)
+    - Single promo banner for a highlighted upcoming event
+#}
+{% macro eventBanner(title, text="", image="", tagText="", metaText="", buttonText="Detail akce", buttonUrl="#") %}
+<section class="c-section c-section--event-banner">
+    <div class="c-container">
+        {{ banner(
+            title=title,
+            text=text,
+            image=image,
+            tagText=tagText,
+            tagColor="accent",
+            tagVariant="solid",
+            metaText=metaText,
+            buttons=[{ text: buttonText, url: buttonUrl, color: "accent" }]
+        ) }}
+    </div>
+</section>
+{% endmacro %}

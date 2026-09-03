@@ -1,0 +1,106 @@
+[
+  {
+    "title": "Celostátní roční žebříček",
+    "featured": true,
+    "linkText": "Celý žebříček",
+    "linkUrl": "#",
+    "players": [
+      { "name": "Roman Hybler", "club": "MPC Pardubice" },
+      { "name": "Petr Urban", "club": "MPC Pardubice" },
+      { "name": "Mariusz Skoneczny", "club": "MPC Pardubice" },
+      { "name": "Jan Meisner", "club": "SK Harlequin Praha" },
+      { "name": "Matouš Vlk", "club": "MPC Pardubice" }
+    ]
+  },
+  {
+    "title": "Česká Poolová Tour 2026",
+    "featured": false,
+    "linkText": "Detail série",
+    "linkUrl": "#",
+    "players": [
+      { "name": "Petr Urban", "club": "MPC Pardubice" },
+      { "name": "Mykola Moroz", "club": "Řipská BC" },
+      { "name": "Jan Meisner", "club": "SK Harlequin Praha" },
+      { "name": "Matouš Vlk", "club": "MPC Pardubice" },
+      { "name": "David Žalman", "club": "MPC Pardubice" }
+    ]
+  },
+  {
+    "title": "MČR Juniorů 2026",
+    "featured": false,
+    "linkText": "Detail série",
+    "linkUrl": "#",
+    "players": [
+      { "name": "Alexandr Hofmann", "club": "Řipská BC" },
+      { "name": "Dominik Demel", "club": "BC Ostrava" },
+      { "name": "Václav Skokan", "club": "MPC Pardubice" },
+      { "name": "Robert Holub", "club": "MPC Pardubice" },
+      { "name": "Adam Výskot", "club": "MPC Pardubice" }
+    ]
+  },
+  {
+    "title": "MČR Veteránů 2026",
+    "featured": false,
+    "linkText": "Detail série",
+    "linkUrl": "#",
+    "players": [
+      { "name": "Christos Seizis", "club": "BC Balabuška" },
+      { "name": "Pavel Halamka", "club": "SK Harlequin Praha" },
+      { "name": "Tomáš Vančura", "club": "BC Metropol České Budějovice" },
+      { "name": "Jan Kotěra", "club": "DUNS Benátky n. J." },
+      { "name": "Jaromír Linha", "club": "SK Harlequin Praha" }
+    ]
+  },
+  {
+    "title": "ČMBS Junior Open 2026",
+    "featured": false,
+    "linkText": "Detail série",
+    "linkUrl": "#",
+    "players": [
+      { "name": "Alexandr Hofmann", "club": "Řipská BC" },
+      { "name": "Václav Skokan", "club": "MPC Pardubice" },
+      { "name": "Adam Výskot", "club": "MPC Pardubice" },
+      { "name": "Matyáš Říha", "club": "MPC Pardubice" },
+      { "name": "David Švéda", "club": "MPC Pardubice" }
+    ]
+  },
+  {
+    "title": "Extraliga Týmů 2026",
+    "featured": false,
+    "linkText": "Detail série",
+    "linkUrl": "#",
+    "players": [
+      { "name": "BC Řipská Praha A" },
+      { "name": "MPC Pardubice A" },
+      { "name": "BC Řipská Praha B" },
+      { "name": "Delta Billiard Brno A" },
+      { "name": "SK Harlequin Praha A" }
+    ]
+  },
+  {
+    "title": "Mistrovství ČR 2025",
+    "featured": false,
+    "linkText": "Detail série",
+    "linkUrl": "#",
+    "players": [
+      { "name": "Martin Forman", "club": "SC Rozmarýn Brno" },
+      { "name": "Jan Meisner", "club": "SK Harlequin Praha" },
+      { "name": "Petr Urban", "club": "MPC Pardubice" },
+      { "name": "Marek Hajdovský", "club": "DELTA Billiard" },
+      { "name": "Jaroslav Tichý", "club": "Řipská BC" }
+    ]
+  },
+  {
+    "title": "MČR Žen 2025",
+    "featured": false,
+    "linkText": "Detail série",
+    "linkUrl": "#",
+    "players": [
+      { "name": "Veronika Hubrtová", "club": "MPC Pardubice" },
+      { "name": "Kateřina Zárubová", "club": "1. KK Chomutov" },
+      { "name": "Ilona Žalmanová", "club": "MPC Pardubice" },
+      { "name": "Lucie Rendová", "club": "DELTA Billiard" },
+      { "name": "Petra Krulichová", "club": "BC Balabuška" }
+    ]
+  }
+]

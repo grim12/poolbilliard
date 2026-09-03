@@ -1,0 +1,31 @@
+{% from "macros/leaderboard.njk" import leaderboard %}
+{% from "macros/button.njk" import button %}
+
+{#
+    leaderboards(title, subtitle, series, moreUrl, moreText)
+    - series: array of { title, players, featured, linkText, linkUrl }
+#}
+{% macro leaderboards(title, subtitle="", series=[], moreUrl="#", moreText="Systémy soutěží") %}
+<section class="c-section c-section--leaderboards">
+    <div class="c-container">
+        <div class="c-section__header">
+            <h2 class="c-section__title h3">{{ title }}</h2>
+            {% if subtitle %}<p class="c-section__subtitle">{{ subtitle }}</p>{% endif %}
+        </div>
+        <div class="c-section__grid">
+            {% for item in series %}
+                {{ leaderboard(
+                    title=item.title,
+                    players=item.players,
+                    featured=item.featured,
+                    linkText=item.linkText,
+                    linkUrl=item.linkUrl
+                ) }}
+            {% endfor %}
+        </div>
+        <div class="c-section__footer">
+            {{ button(text=moreText, url=moreUrl, variant="outline") }}
+        </div>
+    </div>
+</section>
+{% endmacro %}

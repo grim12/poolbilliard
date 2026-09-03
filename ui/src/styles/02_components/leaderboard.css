@@ -1,0 +1,81 @@
+@layer components {
+  /* ==========================================================================
+     Leaderboard — ranking series card (top 5 + link to full standings)
+     ========================================================================== */
+
+  .c-leaderboard {
+    @apply flex flex-col h-full rounded-2xl bg-white border border-gray-100 overflow-hidden shadow-xs;
+  }
+
+  .c-leaderboard__header {
+    @apply px-5 py-4 text-center border-b border-gray-100;
+  }
+
+  .c-leaderboard__title {
+    @apply font-bold text-text-main text-base m-0;
+  }
+
+  .c-leaderboard__list {
+    @apply flex flex-col list-none p-0 m-0;
+  }
+
+  .c-leaderboard__item {
+    @apply flex items-center gap-4 px-5 py-3.5 border-b border-gray-100 last:border-b-0;
+  }
+
+  .c-leaderboard__item--top {
+    @apply bg-dark border-b-0 py-4;
+
+    .c-leaderboard__rank,
+    .c-leaderboard__name {
+      @apply text-white;
+    }
+
+    .c-leaderboard__club {
+      @apply text-white/70;
+    }
+  }
+
+  .c-leaderboard__rank {
+    @apply w-6 shrink-0 text-right font-black text-lg text-text-main;
+  }
+
+  .c-leaderboard__player {
+    @apply flex flex-col min-w-0;
+  }
+
+  .c-leaderboard__name {
+    @apply font-bold text-text-main text-sm leading-snug truncate;
+  }
+
+  .c-leaderboard__club {
+    @apply text-xs text-text-muted truncate;
+  }
+
+  .c-leaderboard__footer {
+    @apply mt-auto px-5 py-4 text-center border-t border-gray-100;
+  }
+
+  .c-leaderboard__link {
+    @apply inline-flex items-center gap-1.5 font-bold text-sm text-primary-600 no-underline hover:text-primary-700 transition-colors duration-150;
+
+    svg {
+      @apply transition-transform duration-200;
+    }
+
+    &:hover svg {
+      @apply translate-x-0.5;
+    }
+  }
+
+  /* --- Featured variant: rank #1 highlighted in accent red, footer link in accent --- */
+  .c-leaderboard--featured {
+    .c-leaderboard__item--top {
+      @apply bg-accent-600;
+    }
+
+    .c-leaderboard__link {
+      @apply text-accent-600 hover:text-accent-700;
+    }
+  }
+}
