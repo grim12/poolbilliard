@@ -1,0 +1,52 @@
+{% from "macros/tag.njk" import tag %}
+
+{#
+    card_article_main(title, url, image, imageAlt, tagText, tagColor, tagVariant, date, extraClass, headingLevel)
+    - title: Article title
+    - url: Link URL
+    - image: Image URL
+    - imageAlt: Alt text for image (leave empty — image is decorative, whole card is one link labelled via aria-label)
+    - tagText: Text for category badge
+    - tagColor: "accent" (default) | "primary" | "dark" | "gold"
+    - tagVariant: "solid" (default) | "subtle" | "plain" | "outline"
+    - date: Publication date string
+    - extraClass: Optional extra classes on root card
+    - headingLevel: "h2" (default) | "h3" | "h1" | "div"
+#}
+{% macro card_article_main(
+    title,
+    url="#",
+    image="",
+    imageAlt="",
+    tagText="",
+    tagColor="accent",
+    tagVariant="solid",
+    date="",
+    extraClass="",
+    headingLevel="h2"
+) -%}
+    {%- set classes = ["c-card", "c-card--article-main", extraClass] | select | join(" ") -%}
+    <article class="{{ classes }}">
+        <a href="{{ url }}" class="c-card__link" aria-label="{{ title }}">
+            {% if image %}
+                <div class="c-card__media">
+                    <img src="{{ image }}" alt="{{ imageAlt }}" loading="lazy" />
+                </div>
+            {% endif %}
+            <div class="c-card__overlay"></div>
+            <div class="c-card__body">
+                {% if tagText or date %}
+                    <div class="c-card__meta">
+                        {% if tagText %}
+                            {{ tag(text=tagText, color=tagColor, variant=tagVariant) }}
+                        {% endif %}
+                        {% if date %}
+                            <time class="c-card__date">{{ date }}</time>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <{{ headingLevel }} class="c-card__title">{{ title }}</{{ headingLevel }}>
+            </div>
+        </a>
+    </article>
+{%- endmacro %}

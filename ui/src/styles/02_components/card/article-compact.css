@@ -1,0 +1,56 @@
+@layer components {
+  /* ==========================================================================
+     Card: Article Compact (Horizontal Side Card)
+     ========================================================================== */
+
+  .c-card--article-compact {
+    @apply rounded-2xl sm:rounded-3xl bg-white overflow-hidden transition-shadow duration-300;
+
+    .c-card__link {
+      @apply flex items-stretch;
+    }
+
+    .c-card__media {
+      @apply shrink-0 w-24 sm:w-28 md:w-32 min-h-24 sm:min-h-28 md:min-h-32 relative bg-gray-100;
+
+      img {
+        @apply w-full h-full object-cover transition-transform duration-500 ease-out;
+      }
+    }
+
+    .c-card__body {
+      @apply flex-1 min-w-0 flex flex-col justify-center p-4 sm:p-5;
+    }
+
+    .c-card__meta {
+      @apply flex items-center gap-2.5 mb-1.5 flex-wrap text-xs sm:text-sm text-text-muted;
+
+      /* Parent override for tags inside compact card */
+      .c-tag {
+        @apply font-extrabold tracking-wide uppercase;
+      }
+    }
+
+    .c-card__date {
+      @apply text-xs sm:text-sm text-text-muted font-normal;
+    }
+
+    .c-card__title {
+      @apply font-extrabold text-text-main text-base sm:text-lg leading-snug tracking-tight-2 line-clamp-2 transition-colors duration-200;
+    }
+
+    /* Hover + keyboard-focus interactions */
+    &:hover,
+    &:focus-within {
+      @apply shadow-md;
+
+      .c-card__media img {
+        @apply scale-105;
+      }
+
+      .c-card__title {
+        @apply text-primary-600;
+      }
+    }
+  }
+}

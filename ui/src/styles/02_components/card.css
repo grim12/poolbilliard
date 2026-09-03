@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Card Component (Base + Submodules)
+   ========================================================================== */
+
+@layer components {
+  /* Generic card base */
+  .c-card {
+    @apply relative text-inherit no-underline;
+  }
+
+  /* Wrapping <a> — makes the whole card one clickable/focusable link.
+     Accessible name comes from aria-label on the macro (kept to just the title),
+     not from the mixed inner content (image/tag/date/title). */
+  .c-card__link {
+    @apply block h-full w-full text-inherit no-underline outline-none;
+
+    &:focus-visible {
+      @apply ring-2 ring-offset-2 ring-primary-500;
+    }
+  }
+}
+
+
+@import "./card/article-main.css";
+@import "./card/article-compact.css";

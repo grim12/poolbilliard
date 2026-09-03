@@ -5,11 +5,13 @@ title: Poolbilliard — UI Komponenty
 
 {% from "macros/button.njk" import button %}
 {% from "macros/tag.njk" import tag %}
+{% from "macros/card/article-main.njk" import card_article_main %}
+{% from "macros/card/article-compact.njk" import card_article_compact %}
 
-<main class="max-w-4xl mx-auto px-4 py-12 space-y-16">
+<main class="max-w-5xl mx-auto px-4 py-12 space-y-16">
   <header class="border-b border-gray-200 pb-6">
     <h1 class="text-3xl font-bold tracking-tight text-text-main">Poolbilliard — UI Komponenty & Design Systém</h1>
-    <p class="mt-2 text-text-muted">Přehled typografie, barev, témat (`.t-dark`) a komponent (`.c-button`, `.c-tag`).</p>
+    <p class="mt-2 text-text-muted">Přehled typografie, barev, témat (`.t-dark`) a komponent (`.c-button`, `.c-tag`, `.c-card`).</p>
   </header>
 
   <!-- Typography Section -->
@@ -304,5 +306,55 @@ title: Poolbilliard — UI Komponenty
         {{ button(text="Disabled outline", variant="outline", disabled=true) }}
       </div>
     </div>
+  </section>
+
+  <!-- Cards Showcase Section (.c-card) -->
+  <section class="space-y-8 pt-8 border-t border-gray-200">
+    <div>
+      <h2 class="text-2xl font-bold text-text-main">Karty článků (.c-card)</h2>
+      <p class="text-sm text-text-muted mt-1">
+        Karty pro novinky a články vytvořené v BEM struktuře s Nunjucks makry v <code>_includes/macros/card/</code>.
+        Obsahují subelementy (<code>.c-card__media</code>, <code>.c-card__overlay</code>, <code>.c-card__body</code>, <code>.c-card__meta</code>, <code>.c-card__title</code>) a vnořené komponenty (<code>.c-tag</code>).
+      </p>
+    </div>
+
+    <!-- 1. Standalone Variants from Article.png -->
+    <div class="space-y-4">
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Samostatné karty podle předlohy (Article.png)</h3>
+      
+      <div class="space-y-6">
+        {# Main featured card #}
+        <div>
+          <p class="text-xs font-mono text-gray-500 mb-2">1. Hlavní karta článku (<code>.c-card--article-main</code>)</p>
+          <div class="max-w-xl">
+            {{ card_article_main(
+              title="Český tým ovládl mistrovství Evropy v Heyball!",
+              url="#",
+              image="https://images.unsplash.com/photo-1612468552791-27742d57610b?auto=format&fit=crop&w=1200&q=80",
+              tagText="REPRE",
+              tagColor="accent",
+              date="5. srpna 2026"
+            ) }}
+          </div>
+        </div>
+
+        {# Compact horizontal card #}
+        <div>
+          <p class="text-xs font-mono text-gray-500 mb-2">2. Kompaktní karta článku (<code>.c-card--article-compact</code>)</p>
+          <div class="max-w-xl">
+            {{ card_article_compact(
+              title="Český tým ovládl mistrovství Evropy v Heyball!",
+              url="#",
+              image="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=400&q=80",
+              tagText="REPRE",
+              tagColor="primary",
+              tagVariant="plain",
+              date="5. srpna 2026"
+            ) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
   </section>
 </main>

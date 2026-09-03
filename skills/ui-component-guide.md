@@ -82,7 +82,35 @@ Každá nová komponenta se skládá ze 3 propojených částí:
 
 ---
 
-### Pravidlo 2: Stylování pomocí `@apply`, explicitní názvy tříd a responsivita
+### Pravidlo 2: Struktura složitějších komponent (Karty, Moduly)
+
+U složitějších komponent s mnoha variantami (např. karty `.c-card`):
+1. **Adresář maker:** `ui/src/_includes/macros/card/`
+   * `article-main.njk`, `article-compact.njk`, `tournament.njk` atd.
+   * Souhrnný export v `macros/card.njk`.
+2. **Adresář stylů:** `ui/src/styles/02_components/card/`
+   * `article-main.css`, `article-compact.css` atd.
+   * `card.css` definuje obecné `.c-card` a importuje dílčí soubory.
+3. **BEM subelementy (`__`):**
+   * Elementy pevně svázané s komponentou používají dvojité podtržítko: `.c-card__media`, `.c-card__overlay`, `.c-card__body`, `.c-card__meta`, `.c-card__date`, `.c-card__title`, `.c-card__link`.
+3b. **Celoplošně klikatelná karta — `article` obaluje `a`, ne naopak:**
+   * Root komponenty zůstává sémantický `<article class="c-card ...">` (samostatná jednotka obsahu). Hned uvnitř je **jediný** `<a class="c-card__link" href="…">`, který obaluje úplně všechno ostatní (média, overlay, body, meta, nadpis) — `<a>` smí dle HTML5 obsahovat blokové elementy (transparentní content model), takže tohle je validní.
+   * Opačně (`<a>` jako root obalující `<article>`) nedává smysl — `article` reprezentuje samostatný kus obsahu, ne "obsah odkazu".
+   * Nadpis (`.c-card__title`) uvnitř `.c-card__link` je pak čistý text/heading **bez vlastního vnořeného `<a>`** — žádný jiný interaktivní/odkazový prvek uvnitř karty už být nesmí (vnořené `<a>` v `<a>` je nevalidní HTML). Proto `tag()` makro uvnitř karet voláme vždy bez `url` (vykreslí se jako `<span>`, ne `<a>`).
+   * **Accessible name:** protože `<a>` obaluje obrázek + tag + datum + nadpis, bez zásahu by screen reader přečetl název odkazu jako spojení všech těchto textů. Proto `.c-card__link` vždy nese `aria-label="{{ title }}"` (accessible name = jen název článku) a `<img>` uvnitř karty má prázdný `alt=""` (dekorativní, informace je už v `aria-label` odkazu).
+   * `.c-card__link` má sdílené základní styly v `card.css` (`block h-full w-full` + viditelný `:focus-visible` ring — nikdy nedávat `focus:outline-none` bez náhrady). Konkrétní varianta karty může tyto styly přepsat (např. `article-compact.css` mění `.c-card__link` na `flex items-stretch` pro horizontální layout) — stejný princip jako přepisování vnořených komponent v bodě 4.
+   * Vizuální `:hover` stavy (zvětšení obrázku, změna barvy nadpisu) doplňujeme i o `:focus-within` na root kartě, aby stejný efekt dostal i uživatel ovládající web klávesnicí.
+4. **Vnořené samostatné komponenty:**
+   * Uvnitř karet se běžně vnořují samostatné komponenty (např. `.c-tag`, `.c-button`).
+   * Nadřazená karta (parent) může v případě potřeby styly vnořeného childu přepsat v rámci svého CSS bloku.
+5. **Vzor "flush/bleed" média u horizontálních (kompaktních) karet:**
+   * U horizontálních karet (`article-compact` a podobné) obrázek v designu vždy "vytéká" až k okraji karty (nahoře/vlevo/dole), bez paddingu kolem něj — padding má pouze textový `.c-card__body`.
+   * Implementace: root karty je `flex items-stretch overflow-hidden rounded-*` (bez paddingu a bez borderu na rootu), `.c-card__media` má pevnou šířku (`w-24 sm:w-28 md:w-32`) a **minimální výšku odpovídající šířce** (`min-h-24 sm:min-h-28 md:min-h-32`), `.c-card__body` nese `p-4 sm:p-5`. Zaoblení rohů obrázku řeší `overflow-hidden` na rootu — obrázek samotný nemá vlastní `rounded-*`.
+   * `min-h-*` na `.c-card__media` je nutné, jinak se karta bez načteného/rozbitého obrázku (nebo před dokončením `loading="lazy"`) zhroutí na nulovou výšku (flex `align-items: stretch` počítá výšku řádku z obsahu, ne z `w-full h-full` obrázku) → vizuální "poskočení" layoutu (CLS).
+
+---
+
+### Pravidlo 3: Stylování pomocí `@apply`, explicitní názvy tříd a responsivita
 
 Styly komponent píšeme do `@layer components` s využitím Tailwind utilit přes `@apply`.
 
@@ -211,9 +239,22 @@ Podobně i v tématech (`03_themes/dark.css`):
 > **Důležité:** Každý nový CSS soubor musí být naimportován v `ui/src/styles/style.css`:
 > `@import "./02_components/button.css";`
 
+> ⚠️ **PAST: `aspect-*` + `min-h-*` na block elementu bez `w-full` rozbíjí šířku!**
+> Pokud má block-level element (např. `<article>` bez `width`) zároveň `aspect-[…]` **a** `min-h-[…]`/`min-h-*`, a obsah je nižší než `min-h`, prohlížeč dopočítá **šířku** z poměru stran a použité výšky (`min-h`) místo toho, aby vyplnil šířku rodiče — element pak přeteče mimo kontejner (typicky viditelné na mobilu, kde je `min-h` relativně vysoké vůči šířce). Fix: k `aspect-*`/`min-h-*` vždy přidat explicitní `w-full`, aby šířka byla definovaná hodnota a ne `auto`.
+> ```css
+> /* ❌ ŠPATNĚ: na úzkém viewportu element přeteče (šířka se dopočítá z min-h × aspect-ratio) */
+> .c-card--article-main {
+>   @apply block relative aspect-[4/3] min-h-[360px];
+> }
+> /* ✅ SPRÁVNĚ */
+> .c-card--article-main {
+>   @apply block w-full relative aspect-[4/3] min-h-[360px];
+> }
+> ```
+
 ---
 
-### Pravidlo 3: Nunjucks Makra (`macros/<name>.njk`)
+### Pravidlo 4: Nunjucks Makra (`macros/<name>.njk`)
 
 Makra musí být čistá, dobře typovaná v komentáři a nesmí generovat zbytečné redundantní třídy:
 
@@ -271,7 +312,7 @@ Makra musí být čistá, dobře typovaná v komentáři a nesmí generovat zbyt
 
 ---
 
-### Pravidlo 4: Design Tokeny v `@theme`
+### Pravidlo 5: Design Tokeny v `@theme`
 
 Všechny barvy, breakpointy a písma jsou centrálně definovány v `ui/src/styles/style.css` uvnitř `@theme { ... }`.
 Používáme sémantické aliasy:
@@ -282,7 +323,7 @@ Používáme sémantické aliasy:
 
 ---
 
-### Pravidlo 5: Showcase a ověření
+### Pravidlo 6: Showcase a ověření
 
 1. Po vytvoření komponenty ji ihned naimportujte do `ui/src/index.njk` (nebo do příslušné stránky / styleguide).
 2. Zobrazte všechny stavy:
