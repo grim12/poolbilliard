@@ -1,9 +1,95 @@
 ---
 layout: layouts/base.njk
-title: Poolbilliard — Úvod
+title: Poolbilliard — UI Komponenty
 ---
 
-<main class="max-w-5xl mx-auto px-4 py-12">
-  <h1 class="text-3xl font-bold tracking-tight">Poolbilliard</h1>
-  <p class="mt-4 text-slate-600">Základní šablona projektu pro sportovní svaz.</p>
+{% from "macros/button.njk" import button %}
+
+<main class="max-w-4xl mx-auto px-4 py-12 space-y-12">
+  <header class="border-b border-gray-200 pb-6">
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900">Poolbilliard — Komponenty</h1>
+    <p class="mt-2 text-gray-600">Přehled UI komponent s kompozičním systémem tříd (`.c-button`).</p>
+  </header>
+
+  <!-- Button Showcase Section -->
+  <section class="space-y-8">
+    <div>
+      <h2 class="text-xl font-bold text-gray-900">Button (.c-button)</h2>
+      <p class="text-sm text-gray-500 mt-1">Defaultní vzhled je <strong>Primary + Solid + MD</strong> (`class="c-button"`). Ostatní třídy pouze přepisují barvu, styl nebo velikost.</p>
+    </div>
+
+    <!-- 1. Original Figma Button.png variants -->
+    <div class="space-y-3">
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Varianty z Figmy (`Button.png`)</h3>
+      <div class="bg-white border border-gray-200 rounded-2xl p-8 max-w-sm flex flex-col gap-5 items-start">
+        {# 1. Primary Solid (Default) #}
+        {{ button(text="Registrace na turnaje", url="#", extraClass="w-full justify-between") }}
+
+        {# 2. Primary Outline #}
+        {{ button(text="Registrace na turnaje", url="#", variant="outline", extraClass="w-full justify-between") }}
+
+        {# 3. Primary Link / Underline #}
+        {{ button(text="Registrace na turnaje", url="#", variant="link", extraClass="inline-flex") }}
+
+        {# 4. Accent Solid #}
+        {{ button(text="Registrace na turnaje", url="#", color="accent", extraClass="w-full justify-between") }}
+
+        {# 5. Accent Link / Underline #}
+        {{ button(text="Registrace na turnaje", url="#", color="accent", variant="link", extraClass="inline-flex") }}
+
+        {# 6. Dark Solid #}
+        {{ button(text="Registrace na turnaje", url="#", color="dark", extraClass="w-full justify-between") }}
+      </div>
+    </div>
+
+    <!-- 2. Sizes showcase: sm, md (default), lg -->
+    <div class="space-y-3 pt-4 border-t border-gray-100">
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Velikosti (SM, MD - default, LG)</h3>
+      <div class="flex flex-wrap items-center gap-4">
+        {{ button(text="Small tlačítko", size="sm") }}
+        {{ button(text="Medium (default) tlačítko") }}
+        {{ button(text="Large tlačítko", size="lg") }}
+      </div>
+    </div>
+
+    <!-- 3. Color & Style Matrix showcase -->
+    <div class="space-y-3 pt-4 border-t border-gray-100">
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Matice barev a stylů</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {# Primary #}
+        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
+          <p class="text-xs font-bold text-gray-500 uppercase">Primary (Default)</p>
+          <div>{{ button(text="Solid (default)", extraClass="w-full") }}</div>
+          <div>{{ button(text="Outline", variant="outline", extraClass="w-full") }}</div>
+          <div>{{ button(text="Link", variant="link") }}</div>
+        </div>
+
+        {# Accent #}
+        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
+          <p class="text-xs font-bold text-gray-500 uppercase">Accent (Červená)</p>
+          <div>{{ button(text="Solid", color="accent", extraClass="w-full") }}</div>
+          <div>{{ button(text="Outline", color="accent", variant="outline", extraClass="w-full") }}</div>
+          <div>{{ button(text="Link", color="accent", variant="link") }}</div>
+        </div>
+
+        {# Dark #}
+        <div class="space-y-3 bg-gray-50 p-4 rounded-xl">
+          <p class="text-xs font-bold text-gray-500 uppercase">Dark (Tmavá)</p>
+          <div>{{ button(text="Solid", color="dark", extraClass="w-full") }}</div>
+          <div>{{ button(text="Outline", color="dark", variant="outline", extraClass="w-full") }}</div>
+          <div>{{ button(text="Link", color="dark", variant="link") }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Without arrow / Disabled states -->
+    <div class="space-y-3 pt-4 border-t border-gray-100">
+      <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Speciální stavy</h3>
+      <div class="flex flex-wrap items-center gap-4">
+        {{ button(text="Bez šipky", hasArrow=false) }}
+        {{ button(text="Disabled tlačítko", disabled=true) }}
+        {{ button(text="Disabled outline", variant="outline", disabled=true) }}
+      </div>
+    </div>
+  </section>
 </main>

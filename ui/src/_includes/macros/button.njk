@@ -1,0 +1,50 @@
+{#
+    button(text, url, color, variant, size, hasArrow, type, iconSize, extraClass, target, ariaLabel, disabled)
+    - url set -> renders <a>, otherwise <button type="{{ type }}">
+    - color: "primary" (default) | "accent" | "dark"
+    - variant: "solid" (default) | "outline" | "link"
+    - size: "md" (default) | "sm" | "lg"
+    - hasArrow: true (default, renders chevron-right icon) | false
+#}
+{% macro button(
+    text,
+    url="",
+    color="primary",
+    variant="solid",
+    size="md",
+    hasArrow=true,
+    type="button",
+    iconSize=16,
+    extraClass="",
+    target="",
+    ariaLabel="",
+    disabled=false
+) -%}
+    {# Map modifiers — default values (primary, solid, md) have no extra class needed #}
+    {%- set colorClass = ("c-button--" + color) if (color and color != "primary") else "" -%}
+    {%- set variantClass = ("c-button--" + variant) if (variant and variant != "solid") else "" -%}
+    {%- set sizeClass = ("c-button--" + size) if (size and size != "md") else "" -%}
+    {%- set arrowClass = "c-button--with-arrow" if hasArrow else "" -%}
+
+    {%- set classes = ["c-button", colorClass, variantClass, sizeClass, arrowClass, extraClass] | select | join(" ") -%}
+
+    {%- if url -%}
+        <a href="{{ url }}" class="{{ classes }}"{% if target %} target="{{ target }}" rel="noopener noreferrer"{% endif %}{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}>
+            <span>{{ text | safe }}</span>
+            {%- if hasArrow -%}
+                <svg class="c-button_icon" width="{{ iconSize }}" height="{{ iconSize }}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 3.5L10.5 8L6 12.5"/>
+                </svg>
+            {%- endif -%}
+        </a>
+    {%- else -%}
+        <button type="{{ type }}" class="{{ classes }}"{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} disabled{% endif %}>
+            <span>{{ text | safe }}</span>
+            {%- if hasArrow -%}
+                <svg class="c-button_icon" width="{{ iconSize }}" height="{{ iconSize }}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 3.5L10.5 8L6 12.5"/>
+                </svg>
+            {%- endif -%}
+        </button>
+    {%- endif -%}
+{%- endmacro %}

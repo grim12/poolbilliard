@@ -20,12 +20,12 @@ poolbilliard/
 │   │   ├── _data/          # Mock data (turnaje, žebříčky, hráči, kluby)
 │   │   ├── styles/         # CSS architektura (Tailwind CSS 4 + PostCSS)
 │   │   │   ├── 01_base/    # Základní elementy (reset, typografie, layout)
-│   │   │   ├── 02_components/ # Komponentové styly BEM (.c-, .o-, .u-)
+│   │   │   ├── 02_components/ # Komponentové styly BEM (.c-, .u-)
 │   │   │   └── style.css   # Vstupní CSS bod s @theme definicemi
 │   │   ├── js/             # Vanilla JavaScript
 │   │   │   └── main.js     # Hlavní vstupní JS bod
 │   │   ├── assets/         # Statické assety (obrázky, ikony)
-│   │   └── index.njk       # Stránky webu
+│   │   └── index.njk       # Stránky webu / komponentový showcase
 │   ├── .eleventy.js        # Konfigurace Eleventy (generátor statického webu)
 │   ├── postcss.config.js   # Konfigurace Tailwind CSS v4 PostCSS pluginu
 │   └── package.json
@@ -33,9 +33,12 @@ poolbilliard/
 ├── web/                    # Backend / produkční webová aplikace (Laravel + Filament)
 │   └── (připraveno pro inicializaci backendové aplikace)
 │
-├── .junie/                 # AI guidelines, skills a konvence projektu
-│   └── skills/
-│       └── ui-template-guide.md
+├── skills/                 # Pravidla, konvence a instrukce pro vývojáře a AI asistenty
+│   └── ui-component-guide.md # Návod pro tvorbu UI komponent a šablon
+│
+├── designs/                # Podklady z grafiky a screenshoty komponent (Figma)
+│   ├── components/
+│   └── pages/
 │
 ├── .gitignore              # Ignorování závislostí a build artefaktů
 └── README.md               # Hlavní dokumentace projektu
@@ -79,11 +82,15 @@ V další fázi bude do složky `web/` integrován backendový framework (Larave
 
 ---
 
-## Pravidla a konvence pro vývoj UI
+## Pravidla, konvence a instrukce pro AI asistenty
 
-* **CSS / BEM:** Pro vlastní komponenty používáme BEM s prefixy:
-  * `.c-` pro komponenty (např. `.c-card`, `.c-btn`)
-  * `.o-` pro layoutové objekty (např. `.o-container`)
-  * `.u-` pro utility třídy
-* **Tailwind 4:** Všechny design tokeny (barvy, písma, breakpointy) definujeme v bloku `@theme` v `ui/src/styles/style.css`.
-* **Nunjucks šablony:** Využíváme dědičnost přes `{% extends %}` a znovupoužitelné části přes `{% include %}` / makra `{% import %}`.
+Projekt je navržen tak, aby na něm mohl kdokoliv plynule navázat – ať už samostatně, nebo s libovolným AI asistentem (Claude, Junie, Cursor, Copilot atd.).
+
+Kompletní metodika a detailní kódové vzory jsou uloženy ve složce **`skills/`**:
+* **[`skills/ui-component-guide.md`](skills/ui-component-guide.md)** – Podrobný návod pro tvorbu komponent, Nunjucks maker, kompozičních BEM tříd a Tailwind 4 stylů s `@apply`.
+
+### Rychlý přehled klíčových pravidel:
+1. **Kompoziční (ortogonální) BEM třídy:** Výchozí třída komponenty (např. `.c-button`) nese kompletní výchozí vzhled (primary + solid + md). Modifikátory (`--accent`, `--outline`, `--sm`, `--lg`...) pouze přepisují konkrétní vlastnosti.
+2. **Stylování přes `@apply`:** Styly komponent píšeme do `ui/src/styles/02_components/<component>.css` v `@layer components` pomocí Tailwind utilit.
+3. **Nunjucks Makra:** Pro komponenty s logikou a parametry vytváříme makra v `ui/src/_includes/macros/<component>.njk`.
+4. **Showcase & Testování:** Každá nová komponenta se ihned zařazuje do přehledu v `ui/src/index.njk` se všemi stavy a variantami.
