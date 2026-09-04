@@ -4,10 +4,10 @@
      ========================================================================== */
 
   .c-section--hp-featured-articles {
-    @apply bg-gradient-to-b from-primary-50 to-white pt-8;
+    @apply bg-linear-to-b from-primary-50 to-white pt-4 md:pt-6 lg:pt-8;
 
     .c-section__grid {
-      @apply md:grid-cols-[2fr_1fr] gap-4;
+      @apply lg:grid-cols-[2fr_1fr] gap-4;
     }
 
     .c-section__featured {
@@ -23,7 +23,10 @@
     }
 
     .c-section__sidebar-list {
-      @apply flex flex-col gap-4;
+      @apply flex flex-col gap-4 grow sm:grid sm:grid-cols-2 lg:flex lg:flex-col;
+      .c-card {
+        @apply flex-1;
+      }
     }
   }
 }

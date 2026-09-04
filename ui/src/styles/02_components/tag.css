@@ -1,7 +1,8 @@
 @layer components {
   /* Base tag styling: Primary + Solid + MD Pill (default without extra classes) */
   .c-tag {
-    @apply inline-flex items-center justify-center font-bold text-sm uppercase tracking-wider rounded-full px-3 py-1 bg-primary-600 text-white leading-none select-none transition-all duration-150;
+    @apply inline-flex items-center justify-center rounded-full px-3 pb-1 pt-1.5 select-none transition-all duration-150;
+    @apply font-bold text-sm uppercase tracking-wider leading-[1.15] bg-primary-600 text-white;
 
     /* Link interaction (when applied on <a> or <button>) */
     &:is(a, button) {
@@ -72,7 +73,7 @@
   /* Compounded with .c-tag so padding-inline: 0 always wins over a same-specificity
      .c-tag--sm / .c-tag--lg size modifier, regardless of source order or class order. */
   .c-tag--plain {
-    @apply bg-transparent text-primary-700 px-0 rounded-none shadow-none;
+    @apply bg-transparent text-primary-700 p-0 rounded-none shadow-none;
 
     &.c-tag--accent {
       @apply bg-transparent text-accent-600;

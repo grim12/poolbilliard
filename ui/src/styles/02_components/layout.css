@@ -6,6 +6,6 @@
 
   /* Centered max-width content container, used inside sections/header/footer */
   .c-container {
-    @apply w-full max-w-[var(--container-max)] mx-auto px-4 md:px-6 lg:px-8;
+    @apply w-full max-w-(--container-max) mx-auto px-4 md:px-6 lg:px-8;
   }
 }

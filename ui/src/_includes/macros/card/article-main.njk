@@ -23,9 +23,9 @@
     tagVariant="solid",
     date="",
     extraClass="",
-    headingLevel="h2"
+    headingLevel="h3"
 ) -%}
-    {%- set classes = ["c-card", "c-card--article-main", extraClass] | select | join(" ") -%}
+    {%- set classes = ["c-card", "c-card--article-main", "t-dark", extraClass] | select | join(" ") -%}
     <article class="{{ classes }}">
         <a href="{{ url }}" class="c-card__link" aria-label="{{ title }}">
             {% if image %}

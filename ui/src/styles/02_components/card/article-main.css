@@ -4,10 +4,11 @@
      ========================================================================== */
 
   .c-card--article-main {
-    @apply block w-full relative overflow-hidden rounded-3xl bg-dark text-white min-h-90;
+    @apply flex flex-col w-full rounded-3xl bg-dark shadow-lg sm:block sm:relative sm:overflow-hidden;
+    @apply sm:min-h-90 md:min-h-100 lg:min-h-115 xl:min-h-144;
 
     .c-card__media {
-      @apply absolute inset-0 w-full h-full overflow-hidden;
+      @apply w-full aspect-3/2 overflow-hidden rounded-t-3xl sm:rounded-none sm:absolute sm:inset-0 sm:h-full;
 
       img {
         @apply w-full h-full object-cover transition-transform duration-700 ease-out;
@@ -15,15 +16,15 @@
     }
 
     .c-card__overlay {
-      @apply absolute inset-0 bg-[linear-gradient(12deg,var(--color-primary-900)_17%,transparent_60%)] transition-opacity duration-300;
+      @apply hidden sm:block sm:absolute sm:inset-0 sm:bg-[linear-gradient(14deg,var(--color-primary-900)_20%,transparent_65%)];
     }
 
     .c-card__body {
-      @apply relative z-10 flex flex-col justify-end h-full p-6 sm:p-8 lg:pt-12 lg:pr-24 lg:pb-12 lg:pl-12;
+      @apply flex flex-col justify-start p-6 sm:absolute sm:inset-0 sm:justify-end sm:h-full sm:z-10 sm:p-8 lg:pt-12 lg:pr-24 lg:pb-12 lg:pl-12;
     }
 
     .c-card__meta {
-      @apply flex items-center gap-3 mb-3 sm:mb-4 flex-wrap text-white/80 text-sm font-medium;
+      @apply flex items-baseline gap-3 mb-3 sm:mb-4 flex-wrap text-sm font-medium;
 
       /* Override tags inside article-main if needed */
       .c-tag {
@@ -36,7 +37,7 @@
     }
 
     .c-card__title {
-      @apply font-black text-white tracking-tight-2 leading-h1 text-4xl sm:text-6xl lg:text-7xl;
+      @apply font-black tracking-tight-2 leading-h1 text-4xl sm:text-6xl lg:text-7xl;
     }
 
     /* Hover + keyboard-focus interactions */
@@ -44,10 +45,6 @@
     &:focus-within {
       .c-card__media img {
         @apply scale-105 -rotate-1;
-      }
-
-      .c-card__overlay {
-        @apply opacity-90;
       }
     }
   }
