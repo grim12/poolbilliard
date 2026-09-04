@@ -9,7 +9,7 @@
     - moreUrl / moreText: link to the full news listing
 #}
 {% macro hpFeaturedArticles(featured, items=[], moreUrl="#", moreText="Další novinky") %}
-<section class="c-section c-section--hp-featured-articles">
+<section class="c-section c-section--hp-featured-articles" style="--bg-image: url('{{ featured.image }}')">
     <div class="c-container">
         <h2 class="sr-only">Novinky</h2>
         <div class="c-section__grid">

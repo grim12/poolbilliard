@@ -4,10 +4,19 @@
      ========================================================================== */
 
   .c-section--hp-featured-articles {
-    @apply bg-linear-to-b from-primary-50 to-white pt-4 md:pt-6 lg:pt-8;
+    @apply bg-linear-to-b from-primary-50 to-white py-4 md:py-6 lg:py-8 relative overflow-hidden;
+
+    &::before {
+      content: '';
+      @apply absolute inset-0 pointer-events-none z-0;
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: top center;
+      filter: grayscale(.75) opacity(0.1) brightness(1.5) contrast(2);
+    }
 
     .c-section__grid {
-      @apply lg:grid-cols-[2fr_1fr] gap-4;
+      @apply lg:grid-cols-[2fr_1fr] gap-4 relative z-10;
     }
 
     .c-section__featured {
