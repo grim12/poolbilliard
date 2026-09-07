@@ -4,8 +4,8 @@
     eventBanner(title, text, image, tagText, metaText, buttonText, buttonUrl)
     - Single promo banner for a highlighted upcoming event
 #}
-{% macro eventBanner(title, text="", image="", tagText="", metaText="", buttonText="Detail akce", buttonUrl="#") %}
-<section class="c-section c-section--event-banner">
+{% macro eventBanner(title, text="", image="", tagText="", metaText="", buttonText="Detail akce", buttonUrl="#", classes="") %}
+<section class="c-section c-section--event-banner {{ classes }}">
     <div class="c-container">
         {{ banner(
             title=title,

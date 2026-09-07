@@ -4,8 +4,8 @@
     linkTiles(items)
     - items: array of { title, url, image }
 #}
-{% macro linkTiles(items=[]) %}
-<section class="c-section c-section--link-tiles">
+{% macro linkTiles(items=[], classes="") %}
+<section class="c-section c-section--link-tiles {{ classes }}">
     <div class="c-container">
         <div class="c-section__grid">
             {% for item in items %}

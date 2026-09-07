@@ -5,8 +5,8 @@
     leaderboards(title, subtitle, series, moreUrl, moreText)
     - series: array of { title, players, featured, linkText, linkUrl }
 #}
-{% macro leaderboards(title, subtitle="", series=[], moreUrl="#", moreText="Systémy soutěží") %}
-<section class="c-section c-section--leaderboards">
+{% macro leaderboards(title, subtitle="", series=[], moreUrl="#", moreText="Systémy soutěží", classes="") %}
+<section class="c-section c-section--leaderboards {{ classes }}">
     <div class="c-container">
         <div class="c-section__header">
             <h2 class="c-section__title h3">{{ title }}</h2>

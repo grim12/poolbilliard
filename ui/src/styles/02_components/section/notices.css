@@ -4,7 +4,7 @@
      ========================================================================== */
 
   .c-section--notices {
-    @apply bg-white pt-0;
+    @apply bg-white;
 
     .c-section__grid {
       @apply sm:grid-cols-3 gap-4;

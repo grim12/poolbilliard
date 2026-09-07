@@ -4,8 +4,8 @@
     cta(title, text, image, buttons)
     - buttons: array of { text, url, color, variant } — rendered via the button() macro
 #}
-{% macro cta(title, text="", image="", buttons=[]) %}
-<section class="c-section c-section--cta">
+{% macro cta(title, text="", image="", buttons=[], classes="") %}
+<section class="c-section c-section--cta {{ classes }}">
     <div class="c-container">
         {{ banner(
             title=title,
