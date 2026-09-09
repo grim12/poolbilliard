@@ -1,7 +1,7 @@
 @layer components {
   /* Base button styling: Primary + Solid + MD (default without extra classes) */
   .c-button {
-    @apply inline-flex items-center justify-center gap-3 h-12 font-bold text-base leading-tight rounded-[14px] px-6 bg-primary-600 text-white border border-transparent shadow-xs transition-all duration-200 cursor-pointer select-none no-underline hover:bg-primary-700 active:bg-primary-800;
+    @apply inline-flex items-center justify-center gap-3 h-12 font-bold text-base leading-tight rounded-xl px-6 bg-primary-600 text-white border border-transparent shadow-xs transition-all duration-200 cursor-pointer select-none no-underline hover:bg-primary-700 active:bg-primary-800;
 
     /* Disabled state */
     &:disabled,
@@ -16,7 +16,7 @@
   }
 
   .c-button--accent {
-    @apply bg-accent-600 text-white border-transparent hover:bg-accent-700 active:bg-accent-800;
+    @apply bg-accent-500 text-white border-transparent hover:bg-accent-600 active:bg-accent-700;
   }
 
   .c-button--dark {
@@ -28,7 +28,7 @@
     @apply bg-white text-primary-600 border-primary-300 shadow-xs hover:bg-primary-50 hover:border-primary-300 active:bg-primary-100;
 
     &.c-button--accent {
-      @apply text-accent-600 border-accent-200 hover:bg-accent-50 hover:border-accent-300 active:bg-accent-100;
+      @apply text-accent-500 border-accent-200 hover:bg-accent-50 hover:border-accent-300 active:bg-accent-100;
     }
 
     &.c-button--dark {
@@ -41,7 +41,7 @@
     @apply bg-transparent text-primary-600 border-transparent shadow-none px-0 py-1 rounded-none underline underline-offset-4 decoration-primary-600 hover:bg-transparent hover:text-primary-700 hover:decoration-primary-700 active:bg-transparent;
 
     &.c-button--accent {
-      @apply text-accent-600 decoration-accent-600 hover:text-accent-700 hover:decoration-accent-700;
+      @apply text-accent-500 decoration-accent-500 hover:text-accent-600 hover:decoration-accent-600;
     }
 
     &.c-button--dark {
@@ -59,15 +59,17 @@
   }
 
   /* --- Arrow / Icon modifier & hover animation --- */
-  svg,
-  .c-button_icon {
-    @apply transition-transform duration-200 shrink-0 -mr-2;
-  }
+  .c-button {
+    svg,
+    .c-button_icon {
+      @apply transition-transform duration-200 shrink-0 -mr-2;
+    }
 
-  &:hover {
-    .c-button_icon,
-    svg {
-      @apply translate-x-0.5;
+    &:hover {
+      .c-button_icon,
+      svg {
+        @apply translate-x-0.5;
+      }
     }
   }
 }

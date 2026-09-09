@@ -69,18 +69,18 @@
   --color-primary-950: #031229;
 
   /* Brand Colors - Accent (Sport Red) */
-  --color-accent-50:   #fef2f2;
-  --color-accent-100:  #fee2e2;
-  --color-accent-200:  #fecaca;
-  --color-accent-300:  #fca5a5;
-  --color-accent-400:  #f87171;
-  --color-accent-500:  #ef4444;
-  --color-accent-600:  #d71921;
-  --color-accent:      #d71921;
-  --color-accent-700:  #b91c1c;
-  --color-accent-800:  #991b1b;
-  --color-accent-900:  #7f1d1d;
-  --color-accent-950:  #450a0a;
+  --color-accent-50:   #FEF1F2;
+  --color-accent-100:  #FCDFE2;
+  --color-accent-200:  #F8BCC2;
+  --color-accent-300:  #F38994;
+  --color-accent-400:  #EC485A;
+  --color-accent-500:  #D6172B;
+  --color-accent:      var(--color-accent-500);
+  --color-accent-600:  #B01123;
+  --color-accent-700:  #8B0E1C;
+  --color-accent-800:  #6A0B15;
+  --color-accent-900:  #4F0810;
+  --color-accent-950:  #33050A;
 
   /* Brand Colors - Gold / Amber (Rankings, medals, trophies) */
   --color-gold-50:     #fefce8;
@@ -116,6 +116,7 @@
   --breakpoint-xs:     30rem;
 
   /* Border Radius */
+  --radius-xl:        .875rem;    /* 14px */
   --radius-3xl:        1.25rem;   /* 20px */
   --radius-4xl:        1.5rem;    /* 24px */
   --radius-5xl:        2rem;      /* 32px */

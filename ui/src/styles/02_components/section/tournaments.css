@@ -16,11 +16,11 @@
       @apply inline-flex items-center gap-2 text-body-600;
 
       svg {
-        @apply size-8 text-accent-600 shrink-0;
+        @apply size-8 text-accent shrink-0;
       }
 
       a {
-        @apply font-bold text-accent-600 no-underline hover:text-accent-700;
+        @apply font-bold text-accent no-underline hover:text-accent-600 hover:underline;
       }
     }
   }
