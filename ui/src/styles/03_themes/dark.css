@@ -14,7 +14,8 @@
     }
 
     /* Paragraphs and body text inside dark theme */
-    p, .p, .p--lg {
+    p, .p, .p--lg,
+    .c-section__subtitle {
       @apply text-body-200;
     }
 

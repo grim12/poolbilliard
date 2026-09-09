@@ -1,0 +1,13 @@
+@layer components {
+  /* ==========================================================================
+     Input — base text/email field (used standalone or inside forms)
+     ========================================================================== */
+
+  .c-input {
+    @apply block w-full h-12 rounded-[14px] border border-gray-200 bg-white px-4 text-base text-body-main placeholder:text-body-500 shadow-xs outline-none transition-colors duration-150;
+
+    &:focus {
+      @apply border-primary-400 ring-2 ring-primary-100;
+    }
+  }
+}

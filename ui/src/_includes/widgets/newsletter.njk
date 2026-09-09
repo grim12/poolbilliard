@@ -1,0 +1,43 @@
+{% from "macros/button.njk" import button %}
+{% from "macros/tag.njk" import tag %}
+
+{#
+    newsletter(tagText, title, subtitle, placeholder, buttonText, legalText, legalLinkText, legalLinkUrl, formAction)
+    - Email capture section. Primary-color gradient background, light text via .t-dark.
+#}
+{% macro newsletter(
+    tagText="",
+    title="Newsletter",
+    subtitle="Nenech si ujít žádnou novinku. Přihlas se k odběru newsletteru a dostávej přehled turnajů, výsledků a zpráv ze světa českého poolbilliardu.",
+    placeholder="Vložte svůj e-mail",
+    buttonText="Odebírat",
+    legalText="Přihlášením k odběru vyjadřujete",
+    legalLinkText="souhlas se zpracováním osobních údajů",
+    legalLinkUrl="#",
+    formAction="#",
+    classes=""
+) %}
+<section class="c-section c-section--newsletter t-dark {{ classes }}">
+    <div class="c-container">
+        <div class="c-section__header">
+            {% if tagText %}{{ tag(text=tagText, color="primary", variant="subtle", extraClass="c-newsletter__tag") }}{% endif %}
+            <h2 class="c-section__title h2">{{ title }}</h2>
+            {% if subtitle %}<p class="c-section__subtitle">{{ subtitle }}</p>{% endif %}
+        </div>
+        <form class="c-newsletter__form" action="{{ formAction }}" method="post">
+            <label class="sr-only" for="newsletter-email">{{ placeholder }}</label>
+            <div class="c-newsletter__field">
+                <span class="c-newsletter__icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="3" />
+                        <path d="m4 7 8 6 8-6" />
+                    </svg>
+                </span>
+                <input class="c-input c-newsletter__input" type="email" id="newsletter-email" name="email" placeholder="{{ placeholder }}" autocomplete="email" required />
+            </div>
+            {{ button(text=buttonText, type="submit", hasArrow=false, extraClass="c-newsletter__submit shrink-0") }}
+        </form>
+        <p class="c-newsletter__legal">{{ legalText }} <a href="{{ legalLinkUrl }}">{{ legalLinkText }}</a>.</p>
+    </div>
+</section>
+{% endmacro %}

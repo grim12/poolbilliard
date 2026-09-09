@@ -11,6 +11,7 @@ title: Poolbilliard — Český svaz poolbilliardu
 {% from "widgets/leaderboards.njk" import leaderboards %}
 {% from "widgets/link-tiles.njk" import linkTiles %}
 {% from "widgets/partners.njk" import partners %}
+{% from "widgets/newsletter.njk" import newsletter %}
 
 <div class="c-page-wrapper">
     {% include "layouts/header.njk" %}
@@ -162,6 +163,8 @@ title: Poolbilliard — Český svaz poolbilliardu
             items=partneri,
             moreUrl="#"
         ) }}
+
+        {{ newsletter() }}
     </main>
 
     {% include "layouts/footer.njk" %}
