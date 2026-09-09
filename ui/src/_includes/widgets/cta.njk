@@ -1,17 +1,23 @@
 {% from "macros/banner.njk" import banner %}
 
 {#
-    cta(title, text, image, buttons)
+    cta(title, text, image, buttons, color, tagText, tagVariant)
     - buttons: array of { text, url, color, variant } — rendered via the button() macro
+    - color: Default color applied to the tag and all buttons unless overridden individually ("primary" default)
+    - tagText: Optional badge above the title (e.g. "Pro začátečníky")
+    - tagVariant: "subtle" (default) | "solid" | "plain" | "outline"
 #}
-{% macro cta(title, text="", image="", buttons=[], classes="") %}
+{% macro cta(title, text="", image="", buttons=[], color="primary", tagText="", tagVariant="subtle", classes="") %}
 <section class="c-section c-section--cta {{ classes }}">
     <div class="c-container">
         {{ banner(
             title=title,
             text=text,
             image=image,
-            buttons=buttons
+            buttons=buttons,
+            color=color,
+            tagText=tagText,
+            tagVariant=tagVariant
         ) }}
     </div>
 </section>

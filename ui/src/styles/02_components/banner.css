@@ -22,11 +22,11 @@
   }
 
   .c-banner__content {
-    @apply relative z-10 max-w-2xl pt-24 pr-12 pb-6 pl-6 sm:p-10 sm:pr-24 md:p-17.5 drop-shadow-[0_8px_24px_var(--color-primary-950)];
+    @apply relative z-10 max-w-3xl pt-24 pr-12 pb-6 pl-6 sm:p-10 sm:pr-24 md:p-17.5 drop-shadow-[0_8px_24px_var(--color-primary-950)];
   }
 
   .c-banner__meta {
-    @apply flex items-baseline gap-3 flex-wrap mb-6;
+    @apply flex items-baseline gap-x-5 gap-y-3 flex-wrap mb-6;
   }
 
   .c-banner__meta-text {

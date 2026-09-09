@@ -1,7 +1,7 @@
 @layer components {
   /* Base button styling: Primary + Solid + MD (default without extra classes) */
   .c-button {
-    @apply inline-flex items-center justify-center h-12 font-bold text-base leading-tight rounded-[14px] px-6 bg-primary-600 text-white border border-transparent shadow-xs transition-all duration-200 cursor-pointer select-none no-underline hover:bg-primary-700 active:bg-primary-800;
+    @apply inline-flex items-center justify-center gap-3 h-12 font-bold text-base leading-tight rounded-[14px] px-6 bg-primary-600 text-white border border-transparent shadow-xs transition-all duration-200 cursor-pointer select-none no-underline hover:bg-primary-700 active:bg-primary-800;
 
     /* Disabled state */
     &:disabled,
@@ -59,19 +59,15 @@
   }
 
   /* --- Arrow / Icon modifier & hover animation --- */
-  .c-button--with-arrow {
-    @apply gap-3;
+  svg,
+  .c-button_icon {
+    @apply transition-transform duration-200 shrink-0 -mr-2;
+  }
 
-    svg,
-    .c-button_icon {
-      @apply transition-transform duration-200 shrink-0;
-    }
-
-    &:hover {
-      .c-button_icon,
-      svg {
-        @apply translate-x-0.5;
-      }
+  &:hover {
+    .c-button_icon,
+    svg {
+      @apply translate-x-0.5;
     }
   }
 }

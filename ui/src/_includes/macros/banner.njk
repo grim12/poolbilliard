@@ -2,14 +2,16 @@
 {% from "macros/button.njk" import button %}
 
 {#
-    banner(title, text, image, imageAlt, tagText, tagColor, tagVariant, metaText, buttons, extraClass, headingLevel)
+    banner(title, text, image, imageAlt, tagText, tagColor, tagVariant, metaText, buttons, color, extraClass, headingLevel)
     - title: Banner heading
     - text: Optional supporting paragraph
     - image: Background image URL
     - imageAlt: Alt text (leave empty — decorative background image)
-    - tagText / tagColor / tagVariant: Optional badge (e.g. "ZA 2 MĚSÍCE")
+    - tagText / tagVariant: Optional badge (e.g. "ZA 2 MĚSÍCE")
+    - tagColor: Overrides the tag's color independently of `color` (optional)
     - metaText: Optional small text next to the tag (e.g. "23. – 25. října 2026 · Bratislava")
     - buttons: array of { text, url, color, variant, size, hasArrow } — rendered via the button() macro
+    - color: Default color applied to the tag and all buttons unless overridden individually ("accent" default)
     - extraClass: Optional extra classes on root
     - headingLevel: "h2" (default) | "h3" | "h1"
 #}
@@ -19,10 +21,11 @@
     image="",
     imageAlt="",
     tagText="",
-    tagColor="accent",
+    tagColor="",
     tagVariant="solid",
     metaText="",
     buttons=[],
+    color="accent",
     extraClass="",
     headingLevel="h2"
 ) -%}
@@ -38,7 +41,7 @@
             {% if tagText or metaText %}
                 <div class="c-banner__meta">
                     {% if tagText %}
-                        {{ tag(text=tagText, color=tagColor, variant=tagVariant) }}
+                        {{ tag(text=tagText, color=tagColor or color, variant=tagVariant) }}
                     {% endif %}
                     {% if metaText %}
                         <span class="c-banner__meta-text">{{ metaText }}</span>
@@ -55,7 +58,7 @@
                         {{ button(
                             text=btn.text,
                             url=btn.url,
-                            color=btn.color or "accent",
+                            color=btn.color or color,
                             variant=btn.variant or "solid",
                             size=btn.size or "lg",
                             hasArrow=(btn.hasArrow if btn.hasArrow is defined else true)
