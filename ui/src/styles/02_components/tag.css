@@ -12,11 +12,11 @@
 
   /* --- Size Overrides (md is default) --- */
   .c-tag--sm {
-    @apply px-2.5 pb-1 pt-1.5 text-xs;
+    @apply px-2.5 pt-1.5 pb-1 text-xs;
   }
 
   .c-tag--lg {
-    @apply px-3.5 py-1.5 text-base;
+    @apply px-4 py-1.5 text-base;
   }
 
   /* --- Color Overrides (Solid default) --- */

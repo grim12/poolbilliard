@@ -12,7 +12,7 @@
   }
 
   .c-leaderboard__title {
-    @apply font-bold text-text-main text-base m-0;
+    @apply font-bold text-body-main text-base m-0;
   }
 
   .c-leaderboard__list {
@@ -37,7 +37,7 @@
   }
 
   .c-leaderboard__rank {
-    @apply w-6 shrink-0 text-right font-black text-lg text-text-main;
+    @apply w-6 shrink-0 text-right font-black text-lg text-body-main;
   }
 
   .c-leaderboard__player {
@@ -45,11 +45,11 @@
   }
 
   .c-leaderboard__name {
-    @apply font-bold text-text-main text-sm leading-snug truncate;
+    @apply font-bold text-body-main text-sm leading-snug truncate;
   }
 
   .c-leaderboard__club {
-    @apply text-xs text-text-muted truncate;
+    @apply text-xs text-body-600 truncate;
   }
 
   .c-leaderboard__footer {

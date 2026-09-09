@@ -26,7 +26,7 @@
     extraClass="",
     headingLevel="h2"
 ) -%}
-    {%- set classes = ["c-banner", extraClass] | select | join(" ") -%}
+    {%- set classes = ["c-banner", "t-dark", extraClass] | select | join(" ") -%}
     <div class="{{ classes }}">
         {% if image %}
             <div class="c-banner__media">
@@ -38,16 +38,16 @@
             {% if tagText or metaText %}
                 <div class="c-banner__meta">
                     {% if tagText %}
-                        {{ tag(text=tagText, color=tagColor, variant=tagVariant, size="sm") }}
+                        {{ tag(text=tagText, color=tagColor, variant=tagVariant) }}
                     {% endif %}
                     {% if metaText %}
                         <span class="c-banner__meta-text">{{ metaText }}</span>
                     {% endif %}
                 </div>
             {% endif %}
-            <{{ headingLevel }} class="c-banner__title">{{ title }}</{{ headingLevel }}>
+            <{{ headingLevel }} class="c-banner__title h1">{{ title }}</{{ headingLevel }}>
             {% if text %}
-                <p class="c-banner__text">{{ text }}</p>
+                <p class="c-banner__text p--lg">{{ text }}</p>
             {% endif %}
             {% if buttons and buttons.length %}
                 <div class="c-banner__actions">

@@ -43,9 +43,12 @@
   /* Letter Spacing */
   --tracking-tight-2:  -0.02em;    /* -2% */
 
-  /* Text Colors */
-  --color-text-main:   #10202D;
-  --color-text-muted:  #4A5A6B;
+  /* Text Colors - Body */
+  --color-body-200:    #D4DEE8;
+  --color-body-500:    #5A6A7A;
+  --color-body-600:    #4A5A6B;
+  --color-body-800:    #10202D;
+  --color-body-main:   #10202D;
 
   /* Brand Colors - Primary (Deep Royal Blue) */
   --color-primary-50:  #edf5ff;

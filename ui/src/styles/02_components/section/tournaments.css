@@ -15,7 +15,7 @@
     }
 
     .c-section__note {
-      @apply inline-flex items-center gap-2 text-sm text-text-muted;
+      @apply inline-flex items-center gap-2 text-sm text-body-600;
 
       svg {
         @apply text-accent-600 shrink-0;

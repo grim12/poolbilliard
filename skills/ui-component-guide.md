@@ -45,12 +45,13 @@ ui/
 ### Typografická pravidla (`01_base/typography.css`)
 * Všechny nadpisy mají párové třídy (např. `h1, .h1 { ... }`), aby šlo styl přiřadit libovolnému HTML tagu bez nutnosti používat `<h1>`.
 * **Velikosti písma a řádkování:** Jsou nadefinovány v `@theme` (`--text-*`, `--leading-*`, `--tracking-*`) a aplikují se přes responsivní `@apply`:
-  * **H1 / .h1:** `@apply font-black tracking-tight-2 text-text-main leading-h1 text-4xl sm:text-6xl lg:text-7xl mb-6;` (32px mobile / 40px tablet / 52px desktop)
-  * **H2 / .h2:** `@apply font-black tracking-tight-2 text-text-main leading-h2 text-3xl sm:text-5xl lg:text-6xl mb-5;` (28px mobile / 34px tablet / 40px desktop)
-  * **H3 / .h3:** `@apply font-extrabold tracking-tight-2 text-text-main leading-h3 text-2xl sm:text-3xl lg:text-4xl mb-4;` (24px mobile / 28px tablet / 32px desktop)
-  * **p / .p:** `@apply font-normal text-text-muted tracking-normal text-base leading-body mb-4;` (16px)
+  * **H1 / .h1:** `@apply font-black tracking-tight-2 text-body-main leading-h1 text-4xl sm:text-6xl lg:text-7xl mb-6;` (32px mobile / 40px tablet / 52px desktop)
+  * **H2 / .h2:** `@apply font-black tracking-tight-2 text-body-main leading-h2 text-3xl sm:text-5xl lg:text-6xl mb-5;` (28px mobile / 34px tablet / 40px desktop)
+  * **H3 / .h3:** `@apply font-extrabold tracking-tight-2 text-body-main leading-h3 text-2xl sm:text-3xl lg:text-4xl mb-4;` (24px mobile / 28px tablet / 32px desktop)
+  * **p / .p:** `@apply font-normal text-body-600 tracking-normal text-base leading-body mb-4;` (16px)
   * **.p--lg:** `@apply font-medium text-lg leading-body mb-5;` (18px)
-* **Výchozí barva textu / nadpisů:** `#10202D` (`--color-text-main`)
+* **Výchozí barva textu / nadpisů:** `#10202D` (`--color-body-main`, alias pro `--color-body-800`)
+* **Škála textových barev (`body`):** `--color-body-200` (#D4DEE8), `--color-body-500` (#5A6A7A), `--color-body-600` (#4A5A6B, dosavadní "muted"), `--color-body-800` / `--color-body-main` (#10202D, dosavadní "main")
 * **Pravidlo pro první a poslední element (`:first-child`, `:last-child`):** Textové bloky mají automatický reset horního a dolního marginu:
   * `&:first-child { @apply mt-0; }` — první prvek v kontejneru nemá horní margin.
   * `&:last-child { @apply mb-0; }` — poslední prvek v kontejneru nemá spodní margin.

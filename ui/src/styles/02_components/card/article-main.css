@@ -16,7 +16,7 @@
     }
 
     .c-card__overlay {
-      @apply hidden sm:block sm:absolute sm:inset-0 sm:bg-[linear-gradient(14deg,var(--color-primary-900)_20%,transparent_65%)];
+      @apply hidden sm:block sm:absolute sm:inset-0 sm:bg-[linear-gradient(14deg,var(--color-primary-950)_20%,transparent_65%)];
     }
 
     .c-card__body {

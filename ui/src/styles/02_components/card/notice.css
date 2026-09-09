@@ -23,15 +23,15 @@
     }
 
     .c-card__date {
-      @apply text-sm text-text-muted;
+      @apply text-sm text-body-600;
     }
 
     .c-card__title {
-      @apply font-bold text-text-main text-base leading-snug m-0 transition-colors duration-200 tracking-normal;
+      @apply font-bold text-body-main text-base leading-snug m-0 transition-colors duration-200 tracking-normal;
     }
 
     .c-card__arrow {
-      @apply shrink-0 text-text-main transition-transform duration-200;
+      @apply shrink-0 text-body-main transition-transform duration-200;
     }
 
     &:hover,

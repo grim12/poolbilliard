@@ -46,7 +46,7 @@
   }
 
   .c-header__brand-text {
-    @apply flex flex-col leading-[0.95] text-text-main;
+    @apply flex flex-col leading-[0.95] text-body-main;
   }
 
   .c-header__brand-line {
@@ -62,7 +62,7 @@
   }
 
   .c-header__nav-link {
-    @apply px-3 py-2 rounded-lg font-bold text-sm text-text-main no-underline transition-colors duration-150 hover:bg-gray-100;
+    @apply px-3 py-2 rounded-lg font-bold text-sm text-body-main no-underline transition-colors duration-150 hover:bg-gray-100;
   }
 
   .c-header__nav-link--is-active {
@@ -75,7 +75,7 @@
 
   /* --- Mobile toggle & panel --- */
   .c-header__toggle {
-    @apply lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-text-main hover:bg-gray-100 cursor-pointer;
+    @apply lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-body-main hover:bg-gray-100 cursor-pointer;
   }
 
   .c-header__mobile-panel {

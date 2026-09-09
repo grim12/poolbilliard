@@ -23,11 +23,11 @@
     }
 
     .c-card__title {
-      @apply font-extrabold text-text-main text-base sm:text-lg leading-snug tracking-tight-2 transition-colors duration-200;
+      @apply font-extrabold text-body-main text-base sm:text-lg leading-snug tracking-tight-2 transition-colors duration-200;
     }
 
     .c-card__arrow {
-      @apply shrink-0 mt-1 text-text-main transition-transform duration-200;
+      @apply shrink-0 mt-1 text-body-main transition-transform duration-200;
     }
 
     .c-card__info {
@@ -36,7 +36,7 @@
 
     .c-card__date,
     .c-card__location {
-      @apply text-sm text-text-muted leading-snug m-0;
+      @apply text-sm text-body-600 leading-snug m-0;
     }
 
     /* Hover + keyboard-focus interactions */

@@ -17,7 +17,7 @@
   }
 
   .c-section__subtitle {
-    @apply font-medium text-lg leading-body text-text-muted m-0;
+    @apply font-medium text-lg leading-body text-body-600 m-0;
   }
 
   .c-section__grid {

@@ -26,7 +26,7 @@
     }
 
     .c-card__meta {
-      @apply flex items-baseline gap-x-2.5 mb-1 flex-wrap text-xs text-text-muted;
+      @apply flex items-baseline gap-x-2.5 mb-1 flex-wrap text-xs text-body-600;
       @apply sm:text-sm xl:mb-2;
 
       /* Parent override for tags inside compact card */
@@ -36,11 +36,11 @@
     }
 
     .c-card__date {
-      @apply text-xs sm:text-sm text-text-muted font-normal;
+      @apply text-xs sm:text-sm text-body-600 font-normal;
     }
 
     .c-card__title {
-      @apply font-bold text-text-main text-base leading-snug tracking-normal line-clamp-2 max-h-[2.75em];
+      @apply font-bold text-body-main text-base leading-snug tracking-normal line-clamp-2 max-h-[2.75em];
       @apply xl:text-lg;
     }
 
