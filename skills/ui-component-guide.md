@@ -253,6 +253,39 @@ Podobně i v tématech (`03_themes/dark.css`):
 > }
 > ```
 
+> ⚠️ **PAST: `overflow-x-hidden` na wrapperu umí rozbít `position: sticky` uvnitř!**
+> Pokud má element nastavený jen `overflow-x: hidden` (a `overflow-y` necháte na `visible`), prohlížeč podle CSS specifikace dopočítá i `overflow-y: auto` — element se tím stane **scroll containerem**, i když se sám nikdy neskroluje (skroluje se `<body>`). Potomci s `position: sticky` se pak lepí vůči tomuto containeru, ne vůči viewportu, a `sticky` fakticky přestane fungovat (header "nezůstává nahoře").
+> Fix: použijte `overflow-x-clip` místo `overflow-x-hidden`. `clip` na rozdíl od `hidden` nevynucuje `auto` na druhé ose, takže element nezačne fungovat jako scroll container.
+> ```css
+> /* ❌ ŠPATNĚ: sticky descendant přestane fungovat */
+> .c-page-wrapper { @apply flex flex-col min-h-screen overflow-x-hidden; }
+> /* ✅ SPRÁVNĚ */
+> .c-page-wrapper { @apply flex flex-col min-h-screen overflow-x-clip; }
+> ```
+
+> ⚠️ **PAST: Velikostní modifikátor musí přepsat VŠECHNY rozměry base třídy, ne jen padding/font.**
+> Pokud base třída (`.c-button`) nastavuje pevnou výšku (`h-12`), a velikostní modifikátor (`.c-button--sm`) přepíše jen `px-*`/`py-*`/`text-*`, výsledná výška zůstane podle base (`h-12`) — menší padding se jen "ztratí" uvnitř nezměněné výšky. Modifikátor musí explicitně přepsat každý rozměr, který base nastavuje.
+> ```css
+> /* ❌ ŠPATNĚ: tlačítko se size="sm" má pořád h-12 z base třídy */
+> .c-button { @apply h-12 px-6 ...; }
+> .c-button--sm { @apply px-4 py-2 text-sm rounded-lg; }
+> /* ✅ SPRÁVNĚ */
+> .c-button--sm { @apply h-10 px-4 py-2 text-sm rounded-lg; }
+> ```
+
+> ⚠️ **PAST: Element s `max-height: 0` + `overflow-hidden` (collapse/accordion vzor) nesmí mít vlastní padding.**
+> Prvek s `box-sizing: border-box` (výchozí Tailwind reset) nejde zmenšit pod součet vlastního paddingu — i při `max-h-0` zůstane viditelných pár px (padding se "nezkomprimuje"). Padding proto vždy patří na **vnitřní** wrapper, ne na element, který se sbaluje.
+> ```html
+> <!-- ❌ ŠPATNĚ: i při max-h-0 zůstane vidět ~8px paddingu -->
+> <div class="lg:hidden max-h-0 overflow-hidden p-1 transition-[max-height] duration-300">…</div>
+>
+> <!-- ✅ SPRÁVNĚ: padding je až na vnitřním elementu -->
+> <div class="lg:hidden max-h-0 overflow-hidden transition-[max-height] duration-300">
+>   <div class="p-1">…</div>
+> </div>
+> ```
+> Tenhle vzor (collapsible s `max-height` transitionem) používáme napříč projektem pro topbar hide/show, search panel i mobilní accordion menu — viz `ui/src/styles/02_components/header.css`.
+
 ---
 
 ### Pravidlo 4: Nunjucks Makra (`macros/<name>.njk`)
@@ -293,23 +326,21 @@ Makra musí být čistá, dobře typovaná v komentáři a nesmí generovat zbyt
         <a href="{{ url }}" class="{{ classes }}"{% if target %} target="{{ target }}" rel="noopener noreferrer"{% endif %}{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}>
             <span>{{ text | safe }}</span>
             {%- if hasArrow -%}
-                <svg class="c-button_icon" width="{{ iconSize }}" height="{{ iconSize }}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 3.5L10.5 8L6 12.5"/>
-                </svg>
+                {% icon "chevron-right", iconSize, "c-button_icon", 20 %}
             {%- endif -%}
         </a>
     {%- else -%}
         <button type="{{ type }}" class="{{ classes }}"{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} disabled{% endif %}>
             <span>{{ text | safe }}</span>
             {%- if hasArrow -%}
-                <svg class="c-button_icon" width="{{ iconSize }}" height="{{ iconSize }}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 3.5L10.5 8L6 12.5"/>
-                </svg>
+                {% icon "chevron-right", iconSize, "c-button_icon", 20 %}
             {%- endif -%}
         </button>
     {%- endif -%}
 {%- endmacro %}
 ```
+
+> Ikony (`{% icon %}` / `{% brandIcon %}`) jsou vlastní shortcody, ne obyčejné SVG psané ručně inline — viz **Pravidlo 7**.
 
 ---
 
@@ -333,3 +364,42 @@ Používáme sémantické aliasy:
    * Barevnou a stylovou matici
    * Speciální stavy (`disabled`, bez ikony apod.)
 3. Vždy ověřte build: `cd ui && npm run build`.
+
+---
+
+### Pravidlo 7: Ikony (`{% icon %}` / `{% brandIcon %}`)
+
+Ikony se **nikdy** nepíší ručně inline jako `<svg>` v `.njk` souborech. Projekt používá dva balíčky (oba MIT, vhodné i pro neziskovku) a dva vlastní Eleventy shortcody, které při buildu vloží obsah SVG souboru přímo do HTML:
+
+* **UI ikonky (chevron, šipky, hamburger, search, X, trophy, envelope...):** balíček [`heroicons`](https://www.npmjs.com/package/heroicons), varianta **solid** (ne outline).
+* **Ikony sociálních sítí / brandů (Facebook, Instagram, WhatsApp, YouTube...):** balíček [`simple-icons`](https://www.npmjs.com/package/simple-icons) — oficiální jednobarevné brand marky.
+
+Oba shortcody jsou definované v `ui/.eleventy.js` (funkce `icon()` a `brandIcon()`), soubory se čtou přímo z `node_modules/heroicons` a `node_modules/simple-icons/icons`.
+
+**Syntaxe — DŮLEŽITÉ:** Eleventy shortcody se v Nunjucks volají jako **tag** (`{% %}`), ne jako funkce v `{{ }}` — na rozdíl od maker (`{{ button(...) }}`), která se volají přes `{{ }}`. Zaměnění syntaxe je nejčastější chyba (`Unable to call 'icon', which is undefined`).
+
+```jinja2
+{# UI ikonka: icon(name, size=20, extraClass="", set) #}
+{% icon "chevron-down", 16, "c-header__nav-chevron" %}
+
+{# Brand ikonka: brandIcon(name, size=20, extraClass="") #}
+{% brandIcon "facebook", 18 %}
+```
+
+**Dvě geometrie Heroicons solid — `mini` (20) vs. `24`:**
+Heroicons solid nejsou jen zmenšené/zvětšené kopie jedné kresby, ale dvě odlišné geometrie optimalizované pro jinou velikost:
+* `node_modules/heroicons/20/solid/` — tzv. "mini", **tlustší/výraznější tvary**, určené pro malé velikosti.
+* `node_modules/heroicons/24/solid/` — tenčí tvary, určené pro větší velikosti (24px+).
+
+Shortcode `icon()` bez 4. parametru vybírá geometrii automaticky (`size >= 22` → 24, jinak mini). **V tomto projektu preferujeme vizuálně "mini" (tlustší) styl i u větších ikonek** (tlačítka, šipky v kartách) — proto se 4. parametr (`set`) často vynucuje na `20`, i když je vykreslovaná velikost 22–24 px:
+```jinja2
+{# Vykreslí se ve 24px, ale z "mini" (tlustší) geometrie, ne z automaticky vybrané 24/solid #}
+{% icon "chevron-right", 24, "c-card__arrow", 20 %}
+```
+
+**Jak přidat ikonku, která ještě není použitá:**
+1. Najít přesný název souboru (bez přípony) v `node_modules/heroicons/20/solid/` (příp. `24/solid/`), nebo v `node_modules/simple-icons/icons/` pro brand ikonky.
+2. Použít ten název jako `name` parametr — `{% icon "název" %}` / `{% brandIcon "název" %}`.
+3. Pokud ikonka v balíčku neexistuje (např. úplně nová/neznámá značka), je potřeba doplnit balíček (`npm update heroicons simple-icons`) nebo v krajním případě přidat vlastní SVG přímo do shortcode funkce jako fallback.
+
+**Závislosti:** `heroicons` a `simple-icons` jsou v `devDependencies` (`ui/package.json`) — jsou to jen zdrojová data čtená při buildu, do výsledného HTML/CSS/JS se nekopíruje nic navíc (žádný runtime request, žádný sprite).
