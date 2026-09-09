@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
 
 @import "./04_utils/spacing.css";
+@import "./04_utils/borders.css";
 @import "./01_base/typography.css";
 @import "./02_components/layout.css";
 @import "./02_components/header.css";
@@ -50,6 +51,9 @@
   --color-body-800:    #10202D;
   --color-body-main:   #10202D;
 
+  /* Divider / Border Color */
+  --color-divider:     var(--color-gray-200);
+
   /* Brand Colors - Primary (Deep Royal Blue) */
   --color-primary-50:  #edf5ff;
   --color-primary-100: #d6e8ff;
@@ -81,7 +85,7 @@
   /* Brand Colors - Gold / Amber (Rankings, medals, trophies) */
   --color-gold-50:     #fefce8;
   --color-gold-100:    #fef9c3;
-  --color-gold-200:    #fef08a;
+  --color-gold-200:    #F5DFA9;
   --color-gold-300:    #fde047;
   --color-gold-400:    #facc15;
   --color-gold-500:    #eab308;
@@ -96,7 +100,7 @@
   --color-dark-hover:  #0a1320;
   --color-gray-50:     #f8fafc;
   --color-gray-100:    #f1f5f9;
-  --color-gray-200:    #e2e8f0;
+  --color-gray-200:    #E1E7F1;
   --color-gray-300:    #cbd5e1;
   --color-gray-400:    #94a3b8;
   --color-gray-500:    #64748b;

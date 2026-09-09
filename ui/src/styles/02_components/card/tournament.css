@@ -4,10 +4,10 @@
      ========================================================================== */
 
   .c-card--tournament {
-    @apply block h-full rounded-2xl bg-white border border-gray-100 shadow-xs transition-shadow duration-200;
+    @apply block h-full rounded-3xl bg-white border border-gray-200 transition-shadow duration-200;
 
     .c-card__link {
-      @apply flex flex-col h-full p-5;
+      @apply flex flex-col h-full pt-7 pr-4 pb-4 pl-6;
     }
 
     .c-card__header {
@@ -15,7 +15,10 @@
     }
 
     .c-card__badge {
-      @apply inline-flex items-center justify-center w-8 h-8 rounded-full bg-gold-200 text-gold-700 shrink-0;
+      @apply absolute top-3 right-3 z-10 inline-flex items-center justify-center size-10 rounded-full bg-gold-200 text-primary-900 shrink-0;
+      svg {
+        @apply size-5.5;
+      }
     }
 
     .c-card__row {
@@ -23,26 +26,26 @@
     }
 
     .c-card__title {
-      @apply font-extrabold text-body-main text-base sm:text-lg leading-snug tracking-tight-2 transition-colors duration-200;
+      @apply font-extrabold text-body-main text-base sm:text-lg leading-snug tracking-normal transition-colors duration-200;
     }
 
     .c-card__arrow {
-      @apply shrink-0 mt-1 text-body-main transition-transform duration-200;
+      @apply absolute top-1/2 right-4 -translate-y-1/2 shrink-0 text-body-main transition-transform duration-200;
     }
 
     .c-card__info {
-      @apply mt-auto pt-4;
+      @apply mt-auto;
     }
 
     .c-card__date,
     .c-card__location {
-      @apply text-sm text-body-600 leading-snug m-0;
+      @apply text-body-600 leading-relaxed m-0;
     }
 
     /* Hover + keyboard-focus interactions */
     &:hover,
     &:focus-within {
-      @apply shadow-md border-gray-200;
+      @apply shadow-lg;
 
       .c-card__title {
         @apply text-primary-600;

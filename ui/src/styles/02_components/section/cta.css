@@ -3,7 +3,4 @@
      Section: CTA (Hraješ s kamarády a chceš to zkusit závodně?)
      ========================================================================== */
 
-  .c-section--cta {
-    @apply bg-white;
-  }
 }

@@ -1,0 +1,10 @@
+@layer utilities {
+  /* Top / bottom hairline border utilities */
+  .border-top {
+    @apply border-t border-divider;
+  }
+
+  .border-bottom {
+    @apply border-b border-divider;
+  }
+}

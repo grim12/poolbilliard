@@ -5,7 +5,7 @@
 @layer components {
   /* Generic section base — every homepage section is <section class="c-section c-section--<type>"> */
   .c-section {
-    @apply relative w-full py-14 sm:py-16 lg:py-20;
+    @apply relative w-full py-14 sm:py-16 lg:py-20 bg-transparent;
   }
 
   .c-section__header {
