@@ -4,7 +4,7 @@
      ========================================================================== */
 
   .c-card--tile {
-    @apply block w-full relative overflow-hidden rounded-2xl bg-dark text-white aspect-[4/3] sm:aspect-[16/12];
+    @apply block w-full relative overflow-hidden rounded-3xl bg-dark text-white aspect-4/3 max-h-52;
 
     .c-card__media {
       @apply absolute inset-0 w-full h-full overflow-hidden;
@@ -15,15 +15,15 @@
     }
 
     .c-card__overlay {
-      @apply absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/20 to-transparent transition-opacity duration-300;
+      @apply absolute inset-0 bg-linear-to-t from-primary-950 from-15% to-transparent to-80% transition-opacity duration-300;
     }
 
     .c-card__body {
-      @apply relative z-10 flex items-end justify-between gap-2 h-full p-5 sm:p-6;
+      @apply relative z-10 flex items-end justify-between gap-2 h-full px-6 py-4.5;
     }
 
     .c-card__title {
-      @apply font-extrabold text-white text-lg sm:text-xl tracking-tight-2 transition-colors duration-200;
+      @apply font-bold text-white text-xl tracking-normal mb-0 transition-colors duration-200;
     }
 
     .c-card__arrow {
@@ -34,7 +34,7 @@
     &:hover,
     &:focus-within {
       .c-card__media img {
-        @apply scale-105;
+        @apply scale-105 -rotate-1;
       }
 
       .c-card__arrow {
