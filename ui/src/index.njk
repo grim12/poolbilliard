@@ -10,6 +10,7 @@ title: Poolbilliard — Český svaz poolbilliardu
 {% from "widgets/cta.njk" import cta %}
 {% from "widgets/leaderboards.njk" import leaderboards %}
 {% from "widgets/link-tiles.njk" import linkTiles %}
+{% from "widgets/partners.njk" import partners %}
 
 <div class="c-page-wrapper">
     {% include "layouts/header.njk" %}
@@ -154,6 +155,13 @@ title: Poolbilliard — Český svaz poolbilliardu
                 image: "https://loremflickr.com/500/400/billiards,pool/all?lock=17"
             }
         ]) }}
+
+        {{ partners(
+            classes="bg-white pt-none",
+            title="Partneři českého poolu",
+            items=partneri,
+            moreUrl="#"
+        ) }}
     </main>
 
     {% include "layouts/footer.njk" %}

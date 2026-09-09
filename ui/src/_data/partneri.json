@@ -1,0 +1,12 @@
+[
+  { "name": "WPA – World Pool Association", "image": "/uploads/1-WPA-logo.webp" },
+  { "name": "EPBF – European Pocket Billiard Federation", "image": "/uploads/2-EPBF-logo.png" },
+  { "name": "WCBS – World Confederation of Billiards Sports", "image": "/uploads/3-WCBS-logo.png" },
+  { "name": "ČUS – Česká unie sportu", "image": "/uploads/4-CUS-logo.png" },
+  { "name": "NSA – Národní sportovní agentura", "image": "/uploads/5-NSA-logo.svg" },
+  { "name": "ČUKIS", "image": "/uploads/6-CUKIS-logo.png" },
+  { "name": "VIS", "image": "/uploads/7-VIS-logo.jpg" },
+  { "name": "Billiard Teska", "image": "/uploads/8-TESKA-logo.png" },
+  { "name": "NITTIN", "image": "/uploads/nittin-logo.png" },
+  { "name": "bCreative", "image": "/uploads/bcreative-logo.png" }
+]

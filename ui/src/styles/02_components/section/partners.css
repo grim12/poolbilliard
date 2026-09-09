@@ -1,0 +1,17 @@
+@layer components {
+  /* ==========================================================================
+     Section: Partners (Partneři českého poolu) — logo grid
+     ========================================================================== */
+
+  .c-partners {
+    @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10;
+  }
+
+  .c-partners__item {
+    @apply flex items-center justify-center h-14 sm:h-16;
+  }
+
+  .c-partners__logo {
+    @apply max-h-14 max-w-48 w-full h-full object-contain;
+  }
+}

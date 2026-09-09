@@ -1,0 +1,26 @@
+{% from "macros/button.njk" import button %}
+
+{#
+    partners(title, items, moreUrl, moreText)
+    - items: array of { name, image } — logo grid
+    - moreText: "Partneři a sponzoři" (default)
+#}
+{% macro partners(title, items=[], moreUrl="#", moreText="Partneři a sponzoři", classes="") %}
+<section class="c-section c-section--partners {{ classes }}">
+    <div class="c-container">
+        <div class="c-section__header">
+            <h2 class="c-section__title h3">{{ title }}</h2>
+        </div>
+        <div class="c-partners">
+            {% for item in items %}
+                <span class="c-partners__item">
+                    <img class="c-partners__logo" src="{{ item.image }}" alt="{{ item.name }}" loading="lazy" />
+                </span>
+            {% endfor %}
+        </div>
+        <div class="c-section__footer">
+            {{ button(text=moreText, url=moreUrl, variant="outline") }}
+        </div>
+    </div>
+</section>
+{% endmacro %}
