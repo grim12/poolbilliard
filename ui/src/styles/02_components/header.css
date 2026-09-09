@@ -41,8 +41,17 @@
     @apply flex items-center gap-4 lg:gap-2 xl:gap-4 py-3 xl:py-4;
   }
 
+  /* self-stretch + negative margin bleed the badge through .c-header__main-inner's
+     own vertical padding, so it can reach the bar's true top/bottom edge below. */
   .c-header__brand {
-    @apply inline-flex items-center shrink-0 no-underline;
+    @apply inline-flex items-center self-stretch -my-3 xl:-my-4 shrink-0 no-underline;
+  }
+
+  /* Logo artwork is only approved on a white background — always wrap it in
+     this badge, regardless of theme (it simply blends in on a light header).
+     Full bar height, no radius — a plain rectangular cut-out. */
+  .c-header__brand-badge {
+    @apply flex items-center h-full bg-white px-4;
   }
 
   .c-header__brand-logo {
@@ -232,5 +241,76 @@
 
   .c-header__mobile-nav-sublink {
     @apply block py-2 pl-8 pr-4 rounded-lg font-medium text-sm text-body-main no-underline transition-colors duration-150 hover:bg-gray-100 hover:text-primary-600;
+  }
+
+  /* --- Dark variant: add/remove `t-dark` on <header class="c-header"> to switch --- */
+  .t-dark {
+    .c-header__main-inner {
+      @apply py-3 xl:py-3.5;
+    }
+
+    .c-header__brand {
+      @apply -my-3 xl:-my-3.5;
+    }
+
+    .c-header__brand-logo {
+      @apply h-8 lg:h-10;
+    }
+
+    .c-header__topbar {
+      @apply bg-dark-hover border-white/10;
+    }
+
+    .c-header__search-panel {
+      @apply bg-dark-hover border-white/10;
+    }
+
+    .c-header__search-close {
+      @apply text-white/70 hover:bg-white/10 hover:text-white;
+    }
+
+    .c-header__topbar-inner {
+      @apply text-white/50;
+    }
+
+    .c-header__topbar-links a,
+    .c-header__topbar-socials a {
+      @apply hover:text-white;
+    }
+
+    .c-header__topbar-tv {
+      @apply text-primary-300 hover:text-accent-400!;
+    }
+
+    .c-header__nav-link {
+      @apply text-white/90 hover:bg-white/10 hover:text-white;
+    }
+
+    .c-header__nav-link--is-active {
+      @apply bg-white/10 text-white;
+    }
+
+    .c-header__lang-btn,
+    .c-header__search-toggle,
+    .c-header__toggle {
+      @apply text-white/90 hover:bg-white/10 hover:text-white;
+    }
+
+    .c-header__mobile-panel,
+    .c-header__mobile-utility {
+      @apply border-white/10;
+    }
+
+    .c-header__lang-switch {
+      @apply bg-white/10;
+    }
+
+    .c-header__lang-switch-option {
+      @apply text-white/70;
+    }
+
+    .c-header__mobile-nav-sublink {
+      @apply text-white/80 hover:bg-white/10 hover:text-white;
+    }
   }
 }
