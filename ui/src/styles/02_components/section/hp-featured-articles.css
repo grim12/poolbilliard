@@ -5,8 +5,8 @@
 
   .c-section--hp-featured-articles {
     @apply py-4 md:py-6 lg:py-8 relative overflow-hidden;
-    @apply bg-white bg-no-repeat bg-right;
-    background-image: url("/assets/images/poolbilliard hero bg 8.jpg");
+    @apply bg-white bg-no-repeat bg-bottom;
+    background-image: url("/assets/images/poolbilliard hero bg 9.jpg");
     background-size: cover;
 
     .c-section__grid {
