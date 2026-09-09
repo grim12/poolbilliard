@@ -16,6 +16,7 @@ title: Poolbilliard — Český svaz poolbilliardu
 
     <main id="main-content">
         {{ hpFeaturedArticles(
+            classes="pb-none",
             featured={
                 title: "Český tým ovládl mistrovství Evropy v Heyball!",
                 url: "#",
@@ -62,42 +63,43 @@ title: Poolbilliard — Český svaz poolbilliardu
             moreText="Další novinky"
         ) }}
 
-        {{ notices(
-            classes="pt-sm",
-            title="Zprávy výkonného výboru",
-            subtitle="Oficiální rozhodnutí a důležité informace",
-            items=[
-                {
-                    title: "Termínový kalendář soutěží pro sezónu 2026 schválen",
-                    url: "#",
-                    tagText: "DŮLEŽITÉ",
-                    tagColor: "accent",
-                    date: "15. 11. 2025"
-                },
-                {
-                    title: "Změna registračního řádu: nové podmínky přestupů hráčů",
-                    url: "#",
-                    date: "15. 7. 2026"
-                },
-                {
-                    title: "Zápis z jednání VV ze dne 30. června 2026",
-                    url: "#",
-                    date: "2. 7. 2026"
-                }
-            ],
-            moreUrl="#",
-            moreText="Všechny zprávy VV"
-        ) }}
+        <div class="bg-gradient-to-b from-white to-gray-100">
+            {{ notices(
+                title="Zprávy výkonného výboru",
+                subtitle="Oficiální rozhodnutí a důležité informace",
+                items=[
+                    {
+                        title: "Termínový kalendář soutěží pro sezónu 2026 schválen",
+                        url: "#",
+                        tagText: "DŮLEŽITÉ",
+                        tagColor: "accent",
+                        date: "15. 11. 2025"
+                    },
+                    {
+                        title: "Změna registračního řádu: nové podmínky přestupů hráčů",
+                        url: "#",
+                        date: "15. 7. 2026"
+                    },
+                    {
+                        title: "Zápis z jednání VV ze dne 30. června 2026",
+                        url: "#",
+                        date: "2. 7. 2026"
+                    }
+                ],
+                moreUrl="#",
+                moreText="Všechny zprávy VV"
+            ) }}
 
-        {{ eventBanner(
-            title="Federal Cup 2026",
-            text="Největší domácí akce sezóny. Tři dny zápasů, doprovodný program a přímé přenosy z hlavního stolu.",
-            image="https://loremflickr.com/1600/700/billiards,pool/all?lock=5",
-            tagText="ZA 2 MĚSÍCE",
-            metaText="23. – 25. října 2026 · Bratislava",
-            buttonText="Detail akce",
-            buttonUrl="#"
-        ) }}
+            {{ eventBanner(
+                title="Federal Cup 2026",
+                text="Největší domácí akce sezóny. Tři dny zápasů, doprovodný program a přímé přenosy z hlavního stolu.",
+                image="https://loremflickr.com/1600/700/billiards,pool/all?lock=5",
+                tagText="ZA 2 MĚSÍCE",
+                metaText="23. – 25. října 2026 · Bratislava",
+                buttonText="Detail akce",
+                buttonUrl="#"
+            ) }}
+        </div>
 
         {{ tournaments(
             title="Nejbližší turnaje",

@@ -4,7 +4,7 @@
      ========================================================================== */
 
   .c-banner {
-    @apply relative w-full overflow-hidden rounded-3xl bg-dark text-white min-h-80 sm:min-h-95 lg:min-h-105;
+    @apply relative w-full overflow-hidden rounded-4xl bg-dark text-white min-h-80 sm:min-h-95 lg:min-h-105;
   }
 
   .c-banner__media {

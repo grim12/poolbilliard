@@ -25,7 +25,7 @@
 
   /* --- Style Overrides: Outline --- */
   .c-button--outline {
-    @apply bg-white text-primary-600 border-primary-200 shadow-xs hover:bg-primary-50 hover:border-primary-300 active:bg-primary-100;
+    @apply bg-white text-primary-600 border-primary-300 shadow-xs hover:bg-primary-50 hover:border-primary-300 active:bg-primary-100;
 
     &.c-button--accent {
       @apply text-accent-600 border-accent-200 hover:bg-accent-50 hover:border-accent-300 active:bg-accent-100;

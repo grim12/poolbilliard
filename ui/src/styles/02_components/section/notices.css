@@ -4,10 +4,12 @@
      ========================================================================== */
 
   .c-section--notices {
-    @apply bg-white;
-
     .c-section__grid {
       @apply sm:grid-cols-3 gap-4;
+    }
+
+    .c-section__footer {
+      @apply mt-8 lg:mt-10;
     }
   }
 }

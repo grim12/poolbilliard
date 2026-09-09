@@ -12,7 +12,7 @@
 
   /* --- Size Overrides (md is default) --- */
   .c-tag--sm {
-    @apply px-2 py-0.5 text-xs;
+    @apply px-2.5 pb-1 pt-1.5 text-xs;
   }
 
   .c-tag--lg {

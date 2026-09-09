@@ -10,7 +10,6 @@
 @import "./02_components/button.css";
 @import "./02_components/tag.css";
 @import "./02_components/card.css";
-@import "./02_components/notice.css";
 @import "./02_components/leaderboard.css";
 @import "./02_components/banner.css";
 @import "./02_components/section.css";
@@ -52,7 +51,7 @@
   --color-primary-50:  #edf5ff;
   --color-primary-100: #d6e8ff;
   --color-primary-200: #b5d7ff;
-  --color-primary-300: #83bfff;
+  --color-primary-300: #A7B9E2;
   --color-primary-400: #4a9eff;
   --color-primary-500: #207dfb;
   --color-primary-600: #0b4ea2;
@@ -108,4 +107,10 @@
 
   /* Breakpoints */
   --breakpoint-xs:     30rem;
+
+  /* Border Radius */
+  --radius-3xl:        1.25rem;   /* 20px */
+  --radius-4xl:        1.5rem;    /* 24px */
+  --radius-5xl:        2rem;      /* 32px */
+  --radius-6xl:        2.5rem;    /* 40px */
 }

@@ -21,23 +21,23 @@
     extraClass="",
     headingLevel="h3"
 ) -%}
-    {%- set classes = ["c-notice", extraClass] | select | join(" ") -%}
+    {%- set classes = ["c-card", "c-card--notice", extraClass] | select | join(" ") -%}
     <article class="{{ classes }}">
-        <a href="{{ url }}" class="c-notice__link" aria-label="{{ title }}">
-            <div class="c-notice__content">
+        <a href="{{ url }}" class="c-card__link" aria-label="{{ title }}">
+            <div class="c-card__content">
                 {% if tagText or date %}
-                    <div class="c-notice__meta">
+                    <div class="c-card__meta">
                         {% if tagText %}
                             {{ tag(text=tagText, color=tagColor, variant=tagVariant, size="sm") }}
                         {% endif %}
                         {% if date %}
-                            <time class="c-notice__date">{{ date }}</time>
+                            <time class="c-card__date">{{ date }}</time>
                         {% endif %}
                     </div>
                 {% endif %}
-                <{{ headingLevel }} class="c-notice__title">{{ title }}</{{ headingLevel }}>
+                <{{ headingLevel }} class="c-card__title">{{ title }}</{{ headingLevel }}>
             </div>
-            <svg class="c-notice__arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg class="c-card__arrow" width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M6 3.5L10.5 8L6 12.5"/>
             </svg>
         </a>

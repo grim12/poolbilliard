@@ -5,11 +5,11 @@
 @layer components {
   /* Generic section base — every homepage section is <section class="c-section c-section--<type>"> */
   .c-section {
-    @apply relative w-full py-12 sm:py-16 lg:py-20;
+    @apply relative w-full py-14 sm:py-16 lg:py-20;
   }
 
   .c-section__header {
-    @apply mb-8 lg:mb-10;
+    @apply mb-6 lg:mb-8;
   }
 
   .c-section__title {
@@ -17,7 +17,7 @@
   }
 
   .c-section__subtitle {
-    @apply text-text-muted m-0;
+    @apply font-medium text-lg leading-body text-text-muted m-0;
   }
 
   .c-section__grid {
