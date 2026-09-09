@@ -14,7 +14,7 @@
     size="md",
     hasArrow=true,
     type="button",
-    iconSize=16,
+    iconSize=24,
     extraClass="",
     target="",
     ariaLabel="",
@@ -32,18 +32,14 @@
         <a href="{{ url }}" class="{{ classes }}"{% if target %} target="{{ target }}" rel="noopener noreferrer"{% endif %}{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}>
             <span>{{ text | safe }}</span>
             {%- if hasArrow -%}
-                <svg class="c-button_icon" width="{{ iconSize }}" height="{{ iconSize }}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 3.5L10.5 8L6 12.5"/>
-                </svg>
+                {% icon "chevron-right", iconSize, "c-button_icon", 20 %}
             {%- endif -%}
         </a>
     {%- else -%}
         <button type="{{ type }}" class="{{ classes }}"{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} disabled{% endif %}>
             <span>{{ text | safe }}</span>
             {%- if hasArrow -%}
-                <svg class="c-button_icon" width="{{ iconSize }}" height="{{ iconSize }}" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M6 3.5L10.5 8L6 12.5"/>
-                </svg>
+                {% icon "chevron-right", iconSize, "c-button_icon", 20 %}
             {%- endif -%}
         </button>
     {%- endif -%}

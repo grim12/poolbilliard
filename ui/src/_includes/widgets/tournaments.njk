@@ -11,7 +11,7 @@
     calendarUrl="#",
     calendarText="Kompletní kalendář",
     streamText="Přímé přenosy z turnajů sledujte na",
-    streamLinkText="ČMBS TV",
+    streamLinkText="ČMBS TV",
     streamUrl="#",
     classes=""
 ) %}
@@ -36,7 +36,7 @@
         <div class="c-section__footer">
             {{ button(text=calendarText, url=calendarUrl, variant="outline") }}
             <p class="c-section__note">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9.5v5l4.5-2.5Z"/></svg>
+                {% brandIcon "youtube", 20 %}
                 <span>{{ streamText }} <a href="{{ streamUrl }}">{{ streamLinkText }}</a></span>
             </p>
         </div>

@@ -1,12 +1,51 @@
+const fs = require("fs");
+const path = require("path");
+
+// --- Icons: build-time inlined SVG (Heroicons solid for UI, Simple Icons for brand/social) ---
+const HEROICONS_DIR = path.join(__dirname, "node_modules/heroicons");
+const SIMPLE_ICONS_DIR = path.join(__dirname, "node_modules/simple-icons/icons");
+const iconFileCache = new Map();
+
+function readIconFile(filePath) {
+  if (!iconFileCache.has(filePath)) {
+    iconFileCache.set(filePath, fs.readFileSync(filePath, "utf8").trim());
+  }
+  return iconFileCache.get(filePath);
+}
+
+// Heroicons solid ships two geometries (not just scaled copies): 20/solid ("mini",
+// tuned for small sizes) and 24/solid (tuned for larger sizes). Picked by requested
+// size, unless `set` forces one explicitly (e.g. to keep the 24 geometry at a small
+// rendered size instead of falling back to the mini set).
+function icon(name, size = 20, extraClass = "", set) {
+  const resolvedSet = set || (size >= 22 ? 24 : 20);
+  const filePath = path.join(HEROICONS_DIR, String(resolvedSet), "solid", `${name}.svg`);
+  const svg = readIconFile(filePath);
+  const attrs = `width="${size}" height="${size}"${extraClass ? ` class="${extraClass}"` : ""}`;
+  return svg.replace("<svg ", `<svg ${attrs} `);
+}
+
+function brandIcon(name, size = 20, extraClass = "") {
+  const filePath = path.join(SIMPLE_ICONS_DIR, `${name.toLowerCase()}.svg`);
+  const svg = readIconFile(filePath).replace(/<title>.*?<\/title>/s, "");
+  const attrs = `width="${size}" height="${size}" fill="currentColor" aria-hidden="true"${extraClass ? ` class="${extraClass}"` : ""}`;
+  return svg.replace("<svg ", `<svg ${attrs} `);
+}
+
 module.exports = function (eleventyConfig) {
   eleventyConfig.setUseGitIgnore(false);
   eleventyConfig.setServerPassthroughCopyBehavior("copy");
+
+  // Icons — usage: {% icon "chevron-down" %} / {% icon "bars-3", 22 %} / {% brandIcon "facebook", 16, "c-footer__icon" %}
+  eleventyConfig.addShortcode("icon", icon);
+  eleventyConfig.addShortcode("brandIcon", brandIcon);
 
   // Passthrough copies
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/uploads");
+  eleventyConfig.addPassthroughCopy({ "src/.htaccess": ".htaccess" });
 
   // Date filters
   eleventyConfig.addFilter("isoDate", (d) => new Date(d).toISOString().slice(0, 10));

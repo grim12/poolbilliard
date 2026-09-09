@@ -42,7 +42,7 @@
 <div class="c-header__nav-item">
     <a class="c-header__nav-link{{ ' c-header__nav-link--is-active' if isActive }}" href="{{ url }}" aria-haspopup="true">
         {{ text }}
-        <svg class="c-header__nav-chevron" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+        {% icon "chevron-down", 16, "c-header__nav-chevron" %}
     </a>
     <div class="c-header__dropdown">
         {% for item in items %}
@@ -61,7 +61,7 @@
 <div class="c-header__mobile-nav-item" data-accordion>
     <button type="button" class="c-header__nav-link c-header__mobile-nav-toggle" data-accordion-toggle aria-expanded="false">
         {{ text }}
-        <svg class="c-header__nav-chevron" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+        {% icon "chevron-down", 16, "c-header__nav-chevron" %}
     </button>
     <div class="c-header__mobile-nav-sublist" data-accordion-panel>
         {% for child in children %}
@@ -82,7 +82,7 @@
         <li>
           <a href="#" target="_blank" rel="noopener noreferrer">
             ČMBS
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h8v8M14 2 6.5 9.5M12 9v4a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h4"/></svg>
+            {% icon "arrow-top-right-on-square", 12 %}
           </a>
         </li>
       </ul>
@@ -90,22 +90,22 @@
       <ul class="c-header__topbar-socials">
         <li>
           <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 8h-1.5A1.5 1.5 0 0 0 12 9.5V12m0 0H9.5M12 12v6M9.5 12H12"/></svg>
+            {% brandIcon "facebook", 18 %}
           </a>
         </li>
         <li>
           <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            {% brandIcon "instagram", 18 %}
           </a>
         </li>
         <li>
           <a href="#" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.8 13.4L3 21l4.8-1.2A9 9 0 1 0 12 3Z"/><path d="M8.7 8.7c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .5.4l.7 1.5c.1.3.1.5-.1.7l-.4.4c-.1.2-.1.3 0 .5.4.7 1.4 1.7 2.1 2.1.2.1.3.1.5 0l.4-.4c.2-.2.4-.2.7-.1l1.5.7c.4.2.4.4.4.6v.5c0 .3 0 .5-.5.7-1 .4-2.4.2-4-.9-1.6-1.1-2.7-2.5-3-3.9-.1-.7 0-1.3.1-1.7Z"/></svg>
+            {% brandIcon "whatsapp", 18 %}
           </a>
         </li>
         <li>
           <a href="#" class="c-header__topbar-tv" target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9.5v5l4.5-2.5Z"/></svg>
+            {% brandIcon "youtube", 18 %}
             ČMBS TV
           </a>
         </li>
@@ -136,7 +136,7 @@
           <div class="c-header__lang">
             <button type="button" class="c-header__lang-btn" aria-haspopup="true" aria-expanded="false">
               CZ
-              <svg class="c-header__lang-chevron" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+              {% icon "chevron-down", 12, "c-header__lang-chevron" %}
             </button>
             <div class="c-header__lang-dropdown">
               <a href="#" class="c-header__lang-option c-header__lang-option--is-active">CZ — Čeština</a>
@@ -145,13 +145,13 @@
           </div>
 
           <button type="button" class="c-header__search-toggle" data-search-toggle aria-expanded="false" aria-controls="header-search-panel" aria-label="Hledat">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            {% icon "magnifying-glass", 20 %}
           </button>
         </div>
       </div>
 
       <button type="button" class="c-header__toggle" data-header-toggle aria-expanded="false" aria-controls="header-mobile-panel" aria-label="Otevřít menu">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        {% icon "bars-3", 22 %}
       </button>
     </div>
 
@@ -159,12 +159,12 @@
       <div class="c-container c-header__search-panel-inner">
         <form class="c-header__search-form" role="search" action="#" method="get">
           <button type="submit" class="c-header__search-submit" aria-label="Hledat">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            {% icon "magnifying-glass", 18 %}
           </button>
           <input type="search" name="q" class="c-header__search-input" data-search-input placeholder="Hledat kluby, hráče, novinky…" />
         </form>
         <button type="button" class="c-header__search-close" data-search-close aria-label="Zavřít vyhledávání">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          {% icon "x-mark", 18 %}
         </button>
       </div>
     </div>
@@ -181,7 +181,7 @@
         </div>
 
         <button type="button" class="c-header__search-toggle" data-search-toggle aria-expanded="false" aria-controls="header-mobile-search-panel" aria-label="Hledat">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          {% icon "magnifying-glass", 20 %}
         </button>
       </div>
 
@@ -189,12 +189,12 @@
         <div class="c-header__mobile-search-inner">
           <form class="c-header__search-form" role="search" action="#" method="get">
             <button type="submit" class="c-header__search-submit" aria-label="Hledat">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              {% icon "magnifying-glass", 18 %}
             </button>
             <input type="search" name="q" class="c-header__search-input" data-search-input placeholder="Hledat kluby, hráče, novinky…" />
           </form>
           <button type="button" class="c-header__search-close" data-search-close aria-label="Zavřít vyhledávání">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+            {% icon "x-mark", 18 %}
           </button>
         </div>
       </div>
