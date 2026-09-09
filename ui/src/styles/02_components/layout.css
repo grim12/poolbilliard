@@ -1,7 +1,7 @@
 @layer components {
   /* Root wrapper for a full page (header + main + footer) */
   .c-page-wrapper {
-    @apply flex flex-col min-h-screen overflow-x-hidden;
+    @apply flex flex-col min-h-screen overflow-x-clip;
   }
 
   /* Centered max-width content container, used inside sections/header/footer */

@@ -8,7 +8,7 @@
     @apply border border-gray-200/70;
 
     .c-card__link {
-      @apply flex items-stretch;
+      @apply flex items-stretch h-full;
     }
 
     .c-card__media {
@@ -40,7 +40,7 @@
     }
 
     .c-card__title {
-      @apply font-bold text-body-main text-base leading-snug tracking-normal line-clamp-2 max-h-[2.75em];
+      @apply font-bold text-body-main text-base leading-snug tracking-normal line-clamp-2;
       @apply xl:text-lg;
     }
 

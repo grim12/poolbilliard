@@ -51,11 +51,11 @@
 
   /* --- Size Overrides (md is default) --- */
   .c-button--sm {
-    @apply px-4 py-2 text-sm rounded-lg;
+    @apply h-10 px-4 py-2 text-sm rounded-lg;
   }
 
   .c-button--lg {
-    @apply px-8 py-4 text-lg rounded-2xl;
+    @apply h-14 px-8 py-4 text-lg rounded-2xl;
   }
 
   /* --- Arrow / Icon modifier & hover animation --- */
