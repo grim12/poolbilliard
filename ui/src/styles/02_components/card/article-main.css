@@ -36,10 +36,6 @@
       @apply text-xs sm:text-sm font-medium text-white/90;
     }
 
-    .c-card__title {
-      @apply font-black tracking-tight-2 leading-h1 text-4xl sm:text-6xl lg:text-7xl;
-    }
-
     /* Hover + keyboard-focus interactions */
     &:hover,
     &:focus-within {

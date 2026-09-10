@@ -44,7 +44,7 @@
       @apply shadow-card-md border-gray-200;
 
       .c-card__media img {
-        @apply scale-105;
+        @apply scale-105 -rotate-1;
       }
     }
   }

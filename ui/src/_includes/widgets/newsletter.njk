@@ -21,7 +21,7 @@
     <div class="c-container">
         <div class="c-section__header">
             {% if tagText %}{{ tag(text=tagText, color="primary", variant="subtle", extraClass="c-newsletter__tag") }}{% endif %}
-            <h2 class="c-section__title h2">{{ title }}</h2>
+            <h2 class="c-section__title">{{ title }}</h2>
             {% if subtitle %}<p class="c-section__subtitle">{{ subtitle }}</p>{% endif %}
         </div>
         <form class="c-newsletter__form" action="{{ formAction }}" method="post">

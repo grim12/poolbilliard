@@ -5,6 +5,7 @@
 
   /* --- Text Blocks: Margin Resets for First/Last Child --- */
   h1, .h1,
+  .h1--big,
   h2, .h2,
   h3, .h3,
   h4, .h4,
@@ -22,11 +23,16 @@
 
   /* --- Headings --- */
   h1, .h1 {
+    @apply font-black tracking-tight-2 text-body-main leading-h1 text-4xl sm:text-6xl lg:text-6.5xl mb-6;
+  }
+
+  /* Extra-large variant — the size h1 used to be, for spots that need the bigger hero treatment */
+  .h1--big {
     @apply font-black tracking-tight-2 text-body-main leading-h1 text-4xl sm:text-6xl lg:text-7xl mb-6;
   }
 
   h2, .h2 {
-    @apply font-black tracking-tight-2 text-body-main leading-h2 text-3xl sm:text-5xl lg:text-6xl mb-5;
+    @apply font-black tracking-tight-2 text-body-main leading-h2 text-3xl sm:text-4xl lg:text-5xl mb-5;
   }
 
   h3, .h3 {

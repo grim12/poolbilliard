@@ -8,4 +8,16 @@
   .c-container {
     @apply w-full max-w-(--container-max) mx-auto px-4 md:px-6 lg:px-8;
   }
+
+  /* Homepage intro wrapper (featured articles + notices + event banner) —
+     gradient background with the brand mark watermarked faintly behind the content. */
+  .c-hp-intro {
+    @apply relative overflow-hidden;
+
+    &::before {
+      content: "";
+      @apply absolute top-[25%] -translate-y-1/2 -right-16 sm:right-0 lg:right-4 w-[125vw] sm:w-[80vw] lg:w-[40vw] h-auto aspect-[65/88] bg-contain bg-no-repeat bg-top opacity-70 pointer-events-none;
+      background-image: url("/assets/images/cesky-pool-watermark.svg");
+    }
+  }
 }

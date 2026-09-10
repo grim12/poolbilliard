@@ -17,6 +17,7 @@ title: Poolbilliard — Český svaz poolbilliardu
     {% include "layouts/header.njk" %}
 
     <main id="main-content">
+        <div class="c-hp-intro bg-gradient-light">
         {{ hpFeaturedArticles(
             classes="pb-none",
             featured={
@@ -65,47 +66,46 @@ title: Poolbilliard — Český svaz poolbilliardu
             moreText="Další novinky"
         ) }}
 
-        <div class="bg-gradient-to-b from-white to-gray-100">
-            {{ notices(
-                title="Zprávy výkonného výboru",
-                subtitle="Oficiální rozhodnutí a důležité informace",
-                items=[
-                    {
-                        title: "Termínový kalendář soutěží pro sezónu 2026 schválen",
-                        url: "#",
-                        tagText: "DŮLEŽITÉ",
-                        tagColor: "accent",
-                        date: "15. 11. 2025"
-                    },
-                    {
-                        title: "Změna registračního řádu: nové podmínky přestupů hráčů",
-                        url: "#",
-                        date: "15. 7. 2026"
-                    },
-                    {
-                        title: "Zápis z jednání VV ze dne 30. června 2026",
-                        url: "#",
-                        date: "2. 7. 2026"
-                    }
-                ],
-                moreUrl="#",
-                moreText="Všechny zprávy VV"
-            ) }}
+        {{ notices(
+            title="Zprávy výkonného výboru",
+            subtitle="Oficiální rozhodnutí a důležité informace",
+            items=[
+                {
+                    title: "Termínový kalendář soutěží pro sezónu 2026 schválen",
+                    url: "#",
+                    tagText: "DŮLEŽITÉ",
+                    tagColor: "accent",
+                    date: "15. 11. 2025"
+                },
+                {
+                    title: "Změna registračního řádu: nové podmínky přestupů hráčů",
+                    url: "#",
+                    date: "15. 7. 2026"
+                },
+                {
+                    title: "Zápis z jednání VV ze dne 30. června 2026",
+                    url: "#",
+                    date: "2. 7. 2026"
+                }
+            ],
+            moreUrl="#",
+            moreText="Všechny zprávy VV"
+        ) }}
 
-            {{ eventBanner(
-                classes="pt-none pb-none",
-                title="Federal Cup 2026",
-                text="Největší domácí akce sezóny. Tři dny zápasů, doprovodný program a přímé přenosy z hlavního stolu.",
-                image="/uploads/federal.jpg",
-                tagText="ZA 2 MĚSÍCE",
-                metaText="23. – 25. října 2026 · Bratislava",
-                buttonText="Detail akce",
-                buttonUrl="#"
-            ) }}
+        {{ eventBanner(
+            classes="pt-none",
+            title="Federal Cup 2026",
+            text="Největší domácí akce sezóny. Tři dny zápasů, doprovodný program a přímé přenosy z hlavního stolu.",
+            image="/uploads/federal.jpg",
+            tagText="ZA 2 MĚSÍCE",
+            metaText="23. – 25. října 2026 · Bratislava",
+            buttonText="Detail akce",
+            buttonUrl="#"
+        ) }}
         </div>
 
         {{ tournaments(
-            classes="bg-gray-100 border-bottom",
+            classes="bg-gray-100 border-top border-bottom",
             title="Nejbližší turnaje",
             items=turnaje,
             calendarUrl="#",
@@ -125,7 +125,7 @@ title: Poolbilliard — Český svaz poolbilliardu
         ) }}
 
         {{ leaderboards(
-            classes="bg-gray-100",
+            classes="bg-gray-100 border-top border-bottom",
             title="Žebříčky",
             subtitle="Nejlepší hráči aktuální sezóny, různé série, od juniorů po veterány",
             series=zebricky,
