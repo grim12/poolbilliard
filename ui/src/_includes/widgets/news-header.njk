@@ -1,12 +1,17 @@
 {#
-    newsHeader(title, backText, backUrl, showSearch, searchPlaceholder, categories, classes)
+    newsHeader(title, subtitle, backText, backUrl, showSearch, searchPlaceholder, categories, classes)
     - backText / backUrl: optional "Zpět na …" link shown above the title (omit backUrl to hide it)
+    - subtitle: optional lead paragraph shown under the title (e.g. on Kalendář)
     - showSearch: true (default) | false — some listings (e.g. Zprávy výboru) have no search/filter
-    - categories: array of { text, value, isActive } — filter pills, hidden when empty
+    - categories: array of { text, value, isActive } — simple single-color filter pills, hidden when empty
+    - Wrap the call in {% call newsHeader(...) %}...{% endcall %} to render custom content
+      (e.g. the colored, checkable Kalendář filter) right-aligned next to the title/subtitle
+      on desktop, stacked below it on mobile — used instead of `categories` when a plain
+      single-color pill row isn't enough.
     - Search input and category filter are intentionally inert (no <form>/<a> navigation) — real
       filtering will be wired later via JS (fetch + history.pushState), not a full page reload.
 #}
-{% macro newsHeader(title="Novinky", backText="Zpět na novinky", backUrl="", showSearch=true, searchPlaceholder="Hledej ve zprávách", categories=[], classes="") %}
+{% macro newsHeader(title="Novinky", subtitle="", backText="Zpět na novinky", backUrl="", showSearch=true, searchPlaceholder="Hledej ve zprávách", categories=[], classes="") %}
 <section class="c-section c-section--news-header {{ classes }}">
     <div class="c-container">
         {% if backUrl %}
@@ -16,7 +21,17 @@
             </a>
         {% endif %}
 
-        <h1 class="h1--big c-news-header__title">{{ title }}</h1>
+        <div class="c-news-header__top">
+            <div class="c-news-header__intro">
+                <h1 class="h1--big c-news-header__title{{ ' c-news-header__title--has-subtitle' if subtitle }}">{{ title }}</h1>
+                {% if subtitle %}<p class="c-news-header__subtitle p--lg">{{ subtitle }}</p>{% endif %}
+            </div>
+            {% if caller %}
+                <div class="c-news-header__aside">
+                    {{ caller() }}
+                </div>
+            {% endif %}
+        </div>
 
         {% if showSearch %}
             <div class="c-news-header__search">

@@ -1,0 +1,55 @@
+{% from "macros/tag.njk" import tag %}
+{% from "macros/button.njk" import button %}
+
+{#
+    recurringTournaments(tagText, title, text, items, buttons, extraClass, headingLevel)
+    - Dark sidebar card for regular / periodic (weekly) amateur tournaments — distinct from
+      the one-off Svaz/Mezinárodní calendar next to it, since these repeat every week and
+      don't have a single date to put in the month grid.
+    - items: array of { frequency, title, location, url } (e.g. "Každá středa", "Turnaje v Balabušce", "Praha")
+    - buttons: array of { text, url } — rendered via the button() macro, white outline on the dark card
+    - headingLevel: "h3" (default) | "h2" | "h4"
+#}
+{% macro recurringTournaments(
+    tagText="Amatérské turnaje",
+    title="Chceš si zahrát?",
+    text="Vyzkoušej si sportovní atmosféru a šanci uhrát výsledek, i jako začátečník.",
+    items=[],
+    buttons=[],
+    extraClass="",
+    headingLevel="h3"
+) %}
+{%- set classes = ["c-recurring", "t-dark", extraClass] | select | join(" ") -%}
+<div class="{{ classes }}">
+    {% if tagText %}{{ tag(text=tagText, color="gold-light", variant="subtle", size="sm", extraClass="c-recurring__tag") }}{% endif %}
+    <{{ headingLevel }} class="c-recurring__title">{{ title }}</{{ headingLevel }}>
+    {% if text %}<p class="c-recurring__text">{{ text }}</p>{% endif %}
+
+    <div class="c-recurring__list">
+        {% for item in items %}
+            <a href="{{ item.url }}" class="c-recurring__item" aria-label="{{ item.title }}">
+                <span class="c-recurring__item-body">
+                    <span class="c-recurring__item-freq">{{ item.frequency }}</span>
+                    <span class="c-recurring__item-title">{{ item.title }}</span>
+                    <span class="c-recurring__item-location">
+                        {% icon "map-pin", 14 %}
+                        {{ item.location }}
+                    </span>
+                </span>
+                <span class="c-recurring__item-link">
+                    Více
+                    {% icon "chevron-right", 16 %}
+                </span>
+            </a>
+        {% endfor %}
+    </div>
+
+    {% if buttons.length %}
+        <div class="c-recurring__actions">
+            {% for btn in buttons %}
+                {{ button(text=btn.text, url=btn.url, variant="outline", size="sm", hasArrow=true, extraClass="w-full xs:w-auto") }}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endmacro %}

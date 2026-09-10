@@ -11,8 +11,32 @@
     @apply mb-6;
   }
 
+  .c-news-header__top {
+    @apply flex flex-col lg:flex-row lg:items-end lg:justify-between gap-2 mb-8 lg:mb-10;
+  }
+
+  .c-news-header__intro {
+    @apply min-w-0;
+  }
+
+  .c-news-header__aside {
+    @apply flex flex-col items-start lg:items-end gap-3 shrink-0 mt-6 lg:mt-0;
+  }
+
   .c-news-header__title {
     @apply mb-8;
+
+    &:last-child {
+      @apply mb-0;
+    }
+  }
+
+  .c-news-header__title--has-subtitle {
+    @apply mb-3;
+  }
+
+  .c-news-header__subtitle {
+    @apply max-w-2xl mb-8 text-body-600;
 
     &:last-child {
       @apply mb-0;

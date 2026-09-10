@@ -1,0 +1,19 @@
+@layer components {
+  /* ==========================================================================
+     Section: Kalendář — tournament cards (left) + calendar/sidebar cards (right)
+     ========================================================================== */
+
+  .c-kalendar-layout {
+    @apply items-start lg:grid-cols-2 gap-8 lg:gap-6 xl:gap-10;
+  }
+
+  /* 3 columns at md (full width, single-column page layout), but back down to 2 at lg —
+     that's exactly where the aside appears and halves this column's width. */
+  .c-kalendar-cards {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-3 lg:gap-4;
+  }
+
+  .c-kalendar-aside {
+    @apply flex flex-col gap-6 lg:gap-8;
+  }
+}

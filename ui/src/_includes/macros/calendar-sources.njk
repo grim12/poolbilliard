@@ -1,0 +1,33 @@
+{#
+    calendarSources(title, sources, extraClass, headingLevel)
+    - White sidebar card: plain list of external calendars this page's data is fed from.
+    - sources: array of { title, subtitle, url }
+    - headingLevel: "h3" (default) | "h2" | "h4"
+#}
+{% macro calendarSources(
+    title="Zdrojové kalendáře",
+    sources=[],
+    extraClass="",
+    headingLevel="h3"
+) %}
+{%- set classes = ["c-calendar-sources", extraClass] | select | join(" ") -%}
+<div class="{{ classes }}">
+    <{{ headingLevel }} class="c-calendar-sources__title">
+        {% icon "calendar-days", 18 %}
+        {{ title }}
+    </{{ headingLevel }}>
+    <div class="c-calendar-sources__list">
+        {% for source in sources %}
+            <a href="{{ source.url }}" class="c-calendar-sources__item" target="_blank" rel="noopener noreferrer" aria-label="{{ source.title }}">
+                <span class="c-calendar-sources__body">
+                    <span class="c-calendar-sources__name">{{ source.title }}</span>
+                    <span class="c-calendar-sources__desc">{{ source.subtitle }}</span>
+                </span>
+                <span class="c-calendar-sources__external" aria-hidden="true">
+                    {% icon "arrow-top-right-on-square", 16 %}
+                </span>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}

@@ -1,0 +1,19 @@
+{#
+    calendarFilter(items, label, extraClass)
+    - items: array of { text, value, color, checked }
+      color: "primary" (Svaz, modrá) | "accent" (Klub, červená) | "gold" (Zahraniční, zlatá)
+    - Renders one row of colored toggle pills — checked ones get a checkmark + solid fill,
+      unchecked ones stay as a colored outline.
+    - Inert for now (aria-pressed + data-filter only) — real filtering (cards + calendar)
+      will be wired later via JS, see the doc comment on newsHeader().
+#}
+{% macro calendarFilter(items=[], label="", extraClass="") %}
+<div class="c-calendar-filter {{ extraClass }}" role="group"{% if label %} aria-label="{{ label }}"{% endif %}>
+    {% for item in items %}
+        <button type="button" class="c-calendar-filter__pill c-calendar-filter__pill--{{ item.color }}" aria-pressed="{{ 'true' if item.checked else 'false' }}" data-filter="{{ item.value }}">
+            {% if item.checked %}{% icon "check", 16, "c-calendar-filter__check", 20 %}{% endif %}
+            {{ item.text }}
+        </button>
+    {% endfor %}
+</div>
+{% endmacro %}

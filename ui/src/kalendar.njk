@@ -1,0 +1,102 @@
+---
+layout: layouts/base.njk
+title: Kalendář — Poolbilliard
+---
+{% from "widgets/news-header.njk" import newsHeader %}
+{% from "macros/calendar.njk" import calendarMonth %}
+{% from "macros/calendar-filter.njk" import calendarFilter %}
+{% from "macros/no-results.njk" import noResults %}
+{% from "macros/card/tournament.njk" import card_tournament %}
+{% from "macros/recurring-tournaments.njk" import recurringTournaments %}
+{% from "macros/calendar-sources.njk" import calendarSources %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        <div class="bg-gradient-light">
+        {% call newsHeader(
+            title="Kalendář",
+            subtitle="Přehled turnajů a akcí Českého poolbilliardu — svazové soutěže, kluby i mezinárodní turnaje na jednom místě.",
+            showSearch=false,
+            classes="pb-none"
+        ) %}
+            {#- Filtr Svaz/Klub/Zahraniční bude filtrovat karty i kalendář zároveň (zatím inertní,
+               viz komentář u newsHeader). -#}
+            {{ calendarFilter(
+                label="Filtrovat podle typu akce",
+                items=[
+                    { text: "Svaz", value: "svaz", color: "primary", checked: true },
+                    { text: "Klub", value: "klub", color: "accent", checked: true },
+                    { text: "Zahraniční", value: "zahranicni", color: "gold", checked: false }
+                ]
+            ) }}
+        {% endcall %}
+
+        <section class="c-section pt-none">
+            <div class="c-container">
+                <div class="c-section__grid c-kalendar-layout">
+                    <div class="c-kalendar-main">
+                        <div class="c-kalendar-cards">
+                            {% for item in kalendarUdalosti %}
+                                {{ card_tournament(
+                                    title=item.title,
+                                    url=item.url,
+                                    tagText=item.tagText,
+                                    tagColor=item.tagColor,
+                                    dateText=item.dateText,
+                                    locationText=item.locationText,
+                                    badge=item.badge
+                                ) }}
+                            {% endfor %}
+                        </div>
+
+                        {#- Ukázka prázdného stavu pro filtr Svaz/Klub/Zahraniční — reálně by se zobrazoval
+                           jen když filtr nic nevrátí (stejná JS logika jako filtrování karet a kalendáře),
+                           tady je vidět natrvalo jen pro demo účely. -#}
+                        {{ noResults(
+                            title="Žádné akce neodpovídají zvoleným filtrům.",
+                            icon="calendar-days",
+                            extraClass="mt-3 lg:mt-4"
+                        ) }}
+                    </div>
+
+                    <aside class="c-kalendar-aside">
+                        {{ calendarMonth(
+                            label=kalendarMesic.label,
+                            weekdays=kalendarMesic.weekdays,
+                            weeks=kalendarMesic.weeks
+                        ) }}
+
+                        {{ recurringTournaments(
+                            items=[
+                                { frequency: "Každá středa", title: "Turnaje v Balabušce", location: "Praha", url: "#" },
+                                { frequency: "Každá neděle", title: "Turnaje v Harlequinu", location: "Praha", url: "#" },
+                                { frequency: "Každý čtvrtek", title: "Turnaje v Maple Pool Club", location: "Pardubice", url: "#" }
+                            ],
+                            buttons=[
+                                { text: "Kulečníkové kluby", url: "#" },
+                                { text: "Kulečníkové herny", url: "#" }
+                            ]
+                        ) }}
+
+                        {{ calendarSources(
+                            sources=[
+                                { title: "ČMBS kalendář", subtitle: "Svazové soutěže a akce", url: "#" },
+                                { title: "EPBF kalendář", subtitle: "European Pocket Billiard Federation", url: "#" },
+                                { title: "EEBC kalendář", subtitle: "East European Billiard Council", url: "#" },
+                                { title: "Matchroom kalendář", subtitle: "Matchroom Pool", url: "#" }
+                            ]
+                        ) }}
+                    </aside>
+                </div>
+            </div>
+        </section>
+        </div>
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

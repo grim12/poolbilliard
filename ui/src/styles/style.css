@@ -18,6 +18,11 @@
 @import "./02_components/pagination.css";
 @import "./02_components/leaderboard.css";
 @import "./02_components/banner.css";
+@import "./02_components/no-results.css";
+@import "./02_components/calendar.css";
+@import "./02_components/calendar-filter.css";
+@import "./02_components/recurring-tournaments.css";
+@import "./02_components/calendar-sources.css";
 @import "./02_components/section.css";
 @import "./03_themes/dark.css";
 
