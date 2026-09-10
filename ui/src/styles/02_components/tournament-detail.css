@@ -1,0 +1,62 @@
+@layer components {
+  /* ==========================================================================
+     Tournament detail — single calendar event (Kalendář → detail turnaje)
+     Same narrow-container treatment as the article detail page, but event-shaped:
+     icon date/location instead of a hero image, and boxed info/links cards.
+     ========================================================================== */
+
+  .c-tournament-detail {
+    @apply pt-4 sm:pt-6 lg:pt-8 pb-8 sm:pb-10 lg:pb-14;
+  }
+
+  /* Narrower reading column, centered within the page's own .c-container gutter —
+     matches .c-article__inner on the article detail page. */
+  .c-tournament-detail__inner {
+    @apply max-w-3xl mx-auto;
+  }
+
+  .c-tournament-detail__header {
+    @apply mt-8 sm:mt-10 mb-8 sm:mb-10;
+  }
+
+  .c-tournament-detail__tag {
+    @apply mb-3;
+  }
+
+  .c-tournament-detail__meta {
+    @apply flex flex-col gap-1.5 mt-4;
+  }
+
+  .c-tournament-detail__meta-item {
+    @apply inline-flex items-center gap-2 text-body-600 m-0;
+
+    svg {
+      @apply text-primary-600 shrink-0;
+    }
+  }
+
+  .c-tournament-detail__body {
+    @apply flex flex-col gap-5;
+  }
+
+  .c-tournament-detail__card {
+    @apply rounded-3xl border border-gray-200 bg-white p-6 sm:p-8;
+
+    p:last-child,
+    ul:last-child {
+      @apply mb-0;
+    }
+  }
+
+  .c-tournament-detail__card-title {
+    @apply text-xs font-bold uppercase tracking-wider text-body-500 mb-3;
+  }
+
+  .c-tournament-detail__link {
+    @apply inline-flex items-center gap-2 font-semibold text-primary-600 no-underline hover:underline;
+
+    svg {
+      @apply shrink-0;
+    }
+  }
+}

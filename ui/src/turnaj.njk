@@ -1,0 +1,52 @@
+---
+layout: layouts/base.njk
+title: Mistrovství ČR 9-ball — Poolbilliard
+---
+{% from "widgets/tournament-content.njk" import tournamentContent %}
+{% from "widgets/newsletter.njk" import newsletter %}
+{% from "macros/button.njk" import button %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {% call tournamentContent(
+            classes="bg-gradient-light",
+            tagText="Svazový turnaj",
+            tagColor="primary",
+            title="Mistrovství ČR 9-ball",
+            dateText="13. září 2026",
+            locationText="Praha · BC Řipská"
+        ) %}
+            <div class="c-tournament-detail__card">
+                <p>Mistrovství České republiky jednotlivců v 9-ball. Uzavřený turnaj pro 32 hráčů – TOP 16 z celoročního žebříčku a postupující z kvalifikace.</p>
+                <ul>
+                    <li>Disciplína: 9-ball</li>
+                    <li>Systém hry: DBKO 32</li>
+                    <li>Prezence: 10:00 – 10:20</li>
+                    <li>Startovné: 500 Kč; junioři a ženy 300 Kč</li>
+                </ul>
+            </div>
+
+            <div class="c-tournament-detail__card">
+                <h2 class="c-tournament-detail__card-title">Odkazy</h2>
+                <a href="#" class="c-tournament-detail__link">
+                    {% icon "link", 18 %}
+                    Detail turnaje ve výsledkovém servisu
+                </a>
+            </div>
+
+            {{ button(
+                text="Přihlášky a detail turnaje",
+                url="#",
+                color="primary",
+                icon="arrow-top-right-on-square",
+                target="_blank"
+            ) }}
+        {% endcall %}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

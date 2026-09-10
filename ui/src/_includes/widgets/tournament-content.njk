@@ -1,0 +1,62 @@
+{% from "macros/tag.njk" import tag %}
+
+{#
+    tournamentContent(backText, backUrl, tagText, tagColor, title, dateText, locationText, classes)
+    - Narrow reading-column detail page for a single calendar event (Kalendář → detail turnaje).
+    - Same narrow-container treatment as articleContent() (breadcrumb + .c-container, max-w-3xl
+      reading column) but event-shaped: icon date/location instead of a hero image, and a
+      freeform body slot meant for boxed info/links cards (.c-tournament-detail__card) + a CTA
+      button, passed as the call block:
+      {% call tournamentContent(title="...", dateText="...", locationText="...") %}
+          <div class="c-tournament-detail__card">...</div>
+      {% endcall %}
+    - tagColor: "primary" (Svaz) | "accent" (Klub) | "gold" (Zahraniční) — matches card_tournament
+#}
+{% macro tournamentContent(
+    backText="Zpět na kalendář",
+    backUrl="/kalendar/",
+    tagText="",
+    tagColor="primary",
+    title="",
+    dateText="",
+    locationText="",
+    classes=""
+) %}
+<section class="{{ ["c-tournament-detail", classes] | select | join(" ") }}">
+    <div class="c-container">
+        <a href="{{ backUrl }}" class="c-back-link">
+            {% icon "arrow-left", 18 %}
+            {{ backText }}
+        </a>
+    </div>
+
+    <div class="c-container c-tournament-detail__inner">
+        <header class="c-tournament-detail__header">
+            {% if tagText %}
+                {{ tag(text=tagText, color=tagColor, variant="plain", size="sm", extraClass="c-tournament-detail__tag") }}
+            {% endif %}
+            <h1 class="c-tournament-detail__title">{{ title }}</h1>
+            {% if dateText or locationText %}
+                <div class="c-tournament-detail__meta">
+                    {% if dateText %}
+                        <p class="c-tournament-detail__meta-item">
+                            {% icon "calendar-days", 18 %}
+                            {{ dateText }}
+                        </p>
+                    {% endif %}
+                    {% if locationText %}
+                        <p class="c-tournament-detail__meta-item">
+                            {% icon "map-pin", 18 %}
+                            {{ locationText }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </header>
+
+        <div class="c-tournament-detail__body">
+            {{ caller() }}
+        </div>
+    </div>
+</section>
+{% endmacro %}

@@ -1,10 +1,12 @@
 {#
-    button(text, url, color, variant, size, hasArrow, type, iconSize, extraClass, target, ariaLabel, disabled)
+    button(text, url, color, variant, size, hasArrow, icon, type, iconSize, extraClass, target, ariaLabel, disabled)
     - url set -> renders <a>, otherwise <button type="{{ type }}">
     - color: "primary" (default) | "accent" | "dark"
     - variant: "solid" (default) | "outline" | "link"
     - size: "md" (default) | "sm" | "lg"
-    - hasArrow: true (default, renders chevron-right icon) | false
+    - hasArrow: true (default, renders the icon below) | false
+    - icon: heroicon name shown when hasArrow — "chevron-right" (default), or e.g.
+      "arrow-top-right-on-square" for a button linking out to an external site
 #}
 {% macro button(
     text,
@@ -13,6 +15,7 @@
     variant="solid",
     size="md",
     hasArrow=true,
+    icon="chevron-right",
     type="button",
     iconSize=24,
     extraClass="",
@@ -32,14 +35,14 @@
         <a href="{{ url }}" class="{{ classes }}"{% if target %} target="{{ target }}" rel="noopener noreferrer"{% endif %}{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}>
             <span>{{ text | safe }}</span>
             {%- if hasArrow -%}
-                {% icon "chevron-right", iconSize, "c-button_icon", 20 %}
+                {% icon icon, iconSize, "c-button_icon", 20 %}
             {%- endif -%}
         </a>
     {%- else -%}
         <button type="{{ type }}" class="{{ classes }}"{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} disabled{% endif %}>
             <span>{{ text | safe }}</span>
             {%- if hasArrow -%}
-                {% icon "chevron-right", iconSize, "c-button_icon", 20 %}
+                {% icon icon, iconSize, "c-button_icon", 20 %}
             {%- endif -%}
         </button>
     {%- endif -%}
