@@ -51,7 +51,7 @@
      this badge, regardless of theme (it simply blends in on a light header).
      Full bar height, no radius — a plain rectangular cut-out. */
   .c-header__brand-badge {
-    @apply flex items-center h-full bg-white px-4;
+    @apply flex items-center h-full bg-white;
   }
 
   .c-header__brand-logo {
@@ -167,10 +167,10 @@
   }
 
   .c-header__search-panel {
-    @apply hidden lg:block max-h-0 overflow-hidden border-b border-gray-100 bg-white transition-[max-height] duration-300;
+    @apply hidden lg:block max-h-0 overflow-hidden bg-white transition-[max-height] duration-300;
 
     &.is-open {
-      @apply max-h-24;
+      @apply max-h-24 border-b border-gray-100;
     }
   }
 
@@ -257,12 +257,27 @@
       @apply h-8 lg:h-10;
     }
 
+    /* Bleed the badge's white background past the container's left padding
+       to the true edge of the viewport, since the container itself doesn't. */
+    .c-header__brand-badge {
+      @apply relative pr-6 xl:pr-8;
+
+      &::before {
+        content: "";
+        @apply absolute inset-y-0 right-full w-screen bg-white;
+      }
+    }
+
     .c-header__topbar {
       @apply bg-dark-hover border-white/10;
     }
 
     .c-header__search-panel {
-      @apply bg-dark-hover border-white/10;
+      @apply bg-dark-hover;
+
+      &.is-open {
+        @apply border-white/10;
+      }
     }
 
     .c-header__search-close {

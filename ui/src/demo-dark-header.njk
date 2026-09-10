@@ -1,0 +1,172 @@
+---
+layout: layouts/base.njk
+title: Poolbilliard — dark header demo
+---
+<h1 class="sr-only">Poolbilliard — Český svaz poolbilliardu</h1>
+{% from "widgets/hp-featured-articles.njk" import hpFeaturedArticles %}
+{% from "widgets/notices.njk" import notices %}
+{% from "widgets/event-banner.njk" import eventBanner %}
+{% from "widgets/tournaments.njk" import tournaments %}
+{% from "widgets/cta.njk" import cta %}
+{% from "widgets/leaderboards.njk" import leaderboards %}
+{% from "widgets/link-tiles.njk" import linkTiles %}
+{% from "widgets/partners.njk" import partners %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% set headerDark = true %}
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ hpFeaturedArticles(
+            classes="pb-none",
+            featured={
+                title: "Český tým ovládl mistrovství Evropy v Heyball!",
+                url: "#",
+                image: "/uploads/cesky-tym-ovladl-mistrovstvi-evropy-v-heyballu (1).jpg",
+                tagText: "ČESKÁ REPRE",
+                tagColor: "accent",
+                date: "5. srpna 2026"
+            },
+            items=[
+                {
+                    title: "Vítězem 1. kola Junior Open je Alexandr Hofmann",
+                    url: "#",
+                    image: "/uploads/junior-open-4-kolo.jpg",
+                    tagText: "JUNIOR OPEN",
+                    tagColor: "gold",
+                    date: "5. června 2026"
+                },
+                {
+                    title: "Matouš Vlk ovládl první kolo ČPTour 2026",
+                    url: "#",
+                    image: "/uploads/matous-vlk-ovladl-prvni-kolo-cptour-2026.jpg",
+                    tagText: "ČPTOUR",
+                    tagColor: "primary",
+                    date: "25. února 2026"
+                },
+                {
+                    title: "MR 14.1 ovládl Jan Meisner",
+                    url: "#",
+                    image: "/uploads/matous-vlk-ovladl-prvni-kolo-cptour-2026.jpg",
+                    tagText: "MISTROVSTVÍ ČR",
+                    tagColor: "primary",
+                    date: "5. srpna 2026"
+                },
+                {
+                    title: "MR Heyball vyhrála Veronika Hubrtová",
+                    url: "#",
+                    image: "/uploads/petr-urban-zvitezil-na-mr-10-ball-v-brne.jpg",
+                    tagText: "MISTROVSTVÍ ČR",
+                    tagColor: "primary",
+                    date: "5. srpna 2026"
+                }
+            ],
+            moreUrl="#",
+            moreText="Další novinky"
+        ) }}
+
+        <div class="bg-gradient-to-b from-white to-gray-100">
+            {{ notices(
+                title="Zprávy výkonného výboru",
+                subtitle="Oficiální rozhodnutí a důležité informace",
+                items=[
+                    {
+                        title: "Termínový kalendář soutěží pro sezónu 2026 schválen",
+                        url: "#",
+                        tagText: "DŮLEŽITÉ",
+                        tagColor: "accent",
+                        date: "15. 11. 2025"
+                    },
+                    {
+                        title: "Změna registračního řádu: nové podmínky přestupů hráčů",
+                        url: "#",
+                        date: "15. 7. 2026"
+                    },
+                    {
+                        title: "Zápis z jednání VV ze dne 30. června 2026",
+                        url: "#",
+                        date: "2. 7. 2026"
+                    }
+                ],
+                moreUrl="#",
+                moreText="Všechny zprávy VV"
+            ) }}
+
+            {{ eventBanner(
+                classes="pt-none pb-none",
+                title="Federal Cup 2026",
+                text="Největší domácí akce sezóny. Tři dny zápasů, doprovodný program a přímé přenosy z hlavního stolu.",
+                image="/uploads/federal.jpg",
+                tagText="ZA 2 MĚSÍCE",
+                metaText="23. – 25. října 2026 · Bratislava",
+                buttonText="Detail akce",
+                buttonUrl="#"
+            ) }}
+        </div>
+
+        {{ tournaments(
+            classes="bg-gray-100 border-bottom",
+            title="Nejbližší turnaje",
+            items=turnaje,
+            calendarUrl="#",
+            streamUrl="#"
+        ) }}
+
+        {{ cta(
+            classes="bg-white",
+            title="Hraješ s kamarády a chceš to zkusit závodně?",
+            text="Přestaň jen koukat a začni hrát na turnajích. Najdi si klub, kde budeš moct trénovat, a staň se součástí komunity hráčů, kteří to myslí vážně.",
+            image="/uploads/pool-group-blue.jpg",
+            tagText="Pro začátečníky",
+            buttons=[
+                { text: "Jak začít s poolem", url: "#", variant: "outline" },
+                { text: "Najdi si nejbližší klub", url: "#" }
+            ]
+        ) }}
+
+        {{ leaderboards(
+            classes="bg-gray-100",
+            title="Žebříčky",
+            subtitle="Nejlepší hráči aktuální sezóny, různé série, od juniorů po veterány",
+            series=zebricky,
+            moreUrl="#"
+        ) }}
+
+        {{ linkTiles(
+            classes="bg-white",
+            items=[
+            {
+                title: "Začni hrát",
+                url: "#",
+                image: "https://loremflickr.com/500/400/billiards,pool/all?lock=13"
+            },
+            {
+                title: "Pravidla",
+                url: "#",
+                image: "https://loremflickr.com/500/400/billiards,pool/all?lock=1"
+            },
+            {
+                title: "Systémy soutěží",
+                url: "#",
+                image: "https://loremflickr.com/500/400/billiards,pool/all?lock=3"
+            },
+            {
+                title: "O svazu",
+                url: "#",
+                image: "https://loremflickr.com/500/400/billiards,pool/all?lock=17"
+            }
+        ]) }}
+
+        {{ partners(
+            classes="bg-white pt-none",
+            title="Partneři českého poolu",
+            items=partneri,
+            moreUrl="#"
+        ) }}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>
