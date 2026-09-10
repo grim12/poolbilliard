@@ -13,11 +13,17 @@
   {% if hasGallery %}
     <link rel="stylesheet" href="/css/vendor/glightbox.min.css?v={{ buildTime }}">
   {% endif %}
+  {% if hasMap %}
+    <link rel="stylesheet" href="/css/vendor/leaflet.css?v={{ buildTime }}">
+  {% endif %}
 </head>
 <body class="min-h-screen bg-white text-body-main antialiased font-sans">
   {{ content | safe }}
   {% if hasGallery %}
     <script src="/js/vendor/glightbox.min.js?v={{ buildTime }}" defer></script>
+  {% endif %}
+  {% if hasMap %}
+    <script src="/js/vendor/leaflet.js?v={{ buildTime }}" defer></script>
   {% endif %}
   <script src="/js/main.js?v={{ buildTime }}" defer></script>
 </body>

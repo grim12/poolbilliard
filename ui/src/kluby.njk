@@ -1,0 +1,54 @@
+---
+layout: layouts/base.njk
+title: Sportovní kluby — Poolbilliard
+hasMap: true
+---
+{% from "widgets/news-header.njk" import newsHeader %}
+{% from "macros/info-panel.njk" import infoPanel %}
+{% from "widgets/club-directory.njk" import clubDirectory %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        <div class="bg-gradient-light">
+        {{ newsHeader(
+            title="Sportovní kluby",
+            showSearch=false,
+            classes="pb-none"
+        ) }}
+
+        <section class="c-section pt-none">
+            <div class="c-container">
+                <div class="c-section__grid c-kluby-hero">
+                    <div class="c-club-map" data-club-map='{{ kluby | dump }}' role="application" aria-label="Mapa klubů v České republice"></div>
+
+                    {{ infoPanel(
+                        tagText="Pro začátečníky",
+                        title="Chceš začít a nevíš jak?",
+                        text="Najdi si klub ve svém okolí a spoj se s jeho ambasadorem. Provede tě prvními kroky a poradí, jak se zapojit do tréninků i klubového života.",
+                        items=[
+                            { icon: "user-group", text: "Přátelská komunita všech úrovní" },
+                            { icon: "trophy", text: "Tréninky, ligy i turnaje pro každého" },
+                            { icon: "map-pin", text: "Kluby po celé České republice" }
+                        ],
+                        footText="Pokud si nevíš rady, jak začít, připravili jsme pro tebe jednoduchý průvodce prvními kroky.",
+                        buttonText="Jak začít",
+                        buttonUrl="#"
+                    ) }}
+                </div>
+            </div>
+        </section>
+        </div>
+
+        {{ clubDirectory(
+            clubs=kluby,
+            addButtonUrl="#"
+        ) }}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

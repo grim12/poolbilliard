@@ -38,6 +38,8 @@
 @import "./section/event-banner.css";
 @import "./section/tournaments.css";
 @import "./section/kalendar.css";
+@import "./section/kluby.css";
+@import "./section/club-directory.css";
 @import "./section/cta.css";
 @import "./section/leaderboards.css";
 @import "./section/link-tiles.css";

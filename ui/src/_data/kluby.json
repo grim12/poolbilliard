@@ -1,0 +1,40 @@
+[
+  { "name": "BC Golden Horn Praha", "city": "Praha 6, Řepy", "region": "Praha", "url": "#", "lat": 50.0836, "lng": 14.304 },
+  { "name": "Řipská BC", "city": "Praha 3", "region": "Praha", "url": "#", "lat": 50.0863, "lng": 14.4625 },
+  { "name": "SK Billiard Centrum Praha", "city": "Praha 14", "region": "Praha", "url": "#", "lat": 50.105, "lng": 14.556 },
+  { "name": "SK Divočáci z Mníšku", "city": "Praha 5", "region": "Praha", "url": "#", "lat": 50.061, "lng": 14.366 },
+  { "name": "SK Harlequin Praha", "city": "Praha 10", "region": "Praha", "url": "#", "lat": 50.073, "lng": 14.479 },
+  { "name": "SK Petřiny", "city": "Praha 6", "region": "Praha", "url": "#", "lat": 50.087, "lng": 14.348 },
+  { "name": "SMÍCHOFF Billiard Club Praha", "city": "Praha", "region": "Praha", "url": "#", "lat": 50.07, "lng": 14.4 },
+
+  { "name": "BC Balabuška", "city": "Dobřejovice", "region": "Středočeský", "url": "#", "lat": 50.005, "lng": 14.554 },
+  { "name": "BC Kladno", "city": "Kladno", "region": "Středočeský", "url": "#", "lat": 50.143, "lng": 14.103 },
+  { "name": "BC Mnichovo Hradiště", "city": "Mnichovo Hradiště", "region": "Středočeský", "url": "#", "lat": 50.527, "lng": 14.97 },
+  { "name": "DUNS Benátky n.J.", "city": "Benátky nad Jizerou", "region": "Středočeský", "url": "#", "lat": 50.296, "lng": 14.827 },
+
+  { "name": "1. BC Děčín z. s.", "city": "Děčín", "region": "Ústecký", "url": "#", "lat": 50.7811, "lng": 14.215 },
+  { "name": "1. KK Chomutov", "city": "Chomutov", "region": "Ústecký", "url": "#", "lat": 50.4602, "lng": 13.4177 },
+  { "name": "BC Louny", "city": "Louny", "region": "Ústecký", "url": "#", "lat": 50.354, "lng": 13.797 },
+  { "name": "BC Rybárna", "city": "Roudnice nad Labem", "region": "Ústecký", "url": "#", "lat": 50.426, "lng": 14.263 },
+
+  { "name": "DELTA Billiard", "city": "Popůvky", "region": "Jihomoravský", "url": "#", "lat": 49.189, "lng": 16.493 },
+  { "name": "SC Rozmarýn Brno", "city": "Brno", "region": "Jihomoravský", "url": "#", "lat": 49.1951, "lng": 16.6068 },
+  { "name": "TJ Sokol Hodonín", "city": "Hodonín", "region": "Jihomoravský", "url": "#", "lat": 48.8496, "lng": 17.1319 },
+
+  { "name": "Billiard Stars", "city": "Přeštice", "region": "Plzeňský", "url": "#", "lat": 49.557, "lng": 13.335 },
+  { "name": "BK Bio-Systém Plzeň", "city": "Plzeň", "region": "Plzeňský", "url": "#", "lat": 49.7384, "lng": 13.3736 },
+  { "name": "SB Plzeň", "city": "Vejprnice", "region": "Plzeňský", "url": "#", "lat": 49.762, "lng": 13.296 },
+
+  { "name": "BC Casablanca Tábor", "city": "Tábor", "region": "Jihočeský", "url": "#", "lat": 49.4144, "lng": 14.6578 },
+  { "name": "BC Metropol České Budějovice", "city": "České Budějovice", "region": "Jihočeský", "url": "#", "lat": 48.9745, "lng": 14.4744 },
+
+  { "name": "Billiard Ostrov", "city": "Ostrov", "region": "Karlovarský", "url": "#", "lat": 50.304, "lng": 12.943 },
+
+  { "name": "BC Přichovice", "city": "Přichovice", "region": "Liberecký", "url": "#", "lat": 50.627, "lng": 15.23 },
+
+  { "name": "BC Ostrava", "city": "Ostrava", "region": "Moravskoslezský", "url": "#", "lat": 49.8209, "lng": 18.2625 },
+
+  { "name": "MPC Pardubice", "city": "Pardubice", "region": "Pardubický", "url": "#", "lat": 50.0343, "lng": 15.7812 },
+
+  { "name": "Kulečníkový klub Zlín", "city": "Zlín", "region": "Zlínský", "url": "#", "lat": 49.2265, "lng": 17.6707 }
+]

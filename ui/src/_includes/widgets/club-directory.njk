@@ -1,0 +1,57 @@
+{% from "macros/button.njk" import button %}
+
+{#
+    clubDirectory(title, subtitle, clubs, addButtonText, addButtonUrl, classes)
+    - clubs: flat array of { name, city, region, url } — grouped internally by `region`
+      (Nunjucks' groupby preserves each region's first-appearance order from the array,
+      so pre-sort kluby.json into the order regions should display in).
+#}
+{% macro clubDirectory(
+    title="Seznam klubů",
+    subtitle="Vyber si klub ve svém okolí a udělej první krok do světa závodního poolbilliardu.",
+    clubs=[],
+    addButtonText="Zaregistrovat nový klub",
+    addButtonUrl="#",
+    classes=""
+) %}
+<section class="c-section c-section--club-directory {{ classes }}">
+    <div class="c-container">
+        <div class="c-club-directory__header">
+            <div class="c-club-directory__intro">
+                <h2 class="c-section__title">{{ title }}</h2>
+                {% if subtitle %}<p class="c-section__subtitle">{{ subtitle }}</p>{% endif %}
+            </div>
+            {{ button(text=addButtonText, url=addButtonUrl, color="primary", extraClass="shrink-0") }}
+        </div>
+
+        {% set groups = clubs | groupby("region") %}
+        <div class="c-club-directory__groups">
+            {% for region, items in groups %}
+                <div class="c-club-group">
+                    <h3 class="c-club-group__title">{{ region }}</h3>
+                    <div class="c-club-group__table" role="table" aria-label="Kluby v regionu {{ region }}">
+                        <div class="c-club-group__row c-club-group__row--head" role="row">
+                            <span class="c-club-group__cell c-club-group__cell--head" role="columnheader">Název klubu</span>
+                            <span class="c-club-group__cell c-club-group__cell--head" role="columnheader">Město</span>
+                            <span class="c-club-group__cell c-club-group__cell--head" role="columnheader" aria-hidden="true"></span>
+                        </div>
+                        {% for club in items %}
+                            <a href="{{ club.url }}" class="c-club-group__row c-club-group__row--link" role="row" aria-label="{{ club.name }}">
+                                <span class="c-club-group__cell c-club-group__cell--name" role="cell">{{ club.name }}</span>
+                                <span class="c-club-group__cell c-club-group__cell--city" role="cell">
+                                    {% icon "map-pin", 14 %}
+                                    {{ club.city }}
+                                </span>
+                                <span class="c-club-group__cell c-club-group__cell--action" role="cell">
+                                    Detail
+                                    {% icon "chevron-right", 16 %}
+                                </span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endmacro %}

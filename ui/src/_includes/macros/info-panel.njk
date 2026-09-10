@@ -1,0 +1,48 @@
+{% from "macros/tag.njk" import tag %}
+{% from "macros/button.njk" import button %}
+
+{#
+    infoPanel(tagText, title, text, items, footText, buttonText, buttonUrl, extraClass, headingLevel)
+    - Dark gradient info card — same visual language as recurringTournaments() (the "Chceš si
+      zahrát?" panel in the Kalendář sidebar), reused here for a benefits/checklist pitch (e.g.
+      "Chceš začít a nevíš jak?" on Kluby) instead of a schedule list.
+    - items: array of { icon, text } — short checklist rows, each with a heroicon name
+    - headingLevel: "h3" (default) | "h2" | "h4"
+#}
+{% macro infoPanel(
+    tagText="",
+    title="",
+    text="",
+    items=[],
+    footText="",
+    buttonText="",
+    buttonUrl="#",
+    extraClass="",
+    headingLevel="h3"
+) %}
+{%- set classes = ["c-info-panel", "t-dark", extraClass] | select | join(" ") -%}
+<div class="{{ classes }}">
+    {% if tagText %}{{ tag(text=tagText, color="gold-light", variant="subtle", size="sm", extraClass="c-info-panel__tag") }}{% endif %}
+    <{{ headingLevel }} class="c-info-panel__title">{{ title }}</{{ headingLevel }}>
+    {% if text %}<p class="c-info-panel__text">{{ text }}</p>{% endif %}
+
+    {% if items.length %}
+        <ul class="c-info-panel__list">
+            {% for item in items %}
+                <li class="c-info-panel__item">
+                    <span class="c-info-panel__item-icon" aria-hidden="true">
+                        {% icon item.icon, 16 %}
+                    </span>
+                    {{ item.text }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if footText %}<p class="c-info-panel__foot">{{ footText }}</p>{% endif %}
+
+    {% if buttonText %}
+        {{ button(text=buttonText, url=buttonUrl, variant="outline", size="sm") }}
+    {% endif %}
+</div>
+{% endmacro %}

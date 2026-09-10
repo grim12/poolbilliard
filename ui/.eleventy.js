@@ -51,6 +51,13 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "node_modules/glightbox/dist/css/glightbox.min.css": "css/vendor/glightbox.min.css" });
   eleventyConfig.addPassthroughCopy({ "node_modules/glightbox/dist/js/glightbox.min.js": "js/vendor/glightbox.min.js" });
 
+  // Leaflet map — vendored dist files, loaded only on pages with `hasMap: true` (e.g. Kluby).
+  // Marker/zoom-control icons copied next to the CSS as "images/…", matching leaflet.css's own
+  // relative url(images/…) references; main.js also points L.Icon.Default at this same path.
+  eleventyConfig.addPassthroughCopy({ "node_modules/leaflet/dist/leaflet.css": "css/vendor/leaflet.css" });
+  eleventyConfig.addPassthroughCopy({ "node_modules/leaflet/dist/leaflet.js": "js/vendor/leaflet.js" });
+  eleventyConfig.addPassthroughCopy({ "node_modules/leaflet/dist/images": "css/vendor/images" });
+
   // Date filters
   eleventyConfig.addFilter("isoDate", (d) => new Date(d).toISOString().slice(0, 10));
   eleventyConfig.addFilter("czDate", (d) => {

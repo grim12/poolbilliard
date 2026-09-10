@@ -1,0 +1,42 @@
+@layer components {
+  /* ==========================================================================
+     Info panel — dark gradient card: tag + title + text + icon checklist + CTA
+     (same gradient as recurring-tournaments.css — "Chceš si zahrát?" on Kalendář)
+     ========================================================================== */
+
+  .c-info-panel {
+    @apply flex flex-col rounded-4xl bg-linear-to-tr from-primary-950 to-primary-700 p-6 sm:p-8;
+  }
+
+  .c-info-panel__tag {
+    @apply mb-4 self-start;
+  }
+
+  .c-info-panel__title {
+    @apply mb-3;
+  }
+
+  .c-info-panel__text {
+    @apply text-sm text-body-200 mb-5;
+  }
+
+  .c-info-panel__list {
+    @apply flex flex-col gap-2.5 list-none p-0 mb-5;
+  }
+
+  .c-info-panel__item {
+    @apply flex items-center gap-3 text-sm font-medium text-body-200;
+  }
+
+  .c-info-panel__item-icon {
+    @apply inline-flex items-center justify-center size-7 rounded-full bg-white/10 text-gold-300 shrink-0;
+
+    svg {
+      @apply size-4;
+    }
+  }
+
+  .c-info-panel__foot {
+    @apply text-xs text-body-200/80 mb-5;
+  }
+}
