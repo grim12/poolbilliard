@@ -1,13 +1,15 @@
 {% from "macros/tag.njk" import tag %}
 
 {#
-    notice(title, url, tagText, tagColor, tagVariant, date, extraClass, headingLevel)
+    notice(title, url, tagText, tagColor, tagVariant, date, excerpt, size, extraClass, headingLevel)
     - title: Notice title
     - url: Link URL
     - tagText: Optional label (e.g. "DŮLEŽITÉ")
     - tagColor: "accent" (default) | "primary" | "dark" | "gold" | "gray"
     - tagVariant: "subtle" (default) | "solid" | "plain" | "outline"
     - date: Date string
+    - excerpt: Optional lead paragraph — only rendered when size="lg"
+    - size: "md" (default) — compact row with trailing arrow | "lg" — bigger stacked card with excerpt, no arrow
     - extraClass: Optional extra classes on root
     - headingLevel: "h3" (default) | "h4" | "h2" | "div"
 #}
@@ -18,10 +20,13 @@
     tagColor="accent",
     tagVariant="subtle",
     date="",
+    excerpt="",
+    size="md",
     extraClass="",
     headingLevel="h3"
 ) -%}
-    {%- set classes = ["c-card", "c-card--notice", extraClass] | select | join(" ") -%}
+    {%- set sizeClass = "c-card--lg" if size == "lg" else "" -%}
+    {%- set classes = ["c-card", "c-card--notice", sizeClass, extraClass] | select | join(" ") -%}
     <article class="{{ classes }}">
         <a href="{{ url }}" class="c-card__link" aria-label="{{ title }}">
             <div class="c-card__content">
@@ -36,8 +41,13 @@
                     </div>
                 {% endif %}
                 <{{ headingLevel }} class="c-card__title">{{ title }}</{{ headingLevel }}>
+                {% if size == "lg" and excerpt %}
+                    <p class="c-card__excerpt">{{ excerpt }}</p>
+                {% endif %}
             </div>
-            {% icon "chevron-right", 24, "c-card__arrow", 20 %}
+            {% if size != "lg" %}
+                {% icon "chevron-right", 24, "c-card__arrow", 20 %}
+            {% endif %}
         </a>
     </article>
 {%- endmacro %}

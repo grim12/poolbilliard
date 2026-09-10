@@ -7,8 +7,16 @@
     @apply pt-8 sm:pt-10 lg:pt-12;
   }
 
+  .c-news-header__back {
+    @apply mb-6;
+  }
+
   .c-news-header__title {
     @apply mb-8;
+
+    &:last-child {
+      @apply mb-0;
+    }
   }
 
   .c-news-header__search {

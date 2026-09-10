@@ -9,6 +9,11 @@
     @apply w-full max-w-(--container-max) mx-auto px-4 md:px-6 lg:px-8;
   }
 
+  /* Generic "back to listing" link — used above a page's H1 (article detail, sub-listings) */
+  .c-back-link {
+    @apply inline-flex items-center gap-2 text-sm font-medium text-primary-600 no-underline transition-colors duration-150 hover:text-primary-700;
+  }
+
   /* Homepage intro wrapper (featured articles + notices + event banner) —
      gradient background with the brand mark watermarked faintly behind the content. */
   .c-hp-intro {

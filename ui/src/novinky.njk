@@ -5,6 +5,8 @@ title: Novinky — Poolbilliard
 {% from "widgets/news-header.njk" import newsHeader %}
 {% from "widgets/news-grid.njk" import newsGrid %}
 {% from "widgets/newsletter.njk" import newsletter %}
+{% from "macros/card/notice.njk" import notice %}
+{% from "macros/button.njk" import button %}
 
 <div class="c-page-wrapper">
     {% include "layouts/header.njk" %}
@@ -24,7 +26,12 @@ title: Novinky — Poolbilliard
             classes="pb-none"
         ) }}
 
-        {{ newsGrid(
+        {% call newsGrid(
+            sidebarTagText="Výkonný výbor",
+            sidebarTitle="Důležité zprávy",
+            currentPage=1,
+            totalPages=3,
+            baseUrl="/novinky/",
             items=[
                 {
                     title: "Český tým ovládl mistrovství Evropy v Heyball!",
@@ -116,35 +123,34 @@ title: Novinky — Poolbilliard
                     date: "10. ledna 2026",
                     excerpt: "Od výběru klubu po první turnaj — připravili jsme přehledného průvodce."
                 }
-            ],
-            sidebarItems=[
-                {
-                    title: "Termínový kalendář soutěží pro sezónu 2026 schválen",
-                    url: "/article-detail/",
-                    tagText: "DŮLEŽITÉ",
-                    tagColor: "accent",
-                    date: "15. 11. 2025"
-                },
-                {
-                    title: "Změna registračního řádu: nové podmínky přestupů hráčů",
-                    url: "/article-detail/",
-                    date: "15. 7. 2026"
-                },
-                {
-                    title: "Zápis z jednání VV ze dne 30. června 2026",
-                    url: "/article-detail/",
-                    date: "2. 7. 2026"
-                },
-                {
-                    title: "Aktualizovaný sazebník startovného pro rok 2026",
-                    url: "/article-detail/",
-                    date: "20. 1. 2026"
-                }
-            ],
-            currentPage=1,
-            totalPages=3,
-            baseUrl="/novinky/"
-        ) }}
+            ]
+        ) %}
+            <div class="c-news-grid__sidebar-list">
+                {{ notice(
+                    title="Termínový kalendář soutěží pro sezónu 2026 schválen",
+                    url="/article-detail/",
+                    tagText="DŮLEŽITÉ",
+                    tagColor="accent",
+                    date="15. 11. 2025"
+                ) }}
+                {{ notice(
+                    title="Změna registračního řádu: nové podmínky přestupů hráčů",
+                    url="/article-detail/",
+                    date="15. 7. 2026"
+                ) }}
+                {{ notice(
+                    title="Zápis z jednání VV ze dne 30. června 2026",
+                    url="/article-detail/",
+                    date="2. 7. 2026"
+                ) }}
+                {{ notice(
+                    title="Aktualizovaný sazebník startovného pro rok 2026",
+                    url="/article-detail/",
+                    date="20. 1. 2026"
+                ) }}
+            </div>
+            {{ button(text="Archiv všech zpráv", url="/zpravodajstvi/vykonny-vybor", variant="link", extraClass="w-full") }}
+        {% endcall %}
         </div>
 
         {{ newsletter() }}

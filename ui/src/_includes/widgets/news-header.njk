@@ -1,18 +1,29 @@
 {#
-    newsHeader(title, searchPlaceholder, categories, classes)
-    - categories: array of { text, value, isActive }
+    newsHeader(title, backText, backUrl, showSearch, searchPlaceholder, categories, classes)
+    - backText / backUrl: optional "Zpět na …" link shown above the title (omit backUrl to hide it)
+    - showSearch: true (default) | false — some listings (e.g. Zprávy výboru) have no search/filter
+    - categories: array of { text, value, isActive } — filter pills, hidden when empty
     - Search input and category filter are intentionally inert (no <form>/<a> navigation) — real
       filtering will be wired later via JS (fetch + history.pushState), not a full page reload.
 #}
-{% macro newsHeader(title="Novinky", searchPlaceholder="Hledej ve zprávách", categories=[], classes="") %}
+{% macro newsHeader(title="Novinky", backText="Zpět na novinky", backUrl="", showSearch=true, searchPlaceholder="Hledej ve zprávách", categories=[], classes="") %}
 <section class="c-section c-section--news-header {{ classes }}">
     <div class="c-container">
+        {% if backUrl %}
+            <a href="{{ backUrl }}" class="c-back-link c-news-header__back">
+                {% icon "arrow-left", 18 %}
+                {{ backText }}
+            </a>
+        {% endif %}
+
         <h1 class="h1--big c-news-header__title">{{ title }}</h1>
 
-        <div class="c-news-header__search">
-            {% icon "magnifying-glass", 18, "c-news-header__search-icon" %}
-            <input type="search" class="c-news-header__search-input" placeholder="{{ searchPlaceholder }}" aria-label="{{ searchPlaceholder }}" data-news-search />
-        </div>
+        {% if showSearch %}
+            <div class="c-news-header__search">
+                {% icon "magnifying-glass", 18, "c-news-header__search-icon" %}
+                <input type="search" class="c-news-header__search-input" placeholder="{{ searchPlaceholder }}" aria-label="{{ searchPlaceholder }}" data-news-search />
+            </div>
+        {% endif %}
 
         {% if categories.length %}
             <div class="c-news-header__filters" role="group" aria-label="Filtrovat podle kategorie">

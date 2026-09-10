@@ -46,6 +46,25 @@
         @apply translate-x-0.5 text-primary-600;
       }
     }
+
+    /* Size modifier: bigger stacked card with an excerpt, no trailing arrow */
+    &.c-card--lg {
+      .c-card__link {
+        @apply flex-col items-stretch p-6 sm:p-7;
+      }
+
+      .c-card__meta {
+        @apply mb-3;
+      }
+
+      .c-card__title {
+        @apply text-xl leading-snug mb-2;
+      }
+
+      .c-card__excerpt {
+        @apply text-sm text-body-600 leading-body line-clamp-3 mb-0;
+      }
+    }
   }
 
 }

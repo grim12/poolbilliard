@@ -15,11 +15,37 @@
     @apply grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4;
   }
 
+  /* Bigger notice cards (Zprávy výboru) read better single-column, full width */
+  .c-news-grid__cards--notice {
+    @apply sm:grid-cols-1 gap-4;
+  }
+
   .c-news-grid__sidebar-tag {
     @apply mb-2;
   }
 
   .c-news-grid__sidebar-list {
     @apply flex flex-col gap-3 mb-5;
+  }
+
+  /* Small info block (e.g. "Kontakt") — an alternative to a list of cards in the sidebar */
+  .c-news-grid__info {
+    @apply rounded-3xl bg-white border border-gray-100 shadow-card-sm p-6;
+  }
+
+  .c-news-grid__info-heading {
+    @apply flex items-center gap-2 text-lg font-extrabold tracking-normal text-body-main mb-3;
+
+    svg {
+      @apply text-primary-600 shrink-0;
+    }
+  }
+
+  .c-news-grid__info p {
+    @apply text-sm text-body-600 leading-body mb-0;
+
+    a {
+      @apply font-bold text-primary-600 no-underline hover:underline;
+    }
   }
 }
