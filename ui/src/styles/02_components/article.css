@@ -1,0 +1,76 @@
+@layer components {
+  /* ==========================================================================
+     Article detail — breadcrumb, header (tag + title + date), hero image, body
+     ========================================================================== */
+
+  .c-article {
+    @apply pt-4 sm:pt-6 lg:pt-8 pb-8 sm:pb-10 lg:pb-14;
+  }
+
+  /* Narrower reading column, centered within the page's own .c-container gutter */
+  .c-article__inner {
+    @apply max-w-3xl mx-auto;
+  }
+
+  .c-article__back {
+    @apply inline-flex items-center gap-2 text-sm font-medium text-primary-600 no-underline transition-colors duration-150 hover:text-primary-700;
+  }
+
+  .c-article__header {
+    @apply mt-8 sm:mt-10;
+  }
+
+  .c-article__tag {
+    @apply mb-3;
+  }
+
+  .c-article__date {
+    @apply block text-sm text-body-500 mb-6 sm:mb-8;
+  }
+
+  .c-article__media {
+    @apply block w-full overflow-hidden rounded-3xl mb-8 sm:mb-10;
+
+    img {
+      @apply h-auto w-full;
+    }
+  }
+
+  /* Body copy: base sizing/weight comes from the global base typography
+     (01_base/typography.css) — here we only override what an article's
+     reading column needs differently: smaller subheadings, looser paragraphs. */
+  .c-article__body {
+    h2, .h2 {
+      @apply text-lg sm:text-xl lg:text-2xl font-extrabold;
+    }
+
+    h3, .h3 {
+      @apply text-base sm:text-lg lg:text-xl font-extrabold;
+    }
+
+    p, .p {
+      @apply leading-relaxed;
+    }
+
+    strong {
+      @apply text-body-main font-bold;
+    }
+
+    ul,
+    ol {
+      @apply mt-4 mb-4 pl-6 text-body-600 leading-body;
+    }
+
+    ul {
+      @apply list-disc;
+    }
+
+    ol {
+      @apply list-decimal;
+    }
+
+    li + li {
+      @apply mt-2;
+    }
+  }
+}

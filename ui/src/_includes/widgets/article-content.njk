@@ -1,0 +1,54 @@
+{% from "macros/tag.njk" import tag %}
+
+{#
+    articleContent(backText, backUrl, tagText, tagColor, title, date, image, imageAlt, classes)
+    - Breadcrumb + header (category tag, title, date) + hero image for an article detail page.
+    - Body copy (h3/p/strong/ul/ol) is passed as the call block, e.g.:
+      {% call articleContent(title="...", date="...", image="...") %}
+          <p>...</p>
+          <h3>...</h3>
+      {% endcall %}
+    - tagColor: "primary" (default) | "accent" | "dark" | "gray" | "gold"
+#}
+{% macro articleContent(
+    backText="Zpět na novinky",
+    backUrl="#",
+    tagText="",
+    tagColor="primary",
+    title="",
+    date="",
+    image="",
+    imageAlt="",
+    classes=""
+) %}
+<section class="{{ ["c-article", classes] | select | join(" ") }}">
+    <div class="c-container">
+        <a href="{{ backUrl }}" class="c-article__back">
+            {% icon "arrow-left", 18 %}
+            {{ backText }}
+        </a>
+    </div>
+
+    <div class="c-container c-article__inner">
+        <header class="c-article__header">
+            {% if tagText %}
+                {{ tag(text=tagText, color=tagColor, variant="plain", size="sm", extraClass="c-article__tag") }}
+            {% endif %}
+            <h1 class="h2 c-article__title">{{ title }}</h1>
+            {% if date %}
+                <time class="c-article__date">{{ date }}</time>
+            {% endif %}
+        </header>
+
+        {% if image %}
+            <div class="c-article__media">
+                <img src="{{ image }}" alt="{{ imageAlt }}" loading="lazy" />
+            </div>
+        {% endif %}
+
+        <div class="c-article__body">
+            {{ caller() }}
+        </div>
+    </div>
+</section>
+{% endmacro %}

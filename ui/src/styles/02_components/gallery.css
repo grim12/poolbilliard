@@ -1,0 +1,34 @@
+@layer components {
+  /* ==========================================================================
+     Gallery — thumbnail grid opening full photos in a GLightbox lightbox
+     ========================================================================== */
+
+  .c-gallery {
+    @apply py-8 sm:py-10 lg:py-14;
+  }
+
+  .c-gallery__title {
+    @apply font-extrabold text-body-main text-lg sm:text-xl lg:text-2xl mb-5;
+  }
+
+  .c-gallery__grid {
+    @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4;
+  }
+
+  .c-gallery__item {
+    @apply block relative aspect-3/2 w-full overflow-hidden rounded-2xl cursor-zoom-in;
+
+    img {
+      @apply h-full w-full object-cover transition-transform duration-300;
+    }
+
+    &:hover img,
+    &:focus-visible img {
+      @apply scale-105;
+    }
+
+    &:focus-visible {
+      @apply outline-none ring-2 ring-offset-2 ring-primary-500;
+    }
+  }
+}

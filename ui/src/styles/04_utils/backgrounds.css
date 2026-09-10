@@ -1,0 +1,4 @@
+/* Very light blue to white, top to bottom — subtle section background */
+@utility bg-gradient-light {
+  @apply bg-gradient-to-b from-primary-50 to-white;
+}

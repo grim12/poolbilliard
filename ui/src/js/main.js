@@ -95,4 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Gallery lightbox (GLightbox, loaded only on pages that have a .glightbox gallery)
+  if (window.GLightbox && document.querySelector('.glightbox')) {
+    window.GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });
+  }
 });

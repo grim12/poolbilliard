@@ -9,10 +9,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css?v={{ buildTime }}">
+  {% if hasGallery %}
+    <link rel="stylesheet" href="/css/vendor/glightbox.min.css?v={{ buildTime }}">
+  {% endif %}
 </head>
 <body class="min-h-screen bg-white text-body-main antialiased font-sans">
   {{ content | safe }}
-  <script src="/js/main.js" defer></script>
+  {% if hasGallery %}
+    <script src="/js/vendor/glightbox.min.js?v={{ buildTime }}" defer></script>
+  {% endif %}
+  <script src="/js/main.js?v={{ buildTime }}" defer></script>
 </body>
 </html>

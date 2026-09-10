@@ -4,6 +4,7 @@
 
 @import "./04_utils/spacing.css";
 @import "./04_utils/borders.css";
+@import "./04_utils/backgrounds.css";
 @import "./01_base/typography.css";
 @import "./02_components/layout.css";
 @import "./02_components/header.css";
@@ -12,6 +13,8 @@
 @import "./02_components/tag.css";
 @import "./02_components/input.css";
 @import "./02_components/card.css";
+@import "./02_components/article.css";
+@import "./02_components/gallery.css";
 @import "./02_components/leaderboard.css";
 @import "./02_components/banner.css";
 @import "./02_components/section.css";
@@ -56,7 +59,7 @@
   --color-divider:     var(--color-gray-200);
 
   /* Brand Colors - Primary (Deep Royal Blue) */
-  --color-primary-50:  #edf5ff;
+  --color-primary-50:  #f1f5fb;
   --color-primary-100: #d6e8ff;
   --color-primary-200: #b5d7ff;
   --color-primary-300: #A7B9E2;

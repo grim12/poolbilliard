@@ -1,0 +1,25 @@
+{#
+    gallery(items, title, classes)
+    - items: array of { image, alt } — image = full-size photo (opened in the lightbox)
+    - Renders a responsive thumbnail grid; each tile opens in a shared GLightbox lightbox.
+    - Requires the page to set `hasGallery: true` in its frontmatter, so layouts/base.njk
+      loads GLightbox's CSS/JS (see ui/.eleventy.js passthrough copies + src/js/main.js init).
+#}
+{% macro gallery(items=[], title="", classes="") %}
+{% if items and items.length %}
+<section class="{{ ["c-gallery", classes] | select | join(" ") }}">
+    <div class="c-container">
+        {% if title %}
+            <h2 class="c-gallery__title">{{ title }}</h2>
+        {% endif %}
+        <div class="c-gallery__grid">
+            {% for item in items %}
+                <a href="{{ item.image }}" class="c-gallery__item glightbox" data-gallery="article-gallery" aria-label="{{ item.alt or title }}">
+                    <img src="{{ item.image }}" alt="" loading="lazy" />
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endmacro %}

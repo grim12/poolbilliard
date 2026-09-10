@@ -47,6 +47,10 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/uploads");
   eleventyConfig.addPassthroughCopy({ "src/.htaccess": ".htaccess" });
 
+  // Gallery lightbox (GLightbox) — vendored dist files, loaded only on pages with `hasGallery: true`
+  eleventyConfig.addPassthroughCopy({ "node_modules/glightbox/dist/css/glightbox.min.css": "css/vendor/glightbox.min.css" });
+  eleventyConfig.addPassthroughCopy({ "node_modules/glightbox/dist/js/glightbox.min.js": "js/vendor/glightbox.min.js" });
+
   // Date filters
   eleventyConfig.addFilter("isoDate", (d) => new Date(d).toISOString().slice(0, 10));
   eleventyConfig.addFilter("czDate", (d) => {
