@@ -1,0 +1,43 @@
+{#
+    pagination(currentPage, totalPages, baseUrl, classes)
+    - Real <a href="{{ baseUrl }}?page=N"> links — unlike the category/search filters (JS-only,
+      no navigation), the page number is meant to live in the URL: shareable and crawlable,
+      which is exactly why this page uses numbered pagination instead of infinite scroll.
+#}
+{% macro pagination(currentPage=1, totalPages=1, baseUrl="#", classes="") %}
+{% if totalPages > 1 %}
+<nav class="{{ ["c-pagination", classes] | select | join(" ") }}" aria-label="Stránkování">
+    {% if currentPage > 1 %}
+        <a href="{{ baseUrl }}{{ '?page=' + (currentPage - 1) if currentPage > 2 else '' }}" class="c-pagination__nav" aria-label="Předchozí stránka">
+            {% icon "chevron-left", 18 %}
+        </a>
+    {% else %}
+        <span class="c-pagination__nav c-pagination__nav--is-disabled" aria-hidden="true">
+            {% icon "chevron-left", 18 %}
+        </span>
+    {% endif %}
+
+    <ul class="c-pagination__list">
+        {% for page in totalPages | range %}
+            <li>
+                {% if page == currentPage %}
+                    <span class="c-pagination__page c-pagination__page--is-current" aria-current="page">{{ page }}</span>
+                {% else %}
+                    <a href="{{ baseUrl }}{{ '?page=' + page if page > 1 else '' }}" class="c-pagination__page">{{ page }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if currentPage < totalPages %}
+        <a href="{{ baseUrl }}?page={{ currentPage + 1 }}" class="c-pagination__nav" aria-label="Další stránka">
+            {% icon "chevron-right", 18 %}
+        </a>
+    {% else %}
+        <span class="c-pagination__nav c-pagination__nav--is-disabled" aria-hidden="true">
+            {% icon "chevron-right", 18 %}
+        </span>
+    {% endif %}
+</nav>
+{% endif %}
+{% endmacro %}

@@ -23,6 +23,7 @@
 
 @import "./card/article-main.css";
 @import "./card/article-compact.css";
+@import "./card/article-grid.css";
 @import "./card/tournament.css";
 @import "./card/tile.css";
 @import "./card/notice.css";

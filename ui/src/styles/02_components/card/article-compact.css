@@ -4,7 +4,7 @@
      ========================================================================== */
 
   .c-card--article-compact {
-    @apply rounded-2xl sm:rounded-4xl bg-white overflow-visible shadow-lg transition-shadow duration-300;
+    @apply rounded-2xl sm:rounded-4xl bg-white overflow-visible shadow-card-lg transition-shadow duration-300;
     @apply border border-gray-200/70;
 
     .c-card__link {
@@ -47,7 +47,7 @@
     /* Hover + keyboard-focus interactions */
     &:hover,
     &:focus-within {
-      @apply shadow-md;
+      @apply shadow-card-md;
 
       .c-card__media img {
         @apply scale-105 -rotate-1;

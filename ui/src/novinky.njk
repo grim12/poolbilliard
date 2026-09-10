@@ -1,0 +1,154 @@
+---
+layout: layouts/base.njk
+title: Novinky — Poolbilliard
+---
+{% from "widgets/news-header.njk" import newsHeader %}
+{% from "widgets/news-grid.njk" import newsGrid %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        <div class="bg-gradient-light">
+        {{ newsHeader(
+            title="Novinky",
+            categories=[
+                { text: "Vše", value: "all", isActive: true },
+                { text: "Reprezentace", value: "reprezentace" },
+                { text: "Junior Open", value: "junior-open" },
+                { text: "ČPTour", value: "cptour" },
+                { text: "Mistrovství ČR", value: "mistrovstvi-cr" },
+                { text: "Zpravodajství", value: "zpravodajstvi" }
+            ],
+            classes="pb-none"
+        ) }}
+
+        {{ newsGrid(
+            items=[
+                {
+                    title: "Český tým ovládl mistrovství Evropy v Heyball!",
+                    url: "/article-detail/",
+                    image: "/uploads/cesky-tym-ovladl-mistrovstvi-evropy-v-heyballu (1).jpg",
+                    tagText: "Reprezentace",
+                    tagColor: "accent",
+                    date: "15. srpna 2026",
+                    excerpt: "Reprezentační tým České republiky vybojoval na ME družstev v Heyball zlaté medaile a stal se evropským šampionem pro rok 2026."
+                },
+                {
+                    title: "Vítězem 1. kola Junior Open je Alexandr Hofmann",
+                    url: "/article-detail/",
+                    image: "/uploads/vitezem-1-kola-junior-open-alexandr-hofmann.jpg",
+                    tagText: "Junior Open",
+                    tagColor: "gold",
+                    date: "5. června 2026",
+                    excerpt: "Mladý talent ovládl úvodní kolo seriálu Junior Open a potvrdil formu z minulé sezóny."
+                },
+                {
+                    title: "Matouš Vlk ovládl první kolo ČPTour 2026",
+                    url: "/article-detail/",
+                    image: "/uploads/matous-vlk-ovladl-prvni-kolo-cptour-2026.jpg",
+                    tagText: "ČPTour",
+                    tagColor: "primary",
+                    date: "25. února 2026",
+                    excerpt: "První turnaj sezóny přinesl vyrovnané souboje, ve finále ale nenašel přemožitele."
+                },
+                {
+                    title: "Petr Urban zvítězil na MR 10-ball v Brně",
+                    url: "/article-detail/",
+                    image: "/uploads/petr-urban-zvitezil-na-mr-10-ball-v-brne.jpg",
+                    tagText: "Mistrovství ČR",
+                    tagColor: "primary",
+                    date: "12. dubna 2026",
+                    excerpt: "Kvalifikace i mistrovství republiky se hrály ve stejném víkendu ve Slovanském domě."
+                },
+                {
+                    title: "MR Heyball vyhrála Veronika Hubrtová",
+                    url: "/article-detail/",
+                    image: "/uploads/pool-group-blue.jpg",
+                    tagText: "Mistrovství ČR",
+                    tagColor: "primary",
+                    date: "5. srpna 2026",
+                    excerpt: "Ve finále porazila obhájkyni titulu a získala první seniorský titul kariéry."
+                },
+                {
+                    title: "Junior Open 4. kolo přineslo nové tváře",
+                    url: "/article-detail/",
+                    image: "/uploads/junior-open-4-kolo.jpg",
+                    tagText: "Junior Open",
+                    tagColor: "gold",
+                    date: "20. října 2026",
+                    excerpt: "Do bojů o body v žebříčku se poprvé zapojila i mladší kategorie do 14 let."
+                },
+                {
+                    title: "Federal Cup 2026 hostí Bratislava",
+                    url: "/article-detail/",
+                    image: "/uploads/federal.jpg",
+                    tagText: "Zpravodajství",
+                    tagColor: "gray",
+                    date: "1. října 2026",
+                    excerpt: "Největší domácí akce sezóny nabídne tři dny zápasů a doprovodný program."
+                },
+                {
+                    title: "Nové podmínky přestupů hráčů schváleny",
+                    url: "/article-detail/",
+                    image: "/uploads/o-svazu.jpg",
+                    tagText: "Zpravodajství",
+                    tagColor: "gray",
+                    date: "15. července 2026",
+                    excerpt: "Výkonný výbor schválil úpravu registračního řádu platnou od nové sezóny."
+                },
+                {
+                    title: "Aktualizovaná pravidla kulečníku ke stažení",
+                    url: "/article-detail/",
+                    image: "/uploads/pravidla.jpg",
+                    tagText: "Zpravodajství",
+                    tagColor: "gray",
+                    date: "3. března 2026",
+                    excerpt: "Nové znění pravidel reflektuje poslední změny mezinárodní federace."
+                },
+                {
+                    title: "Jak začít hrát pool: kompletní návod pro začátečníky",
+                    url: "/article-detail/",
+                    image: "/uploads/zacni-hrat.jpg",
+                    tagText: "Zpravodajství",
+                    tagColor: "gray",
+                    date: "10. ledna 2026",
+                    excerpt: "Od výběru klubu po první turnaj — připravili jsme přehledného průvodce."
+                }
+            ],
+            sidebarItems=[
+                {
+                    title: "Termínový kalendář soutěží pro sezónu 2026 schválen",
+                    url: "/article-detail/",
+                    tagText: "DŮLEŽITÉ",
+                    tagColor: "accent",
+                    date: "15. 11. 2025"
+                },
+                {
+                    title: "Změna registračního řádu: nové podmínky přestupů hráčů",
+                    url: "/article-detail/",
+                    date: "15. 7. 2026"
+                },
+                {
+                    title: "Zápis z jednání VV ze dne 30. června 2026",
+                    url: "/article-detail/",
+                    date: "2. 7. 2026"
+                },
+                {
+                    title: "Aktualizovaný sazebník startovného pro rok 2026",
+                    url: "/article-detail/",
+                    date: "20. 1. 2026"
+                }
+            ],
+            currentPage=1,
+            totalPages=3,
+            baseUrl="/novinky/"
+        ) }}
+        </div>
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

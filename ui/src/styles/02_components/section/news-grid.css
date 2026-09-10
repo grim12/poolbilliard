@@ -1,0 +1,25 @@
+@layer components {
+  /* ==========================================================================
+     Section: News listing grid (article cards + "Důležité zprávy" sidebar)
+     ========================================================================== */
+
+  .c-section--news-grid {
+    @apply pt-4 sm:pt-6 lg:pt-8;
+  }
+
+  .c-news-grid__layout {
+    @apply items-start lg:grid-cols-[2.5fr_1fr] gap-8 lg:gap-10;
+  }
+
+  .c-news-grid__cards {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4;
+  }
+
+  .c-news-grid__sidebar-tag {
+    @apply mb-2;
+  }
+
+  .c-news-grid__sidebar-list {
+    @apply flex flex-col gap-3 mb-5;
+  }
+}

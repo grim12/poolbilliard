@@ -45,7 +45,7 @@
     /* Hover + keyboard-focus interactions */
     &:hover,
     &:focus-within {
-      @apply shadow-lg;
+      @apply shadow-card-lg;
 
       .c-card__title {
         @apply text-primary-600;

@@ -40,7 +40,7 @@
   }
 
   .c-footer__nav-title {
-    @apply text-xs font-bold uppercase tracking-wider text-white m-0 mb-4;
+    @apply text-base font-extrabold tracking-normal text-white m-0 mb-4;
   }
 
   .c-footer__nav-list {

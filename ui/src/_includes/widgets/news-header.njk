@@ -1,0 +1,26 @@
+{#
+    newsHeader(title, searchPlaceholder, categories, classes)
+    - categories: array of { text, value, isActive }
+    - Search input and category filter are intentionally inert (no <form>/<a> navigation) — real
+      filtering will be wired later via JS (fetch + history.pushState), not a full page reload.
+#}
+{% macro newsHeader(title="Novinky", searchPlaceholder="Hledej ve zprávách", categories=[], classes="") %}
+<section class="c-section c-section--news-header {{ classes }}">
+    <div class="c-container">
+        <h1 class="c-news-header__title">{{ title }}</h1>
+
+        <div class="c-news-header__search">
+            {% icon "magnifying-glass", 18, "c-news-header__search-icon" %}
+            <input type="search" class="c-news-header__search-input" placeholder="{{ searchPlaceholder }}" aria-label="{{ searchPlaceholder }}" data-news-search />
+        </div>
+
+        {% if categories.length %}
+            <div class="c-news-header__filters" role="group" aria-label="Filtrovat podle kategorie">
+                {% for cat in categories %}
+                    <button type="button" class="c-news-header__filter" aria-pressed="{{ 'true' if cat.isActive else 'false' }}" data-category="{{ cat.value }}">{{ cat.text }}</button>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endmacro %}

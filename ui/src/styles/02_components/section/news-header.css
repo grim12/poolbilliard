@@ -1,0 +1,37 @@
+@layer components {
+  /* ==========================================================================
+     Section: News listing header (title + search + category filter)
+     ========================================================================== */
+
+  .c-section--news-header {
+    @apply pt-8 sm:pt-10 lg:pt-12;
+  }
+
+  .c-news-header__title {
+    @apply mb-8;
+  }
+
+  .c-news-header__search {
+    @apply relative flex items-center mb-3;
+  }
+
+  .c-news-header__search-icon {
+    @apply absolute left-4 text-gray-400 pointer-events-none;
+  }
+
+  .c-news-header__search-input {
+    @apply w-full h-12 pl-11 pr-4 rounded-full border border-gray-200 bg-white text-sm text-body-main placeholder:text-gray-400 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+
+  .c-news-header__filters {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .c-news-header__filter {
+    @apply inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold bg-white border border-gray-200 text-body-600 transition-colors duration-150 cursor-pointer select-none hover:bg-gray-50;
+
+    &[aria-pressed="true"] {
+      @apply bg-primary-600 text-white border-primary-600 hover:bg-primary-700;
+    }
+  }
+}

@@ -7,6 +7,8 @@
   h1, .h1,
   h2, .h2,
   h3, .h3,
+  h4, .h4,
+  h5, .h5,
   p, .p,
   .p--lg {
     &:first-child {
@@ -28,7 +30,15 @@
   }
 
   h3, .h3 {
-    @apply font-extrabold tracking-tight-2 text-body-main leading-h3 text-2xl sm:text-3xl lg:text-4xl mb-4;
+    @apply font-extrabold tracking-tight-2 text-body-main leading-h3 text-xl sm:text-2xl lg:text-3xl mb-4;
+  }
+
+  h4, .h4 {
+    @apply font-extrabold tracking-tight-2 text-body-main leading-h3 text-lg sm:text-xl lg:text-2xl mb-3;
+  }
+
+  h5, .h5 {
+    @apply font-extrabold tracking-tight-2 text-body-main leading-h3 text-base sm:text-lg lg:text-xl mb-2;
   }
 
   /* --- Paragraphs & Body Text --- */

@@ -63,6 +63,9 @@ module.exports = function (eleventyConfig) {
     new URL(path, base).toString()
   );
 
+  // Number filters — usage: {% for page in totalPages | range %} (Nunjucks has no built-in range())
+  eleventyConfig.addFilter("range", (n) => Array.from({ length: n }, (_, i) => i + 1));
+
   return {
     dir: {
       input: "src",

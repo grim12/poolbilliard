@@ -1,0 +1,51 @@
+@layer components {
+  /* ==========================================================================
+     Card: Article Grid (image top, content below — news listing grid)
+     ========================================================================== */
+
+  .c-card--article-grid {
+    @apply block h-full rounded-3xl bg-white border border-gray-100 shadow-card-sm overflow-hidden transition-shadow duration-200;
+
+    .c-card__link {
+      @apply flex flex-col h-full;
+    }
+
+    .c-card__media {
+      @apply block w-full aspect-3/2 overflow-hidden bg-gray-100;
+
+      img {
+        @apply w-full h-full object-cover transition-transform duration-500 ease-out;
+      }
+    }
+
+    .c-card__body {
+      @apply flex flex-col grow p-5;
+    }
+
+    .c-card__meta {
+      @apply flex items-baseline gap-2.5 mb-2 flex-wrap;
+    }
+
+    .c-card__date {
+      @apply text-xs sm:text-sm text-body-600;
+    }
+
+    .c-card__title {
+      @apply font-extrabold text-body-main text-xl leading-snug mb-2 line-clamp-2;
+    }
+
+    .c-card__excerpt {
+      @apply text-sm text-body-600 leading-body line-clamp-2 mb-0;
+    }
+
+    /* Hover + keyboard-focus interactions */
+    &:hover,
+    &:focus-within {
+      @apply shadow-card-md border-gray-200;
+
+      .c-card__media img {
+        @apply scale-105;
+      }
+    }
+  }
+}

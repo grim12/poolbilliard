@@ -1,6 +1,6 @@
 @layer components {
   .c-header {
-    @apply relative z-50 bg-white shadow-lg lg:sticky lg:top-0;
+    @apply relative z-50 bg-white shadow-sm shadow-black/5 lg:sticky lg:top-0;
   }
 
   /* --- Topbar (secondary utility links) --- */

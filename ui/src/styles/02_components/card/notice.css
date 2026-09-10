@@ -4,7 +4,7 @@
      ========================================================================== */
 
   .c-card--notice {
-    @apply block h-full rounded-3xl bg-white border border-gray-100 shadow-md transition-shadow duration-200;
+    @apply block h-full rounded-3xl bg-white border border-gray-100 shadow-card-md transition-shadow duration-200;
 
     .c-card__link {
       @apply flex items-center justify-between gap-4 h-full p-5 text-inherit no-underline outline-none;
@@ -36,7 +36,7 @@
 
     &:hover,
     &:focus-within {
-      @apply shadow-lg border-gray-200;
+      @apply shadow-card-lg border-gray-200;
 
       .c-card__title {
         @apply text-primary-600;

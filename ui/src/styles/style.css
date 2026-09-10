@@ -15,6 +15,7 @@
 @import "./02_components/card.css";
 @import "./02_components/article.css";
 @import "./02_components/gallery.css";
+@import "./02_components/pagination.css";
 @import "./02_components/leaderboard.css";
 @import "./02_components/banner.css";
 @import "./02_components/section.css";
@@ -126,4 +127,9 @@
   --radius-4xl:        1.5rem;    /* 24px */
   --radius-5xl:        2rem;      /* 32px */
   --radius-6xl:        2.5rem;    /* 40px */
+
+  /* Card Shadows — same size/spread as Tailwind's default shadow-sm/md/lg, half the opacity */
+  --shadow-card-sm:    0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05);
+  --shadow-card-md:    0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-card-lg:    0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
 }

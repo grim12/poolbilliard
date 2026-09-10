@@ -4,7 +4,7 @@
      ========================================================================== */
 
   .c-card--article-main {
-    @apply flex flex-col w-full rounded-4xl bg-dark shadow-lg sm:block sm:relative sm:overflow-hidden;
+    @apply flex flex-col w-full rounded-4xl bg-dark shadow-card-lg sm:block sm:relative sm:overflow-hidden;
     @apply sm:min-h-90 md:min-h-100 lg:min-h-115 xl:min-h-144;
 
     .c-card__media {
