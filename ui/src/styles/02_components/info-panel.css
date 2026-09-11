@@ -17,7 +17,7 @@
   }
 
   .c-info-panel__text {
-    @apply text-sm text-body-200 mb-5;
+    @apply text-base text-body-200 mb-5;
   }
 
   .c-info-panel__list {

@@ -1,0 +1,50 @@
+---
+layout: layouts/base.njk
+title: Kulečníkové herny — Poolbilliard
+hasMap: true
+---
+{% from "widgets/news-header.njk" import newsHeader %}
+{% from "macros/info-panel.njk" import infoPanel %}
+{% from "widgets/herna-list.njk" import hernaList %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        <div class="bg-gradient-light">
+        {{ newsHeader(
+            title="Kulečníkové herny",
+            subtitle="Najděte si hernu ve svém regionu! Objevte místa, kde si můžete zahrát poolbilliard, potrénovat nebo poznat další hráče.",
+            showSearch=false,
+            classes="pb-none"
+        ) }}
+
+        <section class="c-section pt-none">
+            <div class="c-container">
+                <div class="c-section__grid lg:grid-cols-[1.7fr_1fr] items-stretch gap-6 lg:gap-8">
+                    <div class="c-club-map" data-club-map='{{ herny | dump }}' data-pin-color="primary" role="application" aria-label="Mapa heren v České republice"></div>
+
+                    {{ infoPanel(
+                        tagText="Přidejte svou hernu",
+                        title="Provozujete hernu?",
+                        text="Zařaďte ji do našeho katalogu. Vyplňte jednoduchý registrační formulář a po schválení se herna objeví v seznamu i na mapě, kde si ji najdou hráči z vašeho okolí.",
+                        buttonText="Registrovat hernu",
+                        buttonUrl="#"
+                    ) }}
+                </div>
+            </div>
+        </section>
+        </div>
+
+        {{ hernaList(
+            items=herny,
+            regions=["Praha", "Středočeský", "Plzeňský", "Jihočeský", "Liberecký", "Ústecký", "Královéhradecký", "Jihomoravský", "Moravskoslezský"],
+            classes="pt-none"
+        ) }}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

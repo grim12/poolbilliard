@@ -12,14 +12,19 @@
      of its own those values compare directly against page chrome like the sticky header
      (z-50) and win. isolate contains them so the map, as a whole, stacks by normal DOM order. */
   .c-club-map {
-    @apply relative isolate w-full h-[380px] sm:h-[440px] lg:h-auto rounded-4xl overflow-hidden border border-gray-200 bg-gray-100;
+    @apply relative isolate w-full h-[380px] sm:h-[440px] lg:h-auto lg:min-h-[420px] rounded-4xl overflow-hidden border border-gray-200 bg-gray-100;
   }
 
   /* Custom Leaflet marker (replaces the default icon image, which isn't vendored) — solid
-     red dot, white border, plus a crisp semi-transparent red "ring" (0-blur box-shadow, so
-     it reads as a second border rather than a soft glow). */
+     dot, white border, plus a crisp semi-transparent "ring" (0-blur box-shadow, so it reads
+     as a second border rather than a soft glow). Red by default (Kluby); blue on maps whose
+     container carries data-pin-color="primary" (Herny), see main.js. */
   .c-map-pin {
     @apply block size-4.5 rounded-full bg-accent-500 border-2 border-white shadow-[0_0_0_4px_rgba(214,23,43,0.25)];
+  }
+
+  .c-map-pin--primary {
+    @apply bg-primary-600 shadow-[0_0_0_4px_rgba(11,78,162,0.25)];
   }
 
   /* Popup content (bound via Leaflet's bindPopup, see main.js) — Leaflet renders its own

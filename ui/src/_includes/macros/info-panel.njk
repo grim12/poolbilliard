@@ -42,7 +42,7 @@
     {% if footText %}<p class="c-info-panel__foot">{{ footText }}</p>{% endif %}
 
     {% if buttonText %}
-        {{ button(text=buttonText, url=buttonUrl, variant="outline", size="sm") }}
+        {{ button(text=buttonText, url=buttonUrl, variant="outline", size="sm", extraClass="self-start mt-auto") }}
     {% endif %}
 </div>
 {% endmacro %}

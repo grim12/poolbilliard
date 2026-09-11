@@ -1,0 +1,87 @@
+@layer components {
+  /* ==========================================================================
+     Section: Herny — search/kraj filter bar + card grid (Kde hrát → Herny)
+     ========================================================================== */
+
+  .c-herna-filter {
+    @apply flex flex-col sm:flex-row sm:items-end gap-4 mb-6 lg:mb-8;
+  }
+
+  .c-herna-filter__field {
+    @apply flex flex-col gap-2;
+  }
+
+  .c-herna-filter__field--search {
+    @apply flex-1 min-w-0;
+  }
+
+  .c-herna-filter__field--region {
+    @apply w-full sm:w-56 shrink-0;
+  }
+
+  .c-herna-filter__label {
+    @apply text-sm font-bold text-body-main;
+  }
+
+  .c-herna-filter__input-wrap {
+    @apply relative flex items-center;
+  }
+
+  .c-herna-filter__icon {
+    @apply absolute left-4 text-gray-400 pointer-events-none;
+  }
+
+  .c-herna-filter__input {
+    @apply w-full h-12 pl-11 pr-4 rounded-[14px] border border-gray-200 bg-white text-base text-body-main placeholder:text-body-500 shadow-xs outline-none transition-colors duration-150 focus:border-primary-400 focus:ring-2 focus:ring-primary-100;
+  }
+
+  /* Custom chevron (native <select> arrows sit flush against the edge) — appearance-none
+     drops the browser's own arrow, replaced with this one positioned further inward. */
+  .c-herna-filter__select {
+    @apply w-full h-12 pl-4 pr-10 rounded-[14px] border border-gray-200 bg-white bg-no-repeat text-base text-body-main shadow-xs outline-none transition-colors duration-150 cursor-pointer appearance-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2394a3b8'%3E%3Cpath fill-rule='evenodd' d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-position: right 1rem center;
+    background-size: 1.15rem;
+  }
+
+  /* --- Card grid --- */
+  .c-herna-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5;
+  }
+
+  .c-herna-card {
+    @apply rounded-2xl border border-gray-200 bg-white p-4 sm:p-5;
+  }
+
+  .c-herna-card__header {
+    @apply flex items-start gap-3;
+  }
+
+  .c-herna-card__badge {
+    @apply inline-flex items-center justify-center size-12 rounded-lg bg-linear-to-br from-primary-700 to-primary-950 text-white text-xs font-bold uppercase shrink-0;
+  }
+
+  .c-herna-card__name {
+    @apply font-bold text-body-main text-sm sm:text-base leading-snug m-0 mb-1;
+  }
+
+  .c-herna-card__address {
+    @apply inline-flex items-start gap-1.5 text-sm text-body-600 leading-snug m-0;
+
+    svg {
+      @apply text-gray-400 shrink-0 mt-0.5;
+    }
+  }
+
+  .c-herna-card__divider {
+    @apply border-t border-gray-100 my-3;
+  }
+
+  .c-herna-card__link {
+    @apply inline-flex items-center gap-1.5 text-sm font-bold text-primary-600 no-underline hover:text-primary-700 hover:underline;
+
+    svg {
+      @apply shrink-0;
+    }
+  }
+}

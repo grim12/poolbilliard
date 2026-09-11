@@ -70,6 +70,16 @@ module.exports = function (eleventyConfig) {
     new URL(path, base).toString()
   );
 
+  // {{ "Billiard Club Harlequin Praha" | initials }} -> "BCH" — badge label for herna cards
+  eleventyConfig.addFilter("initials", (name, max = 3) =>
+    String(name)
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, max)
+      .map((word) => word[0].toUpperCase())
+      .join("")
+  );
+
   // Number filters — usage: {% for page in totalPages | range %} (Nunjucks has no built-in range())
   eleventyConfig.addFilter("range", (n) => Array.from({ length: n }, (_, i) => i + 1));
 

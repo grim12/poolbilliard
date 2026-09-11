@@ -101,16 +101,18 @@ document.addEventListener('DOMContentLoaded', () => {
     window.GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });
   }
 
-  // Kluby: Leaflet map with one marker per club (loaded only on pages with a [data-club-map] element)
+  // Kluby/Herny: Leaflet map with one marker per item (loaded only on pages with a [data-club-map] element)
   const clubMapEl = document.querySelector('[data-club-map]');
 
   if (clubMapEl && window.L) {
     const clubs = JSON.parse(clubMapEl.dataset.clubMap || '[]');
 
     // Custom marker icon (a plain styled <div>, see .c-map-pin) instead of Leaflet's default
-    // image-based icon, which isn't vendored.
+    // image-based icon, which isn't vendored. data-pin-color picks a color modifier (e.g.
+    // "primary" for the blue Herny pins) — red (.c-map-pin's own default) when omitted.
+    const pinColor = clubMapEl.dataset.pinColor;
     const clubIcon = L.divIcon({
-      className: 'c-map-pin',
+      className: pinColor ? `c-map-pin c-map-pin--${pinColor}` : 'c-map-pin',
       iconSize: [18, 18],
       iconAnchor: [9, 9],
       popupAnchor: [0, -9],
@@ -138,8 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .bindPopup(`
           <div class="c-map-popup">
             <p class="c-map-popup__name">${club.name}</p>
-            <p class="c-map-popup__address">${club.fullName}, ${club.address}</p>
-            ${club.url ? `<a class="c-map-popup__link" href="${club.url}">Detail klubu →</a>` : ''}
+            <p class="c-map-popup__address">${[club.fullName, club.address].filter(Boolean).join(', ')}</p>
+            ${club.url ? `<a class="c-map-popup__link" href="${club.url}">${club.linkText || 'Detail klubu'} →</a>` : ''}
           </div>
         `);
     });

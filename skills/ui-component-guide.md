@@ -55,6 +55,11 @@ ui/
 * **Pravidlo pro první a poslední element (`:first-child`, `:last-child`):** Textové bloky mají automatický reset horního a dolního marginu:
   * `&:first-child { @apply mt-0; }` — první prvek v kontejneru nemá horní margin.
   * `&:last-child { @apply mb-0; }` — poslední prvek v kontejneru nemá spodní margin.
+* **Nikdy nepoužívej menší velikost písma než `text-base` (16px)** pro běžný text (odstavce, popisky, hodnoty), pokud pro to není konkrétní důvod. `text-sm`/`text-xs` je v pořádku jen u prvků, které jsou svou podstatou vedlejší/drobné, typicky:
+  * eyebrow/label štítky (`uppercase tracking-wider`, např. `.c-club-group__cell--head`),
+  * poznámky pod čarou / disclaimery (`.c-info-panel__foot`),
+  * metadata v kompaktní kartě/tabulce (datum, tag), kde je hlavní obsah karty vedle.
+  Pokud si nejsi jistý, jestli daný text spadá do výjimky, drž se `text-base` — bylo to opakovaně potřeba opravovat zpětně (např. `.c-info-panel__text`, hlavní odstavec CTA panelu, běžel na `text-sm` bez důvodu).
 
 > ⚠️ **PAST: Komponentní `__title` (a podobné) třídy nesmí tiše přepisovat výchozí styl nadpisového tagu.**
 > Stalo se opakovaně, že subkomponenta jako `.c-club-group__title` na `<h3>` přepsala velikost/váhu/margin z `typography.css` vlastními hodnotami, které se pak rozjely od zbytku nadpisů na stránce (jiná velikost než ostatní `h3`, jiný `mb-*`...). Postup při psaní nové nadpisové subkomponenty, v tomto pořadí:

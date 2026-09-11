@@ -1,0 +1,68 @@
+{#
+    hernaList(items, regions, searchPlaceholder, classes)
+    - Card grid of herny (pool halls / bowling bars) with a search + kraj filter bar above it.
+    - Distinct from clubDirectory(): herny are public venues, not member-only clubs — no detail
+      page (just a compact card + external "Web" link) and no region grouping, since the search
+      + kraj filter narrow the one flat grid instead of the list being pre-split into sections.
+    - items: flat array of { name, address, city, region, url, linkText, lat, lng }
+    - regions: array of region names shown in the Kraj <select> — passed explicitly (same
+      reasoning as calendarFilter's `items`: the page controls the source list and its order,
+      rather than this macro deriving it from `items` itself)
+    - Search input and Kraj select are intentionally inert (no real filtering wired up yet) —
+      same pattern as newsHeader()'s search / calendarFilter's pills.
+#}
+{% macro hernaList(
+    items=[],
+    regions=[],
+    searchPlaceholder="Hledat podle názvu, města, adresy…",
+    classes=""
+) %}
+<section class="{{ ["c-section", classes] | select | join(" ") }}">
+    <div class="c-container">
+        <div class="c-herna-filter">
+            <div class="c-herna-filter__field c-herna-filter__field--search">
+                <label class="c-herna-filter__label" for="herna-search">Vyhledat hernu</label>
+                <div class="c-herna-filter__input-wrap">
+                    {% icon "magnifying-glass", 18, "c-herna-filter__icon" %}
+                    <input type="search" id="herna-search" class="c-herna-filter__input" placeholder="{{ searchPlaceholder }}" data-herna-search />
+                </div>
+            </div>
+            {% if regions.length %}
+                <div class="c-herna-filter__field c-herna-filter__field--region">
+                    <label class="c-herna-filter__label" for="herna-region">Kraj</label>
+                    <select id="herna-region" class="c-herna-filter__select" data-herna-region>
+                        <option value="">Vše</option>
+                        {% for region in regions %}
+                            <option value="{{ region }}">{{ region }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="c-herna-grid">
+            {% for herna in items %}
+                <div class="c-herna-card">
+                    <div class="c-herna-card__header">
+                        <span class="c-herna-card__badge" aria-hidden="true">{{ herna.name | initials }}</span>
+                        <div class="min-w-0">
+                            <p class="c-herna-card__name">{{ herna.name }}</p>
+                            <p class="c-herna-card__address">
+                                {% icon "map-pin", 14 %}
+                                {{ [herna.address, herna.city] | select | join(", ") }}
+                            </p>
+                        </div>
+                    </div>
+                    {% if herna.url %}
+                        <div class="c-herna-card__divider"></div>
+                        <a class="c-herna-card__link" href="{{ herna.url }}" target="_blank" rel="noopener noreferrer">
+                            {% icon "globe-alt", 14 %}
+                            {{ herna.linkText or "Web" }}
+                        </a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endmacro %}
