@@ -1,0 +1,29 @@
+@layer components {
+  /* ==========================================================================
+     Steps — numbered how-to list (icon + title + text per row), see macros/steps.njk
+     ========================================================================== */
+
+  .c-steps {
+    @apply flex flex-col gap-3 list-none p-0 m-0;
+  }
+
+  .c-steps__item {
+    @apply flex items-start gap-4 rounded-2xl bg-gray-50 border border-gray-200 p-5;
+  }
+
+  .c-steps__icon {
+    @apply inline-flex items-center justify-center size-10 rounded-full bg-primary-600 text-white shrink-0;
+  }
+
+  .c-steps__title {
+    @apply font-bold text-body-main m-0 mb-1;
+  }
+
+  .c-steps__text {
+    @apply text-sm text-body-600 m-0;
+
+    a {
+      @apply font-semibold text-primary-600 hover:underline;
+    }
+  }
+}

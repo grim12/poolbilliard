@@ -1,0 +1,22 @@
+{#
+    steps(items, classes)
+    - Numbered how-to list: icon badge + title + text per row, in a light tinted row.
+    - items: array of { icon, title, text } — title conventionally includes its own "1. "
+      prefix (e.g. "1. Najděte hernu ve svém okolí") since the icon is illustrative, not a
+      rendered step number.
+#}
+{% macro steps(items=[], classes="") %}
+<ol class="{{ ["c-steps", classes] | select | join(" ") }}">
+    {% for item in items %}
+        <li class="c-steps__item">
+            <span class="c-steps__icon" aria-hidden="true">
+                {% icon item.icon, 20 %}
+            </span>
+            <div class="min-w-0">
+                <p class="c-steps__title">{{ item.title }}</p>
+                {% if item.text %}<p class="c-steps__text">{{ item.text | safe }}</p>{% endif %}
+            </div>
+        </li>
+    {% endfor %}
+</ol>
+{% endmacro %}

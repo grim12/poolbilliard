@@ -1,0 +1,33 @@
+@layer components {
+  /* ==========================================================================
+     Match form — "find me a club/hall/coach" request form, see macros/match-form.njk
+     ========================================================================== */
+
+  .c-form {
+    @apply rounded-3xl border border-gray-200 bg-gray-50 p-6 sm:p-8;
+  }
+
+  .c-form__text {
+    @apply text-body-600 mb-6;
+  }
+
+  .c-form__grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-4 items-end;
+  }
+
+  .c-form__field {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .c-form__field--full {
+    @apply sm:col-span-2;
+  }
+
+  .c-form__label {
+    @apply text-sm font-bold text-body-main;
+  }
+
+  .c-form__textarea {
+    @apply h-auto py-3 resize-y;
+  }
+}

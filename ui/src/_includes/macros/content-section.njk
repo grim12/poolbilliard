@@ -1,5 +1,5 @@
 {#
-    contentSection(id, number, eyebrow, title, aside, below, classes, headingLevel)
+    contentSection(id, number, eyebrow, title, aside, below, fullWidth, classes, headingLevel)
     - Generic numbered content section: circular number badge + small eyebrow label + big
       title + divider, then a freeform body passed as the call block. One shared widget for
       every section of a longer explainer page (e.g. Soutěže) instead of bespoke markup per
@@ -9,20 +9,25 @@
       {% endcall %}
     - number/eyebrow: both optional — omit `number` for an unnumbered section, omit both to
       drop the eyebrow row entirely.
+    - eyebrowColor: "primary" (default) | "accent"
     - The body (call block) always sits in a ~2/3-width main column, with the remaining ~1/3
       reserved as a right-hand sidebar column — even when `aside` is empty, so every section
       keeps the same reading width and there's always room to drop sidebar content in later.
       Nunjucks macros only get one call block, so sidebar content is passed as a pre-rendered
       string instead — build it with {% set aside %}...{% endset %} above the call:
       {% set aside %}
-          <div class="c-content-section__card">...</div>
+          <div class="c-content__card">...</div>
       {% endset %}
       {% call contentSection(title="...", aside=aside) %}...{% endcall %}
     - below: same pre-rendered-string idea, but rendered full-width *below* the 2/3+1/3 grid —
       for content that shouldn't be squeezed into the main column (e.g. the category tile
       grid on "Mistrovství ČR v kategoriích").
     - id: optional anchor id, so a jumpNav() (or any other in-page link) can scroll to this
-      section — see .c-content-section's scroll-margin-top, which clears the sticky header.
+      section — see .c-section--content's scroll-margin-top, which clears the sticky header.
+    - fullWidth: false (default) — body sits in the 2/3+1/3 grid described above | true — skip
+      that grid entirely and render the body at the section's full width instead (`aside` is
+      ignored in this mode). Use for content that isn't a reading column at all, e.g. a grid
+      of cards meant to fill the whole row.
     - Minimal on purpose today (just a header + main/aside/below slots); expect more options
       here as these sections grow (see ui-component-guide.md).
     - headingLevel: "h2" (default) | "h3"
@@ -31,37 +36,43 @@
     id="",
     number="",
     eyebrow="",
+    eyebrowColor="primary",
     title="",
     aside="",
     below="",
+    fullWidth=false,
     classes="",
     headingLevel="h2"
 ) %}
-<section{% if id %} id="{{ id }}"{% endif %} class="{{ ["c-section", "c-content-section", classes] | select | join(" ") }}">
+<section{% if id %} id="{{ id }}"{% endif %} class="{{ ["c-section", "c-section--content", classes] | select | join(" ") }}">
     <div class="c-container">
-        <header class="c-content-section__header">
+        <header class="c-content__header">
             {% if number or eyebrow %}
-                <div class="c-content-section__eyebrow">
-                    {% if number %}<span class="c-content-section__number">{{ number }}</span>{% endif %}
-                    {% if eyebrow %}<span class="c-content-section__eyebrow-text">{{ eyebrow }}</span>{% endif %}
+                <div class="c-content__eyebrow">
+                    {% if number %}<span class="c-content__number">{{ number }}</span>{% endif %}
+                    {% if eyebrow %}<span class="{{ ["c-content__eyebrow-text", ("c-content__eyebrow-text--" + eyebrowColor) if eyebrowColor != "primary" else ""] | select | join(" ") }}">{{ eyebrow }}</span>{% endif %}
                 </div>
             {% endif %}
-            <{{ headingLevel }} class="c-content-section__title">{{ title }}</{{ headingLevel }}>
+            <{{ headingLevel }} class="c-content__title">{{ title }}</{{ headingLevel }}>
         </header>
 
-        <div class="c-content-section__grid">
-            <div class="c-content-section__body">
-                {{ caller() }}
-            </div>
-            {% if aside %}
-                <div class="c-content-section__aside">
-                    {{ aside | safe }}
+        {% if fullWidth %}
+            {{ caller() }}
+        {% else %}
+            <div class="c-content__grid">
+                <div class="c-content__body">
+                    {{ caller() }}
                 </div>
-            {% endif %}
-        </div>
+                {% if aside %}
+                    <div class="c-content__aside">
+                        {{ aside | safe }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
 
         {% if below %}
-            <div class="c-content-section__below">
+            <div class="c-content__below">
                 {{ below | safe }}
             </div>
         {% endif %}

@@ -24,6 +24,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // FAQ accordion (see macros/faq.njk): only one question open at a time — each .c-faq
+  // container is scoped independently, so a page can have more than one group (e.g. one FAQ
+  // per persona section) without them fighting over which item is open. Animated via
+  // max-height (set to the panel's measured scrollHeight to open, 0 to close) since the
+  // panel's real height varies with content/viewport and can't be a fixed CSS value.
+  document.querySelectorAll('.c-faq').forEach((group) => {
+    const toggles = Array.from(group.querySelectorAll('[data-faq-toggle]'));
+
+    const closeToggle = (toggle) => {
+      const panel = document.getElementById(toggle.getAttribute('aria-controls'));
+      toggle.setAttribute('aria-expanded', 'false');
+      if (panel) panel.style.maxHeight = '0px';
+    };
+
+    toggles.forEach((toggle) => {
+      const panel = document.getElementById(toggle.getAttribute('aria-controls'));
+      if (!panel) return;
+
+      toggle.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+
+        toggles.forEach((other) => {
+          if (other !== toggle) closeToggle(other);
+        });
+
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        panel.style.maxHeight = isOpen ? '0px' : `${panel.scrollHeight}px`;
+      });
+    });
+  });
+
   // Header: hide the topbar on scroll down, reveal it on scroll up (desktop/sticky only)
   const header = document.querySelector('.c-header');
   const desktopMedia = window.matchMedia('(min-width: 64rem)');
@@ -48,6 +79,53 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: true });
   }
+
+  // Header: keep --header-height in sync with its actual rendered height (it changes as the
+  // topbar hides/reveals on scroll, see above) so sticky elements below it (e.g. jump-nav)
+  // can offset by exactly that much instead of a guessed constant.
+  if (header && 'ResizeObserver' in window) {
+    const setHeaderHeightVar = () => {
+      document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+    };
+    setHeaderHeightVar();
+    new ResizeObserver(setHeaderHeightVar).observe(header);
+  }
+
+  // Jump nav: sticky pill row linking to sections further down the same page (see
+  // macros/jump-nav.njk). Highlights the pill for whichever section is currently in view,
+  // and scrolls that pill into view within the row itself — relevant once the row is wider
+  // than the viewport (mobile, or just many items).
+  document.querySelectorAll('[data-jump-nav]').forEach((nav) => {
+    const links = Array.from(nav.querySelectorAll('[data-jump-link]'));
+    const sections = links
+      .map((link) => document.getElementById(link.getAttribute('href').slice(1)))
+      .filter(Boolean);
+
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+
+    const setActive = (id) => {
+      links.forEach((link) => {
+        const isActive = link.getAttribute('href') === `#${id}`;
+        link.classList.toggle('is-active', isActive);
+        if (isActive) {
+          link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      // A thin detection band a bit above center — a section counts as "active" once it
+      // crosses it, not only once it's fully in view.
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+  });
 
   // Header: search panel toggle (desktop bar + mobile menu each have their own panel/trigger)
   const searchToggles = document.querySelectorAll('[data-search-toggle]');

@@ -1,0 +1,34 @@
+{#
+    faq(items, title, idPrefix, classes)
+    - Accordion of frequently-asked questions — only one question open at a time within this
+      group (each faq() call is its own independent group, see main.js's [data-faq-toggle]
+      handling, scoped per .c-faq container). Animated open/close via max-height, since native
+      <details> can't transition height and we need cross-group independence anyway.
+    - items: array of { question, answer }
+    - idPrefix: short unique slug used to build each panel's id (e.g. "zacatecnik") — needed
+      because a page can have more than one faq() group, and ids must stay unique across all
+      of them.
+#}
+{% macro faq(items=[], title="", idPrefix="faq", classes="") %}
+{% if items.length %}
+<div class="{{ classes }}">
+    {% if title %}<h3 class="mb-4">{{ title }}</h3>{% endif %}
+    <div class="c-faq">
+        {% for item in items %}
+            <div class="c-faq__item">
+                <button type="button" class="c-faq__question" aria-expanded="false" aria-controls="{{ idPrefix }}-panel-{{ loop.index }}" data-faq-toggle>
+                    <span class="c-faq__index">{{ "0" if loop.index < 10 else "" }}{{ loop.index }}</span>
+                    <span class="c-faq__question-text">{{ item.question }}</span>
+                    {% icon "chevron-down", 20, "c-faq__chevron" %}
+                </button>
+                <div class="c-faq__panel" id="{{ idPrefix }}-panel-{{ loop.index }}" data-faq-panel>
+                    <div class="c-faq__answer">
+                        <p>{{ item.answer }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endmacro %}

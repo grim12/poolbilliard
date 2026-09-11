@@ -5,8 +5,8 @@
 
   .c-section--leaderboards {
     /* Offsets an #anchor jump (e.g. from jumpNav()) so the header doesn't hide behind the
-       sticky header — only sticky at lg, so only offset there too. */
-    @apply lg:scroll-mt-24;
+       sticky jump-nav (sticky at every breakpoint) plus the sticky header (lg only). */
+    @apply scroll-mt-16 lg:scroll-mt-40;
 
     .c-section__grid {
       @apply xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5;

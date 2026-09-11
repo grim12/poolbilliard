@@ -4,15 +4,23 @@
      same page, see macros/jump-nav.njk.
      ========================================================================== */
 
+  /* Sticks right under the (only-sticky-at-lg) header — top-0 on mobile, since the header
+     isn't sticky there and simply scrolls away; --header-height is kept in sync by main.js
+     (falls back to an approximate expanded-header height before JS runs). */
   .c-jump-nav {
-    @apply w-full bg-white border-b border-gray-200;
+    @apply sticky top-0 lg:top-[var(--header-height,8.5rem)] z-40 w-full bg-white border-b border-gray-200;
   }
 
   .c-jump-nav__inner {
-    @apply flex items-center gap-2 py-3 overflow-x-auto;
+    @apply flex items-center gap-2 py-2 overflow-x-auto;
   }
 
   .c-jump-nav__pill {
     @apply inline-flex items-center justify-center whitespace-nowrap shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-body-600 bg-white border border-gray-200 no-underline transition-colors duration-150 hover:bg-gray-50 hover:text-body-main;
+  }
+
+  /* Section currently in view (see main.js's IntersectionObserver on [data-jump-nav]) */
+  .c-jump-nav__pill.is-active {
+    @apply bg-primary-600 border-primary-600 text-white hover:bg-primary-600 hover:text-white;
   }
 }

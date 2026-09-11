@@ -1,0 +1,45 @@
+@layer components {
+  /* ==========================================================================
+     FAQ accordion — button + max-height panel (animated), see macros/faq.njk.
+     Only one item open at a time per .c-faq group, see main.js's [data-faq-toggle].
+     ========================================================================== */
+
+  .c-faq {
+    @apply flex flex-col rounded-3xl border border-gray-200 bg-white divide-y divide-gray-100 overflow-hidden;
+  }
+
+  .c-faq__question {
+    @apply flex items-center gap-4 w-full px-5 py-4 cursor-pointer select-none text-left bg-transparent border-0;
+  }
+
+  .c-faq__index {
+    @apply text-sm font-bold text-primary-600 shrink-0;
+  }
+
+  .c-faq__question-text {
+    @apply flex-1 min-w-0 font-bold text-body-main;
+  }
+
+  .c-faq__chevron {
+    @apply text-gray-400 transition-transform duration-200 shrink-0;
+  }
+
+  .c-faq__question[aria-expanded="true"] .c-faq__chevron {
+    @apply rotate-180;
+  }
+
+  /* Collapsed via max-height (0 by default) rather than [hidden]/display, so the open/close
+     can transition smoothly — JS sets max-height to the panel's measured scrollHeight to open
+     it, see main.js. */
+  .c-faq__panel {
+    @apply max-h-0 overflow-hidden transition-[max-height] duration-300 ease-in-out;
+  }
+
+  .c-faq__answer {
+    @apply px-5 pb-4;
+
+    p {
+      @apply text-sm text-body-600 m-0;
+    }
+  }
+}

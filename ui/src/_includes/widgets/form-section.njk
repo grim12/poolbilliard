@@ -1,0 +1,32 @@
+{#
+    formSection(id, eyebrow, title, headingLevel, classes)
+    - Narrow, centered section for a single form (or any other narrow-column content) — same
+      reading-width treatment as articleContent()'s .c-article__inner. Distinct from
+      contentSection()'s 2/3+1/3 reading-column + sidebar layout, which doesn't fit a single
+      centered form.
+    - Body is a freeform call block, e.g. matchForm() today — but any other form (or narrow
+      content) can reuse this same section shell:
+      {% call formSection(eyebrow="Doporučeno na míru", title="Najdeme vám ideální klub, hernu nebo trenéra") %}
+          {{ matchForm(...) }}
+      {% endcall %}
+    - headingLevel: "h2" (default) | "h3"
+    - Header/eyebrow/title reuse the generic .c-section__* elements (section.css) instead of
+      component-specific ones — this shell has nothing distinctive enough to warrant its own.
+#}
+{% macro formSection(
+    id="",
+    eyebrow="",
+    title="",
+    headingLevel="h2",
+    classes=""
+) %}
+<section{% if id %} id="{{ id }}"{% endif %} class="{{ ["c-section", "c-section--form", classes] | select | join(" ") }}">
+    <div class="c-container c-section__inner">
+        <header class="c-section__header">
+            {% if eyebrow %}<p class="c-section__eyebrow">{{ eyebrow }}</p>{% endif %}
+            <{{ headingLevel }} class="c-section__title">{{ title }}</{{ headingLevel }}>
+        </header>
+        {{ caller() }}
+    </div>
+</section>
+{% endmacro %}

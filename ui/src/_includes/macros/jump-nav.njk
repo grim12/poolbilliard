@@ -1,17 +1,22 @@
 {#
     jumpNav(items, classes)
-    - Row of small pill anchor links that scroll down to sections further on the same page
-      (e.g. right below a pageHero) — items: array of { text, url }, where url is a same-page
-      hash like "#regiony". The target section needs a matching `id` (see contentSection's
-      `id` param) and enough scroll-margin-top to clear the sticky header (see
-      .c-content-section) — global smooth scrolling is set once on `html`.
+    - Sticky row of small pill anchor links that scroll down to sections further on the same
+      page (e.g. right below a pageHero) — items: array of { text, url }, where url is a
+      same-page hash like "#regiony". The target section needs a matching `id` (see
+      contentSection's `id` param) and enough scroll-margin-top to clear this nav once it's
+      stuck (plus the sticky header) — global smooth scrolling is set once on `html`.
+    - Sticks to the top of the viewport on scroll (right below the sticky header at lg — see
+      --header-height, kept in sync by main.js). While scrolling, the pill for whichever
+      section is currently in view is highlighted and scrolled into view within this row
+      (relevant once the row is wider than the viewport, e.g. on mobile) — see main.js's
+      [data-jump-nav] handling.
 #}
 {% macro jumpNav(items=[], classes="") %}
 {% if items.length %}
-<nav class="{{ ["c-jump-nav", classes] | select | join(" ") }}" aria-label="Rychlá navigace na sekce stránky">
+<nav class="{{ ["c-jump-nav", classes] | select | join(" ") }}" aria-label="Rychlá navigace na sekce stránky" data-jump-nav>
     <div class="c-container c-jump-nav__inner">
         {% for item in items %}
-            <a href="{{ item.url }}" class="c-jump-nav__pill">{{ item.text }}</a>
+            <a href="{{ item.url }}" class="c-jump-nav__pill" data-jump-link>{{ item.text }}</a>
         {% endfor %}
     </div>
 </nav>

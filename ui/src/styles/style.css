@@ -24,6 +24,10 @@
 @import "./02_components/alert.css";
 @import "./02_components/content-section.css";
 @import "./02_components/jump-nav.css";
+@import "./02_components/steps.css";
+@import "./02_components/feature-card.css";
+@import "./02_components/faq.css";
+@import "./02_components/match-form.css";
 @import "./02_components/calendar.css";
 @import "./02_components/calendar-filter.css";
 @import "./02_components/recurring-tournaments.css";

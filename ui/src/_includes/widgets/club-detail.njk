@@ -43,7 +43,7 @@
     {%- set hasAmbassadorCard = ambassadorName or websiteUrl -%}
     {%- set hasAside = hasMapCard or hasAmbassadorCard -%}
     {%- set mapsUrl = mapsUrl or (("https://www.google.com/maps/search/?api=1&query=" + lat + "," + lng) if (lat and lng) else "") -%}
-<section class="{{ ["c-section", classes] | select | join(" ") }}">
+<section class="{{ ["c-section", "c-section--club-detail", classes] | select | join(" ") }}">
     <div class="c-container">
         <div class="{{ ["c-section__grid c-club-detail__grid", ("lg:grid-cols-1" if not hasAside else "")] | select | join(" ") }}">
             <div class="c-club-detail__main">

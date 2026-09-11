@@ -1,0 +1,27 @@
+{% from "macros/button.njk" import button %}
+
+{#
+    featureCard(icon, title, text, linkText, linkUrl, extraClass)
+    - Small icon-badge + title + text + link card — e.g. the "Kde začít" quick-select grid.
+#}
+{% macro featureCard(
+    icon="",
+    title="",
+    text="",
+    linkText="",
+    linkUrl="#",
+    extraClass=""
+) %}
+<div class="{{ ["c-feature-card", extraClass] | select | join(" ") }}">
+    {% if icon %}
+        <span class="c-feature-card__icon" aria-hidden="true">
+            {% icon icon, 22 %}
+        </span>
+    {% endif %}
+    <p class="c-feature-card__title">{{ title }}</p>
+    {% if text %}<p class="c-feature-card__text">{{ text }}</p>{% endif %}
+    {% if linkText %}
+        {{ button(text=linkText, url=linkUrl, variant="link", size="sm", extraClass="mt-auto") }}
+    {% endif %}
+</div>
+{% endmacro %}

@@ -1,0 +1,203 @@
+---
+layout: layouts/base.njk
+title: Jak začít — Poolbilliard
+---
+{% from "widgets/page-hero.njk" import pageHero %}
+{% from "macros/jump-nav.njk" import jumpNav %}
+{% from "macros/content-section.njk" import contentSection %}
+{% from "macros/feature-card.njk" import featureCard %}
+{% from "macros/steps.njk" import steps %}
+{% from "macros/info-panel.njk" import infoPanel %}
+{% from "macros/faq.njk" import faq %}
+{% from "widgets/form-section.njk" import formSection %}
+{% from "macros/match-form.njk" import matchForm %}
+{% from "macros/button.njk" import button %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ pageHero(
+            title="Brána do světa poolbilliardu",
+            text="Ať jste úplný začátečník, rekreační hráč nebo hledáte sport pro své dítě, ukážeme vám, jak začít."
+        ) }}
+
+        {{ jumpNav(items=[
+            { text: "Jsem začátečník", url: "#zacatecnik" },
+            { text: "Jsem rekreační hráč", url: "#rekreacni-hrac" },
+            { text: "Jsem rodič", url: "#rodic" },
+            { text: "Chci se zlepšit", url: "#doporuceni" }
+        ]) }}
+
+        {% call contentSection(eyebrow="Kde začít", title="Která situace vás nejlépe vystihuje?", fullWidth=true) %}
+            <div class="c-feature-cards">
+                {{ featureCard(
+                    icon="user-plus",
+                    title="Nikdy jsem kulečník nehrál",
+                    text="Chci si poolbilliard vyzkoušet a zjistit, jak začít.",
+                    linkText="Začít",
+                    linkUrl="#zacatecnik"
+                ) }}
+                {{ featureCard(
+                    icon="users",
+                    title="Už hraji s kamarády",
+                    text="Chci se zlepšit, trénovat a vyzkoušet soutěže.",
+                    linkText="Posunout svou hru",
+                    linkUrl="#rekreacni-hrac"
+                ) }}
+                {{ featureCard(
+                    icon="face-smile",
+                    title="Hledám sport pro své dítě",
+                    text="Chci kroužek, kemp, trénink nebo turnajovou akci.",
+                    linkText="Začít",
+                    linkUrl="#rodic"
+                ) }}
+                {{ featureCard(
+                    icon="academic-cap",
+                    title="Chci se zlepšit",
+                    text="Hledám trenéra, individuální trénink nebo pokročilou výuku.",
+                    linkText="Najít trenéra",
+                    linkUrl="#rekreacni-hrac"
+                ) }}
+            </div>
+        {% endcall %}
+
+        {% set zacatecnikAside %}
+            {{ infoPanel(
+                title="Kulečníkové herny",
+                text="Desítky kulečníkových heren po celé republice. Najděte tu nejbližší a zarezervujte si stůl.",
+                buttonText="Kulečníkové herny",
+                buttonUrl="/herny/",
+                headingLevel="h3"
+            ) }}
+            <div class="c-content__card mt-6">
+                <p class="c-content__eyebrow-text mb-2">Pravidla kulečníku</p>
+                <h3 class="mb-3">Chcete hrát tak, jako na soutěžích?</h3>
+                <p>Kolem pravidel koluje spousta špatných informací, podívejte se na správné verze tak, jak je uznává česká i evropská poolbilliardová federace.</p>
+                {{ button(text="Pravidla poolbilliardu", url="#", variant="link", size="sm") }}
+            </div>
+        {% endset %}
+        {% call contentSection(id="zacatecnik", eyebrow="Úplný začátečník", eyebrowColor="accent", title="Chci si poolbilliard zkusit s kamarády", aside=zacatecnikAside, classes="bg-gray-100 border-top border-bottom") %}
+            <p>Nejsnadnější cesta k poolbilliardu? Najděte hernu ve svém okolí, vezměte partu kamarádů a přijďte si zahrát. Žádné členství, žádné vybavení — jen zábava.</p>
+            {{ steps(items=[
+                { icon: "map-pin", title: "1. Najděte hernu ve svém okolí", text: "Vyberte si z desítek <a href=\"/herny/\">kulečníkových heren</a> po celé republice." },
+                { icon: "calendar-days", title: "2. Rezervujte si stůl", text: "Zavolejte nebo napište herně dopředu. Některé nabízejí i online rezervaci." },
+                { icon: "users", title: "3. Vezměte partu kamarádů", text: "Nejvíc zábavy je ve skupině 2–4 hráčů na jeden stůl." },
+                { icon: "book-open", title: "4. Přečtěte si pravidla", text: "Seznamte se se základními pravidly disciplíny, kterou si chcete zahrát." },
+                { icon: "trophy", title: "5. Přijďte si zahrát", text: "Personál vám zapůjčí vše potřebné. Za pár minut už hrajete." }
+            ]) }}
+            {{ faq(
+                classes="mt-6 sm:mt-8",
+                idPrefix="zacatecnik",
+                title="Nejčastější otázky začátečníků",
+                items=[
+                    { question: "Potřebuji vlastní vybavení?", answer: "Ne, herny i kluby obvykle zapůjčí tága i ostatní vybavení zdarma nebo za symbolický poplatek. Vlastní tágo se hodí, až budete hrát pravidelně." },
+                    { question: "Kolik stojí hodina poolu?", answer: "Cena se liší podle herny a lokality, obvykle se pohybuje v řádu stovek korun za hodinu na jeden stůl." },
+                    { question: "Musím něco umět, abych mohl hrát?", answer: "Ne, stačí základní představa o pravidlech. Personál herny vám rád poradí a hraní s kamarády je hlavně o zábavě." },
+                    { question: "Kolik lidí potřebuji?", answer: "Ideálně 2–4 hráče na jeden stůl, ale zahrát si můžete i sami s trenérem nebo ve dvojici." },
+                    { question: "Je nutná rezervace?", answer: "Ve větších městech a o víkendech doporučujeme stůl zamluvit předem, mimo špičku obvykle stačí přijít." },
+                    { question: "Kolik let musím mít?", answer: "Poolbilliard mohou hrát děti i dospělí bez omezení věku, herny obvykle mají večerní pravidla pro mladistvé." }
+                ]
+            ) }}
+        {% endcall %}
+
+        {% set rekreacniAside %}
+            {{ infoPanel(
+                title="Kulečníkové kluby",
+                text="Desítky registrovaných klubů po celé republice. Najděte ten nejbližší a spojte se s ambasadorem.",
+                buttonText="Kulečníkové kluby",
+                buttonUrl="/kluby/",
+                headingLevel="h3"
+            ) }}
+            <div class="c-content__card mt-6">
+                <p class="c-content__eyebrow-text mb-2">Turnaje</p>
+                <h3 class="mb-3">Chcete si zahrát soutěžně?</h3>
+                <p>Podívejte se na aktuální kalendář turnajů a soutěží pro všechny výkonnostní úrovně, od regionálních lig po celostátní tour.</p>
+                {{ button(text="Kalendář turnajů", url="/kalendar/", variant="link", size="sm") }}
+            </div>
+        {% endset %}
+        {% call contentSection(id="rekreacni-hrac", eyebrow="Rekreační hráč", eyebrowColor="accent", title="Už hraji s kamarády", aside=rekreacniAside) %}
+            <p>Pokud vás baví hra a chcete se zlepšit, klub vám otevře dveře do soutěžního poolbilliardu.</p>
+            {{ steps(items=[
+                { icon: "map-pin", title: "1. Najděte si klub ve svém okolí", text: "Vyberte si z desítek <a href=\"/kluby/\">registrovaných klubů</a> po celé republice." },
+                { icon: "chat-bubble-left-right", title: "2. Kontaktujte ambasadora klubu a domluvte se na členství", text: "Ambasador vám ochotně poradí, jak s klubem, tréninky i vstupem do komunity." },
+                { icon: "academic-cap", title: "3. Začněte trénovat, zlepšujte se. Využívejte výhody komunity", text: "V klubu trénujete s ostatními hráči, sdílíte zkušenosti a rady." },
+                { icon: "trophy", title: "4. Zapojte se na turnaje a soutěže", text: "Regionální turnaje, ligy i celostátní soutěže jsou otevřené i pro začínající hráče." },
+                { icon: "flag", title: "5. Vyhrávejte!", text: "Soustavným tréninkem a účastí na turnajích se posunete a proniknete i výše v žebříčku." }
+            ]) }}
+            {{ faq(
+                classes="mt-6 sm:mt-8",
+                idPrefix="rekreacni",
+                title="Nejčastější otázky rekreačních hráčů",
+                items=[
+                    { question: "Kolik stojí členství v klubu?", answer: "Členské příspěvky se liší klub od klubu, obvykle v řádu stokorun až tisícikorun ročně." },
+                    { question: "Jak často se trénuje?", answer: "Většina klubů nabízí tréninky jednou až dvakrát týdně, záleží na kapacitě herny a trenérech." },
+                    { question: "Musím být registrovaný ve svazu?", answer: "Pro účast na turnajích ČMBS ano, registrace je jednoduchá a klub vám s ní pomůže." },
+                    { question: "Jak probíhá registrace?", answer: "Klub vás zaregistruje přes systém svazu, stačí vyplnit základní údaje a uhradit registrační poplatek." },
+                    { question: "Mohu hrát za víc klubů?", answer: "Ne, hráč může být v jednom okamžiku registrován vždy jen za jeden klub." }
+                ]
+            ) }}
+        {% endcall %}
+
+        {% set rodicAside %}
+            {{ infoPanel(
+                title="Kontakt pro juniory",
+                text="Potřebujete více informací o tréninkových programech nebo juniorských akcích? Ozvěte se vedoucímu pro mládež Tomáši Vencurovi, elena.vencura@poolbilliard.cz.",
+                headingLevel="h3"
+            ) }}
+            <div class="c-content__card mt-6">
+                <p class="c-content__eyebrow-text mb-2">Junior Open</p>
+                <h3 class="mb-3">Série turnajů pro mladé hráče</h3>
+                <p>Pravidelná juniorská série dává dětem první turnajové zkušenosti a body do juniorského žebříčku.</p>
+                {{ button(text="Kalendář turnajů", url="/kalendar/", variant="link", size="sm") }}
+            </div>
+        {% endset %}
+        {% call contentSection(id="rodic", eyebrow="Výchova juniorů", eyebrowColor="accent", title="Hledám sport pro své dítě", aside=rodicAside, classes="bg-gray-100 border-top border-bottom") %}
+            <p>Sportovní výchova juniorů je absolutní prioritou svazu a klubů. Poolbilliard rozvíjí soustředění, strategické myšlení i psychickou odolnost.</p>
+            {{ steps(items=[
+                { icon: "user-group", title: "1. Najděte si klub s mládežnickým programem", text: "Vyberte si z <a href=\"/kluby/\">registrovaných klubů</a> po celé republice, které se věnují dětem." },
+                { icon: "chat-bubble-left-right", title: "2. Kontaktujte trenéra mládeže nebo ambasadora klubu", text: "Domluvte si první ukázkovou hodinu a proberte s trenérem možnosti." },
+                { icon: "calendar-days", title: "3. Přijďte na ukázkový trénink", text: "Dítě se seznámí s kulečníkem, trenérem i atmosférou v klubu." },
+                { icon: "academic-cap", title: "4. Začněte trénovat a zúčastněte se Junior Open", text: "Pravidelný trénink pod vedením trenéra i účast na juniorské sérii turnajů." },
+                { icon: "trophy", title: "5. Rozvíjejte talent a kvalifikujte se na Mistrovství republiky", text: "Nejlepší junioři získávají místo v juniorské reprezentaci." }
+            ]) }}
+            {{ faq(
+                classes="mt-6 sm:mt-8",
+                idPrefix="rodic",
+                title="Nejčastější otázky rodičů",
+                items=[
+                    { question: "Je poolbilliard vhodný pro děti?", answer: "Ano, rozvíjí soustředění, strategické myšlení a jemnou motoriku, hraje se bez fyzického kontaktu." },
+                    { question: "Od kolika let mohou děti začít?", answer: "Většina klubů přijímá děti od cca 8 let, záleží na konkrétním klubu a jeho podmínkách." },
+                    { question: "Jak často se trénuje?", answer: "Juniorské tréninky obvykle probíhají jednou až dvakrát týdně po škole nebo o víkendech." },
+                    { question: "Kolik stojí členství v klubu?", answer: "Členské příspěvky se liší, mnoho klubů nabízí zvýhodněné podmínky pro mládež." },
+                    { question: "Jak probíhá registrace?", answer: "Klub dítě zaregistruje do systému svazu, rodič obvykle jen podepíše souhlas a uhradí poplatek." },
+                    { question: "Musí být dítě registrováno ve svazu?", answer: "Pro účast na Junior Open a Mistrovství ČR juniorů ano, bez soutěží stačí členství v klubu." }
+                ]
+            ) }}
+        {% endcall %}
+
+        {% call formSection(id="doporuceni", eyebrow="Doporučeno na míru", title="Najdeme vám ideální klub, hernu nebo trenéra") %}
+            {{ matchForm(
+                text="Nevíte, kde začít? Zanechte nám své údaje, lokalitu a představy. My vám doporučíme nejbližší hernu, klub nebo trenéra."
+            ) }}
+        {% endcall %}
+
+        <section class="c-section bg-gray-100 border-top border-bottom text-center">
+            <div class="c-container">
+                <h2 class="mb-3">Připraveni začít?</h2>
+                <p class="p--lg max-w-2xl mx-auto mb-8">Vyberte si klub nebo si spojte se s jeho ambasadorem. Pomůžeme vám s prvními návštěvami i dalšími kroky.</p>
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    {{ button(text="Najít klub", url="/kluby/", variant="outline", size="sm") }}
+                    {{ button(text="Najít hernu", url="/herny/", variant="outline", size="sm") }}
+                    {{ button(text="Najít turnaj", url="/kalendar/", variant="outline", size="sm") }}
+                    {{ button(text="Chci se zlepšit", url="#doporuceni", variant="outline", size="sm") }}
+                </div>
+            </div>
+        </section>
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

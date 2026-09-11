@@ -322,6 +322,22 @@ Podobně i v tématech (`03_themes/dark.css`):
 > ```
 > Viz `ui/src/kalendar.njk` a `ui/src/kluby.njk` (`pt-none`/`pb-none` na `newsHeader`, mapové sekci i `clubDirectory()`).
 
+> ⚠️ **PAST: Sekce s `bg-gray-100` mají mít nahoře i dole `border-top`/`border-bottom` — ale ne mezi dvěma takovými sekcemi po sobě.**
+> `bg-gray-100` sekce (odlišené od okolních bílých/transparentních sekcí) používají `.border-top`/`.border-bottom` utility (`04_utils/borders.css`, `border-t`/`border-b` + `border-divider`), aby měla šedá plocha jasně definovanou horní i dolní hranu — vidět už na homepage (`tournaments()`, `leaderboards()`: `classes="bg-gray-100 border-top border-bottom"`).
+> Když ale za sebou jdou **dvě `bg-gray-100` sekce bez bílé mezi nimi** (v praxi zatím nenastalo, ale může), border na jejich společném švu by byl zbytečná čára uprostřed jedné vizuálně souvislé šedé plochy — stejná logika jako u dvojitého paddingu výše. V tom případě border na tom vnitřním švu vynech (nech ho jen na vnějších okrajích téhle šedé "skupiny" sekcí) — obě sekce si ale svůj vlastní `py-*` normálně nechávají (jsou to porád vizuálně oddělitelné sekce, jen bez linky mezi nimi).
+> ```njk
+> {# ✅ SPRÁVNĚ: žádné dvě bg-gray-100 sekce vedle sebe → obě mají border-top i border-bottom #}
+> {% call contentSection(..., classes="bg-gray-100 border-top border-bottom") %}...{% endcall %}
+> {% call contentSection(...) %}...{% endcall %}  {# bílá mezi nimi #}
+> {% call contentSection(..., classes="bg-gray-100 border-top border-bottom") %}...{% endcall %}
+>
+> {# Kdyby šly dvě bg-gray-100 sekce hned za sebou, druhá by neměla mít vlastní border-top
+>    (aby na jejich švu nevznikla zbytečná čára uprostřed jedné šedé plochy): #}
+> {% call contentSection(..., classes="bg-gray-100 border-top border-bottom") %}...{% endcall %}
+> {% call contentSection(..., classes="bg-gray-100 border-bottom") %}...{% endcall %}
+> ```
+> Viz `ui/src/souteze.njk` a `ui/src/jak-zacit.njk` (`contentSection()` volání s `classes="bg-gray-100 border-top border-bottom"`).
+
 ---
 
 ### Pravidlo 4: Nunjucks Makra (`macros/<name>.njk`)

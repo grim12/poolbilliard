@@ -1,0 +1,33 @@
+@layer components {
+  /* ==========================================================================
+     Section: Form section — narrow centered section shell for a single form
+     (e.g. Jak začít → Doporučeno na míru). Distinct from content-section.css's
+     2/3+1/3 reading-column layout: this is a single narrow column, same
+     treatment as .c-article__inner. See widgets/form-section.njk.
+     Header/eyebrow/title reuse the generic .c-section__* elements (section.css)
+     — this shell has nothing distinctive enough to warrant its own names.
+     ========================================================================== */
+
+  .c-section--form {
+    /* Offsets an #anchor jump (e.g. from jumpNav()) so the header doesn't end up hidden
+       behind the sticky jump-nav (sticky at every breakpoint) plus the sticky header
+       (lg only). */
+    @apply scroll-mt-16 lg:scroll-mt-40;
+
+    /* .c-section__inner has no default width (only this variant narrows the column so far),
+       same override pattern as .c-section--leaderboards's .c-section__grid tweak. */
+    .c-section__inner {
+      @apply max-w-4xl mx-auto;
+    }
+
+    /* Tighter than the generic .c-section__header/__title (section.css) — this shell's
+       header sits right above a single form, not a wide grid of cards. */
+    .c-section__header {
+      @apply mb-6 sm:mb-8;
+    }
+
+    .c-section__title {
+      @apply mb-0;
+    }
+  }
+}

@@ -5,6 +5,10 @@
      them (about text, members, map/address, ambassador...), see club-detail.njk.
      ========================================================================== */
 
+  .c-section--club-detail {
+
+  }
+
   .c-club-detail__grid {
     @apply items-start lg:grid-cols-[1.7fr_1fr] gap-8 lg:gap-10;
   }

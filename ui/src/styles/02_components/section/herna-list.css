@@ -3,6 +3,10 @@
      Section: Herny — search/kraj filter bar + card grid (Kde hrát → Herny)
      ========================================================================== */
 
+  .c-section--herna-list {
+
+  }
+
   .c-herna-filter {
     @apply flex flex-col sm:flex-row sm:items-end gap-4 mb-6 lg:mb-8;
   }

@@ -20,6 +20,10 @@
     @apply font-medium text-lg leading-body text-body-600 m-0;
   }
 
+  .c-section__eyebrow {
+    @apply text-xs font-bold uppercase tracking-wider text-primary-600 mb-3;
+  }
+
   .c-section__grid {
     @apply grid grid-cols-1 gap-5 lg:gap-6;
   }
@@ -44,6 +48,7 @@
 @import "./section/club-detail.css";
 @import "./section/herna-list.css";
 @import "./section/page-hero.css";
+@import "./section/form-section.css";
 @import "./section/cta.css";
 @import "./section/leaderboards.css";
 @import "./section/link-tiles.css";
