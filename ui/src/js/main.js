@@ -42,6 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const panel = document.getElementById(toggle.getAttribute('aria-controls'));
       if (!panel) return;
 
+      // Markup can mark an item pre-opened (aria-expanded="true", e.g. mythFaq's first item)
+      // — panel starts at max-h-0 in CSS regardless, so expand it to its measured height once.
+      if (toggle.getAttribute('aria-expanded') === 'true') {
+        panel.style.maxHeight = `${panel.scrollHeight}px`;
+      }
+
       toggle.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
 

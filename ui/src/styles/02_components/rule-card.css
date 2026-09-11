@@ -1,0 +1,38 @@
+@layer components {
+  /* ==========================================================================
+     Rule card — icon + title/subtitle + text + CTA, see macros/rule-card.njk
+     ("Pravidla podle disciplíny" grid on Pravidla)
+     ========================================================================== */
+
+  .c-rule-card {
+    @apply flex flex-col h-full rounded-3xl border border-gray-200 bg-white p-6 sm:p-8;
+  }
+
+  .c-rule-card__icon {
+    @apply inline-flex items-center justify-center mb-4;
+  }
+
+  .c-rule-card__icon--badge {
+    @apply size-11 rounded-xl bg-primary-50 text-primary-600;
+  }
+
+  .c-rule-card__icon--balls {
+    @apply size-11 text-body-500;
+  }
+
+  .c-rule-card__heading {
+    @apply mb-3;
+  }
+
+  .c-rule-card__title {
+    @apply font-extrabold text-body-main text-xl mb-1;
+  }
+
+  .c-rule-card__subtitle {
+    @apply text-xs font-bold uppercase tracking-wider text-body-500 m-0;
+  }
+
+  .c-rule-card__text {
+    @apply text-base text-body-600 mb-6 flex-1;
+  }
+}

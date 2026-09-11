@@ -18,22 +18,22 @@
     imageAlt="",
     classes=""
 ) %}
-<section class="{{ ["c-club-hero", "t-dark", classes] | select | join(" ") }}">
+<section class="{{ ["c-section", "c-section--club-hero", "t-dark", classes] | select | join(" ") }}">
     {% if image %}
-        <div class="c-club-hero__media">
+        <div class="c-section__media">
             <img src="{{ image }}" alt="{{ imageAlt }}" loading="lazy" />
         </div>
     {% endif %}
-    <div class="c-club-hero__overlay"></div>
+    <div class="c-section__overlay"></div>
 
-    <div class="c-container c-club-hero__back-row">
+    <div class="c-container c-section__back-row">
         {{ backLink(text=backText, url=backUrl) }}
     </div>
 
-    <div class="c-container c-club-hero__content">
-        <h1 class="c-club-hero__title">{{ title }}</h1>
+    <div class="c-container c-section__content">
+        <h1 class="c-section__title">{{ title }}</h1>
         {% if city or region %}
-            <p class="c-club-hero__meta">
+            <p class="c-section__meta">
                 {% icon "map-pin", 18 %}
                 {{ [city, region] | select | join(" · ") }}
             </p>

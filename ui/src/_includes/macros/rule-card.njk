@@ -1,0 +1,44 @@
+{% from "macros/button.njk" import button %}
+
+{#
+    ruleCard(icon, title, subtitle, text, buttonText, buttonUrl, iconVariant, extraClass)
+    - Card for "Pravidla podle disciplíny": icon + title + small uppercase subtitle, body text,
+      outline button pinned to the bottom.
+    - iconVariant: "badge" (default, heroicon in a rounded primary-tinted square — e.g. "Obecná
+      pravidla") | "balls" (a ball-rack pictogram, no heroicon — per-discipline cards)
+#}
+{% macro ruleCard(
+    icon="",
+    title="",
+    subtitle="",
+    text="",
+    buttonText="Zobrazit pravidla",
+    buttonUrl="#",
+    iconVariant="badge",
+    extraClass=""
+) %}
+<div class="{{ ["c-rule-card", extraClass] | select | join(" ") }}">
+    {% if iconVariant == "balls" %}
+        <span class="c-rule-card__icon c-rule-card__icon--balls" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 36 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="18" cy="7" r="5" fill="currentColor" />
+                <circle cx="12" cy="17" r="5" fill="currentColor" />
+                <circle cx="24" cy="17" r="5" fill="currentColor" />
+                <circle cx="6" cy="27" r="5" fill="currentColor" />
+                <circle cx="18" cy="27" r="5" fill="currentColor" />
+                <circle cx="30" cy="27" r="5" fill="currentColor" />
+            </svg>
+        </span>
+    {% elif icon %}
+        <span class="c-rule-card__icon c-rule-card__icon--badge" aria-hidden="true">
+            {% icon icon, 28 %}
+        </span>
+    {% endif %}
+    <div class="c-rule-card__heading">
+        <h3 class="c-rule-card__title">{{ title }}</h3>
+        {% if subtitle %}<p class="c-rule-card__subtitle">{{ subtitle }}</p>{% endif %}
+    </div>
+    {% if text %}<p class="c-rule-card__text">{{ text }}</p>{% endif %}
+    {{ button(text=buttonText, url=buttonUrl, variant="outline", size="sm", extraClass="mt-auto self-start") }}
+</div>
+{% endmacro %}

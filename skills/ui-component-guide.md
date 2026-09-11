@@ -59,7 +59,7 @@ ui/
   * eyebrow/label štítky (`uppercase tracking-wider`, např. `.c-club-group__cell--head`),
   * poznámky pod čarou / disclaimery (`.c-info-panel__foot`),
   * metadata v kompaktní kartě/tabulce (datum, tag), kde je hlavní obsah karty vedle.
-  Pokud si nejsi jistý, jestli daný text spadá do výjimky, drž se `text-base` — bylo to opakovaně potřeba opravovat zpětně (např. `.c-info-panel__text`, hlavní odstavec CTA panelu, běžel na `text-sm` bez důvodu).
+  Pokud si nejsi jistý, jestli daný text spadá do výjimky, drž se `text-base` — bylo to opakovaně potřeba opravovat zpětně (např. `.c-info-panel__text`, hlavní odstavec CTA panelu, běžel na `text-sm` bez důvodu; stejná chyba i v `.c-feature-card__text`/hlavním popisném textu karet obecně a v `.c-faq__answer p` — odpověď akordeonu je běžný obsah, ne label/poznámka, patří na `text-base`).
 
 > ⚠️ **PAST: Komponentní `__title` (a podobné) třídy nesmí tiše přepisovat výchozí styl nadpisového tagu.**
 > Stalo se opakovaně, že subkomponenta jako `.c-club-group__title` na `<h3>` přepsala velikost/váhu/margin z `typography.css` vlastními hodnotami, které se pak rozjely od zbytku nadpisů na stránce (jiná velikost než ostatní `h3`, jiný `mb-*`...). Postup při psaní nové nadpisové subkomponenty, v tomto pořadí:
@@ -337,6 +337,33 @@ Podobně i v tématech (`03_themes/dark.css`):
 > {% call contentSection(..., classes="bg-gray-100 border-bottom") %}...{% endcall %}
 > ```
 > Viz `ui/src/souteze.njk` a `ui/src/jak-zacit.njk` (`contentSection()` volání s `classes="bg-gray-100 border-top border-bottom"`).
+
+> ⚠️ **PAST: Každá "typová" sekce (`<section>` s vlastním widgetem/layoutem) musí mít na kořeni `.c-section` + `.c-section--<typ>` a subelementy pojmenované `.c-section__<název>` — ne vlastní, na `.c-section` nenavázaný BEM blok.**
+> `02_components/section.css` definuje sdílenou základní třídu `.c-section` (padding, `bg-transparent`) a sadu obecných subelementů — `.c-section__header`, `__title`, `__subtitle`, `__eyebrow`, `__grid`, `__actions`, `__footer`. Většina sekčních widgetů (`tournaments()`, `leaderboards()`, `notices()`, `newsletter()`...) tenhle vzor dodržuje: kořen nese **obě** třídy (`c-section c-section--tournaments`), a obsah znovupoužívá `.c-section__*` subelementy — vlastní vzhled pro konkrétní typ se dopisuje **vnořeně uvnitř modifikátoru** (stejný vzor jako `.t-dark { .c-button {} }` v Pravidle 3), ne přejmenováním na nový blok:
+> ```css
+> /* ✅ SPRÁVNĚ — viz section/tournaments.css, section/notices.css */
+> .c-section--tournaments {
+>   .c-section__grid { @apply sm:grid-cols-2 lg:grid-cols-4 gap-4; }
+>   .c-section__footer { @apply flex flex-wrap items-center gap-x-10 gap-y-4; }
+> }
+> ```
+> Sekce bez bespoke vzhledu (jen poskládá existující makra pod obecný `.c-section` + pár utilit jako `bg-gray-100 border-top border-bottom`) modifikátor nepotřebuje — to je normální a zavedený vzor (viz `jak-zacit.njk`).
+> ```njk
+> {# ❌ ŠPATNĚ: nový, na .c-section nenavázaný blok s vlastními __subelementy — nejde dohledat
+>    full-textem podle sdíleného .c-section__* jmenného prostoru (viz Pravidlo 3) #}
+> <section class="c-page-hero t-dark">
+>   <div class="c-page-hero__content">
+>     <h1 class="c-page-hero__title">...</h1>
+>   </div>
+> </section>
+>
+> {# ✅ SPRÁVNĚ — viz widgets/page-hero.njk #}
+> <section class="c-section c-section--page-hero t-dark">
+>   <div class="c-section__content">
+>     <h1 class="c-section__title">...</h1>
+>   </div>
+> </section>
+> ```
 
 ---
 

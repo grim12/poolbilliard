@@ -4,50 +4,46 @@
      optional stat tiles), reusable across content pages. See widgets/page-hero.njk.
      ========================================================================== */
 
-  .c-page-hero {
+  .c-section--page-hero {
     @apply relative w-full overflow-hidden bg-linear-to-br from-primary-950 via-primary-900 to-primary-700 py-14 sm:py-20 lg:py-24;
 
-    /* Specificity fight with .t-dark p (0,1,1) — nest so this wins without !important. */
-    .c-page-hero__subtitle {
-      @apply text-white;
+    /* Grid, not flex-basis+max-width — a fixed fr split gives the stats column a real, fillable
+       width instead of leaving flex-grow blank space it can't claim past a max-width cap. */
+    .c-section__inner {
+      @apply flex flex-col lg:grid lg:grid-cols-[5fr_4fr] lg:items-center gap-10 lg:gap-16;
     }
-  }
 
-  /* Grid, not flex-basis+max-width — a fixed fr split gives the stats column a real, fillable
-     width instead of leaving flex-grow blank space it can't claim past a max-width cap. */
-  .c-page-hero__inner {
-    @apply flex flex-col lg:grid lg:grid-cols-[5fr_4fr] lg:items-center gap-10 lg:gap-16;
-  }
+    .c-section__content {
+      @apply min-w-0;
+    }
 
-  .c-page-hero__content {
-    @apply min-w-0;
-  }
+    .c-section__title {
+      @apply mb-4;
+    }
 
-  .c-page-hero__title {
-    @apply mb-4;
-  }
+    /* Specificity fight with .t-dark p (0,1,1) — nest so this wins without !important. */
+    .c-section__subtitle {
+      @apply font-bold text-lg sm:text-xl mb-4 text-white;
+    }
 
-  .c-page-hero__subtitle {
-    @apply font-bold text-lg sm:text-xl mb-4;
-  }
+    .c-section__text {
+      @apply leading-relaxed m-0;
+    }
 
-  .c-page-hero__text {
-    @apply leading-relaxed m-0;
-  }
+    .c-section__stats {
+      @apply grid grid-cols-2 gap-3 sm:gap-4 w-full;
+    }
 
-  .c-page-hero__stats {
-    @apply grid grid-cols-2 gap-3 sm:gap-4 w-full;
-  }
+    .c-section__stat {
+      @apply rounded-2xl bg-white/10 border border-white/10 p-5;
+    }
 
-  .c-page-hero__stat {
-    @apply rounded-2xl bg-white/10 border border-white/10 p-5;
-  }
+    .c-section__stat-value {
+      @apply font-black text-3xl sm:text-4xl text-white m-0 mb-1;
+    }
 
-  .c-page-hero__stat-value {
-    @apply font-black text-3xl sm:text-4xl text-white m-0 mb-1;
-  }
-
-  .c-page-hero__stat-label {
-    @apply text-base m-0;
+    .c-section__stat-label {
+      @apply text-base m-0;
+    }
   }
 }

@@ -16,20 +16,20 @@
     classes="",
     headingLevel="h1"
 ) %}
-<section class="{{ ["c-page-hero", "t-dark", classes] | select | join(" ") }}">
-    <div class="c-container c-page-hero__inner">
-        <div class="c-page-hero__content">
-            <{{ headingLevel }} class="c-page-hero__title">{{ title }}</{{ headingLevel }}>
-            {% if subtitle %}<p class="c-page-hero__subtitle">{{ subtitle }}</p>{% endif %}
-            {% if text %}<p class="c-page-hero__text">{{ text }}</p>{% endif %}
+<section class="{{ ["c-section", "c-section--page-hero", "t-dark", classes] | select | join(" ") }}">
+    <div class="c-container c-section__inner">
+        <div class="c-section__content">
+            <{{ headingLevel }} class="c-section__title">{{ title }}</{{ headingLevel }}>
+            {% if subtitle %}<p class="c-section__subtitle">{{ subtitle }}</p>{% endif %}
+            {% if text %}<p class="c-section__text">{{ text }}</p>{% endif %}
         </div>
 
         {% if stats.length %}
-            <div class="c-page-hero__stats">
+            <div class="c-section__stats">
                 {% for stat in stats %}
-                    <div class="c-page-hero__stat">
-                        <p class="c-page-hero__stat-value">{{ stat.value }}</p>
-                        <p class="c-page-hero__stat-label">{{ stat.label }}</p>
+                    <div class="c-section__stat">
+                        <p class="c-section__stat-value">{{ stat.value }}</p>
+                        <p class="c-section__stat-label">{{ stat.label }}</p>
                     </div>
                 {% endfor %}
             </div>

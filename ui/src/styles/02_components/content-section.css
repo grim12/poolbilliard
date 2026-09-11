@@ -1,112 +1,109 @@
 @layer components {
   /* ==========================================================================
-     Content section — numbered eyebrow header + freeform body, see
+     Section: Content — numbered eyebrow header + freeform body, see
      macros/content-section.njk. One shared widget for every section of a longer
-     explainer page (currently: Soutěže).
+     explainer page (currently: Soutěže, Jak začít).
      ========================================================================== */
 
-  /* Offsets an #anchor jump (e.g. from jumpNav()) so the section header doesn't end up
-     hidden behind the sticky jump-nav (sticky at every breakpoint) plus the sticky header
-     (lg only). */
   .c-section--content {
+    /* Offsets an #anchor jump (e.g. from jumpNav()) so the section header doesn't end up
+       hidden behind the sticky jump-nav (sticky at every breakpoint) plus the sticky header
+       (lg only). */
     @apply scroll-mt-16 lg:scroll-mt-40;
-  }
 
-  .c-content__header {
-    @apply mb-8 sm:mb-10;
-  }
-
-  .c-content__eyebrow {
-    @apply flex items-center gap-3 mb-3;
-  }
-
-  .c-content__number {
-    @apply inline-flex items-center justify-center size-7 rounded-full bg-dark text-white text-sm font-bold shrink-0;
-  }
-
-  .c-content__eyebrow-text {
-    @apply text-xs font-bold uppercase tracking-wider text-primary-600;
-  }
-
-  .c-content__eyebrow-text--accent {
-    @apply text-accent-500;
-  }
-
-  /* Margin-only override (see ui-component-guide.md) — typography stays whatever the h2/h3
-     default gives it, the header block above already owns the spacing below the title. */
-  .c-content__title {
-    @apply m-0;
-  }
-
-  /* Main body always sits in a ~2/3 column, with ~1/3 reserved on the right for an optional
-     sidebar (see contentSection's `aside` param) — reserved even when empty, so every section
-     keeps the same reading width instead of the body stretching full-width without one. */
-  .c-content__grid {
-    @apply grid lg:grid-cols-[1.7fr_1fr] gap-6 lg:gap-8 items-start;
-  }
-
-  .c-content__body {
-    @apply flex flex-col gap-5 min-w-0;
-
-    p:last-child {
-      @apply mb-0;
+    .c-section__header {
+      @apply mb-8 sm:mb-10;
     }
-  }
 
-  .c-content__aside {
-    @apply min-w-0;
-  }
-
-  /* Content that shouldn't be squeezed into the main column — spans the full section width,
-     below the 2/3+1/3 grid (see contentSection's `below` param, e.g. the category tile grid). */
-  .c-content__below {
-    @apply mt-6 lg:mt-8;
-  }
-
-  /* --- Freeform-body helpers: a plain bordered card (e.g. "Postupy, sestupy a baráž") --- */
-  .c-content__card {
-    @apply rounded-3xl border border-gray-200 bg-white p-6 sm:p-8;
-
-    p:last-child {
-      @apply mb-0;
+    .c-section__eyebrow-row {
+      @apply flex items-center gap-3 mb-3;
     }
-  }
 
-  .c-content__card-title {
-    @apply font-bold text-body-main mb-3;
-  }
+    .c-section__number {
+      @apply inline-flex items-center justify-center size-7 rounded-full bg-dark text-white text-sm font-bold shrink-0;
+    }
 
-  /* --- Freeform-body helpers: a numbered stat breakdown row (e.g. "16 Přímý postup") --- */
-  .c-content__stats {
-    @apply flex flex-col sm:flex-row gap-5 sm:gap-8;
-  }
+    /* Row wrapper above already owns the mb-3 spacing, so the label itself sits flush. */
+    .c-section__eyebrow {
+      @apply m-0;
+    }
 
-  .c-content__stat {
-    @apply flex items-start gap-3 flex-1;
-  }
+    /* Margin-only override (see ui-component-guide.md) — typography stays whatever the h2/h3
+       default gives it, the header block above already owns the spacing below the title. */
+    .c-section__title {
+      @apply m-0;
+    }
 
-  .c-content__stat-number {
-    @apply inline-flex items-center justify-center size-8 rounded-full bg-dark text-white text-sm font-bold shrink-0;
-  }
+    /* Main body always sits in a ~2/3 column, with ~1/3 reserved on the right for an optional
+       sidebar (see contentSection's `aside` param) — reserved even when empty, so every section
+       keeps the same reading width instead of the body stretching full-width without one. */
+    .c-section__grid {
+      @apply lg:grid-cols-[1.7fr_1fr] gap-6 lg:gap-8 items-start;
+    }
 
-  .c-content__stat-number--accent {
-    @apply bg-accent-500;
-  }
+    .c-section__body {
+      @apply flex flex-col gap-5 min-w-0;
 
-  .c-content__stat-title {
-    @apply font-bold text-body-main m-0 mb-1;
-  }
+      p:last-child {
+        @apply mb-0;
+      }
+    }
 
-  .c-content__stat-text {
-    @apply text-sm text-body-600 m-0;
-  }
+    .c-section__aside {
+      @apply min-w-0;
+    }
 
-  /* --- Freeform-body helpers: a plain label tile grid (e.g. "Junioři", "Ženy"...) --- */
-  .c-content__tiles {
-    @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
-  }
+    /* Content that shouldn't be squeezed into the main column — spans the full section width,
+       below the 2/3+1/3 grid (see contentSection's `below` param, e.g. the category tile grid). */
+    .c-section__below {
+      @apply mt-6 lg:mt-8;
+    }
 
-  .c-content__tile {
-    @apply rounded-2xl border border-gray-200 bg-white px-5 py-4 font-bold text-body-main;
+    /* --- Freeform-body helpers: a plain bordered card (e.g. "Postupy, sestupy a baráž") --- */
+    .c-section__card {
+      @apply rounded-3xl border border-gray-200 bg-white p-6 sm:p-8;
+
+      p:last-child {
+        @apply mb-0;
+      }
+    }
+
+    .c-section__card-title {
+      @apply font-bold text-body-main mb-3;
+    }
+
+    /* --- Freeform-body helpers: a numbered stat breakdown row (e.g. "16 Přímý postup") --- */
+    .c-section__stats {
+      @apply flex flex-col sm:flex-row gap-5 sm:gap-8;
+    }
+
+    .c-section__stat {
+      @apply flex items-start gap-3 flex-1;
+    }
+
+    .c-section__stat-number {
+      @apply inline-flex items-center justify-center size-8 rounded-full bg-dark text-white text-sm font-bold shrink-0;
+    }
+
+    .c-section__stat-number--accent {
+      @apply bg-accent-500;
+    }
+
+    .c-section__stat-title {
+      @apply font-bold text-body-main m-0 mb-1;
+    }
+
+    .c-section__stat-text {
+      @apply text-base text-body-600 m-0;
+    }
+
+    /* --- Freeform-body helpers: a plain label tile grid (e.g. "Junioři", "Ženy"...) --- */
+    .c-section__tiles {
+      @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
+    }
+
+    .c-section__tile {
+      @apply rounded-2xl border border-gray-200 bg-white px-5 py-4 font-bold text-body-main;
+    }
   }
 }

@@ -16,7 +16,7 @@
       Nunjucks macros only get one call block, so sidebar content is passed as a pre-rendered
       string instead — build it with {% set aside %}...{% endset %} above the call:
       {% set aside %}
-          <div class="c-content__card">...</div>
+          <div class="c-section__card">...</div>
       {% endset %}
       {% call contentSection(title="...", aside=aside) %}...{% endcall %}
     - below: same pre-rendered-string idea, but rendered full-width *below* the 2/3+1/3 grid —
@@ -46,25 +46,25 @@
 ) %}
 <section{% if id %} id="{{ id }}"{% endif %} class="{{ ["c-section", "c-section--content", classes] | select | join(" ") }}">
     <div class="c-container">
-        <header class="c-content__header">
+        <header class="c-section__header">
             {% if number or eyebrow %}
-                <div class="c-content__eyebrow">
-                    {% if number %}<span class="c-content__number">{{ number }}</span>{% endif %}
-                    {% if eyebrow %}<span class="{{ ["c-content__eyebrow-text", ("c-content__eyebrow-text--" + eyebrowColor) if eyebrowColor != "primary" else ""] | select | join(" ") }}">{{ eyebrow }}</span>{% endif %}
+                <div class="c-section__eyebrow-row">
+                    {% if number %}<span class="c-section__number">{{ number }}</span>{% endif %}
+                    {% if eyebrow %}<span class="{{ ["c-section__eyebrow", ("c-section__eyebrow--" + eyebrowColor) if eyebrowColor != "primary" else ""] | select | join(" ") }}">{{ eyebrow }}</span>{% endif %}
                 </div>
             {% endif %}
-            <{{ headingLevel }} class="c-content__title">{{ title }}</{{ headingLevel }}>
+            <{{ headingLevel }} class="c-section__title">{{ title }}</{{ headingLevel }}>
         </header>
 
         {% if fullWidth %}
             {{ caller() }}
         {% else %}
-            <div class="c-content__grid">
-                <div class="c-content__body">
+            <div class="c-section__grid">
+                <div class="c-section__body">
                     {{ caller() }}
                 </div>
                 {% if aside %}
-                    <div class="c-content__aside">
+                    <div class="c-section__aside">
                         {{ aside | safe }}
                     </div>
                 {% endif %}
@@ -72,7 +72,7 @@
         {% endif %}
 
         {% if below %}
-            <div class="c-content__below">
+            <div class="c-section__below">
                 {{ below | safe }}
             </div>
         {% endif %}

@@ -5,35 +5,35 @@
      not every club provides one, same fallback mechanism as .c-banner.
      ========================================================================== */
 
-  .c-club-hero {
-    @apply relative w-full flex flex-col justify-between overflow-hidden min-h-72 sm:min-h-80 lg:min-h-96;
-  }
+  .c-section--club-hero {
+    @apply relative w-full flex flex-col justify-between overflow-hidden py-0 min-h-72 sm:min-h-80 lg:min-h-96;
 
-  .c-club-hero__media {
-    @apply absolute inset-0 w-full h-full overflow-hidden;
+    .c-section__media {
+      @apply absolute inset-0 w-full h-full overflow-hidden;
 
-    img {
-      @apply w-full h-full object-cover;
+      img {
+        @apply w-full h-full object-cover;
+      }
     }
-  }
 
-  .c-club-hero__overlay {
-    @apply absolute inset-0 bg-linear-to-t from-black/60 from-10% to-transparent to-85%;
-  }
+    .c-section__overlay {
+      @apply absolute inset-0 bg-linear-to-t from-black/60 from-10% to-transparent to-85%;
+    }
 
-  .c-club-hero__back-row {
-    @apply relative z-10 w-full pt-6 sm:pt-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)];
-  }
+    .c-section__back-row {
+      @apply relative z-10 w-full pt-6 sm:pt-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)];
+    }
 
-  .c-club-hero__content {
-    @apply relative z-10 w-full pb-8 sm:pb-10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)];
-  }
+    .c-section__content {
+      @apply relative z-10 w-full pb-8 sm:pb-10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)];
+    }
 
-  .c-club-hero__title {
-    @apply mb-2;
-  }
+    .c-section__title {
+      @apply mb-2;
+    }
 
-  .c-club-hero__meta {
-    @apply inline-flex items-center gap-1.5 font-medium;
+    .c-section__meta {
+      @apply inline-flex items-center gap-1.5 font-medium;
+    }
   }
 }

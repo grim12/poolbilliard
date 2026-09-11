@@ -1,0 +1,105 @@
+---
+layout: layouts/base.njk
+title: Pravidla poolbilliardu — Poolbilliard
+---
+{% from "widgets/page-hero.njk" import pageHero %}
+{% from "macros/myth-faq.njk" import mythFaq %}
+{% from "macros/rule-card.njk" import ruleCard %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+{% set mythItems = [
+    {
+        mythText: "Černou musím potopit do protější kapsy — nebo do té samé, kam šla moje poslední koule.",
+        correctText: "Černá se hraje do <strong>libovolné kapsy, kterou předem nahlásíte</strong>. Když ji nepotopíte, pokračuje soupeř. Černá potopená do nehlášené kapsy nebo s faulem znamená prohru. Pravidlo „protější kapsy“ je přežitek z dob žetonových stolů."
+    },
+    {
+        mythText: "Po faulu má soupeř dvě rány a musí hrát přes půlku stolu.",
+        correctText: "Po faulu dostane soupeř bílou kouli <strong>„do ruky“</strong> — může ji položit kamkoliv na stole a pokračuje normálně. Žádné dvě rány, žádná povinnost hrát přes půlku."
+    },
+    {
+        mythText: "Když je bílá koule nalepená na mantinelu, mohu si ji odsunout na šířku tága.",
+        correctText: "Není to pravda. I když je bílá přímo u mantinelu (tzv. frozen), hraje se běžně dál."
+    },
+    {
+        mythText: "Když potopím soupeřovu kouli, je to automaticky faul.",
+        correctText: "Není. Pokud při strku nejdříve správně zasáhnete svou kouli a splníte ostatní podmínky platného strku, může při něm spadnout i soupeřova koule. Ta zůstává v kapse a hra pokračuje podle výsledku strku."
+    },
+    {
+        mythText: "Když při rozstřelu spadne černá, automaticky jsem vyhrál.",
+        correctText: "Potopení osmičky při rozstřelu neznamená automatické vítězství. Černá koule se vyndavá zpět na bod v trojúhelníku a rozstřel se dál vyhodnocuje podle standardních pravidel."
+    },
+    {
+        mythText: "Po rozstřelu mám již vybrané celé nebo půlky podle toho, co mi spadlo.",
+        correctText: "Nemám. Hráč, který jde po rozstřelu na stůl si vybírá půlky nebo celé nezávisle na rozstřelu. Dokud jeden z hráčů nepotvrdí výběr legálním potopením dané koule, nikdo nemá nic vybrané."
+    }
+] %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ pageHero(
+            title="Pravidla poolbilliardu",
+            text="Vyberte si disciplínu a prostudujte si oficiální pravidla. Každá hra má svá specifika, ale základní principy jsou společné."
+        ) }}
+
+        <section class="c-section">
+            <div class="c-container">
+                <div class="c-section__header">
+                    <h2 class="c-section__title">Hrajete poprvé? Nelekejte se</h2>
+                    <p class="c-section__subtitle max-w-3xl">Níže najdete kompletní <strong>soutěžní</strong> pravidla, podle kterých se hraje na turnajích a v ligách. Pro hru s kamarády v herně je <strong>nemusíte znát do detailu</strong>. Stačí se vyhnout pár nejčastějším dezinformacím, které mezi rekreačními hráči kolují. Ty hlavní jsme sepsali níže.</p>
+                </div>
+                {{ mythFaq(items=mythItems, idPrefix="mytus") }}
+            </div>
+        </section>
+
+        <section class="c-section c-section--rule-cards bg-gray-100 border-top border-bottom">
+            <div class="c-container">
+                <div class="c-section__header">
+                    <h2 class="c-section__title">Pravidla podle disciplíny</h2>
+                </div>
+                <div class="c-section__grid">
+                    {{ ruleCard(
+                        icon="book-open",
+                        title="Obecná pravidla",
+                        subtitle="Společná pro všechny disciplíny",
+                        text="Společný základ pro všechny disciplíny poolbilliardu. Pravidla rozehry, faulů, chování hráčů a další obecná ustanovení.",
+                        buttonUrl="#"
+                    ) }}
+                    {{ ruleCard(
+                        iconVariant="balls",
+                        title="8-ball",
+                        subtitle="Osmička",
+                        text="Nejrozšířenější disciplína mezi amatérskými hráči. Hraje se s plnými a půlenými koulemi, vítězí ten, kdo legálně potopí osmičku.",
+                        buttonUrl="#"
+                    ) }}
+                    {{ ruleCard(
+                        iconVariant="balls",
+                        title="9-ball",
+                        subtitle="Devítka",
+                        text="Rychlá a dynamická hra s devíti koulemi. Vždy se hraje na nejnižší kouli na stole, vítězí ten, kdo potopí devítku.",
+                        buttonUrl="#"
+                    ) }}
+                    {{ ruleCard(
+                        iconVariant="balls",
+                        title="10-ball",
+                        subtitle="Desítka",
+                        text="Přísnější varianta devítky s deseti koulemi a povinným nahlášením koule i kapsy.",
+                        buttonUrl="#"
+                    ) }}
+                    {{ ruleCard(
+                        iconVariant="balls",
+                        title="14.1",
+                        subtitle="Nekonečná",
+                        text="Klasická hra na předem stanovený počet bodů. Strategická disciplína s důrazem na poziční hru.",
+                        buttonUrl="#"
+                    ) }}
+                </div>
+            </div>
+        </section>
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>
