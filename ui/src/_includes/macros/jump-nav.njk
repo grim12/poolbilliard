@@ -1,0 +1,19 @@
+{#
+    jumpNav(items, classes)
+    - Row of small pill anchor links that scroll down to sections further on the same page
+      (e.g. right below a pageHero) — items: array of { text, url }, where url is a same-page
+      hash like "#regiony". The target section needs a matching `id` (see contentSection's
+      `id` param) and enough scroll-margin-top to clear the sticky header (see
+      .c-content-section) — global smooth scrolling is set once on `html`.
+#}
+{% macro jumpNav(items=[], classes="") %}
+{% if items.length %}
+<nav class="{{ ["c-jump-nav", classes] | select | join(" ") }}" aria-label="Rychlá navigace na sekce stránky">
+    <div class="c-container c-jump-nav__inner">
+        {% for item in items %}
+            <a href="{{ item.url }}" class="c-jump-nav__pill">{{ item.text }}</a>
+        {% endfor %}
+    </div>
+</nav>
+{% endif %}
+{% endmacro %}

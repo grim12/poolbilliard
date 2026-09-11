@@ -1,0 +1,18 @@
+@layer components {
+  /* ==========================================================================
+     Jump nav — small pill row that scroll-links to sections further down the
+     same page, see macros/jump-nav.njk.
+     ========================================================================== */
+
+  .c-jump-nav {
+    @apply w-full bg-white border-b border-gray-200;
+  }
+
+  .c-jump-nav__inner {
+    @apply flex items-center gap-2 py-3 overflow-x-auto;
+  }
+
+  .c-jump-nav__pill {
+    @apply inline-flex items-center justify-center whitespace-nowrap shrink-0 rounded-full px-4 py-2 text-sm font-semibold text-body-600 bg-white border border-gray-200 no-underline transition-colors duration-150 hover:bg-gray-50 hover:text-body-main;
+  }
+}

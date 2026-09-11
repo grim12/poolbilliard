@@ -1,0 +1,70 @@
+{#
+    contentSection(id, number, eyebrow, title, aside, below, classes, headingLevel)
+    - Generic numbered content section: circular number badge + small eyebrow label + big
+      title + divider, then a freeform body passed as the call block. One shared widget for
+      every section of a longer explainer page (e.g. Soutěže) instead of bespoke markup per
+      section:
+      {% call contentSection(number=1, eyebrow="Regionální liga jednotlivců", title="Oblastní soutěže jednotlivců") %}
+          <p>...</p>
+      {% endcall %}
+    - number/eyebrow: both optional — omit `number` for an unnumbered section, omit both to
+      drop the eyebrow row entirely.
+    - The body (call block) always sits in a ~2/3-width main column, with the remaining ~1/3
+      reserved as a right-hand sidebar column — even when `aside` is empty, so every section
+      keeps the same reading width and there's always room to drop sidebar content in later.
+      Nunjucks macros only get one call block, so sidebar content is passed as a pre-rendered
+      string instead — build it with {% set aside %}...{% endset %} above the call:
+      {% set aside %}
+          <div class="c-content-section__card">...</div>
+      {% endset %}
+      {% call contentSection(title="...", aside=aside) %}...{% endcall %}
+    - below: same pre-rendered-string idea, but rendered full-width *below* the 2/3+1/3 grid —
+      for content that shouldn't be squeezed into the main column (e.g. the category tile
+      grid on "Mistrovství ČR v kategoriích").
+    - id: optional anchor id, so a jumpNav() (or any other in-page link) can scroll to this
+      section — see .c-content-section's scroll-margin-top, which clears the sticky header.
+    - Minimal on purpose today (just a header + main/aside/below slots); expect more options
+      here as these sections grow (see ui-component-guide.md).
+    - headingLevel: "h2" (default) | "h3"
+#}
+{% macro contentSection(
+    id="",
+    number="",
+    eyebrow="",
+    title="",
+    aside="",
+    below="",
+    classes="",
+    headingLevel="h2"
+) %}
+<section{% if id %} id="{{ id }}"{% endif %} class="{{ ["c-section", "c-content-section", classes] | select | join(" ") }}">
+    <div class="c-container">
+        <header class="c-content-section__header">
+            {% if number or eyebrow %}
+                <div class="c-content-section__eyebrow">
+                    {% if number %}<span class="c-content-section__number">{{ number }}</span>{% endif %}
+                    {% if eyebrow %}<span class="c-content-section__eyebrow-text">{{ eyebrow }}</span>{% endif %}
+                </div>
+            {% endif %}
+            <{{ headingLevel }} class="c-content-section__title">{{ title }}</{{ headingLevel }}>
+        </header>
+
+        <div class="c-content-section__grid">
+            <div class="c-content-section__body">
+                {{ caller() }}
+            </div>
+            {% if aside %}
+                <div class="c-content-section__aside">
+                    {{ aside | safe }}
+                </div>
+            {% endif %}
+        </div>
+
+        {% if below %}
+            <div class="c-content-section__below">
+                {{ below | safe }}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endmacro %}

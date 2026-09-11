@@ -1,0 +1,147 @@
+---
+layout: layouts/base.njk
+title: Soutěže — Poolbilliard
+---
+{% from "widgets/page-hero.njk" import pageHero %}
+{% from "macros/jump-nav.njk" import jumpNav %}
+{% from "macros/content-section.njk" import contentSection %}
+{% from "macros/info-panel.njk" import infoPanel %}
+{% from "macros/button.njk" import button %}
+{% from "widgets/leaderboards.njk" import leaderboards %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ pageHero(
+            title="Systém soutěží",
+            subtitle="Od prvního turnaje až k titulu mistra republiky",
+            text="Český soutěžní poolbilliard nabízí příležitosti pro hráče všech výkonnostních úrovní, od začátečníků až po českou špičku. Systém zahrnuje regionální a celostátní turnaje, mistrovské soutěže, juniorské série i ligové soutěže klubových týmů. Každý si tak může najít svou vlastní cestu od prvních turnajových zkušeností až po titul mistra České republiky nebo místo v národní reprezentaci.",
+            stats=[
+                { value: "6", label: "soutěžních větví" },
+                { value: "4", label: "hlavní discipliny" },
+                { value: "3", label: "ligové úrovně týmů" },
+                { value: "7", label: "kategorií mistrovství republiky" }
+            ]
+        ) }}
+
+        {{ jumpNav(items=[
+            { text: "Regiony", url: "#regiony" },
+            { text: "Česká poolová tour", url: "#cpt" },
+            { text: "MČR jednotlivců", url: "#mcr-jednotlivcu" },
+            { text: "MČR v kategoriích", url: "#mcr-kategorie" },
+            { text: "Junioři", url: "#junior-open" },
+            { text: "Týmy", url: "#tymy" },
+            { text: "Žebříčky", url: "#zebricky" }
+        ]) }}
+
+        {% call contentSection(id="regiony", number=1, eyebrow="Regionální liga jednotlivců", title="Oblastní soutěže jednotlivců") %}
+            <h3>Ideální místo, kde začít soutěžit</h3>
+            <p>Regionální soutěže představují nejpřístupnější úroveň českého soutěžního poolbilliardu. Jsou vhodné zejména pro začínající a klubové hráče, kteří chtějí získat první turnajové zkušenosti a poměřovat se s hráči ze svého regionu.</p>
+            <p>Za jednotlivé turnaje hráči získávají body do regionálního žebříčku. Nejlepší hráči jednotlivých regionů se následně kvalifikují na celostátní Finále regionů, které se zpravidla koná v červnu.</p>
+        {% endcall %}
+
+        {% call contentSection(id="cpt", number=2, eyebrow="Nejvyšší celostátní turnajová série", title="Česká poolová tour", classes="bg-gray-100") %}
+            <p>Česká poolová tour (ČPT) představuje nejvyšší pravidelnou celostátní soutěž jednotlivců. Během jarní části sezóny se odehrají 4 otevřené turnaje, na kterých se nejlepší čeští hráči pravidelně potkávají v konkurenci hráčů z celé republiky.</p>
+            <p>Turnaje jsou otevřené, účast tedy není podmíněna postupem z regionálních soutěží. Hraje se nejen o body do žebříčku a turnajové trofeje, ale také o <strong>prize money</strong>. Výsledky jednotlivých turnajů vytvářejí samostatný žebříček České poolové tour.</p>
+
+            {{ infoPanel(
+                tagText="Finále České poolové tour",
+                title="Czech Pool Masters",
+                text="Vyvrcholením České poolové tour je uzavřený turnaj Czech Pool Masters, který se zpravidla koná v červnu. Právo startovat získává 16 nejlepších hráčů celkového žebříčku České poolové tour. Na rozdíl od otevřených turnajů ČPT se tak na Masters proti sobě postaví pouze nejlepší hráči celé série.",
+                buttonText="Více o Czech Pool Masters",
+                buttonUrl="#",
+                headingLevel="h3"
+            ) }}
+        {% endcall %}
+
+        {% set mcrAside %}
+            <div class="c-content-section__card">
+                <p class="c-content-section__eyebrow-text mb-2">Kdo patří mezi nejlepší hráče v Česku?</p>
+                <h3 class="mb-3">Celoroční žebříček</h3>
+                <p>Vedle žebříčků jednotlivých soutěžních sérií existuje také celostátní žebříček jednotlivců. Do něj se započítávají zejména výsledky z České poolové tour a Mistrovství ČR.</p>
+                <p>Žebříček funguje na průběžném principu posledních <strong>365 dní</strong>. Nové výsledky se započítávají a výsledky starší než 365 dní se postupně odmazávají. Celostátní žebříček tak průběžně ukazuje aktuální výkonnost a postavení hráčů v českém poolbilliardu a má přímý vliv na účast na Mistrovství České republiky.</p>
+                {{ button(text="Aktuální žebříček", url="#", variant="outline", size="sm", icon="arrow-top-right-on-square", target="_blank") }}
+            </div>
+        {% endset %}
+        {% call contentSection(id="mcr-jednotlivcu", number=3, eyebrow="Vrchol domácí sezóny", title="Mistrovství České republiky jednotlivců", aside=mcrAside) %}
+            <p>Mistrovství České republiky jednotlivců patří společně s MČR týmů k nejprestižnějším soutěžím českého poolbilliardu. O mistrovské tituly se hraje ve všech čtyřech hlavních disciplínách: 8-ball, 9-ball, 10-ball a 14.1 nekonečná.</p>
+
+            <div class="c-content-section__card">
+                <p class="c-content-section__card-title">32 hráčů na MČR jednotlivců</p>
+                <div class="c-content-section__stats">
+                    <div class="c-content-section__stat">
+                        <span class="c-content-section__stat-number">16</span>
+                        <div>
+                            <p class="c-content-section__stat-title">Přímý postup</p>
+                            <p class="c-content-section__stat-text">Aktuálně nejlepší hráči podle celostátního žebříčku získávají přímé právo startu na MČR.</p>
+                        </div>
+                    </div>
+                    <div class="c-content-section__stat">
+                        <span class="c-content-section__stat-number c-content-section__stat-number--accent">16</span>
+                        <div>
+                            <p class="c-content-section__stat-title">Kvalifikace</p>
+                            <p class="c-content-section__stat-text">Dalších šestnáct míst je určeno hráčům, kteří si účast vybojují v kvalifikaci před samotným MČR.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{ infoPanel(
+                tagText="Reprezentace",
+                title="Od MČR k české reprezentaci",
+                text="Mistrovství České republiky není pouze souboj o domácí titul. Na základě celkového žebříčku, výsledků MČR a dalších kritérií stanovených výkonným výborem svazu jsou nominováni hráči, kteří reprezentují Českou republiku na vrcholných mezinárodních soutěžích.",
+                headingLevel="h3"
+            ) }}
+        {% endcall %}
+
+        {% set kategorieTiles %}
+            <div class="c-content-section__tiles">
+                <span class="c-content-section__tile">Junioři</span>
+                <span class="c-content-section__tile">Ženy</span>
+                <span class="c-content-section__tile">Veteráni</span>
+                <span class="c-content-section__tile">MČR dvojic</span>
+                <span class="c-content-section__tile">MČR smíšených dvojic</span>
+                <span class="c-content-section__tile">MČR týmů</span>
+            </div>
+        {% endset %}
+        {% call contentSection(id="mcr-kategorie", number=4, eyebrow="Mistrovské kategorie", title="Mistrovství ČR v kategoriích", classes="bg-gray-100", below=kategorieTiles) %}
+            <p>Tituly mistrů České republiky se nerozdávají pouze v hlavní kategorii jednotlivců. Vedle hlavního MČR se konají mistrovství v juniorské, ženské a veteránské kategorii, dále MČR dvojic, smíšených dvojic a týmů.</p>
+        {% endcall %}
+
+        {% call contentSection(id="junior-open", number=5, eyebrow="Junior Open", title="Juniorské soutěže") %}
+            <p>Základ pravidelného soutěžního programu mladých hráčů tvoří série Junior Open. Během sezóny se odehraje celkem 4 kola, na kterých junioři získávají turnajové zkušenosti a body do juniorského žebříčku.</p>
+            <p>Výsledky série mají následně vliv na nominace na Mistrovství ČR juniorů a na výběr hráčů do české juniorské reprezentace.</p>
+        {% endcall %}
+
+        {% call contentSection(id="tymy", number=6, eyebrow="Klub proti klubu", title="Týmové soutěže", classes="bg-gray-100") %}
+            <p>Samostatnou část českého soutěžního systému tvoří týmové ligové soutěže. Hráči v nich nereprezentují pouze sami sebe, ale především svůj klub. Ligový systém tvoří tři úrovně: Extraliga, 1. liga a 2. liga.</p>
+            <p>Každou ligu tvoří 16 týmů a v průběhu jarní části sezóny se týmy utkávají systémem každý s každým. Na rozdíl od soutěží jednotlivců zde existuje skutečný ligový systém s možností pohybu mezi jednotlivými úrovněmi.</p>
+
+            <div class="c-content-section__card">
+                <p class="c-content-section__card-title">Postupy, sestupy a baráž</p>
+                <p>Poslední 4 týmy Extraligy hrají baráž s prvními 4 týmy 1. ligy, poslední 4 týmy 1. ligy s prvními 4 týmy 2. ligy. Baráž rozhoduje, které týmy si ligovou příslušnost udrží a které se posunou o úroveň výše nebo níže.</p>
+            </div>
+
+            {{ infoPanel(
+                title="Vrchol klubové sezóny MČR týmů",
+                text="Pro nejúspěšnější týmy Extraligy sezóna nekončí posledním ligovým kolem. 8 nejlepších týmů Extraligy postupuje na Mistrovství České republiky týmů. Zisk týmového mistrovského titulu představuje jednu z nejprestižnějších trofejí, kterou může český poolbilliardový klub získat.",
+                headingLevel="h3"
+            ) }}
+        {% endcall %}
+
+        {{ leaderboards(
+            id="zebricky",
+            title="Žebříčky",
+            subtitle="Aktuální pořadí ve všech sériích a kategoriích — TOP 10 hráčů.",
+            series=souteze,
+            moreText="Kalendář soutěží",
+            moreUrl="#"
+        ) }}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

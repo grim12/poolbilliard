@@ -2,11 +2,12 @@
 {% from "macros/button.njk" import button %}
 
 {#
-    leaderboards(title, subtitle, series, moreUrl, moreText)
+    leaderboards(title, subtitle, series, moreUrl, moreText, id, classes)
     - series: array of { title, players, featured, linkText, linkUrl }
+    - id: optional anchor id (e.g. for a jumpNav() link into this section)
 #}
-{% macro leaderboards(title, subtitle="", series=[], moreUrl="#", moreText="Systémy soutěží", classes="") %}
-<section class="c-section c-section--leaderboards {{ classes }}">
+{% macro leaderboards(title, subtitle="", series=[], moreUrl="#", moreText="Systémy soutěží", id="", classes="") %}
+<section{% if id %} id="{{ id }}"{% endif %} class="c-section c-section--leaderboards {{ classes }}">
     <div class="c-container">
         <div class="c-section__header">
             <h2 class="c-section__title">{{ title }}</h2>

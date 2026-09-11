@@ -7,7 +7,7 @@
       zahrát?" panel in the Kalendář sidebar), reused here for a benefits/checklist pitch (e.g.
       "Chceš začít a nevíš jak?" on Kluby) instead of a schedule list.
     - items: array of { icon, text } — short checklist rows, each with a heroicon name
-    - headingLevel: "h3" (default) | "h2" | "h4"
+    - headingLevel: "h2" (default) | "h3" | "h4"
 #}
 {% macro infoPanel(
     tagText="",
@@ -18,7 +18,7 @@
     buttonText="",
     buttonUrl="#",
     extraClass="",
-    headingLevel="h3"
+    headingLevel="h2"
 ) %}
 {%- set classes = ["c-info-panel", "t-dark", extraClass] | select | join(" ") -%}
 <div class="{{ classes }}">

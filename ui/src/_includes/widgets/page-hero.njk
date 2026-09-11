@@ -1,0 +1,39 @@
+{#
+    pageHero(title, subtitle, text, stats, classes, headingLevel)
+    - Full-width dark gradient hero for a content/explainer page (e.g. Soutěže) — title +
+      subtitle + description on the left, optional 2x2 stat tiles on the right. Reusable
+      across any content page that needs this instead of a photo hero (clubHero) or the
+      plain light newsHeader.
+    - stats: array of { value, label } — up to 4 tiles in a 2x2 grid; omitted entirely
+      (content column just runs wider) when empty.
+    - headingLevel: "h1" (default) | "h2" — use h2 if this hero isn't the page's main heading
+#}
+{% macro pageHero(
+    title="",
+    subtitle="",
+    text="",
+    stats=[],
+    classes="",
+    headingLevel="h1"
+) %}
+<section class="{{ ["c-page-hero", "t-dark", classes] | select | join(" ") }}">
+    <div class="c-container c-page-hero__inner">
+        <div class="c-page-hero__content">
+            <{{ headingLevel }} class="c-page-hero__title">{{ title }}</{{ headingLevel }}>
+            {% if subtitle %}<p class="c-page-hero__subtitle">{{ subtitle }}</p>{% endif %}
+            {% if text %}<p class="c-page-hero__text">{{ text }}</p>{% endif %}
+        </div>
+
+        {% if stats.length %}
+            <div class="c-page-hero__stats">
+                {% for stat in stats %}
+                    <div class="c-page-hero__stat">
+                        <p class="c-page-hero__stat-value">{{ stat.value }}</p>
+                        <p class="c-page-hero__stat-label">{{ stat.label }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endmacro %}
