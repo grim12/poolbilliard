@@ -1,0 +1,10 @@
+@layer components {
+  /* ==========================================================================
+     Back link — "back to listing" breadcrumb-substitute above a page's H1
+     (novinky, article/tournament/club detail...). See macros/back-link.njk.
+     ========================================================================== */
+
+  .c-back-link {
+    @apply inline-flex items-center gap-2 text-sm font-medium text-primary-600 no-underline transition-colors duration-150 hover:text-primary-700;
+  }
+}

@@ -40,6 +40,8 @@
 @import "./section/kalendar.css";
 @import "./section/kluby.css";
 @import "./section/club-directory.css";
+@import "./section/club-hero.css";
+@import "./section/club-detail.css";
 @import "./section/cta.css";
 @import "./section/leaderboards.css";
 @import "./section/link-tiles.css";

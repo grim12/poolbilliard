@@ -1,0 +1,62 @@
+---
+layout: layouts/base.njk
+title: SMÍCHOFF Billiard Club Praha — Poolbilliard
+hasMap: true
+---
+{% from "widgets/club-hero.njk" import clubHero %}
+{% from "widgets/club-detail.njk" import clubDetail %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ clubHero(
+            title="SMÍCHOFF Billiard Club Praha",
+            city="Praha",
+            region="Praha",
+            image="/uploads/smichoff%20bg.jpg"
+        ) }}
+
+        {{ clubDetail(
+            aboutText="Sportovní klub, který sídlí na pražském Smíchově a je uzavřený pouze pro členy a jejich hosty. Zaměřujeme se na úzký kolektiv hráčů, kteří mají velký zájem o trénink a zlepšování se. Naší prioritou je kvalitní hráčské zázemí a vybavení srovnatelné s evropskou úrovní.",
+            members=[
+                { name: "Jan Strádal", photo: "/uploads/stradal.jpg" },
+                { name: "Jakub Stuna", photo: "/uploads/stuna.jpg" },
+                { name: "Milan Ugrin", photo: "/uploads/ugrin.jpg" },
+                { name: "Petr Havel", photo: "/uploads/havel.jpg" },
+                { name: "Heath Williams" },
+                { name: "Erik Kůs" },
+                { name: "Josef Lomský" },
+                { name: "Adam Žaba" }
+            ],
+            notices=[
+                {
+                    icon: "lock-closed",
+                    title: "Nábor uzavřen",
+                    text: "Nábor je v tuto chvíli uzavřený z důvodu tréninkových kapacit, ale v případě zájmu neváhejte kontaktovat klubového předsedu Honzu Strádala, který sdělí případné možnosti.",
+                    color: "gold",
+                    size: "lg"
+                },
+                {
+                    icon: "lock-open",
+                    title: "Nábor otevřen",
+                    text: "Klub vítá nové členy i začátečníky. Spoj se s ambasadorem klubu a domluv si první návštěvu.",
+                    color: "primary",
+                    size: "lg"
+                }
+            ],
+            name="SMÍCHOFF Billiard Club Praha",
+            fullName="SMÍCHOFF Billiard Club Praha, z.s.",
+            address="Nový zlíchov 6, Praha 5, 150 00",
+            lat=50.07,
+            lng=14.4,
+            ambassadorName="Jan Strádal",
+            websiteUrl="#"
+        ) }}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

@@ -24,5 +24,9 @@
     hr, .border-default {
       @apply border-white/10;
     }
+
+    .c-back-link {
+      @apply text-body-200 hover:text-white;
+    }
   }
 }

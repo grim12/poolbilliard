@@ -1,0 +1,142 @@
+{% from "macros/alert.njk" import alert %}
+{% from "macros/tag.njk" import tag %}
+
+{#
+    clubDetail(aboutTitle, aboutText, membersTitle, members, notices,
+               mapLabel, name, fullName, address, lat, lng, mapsUrl, ambassadorLabel,
+               ambassadorName, websiteText, websiteUrl, classes)
+    - Two-column body for the club detail page (Kluby → detail klubu): "O klubu" + "Členové
+      klubu" + recruitment notices on the left; "Kde nás najdeš" (map) + "Ambasador klubu" on
+      the right.
+    - Every block is independently optional — pass only what that club actually provided.
+      If the whole aside ends up empty (no address AND no ambassador/website), the grid
+      collapses back to a single column instead of leaving a blank gap.
+    - members: array of { name, photo } — photo is optional per member (a placeholder icon is
+      shown instead), same "must work without the image" idea as the hero photo.
+    - notices: array of { icon, title, text, color, size } — rendered via alert(), e.g. a
+      "Nábor uzavřen"/"Nábor otevřen" recruitment status. A real club shows at most one; the
+      array just lets a page (e.g. a showcase) stack more than one when it needs to.
+    - lat/lng: only needed to render the map itself (and to build a default mapsUrl) — the
+      "Kde nás najdeš" card still renders with just `address` if coordinates aren't supplied.
+    - name: short club name used as the map marker/popup label — falls back to `fullName`.
+#}
+{% macro clubDetail(
+    aboutTitle="O klubu",
+    aboutText="",
+    membersTitle="Členové klubu",
+    members=[],
+    notices=[],
+    mapLabel="Kde nás najdeš",
+    name="",
+    fullName="",
+    address="",
+    lat="",
+    lng="",
+    mapsUrl="",
+    ambassadorLabel="Ambasador klubu",
+    ambassadorName="",
+    websiteText="Web klubu",
+    websiteUrl="",
+    classes=""
+) %}
+    {%- set hasMapCard = address -%}
+    {%- set hasAmbassadorCard = ambassadorName or websiteUrl -%}
+    {%- set hasAside = hasMapCard or hasAmbassadorCard -%}
+    {%- set mapsUrl = mapsUrl or (("https://www.google.com/maps/search/?api=1&query=" + lat + "," + lng) if (lat and lng) else "") -%}
+<section class="{{ ["c-section", classes] | select | join(" ") }}">
+    <div class="c-container">
+        <div class="{{ ["c-section__grid c-club-detail__grid", ("lg:grid-cols-1" if not hasAside else "")] | select | join(" ") }}">
+            <div class="c-club-detail__main">
+                {% if aboutText %}
+                    <div>
+                        <h2>{{ aboutTitle }}</h2>
+                        <p class="c-club-detail__text">{{ aboutText }}</p>
+                    </div>
+                {% endif %}
+
+                {% if members.length %}
+                    <div>
+                        <h2>{{ membersTitle }}</h2>
+                        <div class="c-club-members">
+                            {% for member in members %}
+                                <div class="c-club-member">
+                                    <div class="c-club-member__photo">
+                                        {% if member.photo %}
+                                            <img src="{{ member.photo }}" alt="" loading="lazy" />
+                                        {% else %}
+                                            {% icon "user-circle", 32, "c-club-member__placeholder" %}
+                                        {% endif %}
+                                    </div>
+                                    <p class="c-club-member__name">{{ member.name }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if notices.length %}
+                    <div class="c-club-detail__notices">
+                        {% for notice in notices %}
+                            {{ alert(
+                                icon=notice.icon or "information-circle",
+                                title=notice.title,
+                                text=notice.text,
+                                color=notice.color or "gray",
+                                size=notice.size or "md"
+                            ) }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if hasAside %}
+                <aside class="c-club-detail__aside">
+                    {% if hasMapCard %}
+                        <div class="c-club-map-card">
+                            <div class="c-club-map-card__header">
+                                {{ tag(text=mapLabel, color="gold-light", variant="subtle", size="sm", extraClass="mb-2") }}
+                                <p class="c-club-map-card__address">
+                                    <span class="c-club-map-card__icon" aria-hidden="true">
+                                        {% icon "map-pin", 16 %}
+                                    </span>
+                                    {{ [fullName, address] | select | join(", ") }}
+                                </p>
+                                {% if mapsUrl %}
+                                    <a class="c-club-map-card__link" href="{{ mapsUrl }}" target="_blank" rel="noopener noreferrer">
+                                        Navigovat
+                                        {% icon "chevron-right", 16 %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                            {% if lat and lng %}
+                                <div class="c-club-map-card__map" data-club-map='{{ [{ name: (name or fullName), fullName: fullName, address: address, lat: lat, lng: lng }] | dump }}' role="application" aria-label="Mapa – {{ name or fullName or address }}"></div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {% if hasAmbassadorCard %}
+                        <div class="c-club-ambassador">
+                            {% if ambassadorName %}
+                                <div>{{ tag(text=ambassadorLabel, color="gold", size="sm", extraClass="mb-3") }}</div>
+                                <p class="c-club-ambassador__name">
+                                    {% icon "user-circle", 20 %}
+                                    {{ ambassadorName }}
+                                </p>
+                            {% endif %}
+                            {% if ambassadorName and websiteUrl %}
+                                <div class="c-club-ambassador__divider"></div>
+                            {% endif %}
+                            {% if websiteUrl %}
+                                <a class="c-club-ambassador__link" href="{{ websiteUrl }}" target="_blank" rel="noopener noreferrer">
+                                    {% icon "globe-alt", 18 %}
+                                    {{ websiteText }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </aside>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endmacro %}

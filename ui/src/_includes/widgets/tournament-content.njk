@@ -1,4 +1,5 @@
 {% from "macros/tag.njk" import tag %}
+{% from "macros/back-link.njk" import backLink %}
 
 {#
     tournamentContent(backText, backUrl, tagText, tagColor, title, dateText, locationText, classes)
@@ -24,10 +25,7 @@
 ) %}
 <section class="{{ ["c-tournament-detail", classes] | select | join(" ") }}">
     <div class="c-container">
-        <a href="{{ backUrl }}" class="c-back-link">
-            {% icon "arrow-left", 18 %}
-            {{ backText }}
-        </a>
+        {{ backLink(text=backText, url=backUrl) }}
     </div>
 
     <div class="c-container c-tournament-detail__inner">

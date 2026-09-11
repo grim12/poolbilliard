@@ -1,3 +1,4 @@
+{% from "macros/back-link.njk" import backLink %}
 {#
     newsHeader(title, subtitle, backText, backUrl, showSearch, searchPlaceholder, categories, classes)
     - backText / backUrl: optional "Zpět na …" link shown above the title (omit backUrl to hide it)
@@ -15,10 +16,7 @@
 <section class="c-section c-section--news-header {{ classes }}">
     <div class="c-container">
         {% if backUrl %}
-            <a href="{{ backUrl }}" class="c-back-link c-news-header__back">
-                {% icon "arrow-left", 18 %}
-                {{ backText }}
-            </a>
+            {{ backLink(text=backText, url=backUrl, extraClass="c-news-header__back") }}
         {% endif %}
 
         <div class="c-news-header__top">

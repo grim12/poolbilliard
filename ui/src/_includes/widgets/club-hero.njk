@@ -1,0 +1,43 @@
+{% from "macros/back-link.njk" import backLink %}
+
+{#
+    clubHero(backText, backUrl, title, city, region, image, imageAlt, classes)
+    - Full-bleed photo header for the club detail page (Kluby → detail klubu): breadcrumb +
+      club name + location, over a background photo.
+    - image: optional — not every club supplies a photo. Falls back to a solid dark background
+      (via .t-dark, same media+overlay+fallback technique as banner()) when omitted, so the
+      hero always works without one.
+#}
+{% macro clubHero(
+    backText="Zpět na kluby",
+    backUrl="/kluby/",
+    title="",
+    city="",
+    region="",
+    image="",
+    imageAlt="",
+    classes=""
+) %}
+<section class="{{ ["c-club-hero", "t-dark", classes] | select | join(" ") }}">
+    {% if image %}
+        <div class="c-club-hero__media">
+            <img src="{{ image }}" alt="{{ imageAlt }}" loading="lazy" />
+        </div>
+    {% endif %}
+    <div class="c-club-hero__overlay"></div>
+
+    <div class="c-container c-club-hero__back-row">
+        {{ backLink(text=backText, url=backUrl) }}
+    </div>
+
+    <div class="c-container c-club-hero__content">
+        <h1 class="c-club-hero__title">{{ title }}</h1>
+        {% if city or region %}
+            <p class="c-club-hero__meta">
+                {% icon "map-pin", 18 %}
+                {{ [city, region] | select | join(" · ") }}
+            </p>
+        {% endif %}
+    </div>
+</section>
+{% endmacro %}

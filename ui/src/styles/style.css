@@ -7,6 +7,7 @@
 @import "./04_utils/backgrounds.css";
 @import "./01_base/typography.css";
 @import "./02_components/layout.css";
+@import "./02_components/back-link.css";
 @import "./02_components/header.css";
 @import "./02_components/footer.css";
 @import "./02_components/button.css";
@@ -20,6 +21,7 @@
 @import "./02_components/leaderboard.css";
 @import "./02_components/banner.css";
 @import "./02_components/no-results.css";
+@import "./02_components/alert.css";
 @import "./02_components/calendar.css";
 @import "./02_components/calendar-filter.css";
 @import "./02_components/recurring-tournaments.css";

@@ -116,22 +116,30 @@ document.addEventListener('DOMContentLoaded', () => {
       popupAnchor: [0, -9],
     });
 
-    const map = L.map(clubMapEl, { scrollWheelZoom: false }).setView([49.8, 15.5], 7);
+    const validClubs = clubs.filter((club) => typeof club.lat === 'number' && typeof club.lng === 'number');
+
+    const map = L.map(clubMapEl, { scrollWheelZoom: false });
+
+    // One club (club detail page): center + zoom in on it. Several (Kluby overview): whole-country view.
+    if (validClubs.length === 1) {
+      map.setView([validClubs[0].lat, validClubs[0].lng], 15);
+    } else {
+      map.setView([49.8, 15.5], 7);
+    }
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> přispěvatelé',
       maxZoom: 18,
     }).addTo(map);
 
-    clubs.forEach((club) => {
-      if (typeof club.lat !== 'number' || typeof club.lng !== 'number') return;
+    validClubs.forEach((club) => {
       L.marker([club.lat, club.lng], { icon: clubIcon })
         .addTo(map)
         .bindPopup(`
           <div class="c-map-popup">
             <p class="c-map-popup__name">${club.name}</p>
             <p class="c-map-popup__address">${club.fullName}, ${club.address}</p>
-            <a class="c-map-popup__link" href="${club.url}">Detail klubu →</a>
+            ${club.url ? `<a class="c-map-popup__link" href="${club.url}">Detail klubu →</a>` : ''}
           </div>
         `);
     });
