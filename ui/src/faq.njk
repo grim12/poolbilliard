@@ -1,0 +1,125 @@
+---
+layout: layouts/base.njk
+title: Časté dotazy — Poolbilliard
+---
+{% from "widgets/page-hero.njk" import pageHero %}
+{% from "macros/faq.njk" import faq %}
+{% from "macros/info-panel.njk" import infoPanel %}
+{% from "widgets/link-tiles.njk" import linkTiles %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ pageHero(
+            title="Časté dotazy",
+            text="Odpovědi na nejčastější otázky o poolbilliardu, klubech, hernách a soutěžích v Česku."
+        ) }}
+
+        <section class="c-section c-section--faq">
+            <div class="c-container">
+                <div class="c-section__grid">
+                <div class="c-section__body">
+                <h2>Otázky a odpovědi</h2>
+                {{ faq(
+                    idPrefix="faq",
+                    items=[
+                        {
+                            question: "Co je Český poolbilliard?",
+                            answer: "Český poolbilliard je sportovní sekce Českomoravského billiardového svazu (ČMBS), která zastřešuje soutěže, kluby a hráče poolbilliardu v České republice. Stará se o organizaci turnajů, rozvoj mládeže i reprezentaci na mezinárodní scéně."
+                        },
+                        {
+                            question: "Jak mohu začít hrát poolbilliard?",
+                            answer: "Stačí najít nejbližší <a href=\"/herny/\">kulečníkovou hernu</a> nebo <a href=\"/kluby/\">klub</a> ve svém okolí. Podrobný návod pro začátečníky, rekreační hráče i rodiče najdete na stránce <a href=\"/jak-zacit/\">Jak začít</a>."
+                        },
+                        {
+                            question: "Musím být členem klubu, abych si mohl zahrát?",
+                            answer: "Ne. Pro hru s kamarády v herně žádné členství nepotřebujete. Členství v klubu je potřeba až pro účast na soutěžích pořádaných ČMBS."
+                        },
+                        {
+                            question: "Kde najdu pravidla jednotlivých disciplín?",
+                            answer: "Kompletní pravidla pro 8-ball, 9-ball, 10-ball i 14.1 nekonečnou najdete na stránce <a href=\"/pravidla/\">Pravidla poolbilliardu</a>, včetně vyvrácení nejčastějších mýtů mezi rekreačními hráči."
+                        },
+                        {
+                            question: "Jak zaregistruji svou hernu do adresáře?",
+                            answer: "Provozovatelé heren mohou svou hernu zdarma přidat do katalogu přes formulář <a href=\"/registrace-herny/\">Registrace herny</a>. Po schválení se herna objeví v seznamu i na interaktivní mapě."
+                        },
+                        {
+                            question: "Jak se přihlásím na turnaj?",
+                            answer: "Aktuální kalendář turnajů a soutěží najdete na stránce <a href=\"/kalendar/\">Kalendář</a>. Přihlášky na jednotlivé turnaje probíhají přes přihlašovací systém uvedený u konkrétní akce."
+                        },
+                        {
+                            question: "Jaké soutěže ČMBS pořádá?",
+                            answer: "Systém soutěží zahrnuje regionální ligy, Českou poolovou tour, Mistrovství České republiky, juniorské soutěže i týmové ligy. Přehled najdete na stránce <a href=\"/souteze/\">Soutěže</a>."
+                        },
+                        {
+                            question: "Jak mohu kontaktovat výkonný výbor sekce?",
+                            answer: "Napište na e-mail vvs.pool@cmbs.cz, nebo se podívejte na stránku <a href=\"/sportovni-svaz/\">Sportovní svaz</a>, kde najdete kontakty na jednotlivé členy výkonného výboru."
+                        },
+                        {
+                            question: "Jak se dozvím o novinkách a výsledcích?",
+                            answer: "Sledujte <a href=\"/novinky/\">novinky</a> na webu, nebo se přihlaste k odběru newsletteru níže — pošleme vám pravidelný přehled turnajů a výsledků."
+                        }
+                    ]
+                ) }}
+                </div>
+
+                <aside class="c-section__aside">
+                    <div class="c-faq-contact">
+                        <p class="c-section__eyebrow">Kontakt</p>
+                        <div class="c-faq-contact__list">
+                            <a class="c-faq-contact__link" href="mailto:kontakt@poolbilliard.cz">
+                                {% icon "envelope", 18 %}
+                                kontakt@poolbilliard.cz
+                            </a>
+                            <a class="c-faq-contact__link" href="/sportovni-svaz/">
+                                {% icon "user-group", 18 %}
+                                Kontakty na výkonný výbor
+                            </a>
+                        </div>
+                    </div>
+
+                    {{ infoPanel(
+                        title="Nenašli jste odpověď?",
+                        text="Napište nám a rádi pomůžeme — na e-maily odpovídáme obvykle do 2 pracovních dnů.",
+                        buttonText="Napsat e-mail",
+                        buttonUrl="mailto:kontakt@poolbilliard.cz",
+                        headingLevel="h3"
+                    ) }}
+                </aside>
+                </div>
+            </div>
+        </section>
+
+        {{ linkTiles(
+            classes="bg-gray-100 border-top border-bottom",
+            items=[
+                {
+                    title: "Začni hrát",
+                    url: "/jak-zacit/",
+                    image: "/uploads/zacni-hrat.jpg"
+                },
+                {
+                    title: "Pravidla",
+                    url: "/pravidla/",
+                    image: "/uploads/pravidla.jpg"
+                },
+                {
+                    title: "Systémy soutěží",
+                    url: "/souteze/",
+                    image: "/uploads/systemy-soutezi.jpg"
+                },
+                {
+                    title: "O svazu",
+                    url: "/sportovni-svaz/",
+                    image: "/uploads/o-svazu.jpg"
+                }
+            ]
+        ) }}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>
