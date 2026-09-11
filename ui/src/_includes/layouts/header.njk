@@ -3,7 +3,7 @@
 {% set navItems = [
     {
         text: "Novinky",
-        url: "#",
+        url: "/novinky/",
         children: [
             { text: "Články", url: "/novinky/" },
             { text: "Zprávy výkonného výboru", url: "/zpravodajstvi/vykonny-vybor" }
@@ -131,7 +131,7 @@
       </nav>
 
       <div class="c-header__actions">
-        {{ button(text="Registrace na turnaje", url="#", color="accent", size="sm", hasArrow=false) }}
+        {{ button(text="Registrace na turnaje", url="/kalendar/", color="accent", size="sm", hasArrow=false) }}
 
         <div class="c-header__utility">
           <div class="c-header__lang">
