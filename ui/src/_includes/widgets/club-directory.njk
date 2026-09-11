@@ -21,7 +21,7 @@
                 <h2 class="c-section__title">{{ title }}</h2>
                 {% if subtitle %}<p class="c-section__subtitle">{{ subtitle }}</p>{% endif %}
             </div>
-            {{ button(text=addButtonText, url=addButtonUrl, color="primary", extraClass="shrink-0") }}
+            {{ button(text=addButtonText, url=addButtonUrl, color="primary", leadingIcon="plus", hasArrow=false, extraClass="shrink-0") }}
         </div>
 
         {% set groups = clubs | groupby("region") %}
@@ -39,7 +39,7 @@
                             <a href="{{ club.url }}" class="c-club-group__row c-club-group__row--link" role="row" aria-label="{{ club.name }}">
                                 <span class="c-club-group__cell c-club-group__cell--name" role="cell">{{ club.name }}</span>
                                 <span class="c-club-group__cell c-club-group__cell--city" role="cell">
-                                    {% icon "map-pin", 14 %}
+                                    {% icon "map-pin", 16 %}
                                     {{ club.city }}
                                 </span>
                                 <span class="c-club-group__cell c-club-group__cell--action" role="cell">

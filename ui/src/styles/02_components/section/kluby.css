@@ -7,7 +7,46 @@
     @apply items-stretch lg:grid-cols-[1.7fr_1fr] gap-6 lg:gap-8;
   }
 
+  /* isolate: Leaflet's internal panes/controls use z-index up to 1000 (see leaflet.css).
+     .leaflet-container is only position:relative (no z-index), so without a stacking context
+     of its own those values compare directly against page chrome like the sticky header
+     (z-50) and win. isolate contains them so the map, as a whole, stacks by normal DOM order. */
   .c-club-map {
-    @apply w-full h-[380px] sm:h-[440px] lg:h-auto rounded-4xl overflow-hidden border border-gray-200 bg-gray-100;
+    @apply relative isolate w-full h-[380px] sm:h-[440px] lg:h-auto rounded-4xl overflow-hidden border border-gray-200 bg-gray-100;
+  }
+
+  /* Custom Leaflet marker (replaces the default icon image, which isn't vendored) — solid
+     red dot, white border, plus a crisp semi-transparent red "ring" (0-blur box-shadow, so
+     it reads as a second border rather than a soft glow). */
+  .c-map-pin {
+    @apply block size-4.5 rounded-full bg-accent-500 border-2 border-white shadow-[0_0_0_4px_rgba(214,23,43,0.25)];
+  }
+
+  /* Popup content (bound via Leaflet's bindPopup, see main.js) — Leaflet renders its own
+     wrapper markup around this, so styles here only touch content-level elements. */
+  .leaflet-popup-content-wrapper {
+    @apply rounded-2xl shadow-card-lg;
+  }
+
+  .leaflet-popup-content {
+    @apply m-4!;
+  }
+
+  .c-map-popup {
+    @apply max-w-56;
+  }
+
+  /* !important needed here too — leaflet.css's unlayered `.leaflet-popup-content p { margin:
+     17px 0 }` otherwise beats these (layered) margins regardless of specificity. */
+  .c-map-popup__name {
+    @apply font-extrabold text-body-main text-sm leading-snug m-0! mb-0.5!;
+  }
+
+  .c-map-popup__address {
+    @apply text-body-600 text-xs leading-snug m-0! mb-1!;
+  }
+
+  .c-map-popup__link {
+    @apply inline-flex items-center font-bold text-sm text-accent-500! no-underline hover:underline hover:text-accent-600! transition-colors duration-150;
   }
 }

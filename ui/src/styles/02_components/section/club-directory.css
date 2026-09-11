@@ -11,10 +11,6 @@
     @apply flex flex-col gap-8 lg:gap-10;
   }
 
-  .c-club-group__title {
-    @apply text-lg sm:text-xl font-extrabold text-body-main mb-3;
-  }
-
   .c-club-group__table {
     @apply rounded-2xl border border-gray-200 bg-white overflow-hidden;
   }
@@ -22,9 +18,12 @@
   /* Fixed track sizes (not a bare 1fr) so one very long club/city name can't make that
      row's column wider than the same column on every other row — the same overflow-safe
      grid pattern used by the Kalendář month grid. */
+  /* Third column is a fixed track (not auto) so the empty head cell still reserves the same
+     width as the "Detail" action cell in body rows — auto sizes per-row from that row's own
+     content, which left the head's empty cell at ~0 and threw off column alignment. */
   .c-club-group__row {
     @apply grid items-center gap-x-4 px-4 sm:px-5 py-3 sm:py-3.5;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 5.5rem;
   }
 
   .c-club-group__row + .c-club-group__row {
@@ -71,11 +70,15 @@
       @apply bg-gray-50;
 
       .c-club-group__cell--name {
-        @apply text-primary-600;
+        @apply underline;
       }
 
-      .c-club-group__cell--action svg {
-        @apply translate-x-0.5;
+      .c-club-group__cell--action {
+        @apply underline;
+
+        svg {
+          @apply translate-x-0.5;
+        }
       }
     }
 

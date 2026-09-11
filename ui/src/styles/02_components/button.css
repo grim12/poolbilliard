@@ -72,4 +72,16 @@
       }
     }
   }
+
+  /* Leading icon (before the text, e.g. "plus" on an "add new" button) — mirrors the trailing
+     icon's edge-hugging negative margin on the other side, and opts out of the hover
+     translate-x (that "moves forward" affordance only makes sense for a trailing/directional
+     icon like the chevron arrow). */
+  .c-button_icon--leading {
+    @apply mr-0 -ml-2;
+  }
+
+  .c-button:hover .c-button_icon--leading {
+    @apply translate-x-0;
+  }
 }

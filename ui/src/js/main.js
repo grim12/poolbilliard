@@ -107,13 +107,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (clubMapEl && window.L) {
     const clubs = JSON.parse(clubMapEl.dataset.clubMap || '[]');
 
-    // Point the default marker icon at our vendored copy instead of relying on Leaflet's
-    // own CSS-based path autodetection, which is brittle once the CSS file is vendored
-    // to a custom url (/css/vendor/leaflet.css instead of node_modules).
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: '/css/vendor/images/marker-icon-2x.png',
-      iconUrl: '/css/vendor/images/marker-icon.png',
-      shadowUrl: '/css/vendor/images/marker-shadow.png',
+    // Custom marker icon (a plain styled <div>, see .c-map-pin) instead of Leaflet's default
+    // image-based icon, which isn't vendored.
+    const clubIcon = L.divIcon({
+      className: 'c-map-pin',
+      iconSize: [18, 18],
+      iconAnchor: [9, 9],
+      popupAnchor: [0, -9],
     });
 
     const map = L.map(clubMapEl, { scrollWheelZoom: false }).setView([49.8, 15.5], 7);
@@ -125,9 +125,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     clubs.forEach((club) => {
       if (typeof club.lat !== 'number' || typeof club.lng !== 'number') return;
-      L.marker([club.lat, club.lng])
+      L.marker([club.lat, club.lng], { icon: clubIcon })
         .addTo(map)
-        .bindPopup(`<strong>${club.name}</strong><br>${club.city}`);
+        .bindPopup(`
+          <div class="c-map-popup">
+            <p class="c-map-popup__name">${club.name}</p>
+            <p class="c-map-popup__address">${club.fullName}, ${club.address}</p>
+            <a class="c-map-popup__link" href="${club.url}">Detail klubu →</a>
+          </div>
+        `);
     });
   }
 });

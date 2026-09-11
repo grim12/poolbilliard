@@ -1,12 +1,15 @@
 {#
-    button(text, url, color, variant, size, hasArrow, icon, type, iconSize, extraClass, target, ariaLabel, disabled)
+    button(text, url, color, variant, size, hasArrow, icon, leadingIcon, type, iconSize, extraClass, target, ariaLabel, disabled)
     - url set -> renders <a>, otherwise <button type="{{ type }}">
     - color: "primary" (default) | "accent" | "dark"
     - variant: "solid" (default) | "outline" | "link"
     - size: "md" (default) | "sm" | "lg"
-    - hasArrow: true (default, renders the icon below) | false
+    - hasArrow: true (default, renders the trailing icon) | false
     - icon: heroicon name shown when hasArrow — "chevron-right" (default), or e.g.
       "arrow-top-right-on-square" for a button linking out to an external site
+    - leadingIcon: heroicon name shown BEFORE the text (e.g. "plus" for an "add new" action) —
+      "" (default, no leading icon). Independent from hasArrow/icon — a button can have a
+      leading icon, a trailing one, both, or neither.
 #}
 {% macro button(
     text,
@@ -16,6 +19,7 @@
     size="md",
     hasArrow=true,
     icon="chevron-right",
+    leadingIcon="",
     type="button",
     iconSize=24,
     extraClass="",
@@ -33,6 +37,9 @@
 
     {%- if url -%}
         <a href="{{ url }}" class="{{ classes }}"{% if target %} target="{{ target }}" rel="noopener noreferrer"{% endif %}{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} aria-disabled="true" tabindex="-1"{% endif %}>
+            {%- if leadingIcon -%}
+                {% icon leadingIcon, iconSize, "c-button_icon c-button_icon--leading", 20 %}
+            {%- endif -%}
             <span>{{ text | safe }}</span>
             {%- if hasArrow -%}
                 {% icon icon, iconSize, "c-button_icon", 20 %}
@@ -40,6 +47,9 @@
         </a>
     {%- else -%}
         <button type="{{ type }}" class="{{ classes }}"{% if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}{% if disabled %} disabled{% endif %}>
+            {%- if leadingIcon -%}
+                {% icon leadingIcon, iconSize, "c-button_icon c-button_icon--leading", 20 %}
+            {%- endif -%}
             <span>{{ text | safe }}</span>
             {%- if hasArrow -%}
                 {% icon icon, iconSize, "c-button_icon", 20 %}

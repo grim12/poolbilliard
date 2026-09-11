@@ -56,6 +56,22 @@ ui/
   * `&:first-child { @apply mt-0; }` — první prvek v kontejneru nemá horní margin.
   * `&:last-child { @apply mb-0; }` — poslední prvek v kontejneru nemá spodní margin.
 
+> ⚠️ **PAST: Komponentní `__title` (a podobné) třídy nesmí tiše přepisovat výchozí styl nadpisového tagu.**
+> Stalo se opakovaně, že subkomponenta jako `.c-club-group__title` na `<h3>` přepsala velikost/váhu/margin z `typography.css` vlastními hodnotami, které se pak rozjely od zbytku nadpisů na stránce (jiná velikost než ostatní `h3`, jiný `mb-*`...). Postup při psaní nové nadpisové subkomponenty, v tomto pořadí:
+> 1. **Nejdřív zkus výchozí styl tagu.** Pokud `<h3 class="c-xxx__title">` sedí i bez vlastního stylu, **nepřidávej žádné typografické `@apply`** do `__title` třídy — nech padat styl z `h3, .h3 { ... }`.
+> 2. **Pokud sedí jiná úroveň, použij existující nadpisovou třídu** (`.h2`, `.h3`, `.h4`, `.h5`) místo ruční kombinace utilit — např. `<h3 class="c-xxx__title h4">`, ne `<h3 class="c-xxx__title">` s vlastním `text-lg font-extrabold ...`.
+> 3. **Pokud potřebuješ jen jiný spacing** (`mb-*`, případně `mt-*`) než dává výchozí tag/`.hX` třída — typicky proto, že nadpis sedí v jiném kontextu (karta, seznam, tabulka) než volný textový blok — přepiš **jen margin** přímo v `__title` třídě. Typografii (velikost, váhu, barvu, `leading-*`, `tracking-*`) v `__title` třídě nepřepisuj, pokud to není nezbytně nutné.
+> 4. **Teprve když ani jedna z `.h1`–`.h5` velikostí nesedí** (a nejde jen o spacing), přepiš typografii přímo v `__title` třídě — a přepiš ji **kompletně** (velikost, váhu, `mb-*`...), ne jen dílčí vlastnost, ať je jasné, že jde o vědomou výjimku, ne o náhodný drift.
+> ```css
+> /* ❌ ŠPATNĚ: tiše přepisuje výchozí h3 (jiná velikost, jiný mb-*) bez důvodu */
+> .c-club-group__title {
+>   @apply text-lg sm:text-xl font-extrabold text-body-main mb-3;
+> }
+>
+> /* ✅ SPRÁVNĚ: žádné přepsání, `<h3 class="c-club-group__title">` dědí h3, .h3 { ... } beze změny */
+> /* (třída zůstává jen jako BEM hook, případně se vůbec nepíše do CSS) */
+> ```
+
 ### Témata (`03_themes/`)
 * Kontextová témata používají prefix `.t-` (např. `.t-dark`).
 * **`.t-dark`:** Pro sekce s tmavým pozadím. Automaticky přebarvuje text na světlý, nadpisy na bílé a oddělovače na poloprůhledné bílé linky.
@@ -285,6 +301,21 @@ Podobně i v tématech (`03_themes/dark.css`):
 > </div>
 > ```
 > Tenhle vzor (collapsible s `max-height` transitionem) používáme napříč projektem pro topbar hide/show, search panel i mobilní accordion menu — viz `ui/src/styles/02_components/header.css`.
+
+> ⚠️ **PAST: Dvě po sobě jdoucí `.c-section` se stejným (nebo žádným) pozadím nesmí mít mezi sebou dvojitý padding.**
+> `.c-section` má vlastní svislý rytmus `py-14 sm:py-16 lg:py-20`. Pokud za sebou následují dvě sekce se stejným pozadím (obě `bg-transparent`, nebo obě stejná `bg-*`), vizuálně mezi nimi nic neodděluje horní a dolní hranu — uživatel vidí jen jednu souvislou plochu. Kdyby si obě nechaly svůj `py-*`, mezera mezi jejich obsahy by byla **dvojnásobná** oproti běžné mezeře uvnitř jedné sekce (např. mezi jejím nadpisem a obsahem), což narušuje jednotný rytmus stránky.
+> Naopak když se pozadí **liší** (jedna sekce má `bg-gray-100`, `border-top`/`border-bottom` apod. — viz použití `tournaments()` widgetu), viditelná hranice mezi plochami už opticky mezeru odděluje, takže tam si obě sekce svůj `py-*` normálně ponechávají.
+> **Řešení:** jedna strana spoje se vynuluje pomocí utilit z `04_utils/spacing.css` (`pt-none`/`pb-none`, případně odstupňované `pt-xs`…`pt-xl` a `pb-xs`…`pb-xl`, pokud má být mezera menší, ne nulová) — ne obě, jen jedna, ať zůstane přesně jeden `py-*` rytmus mezi nimi. V projektu je zavedené vynulovat **horní** padding té **následující** sekce (`pt-none`) a spodní padding té **předchozí** nechat beze změny — drž se toho, ať je to napříč stránkami konzistentní.
+> ```njk
+> {# ❌ ŠPATNĚ: obě sekce mají stejné (transparentní) pozadí a svůj plný py-* → dvojitá mezera #}
+> {{ newsHeader(...) }}
+> <section class="c-section"> ... </section>
+>
+> {# ✅ SPRÁVNĚ: následující sekce má pt-none, mezera = jen pb-* té první #}
+> {{ newsHeader(..., classes="pb-none") }}
+> <section class="c-section pt-none"> ... </section>
+> ```
+> Viz `ui/src/kalendar.njk` a `ui/src/kluby.njk` (`pt-none`/`pb-none` na `newsHeader`, mapové sekci i `clubDirectory()`).
 
 ---
 
