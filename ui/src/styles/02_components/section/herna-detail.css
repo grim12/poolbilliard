@@ -1,0 +1,71 @@
+@layer components {
+  /* ==========================================================================
+     Section: Herna detail body (Herny → detail herny) — see widgets/herna-detail.njk.
+     Every block here is independently optional — a real herna may not supply all of
+     them (about text, sports, hours, map/address, contact...).
+     ========================================================================== */
+
+  .c-section--herna-detail {
+    .c-section__grid {
+      @apply items-start lg:grid-cols-[1.7fr_1fr] gap-8 lg:gap-10;
+    }
+
+    .c-section__body {
+      @apply flex flex-col gap-10 lg:gap-12;
+    }
+
+    .c-section__aside {
+      @apply flex flex-col gap-6;
+    }
+
+    /* Embedded in the (narrower) main body column, not full page width like gallery.njk's own
+       section — cap at 3 columns instead of the shared .c-gallery__grid's 4. */
+    .c-gallery__grid {
+      @apply lg:grid-cols-3;
+    }
+  }
+
+  .c-herna-tags {
+    @apply flex flex-wrap gap-2;
+  }
+
+  /* --- "Otevírací doba" list — dotted leader between day and time instead of a border per
+     row, so the card can share .c-herna-aside-card's padding/style with "Kontakt" --- */
+  .c-herna-hours {
+    @apply flex flex-col gap-2;
+  }
+
+  .c-herna-hours__row {
+    @apply flex items-end gap-2 text-sm;
+  }
+
+  .c-herna-hours__day {
+    @apply font-bold text-body-main shrink-0;
+  }
+
+  .c-herna-hours__dots {
+    @apply flex-1 border-b border-dotted border-gray-300 mb-1;
+  }
+
+  .c-herna-hours__time {
+    @apply text-body-600 shrink-0;
+  }
+
+  /* --- "Otevírací doba" / "Kontakt" aside cards (the map card is the shared .c-map-card,
+     see map-card.css) --- */
+  .c-herna-aside-card {
+    @apply rounded-3xl border border-gray-200 bg-white p-5 sm:p-6;
+  }
+
+  .c-herna-aside-card__contact {
+    @apply flex flex-col gap-3;
+  }
+
+  .c-herna-aside-card__contact-link {
+    @apply inline-flex items-center gap-2 font-semibold text-body-main no-underline hover:text-primary-600;
+
+    svg {
+      @apply text-gray-400 shrink-0;
+    }
+  }
+}

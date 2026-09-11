@@ -1,0 +1,140 @@
+{% from "macros/tag.njk" import tag %}
+{% from "macros/button.njk" import button %}
+
+{#
+    hernaDetail(aboutText, gallery, sports, hours, mapLabel, name, address, lat, lng, mapsUrl,
+                phone, email, website, classes)
+    - Two-column body for the herna detail page (Herny → detail herny): "O herně" + "Nabízené
+      sporty" + "Fotogalerie" on the left; "Kde nás najdeš" (map, same c-map-card as
+      clubDetail()) + "Otevírací doba" + "Kontakt" on the right — same shape as clubDetail(),
+      but for what a herna (not a club) actually collects, see Registrace herny: no
+      members/ambassador, sports tags + opening hours instead.
+    - Every block is independently optional, same "must work with partial data" idea as
+      clubDetail() — a real herna may not supply hours, a gallery or a website, for example.
+    - gallery: array of { image, alt } — same GLightbox thumbnail grid as widgets/gallery.njk,
+      just placed inside the two-column body's main column instead of its own full-width
+      section. Requires the page to set `hasGallery: true` (see gallery.njk's doc comment).
+    - sports: array of strings
+    - hours: array of { day, text } — e.g. { day: "Pondělí", text: "14:00–24:00" }; a closed
+      day is just text: "Zavřeno", not omitted (keeps every day visible in a fixed order).
+    - lat/lng: only needed to render the map itself — the "Kde nás najdeš" card still renders
+      with just `address` if coordinates aren't supplied (same as clubDetail()).
+#}
+{% macro hernaDetail(
+    aboutText="",
+    gallery=[],
+    sports=[],
+    hours=[],
+    mapLabel="Kde nás najdeš",
+    name="",
+    address="",
+    lat="",
+    lng="",
+    mapsUrl="",
+    phone="",
+    email="",
+    website="",
+    classes=""
+) %}
+    {%- set hasMapCard = address -%}
+    {%- set hasContactCard = phone or email or website -%}
+    {%- set hasAside = hasMapCard or hours.length or hasContactCard -%}
+    {%- set mapsUrl = mapsUrl or (("https://www.google.com/maps/search/?api=1&query=" + lat + "," + lng) if (lat and lng) else "") -%}
+<section class="{{ ["c-section", "c-section--herna-detail", classes] | select | join(" ") }}">
+    <div class="c-container">
+        <div class="{{ ["c-section__grid", ("lg:grid-cols-1" if not hasAside else "")] | select | join(" ") }}">
+            <div class="c-section__body">
+                {% if aboutText %}
+                    <div>
+                        <h2>O herně</h2>
+                        <p>{{ aboutText }}</p>
+                    </div>
+                {% endif %}
+
+                {% if sports.length %}
+                    <div>
+                        <h2>Nabízené sporty</h2>
+                        <div class="c-herna-tags">
+                            {% for sport in sports %}
+                                {{ tag(text=sport, color="primary", variant="subtle") }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if gallery.length %}
+                    <div>
+                        <h2>Fotogalerie</h2>
+                        <div class="c-gallery__grid">
+                            {% for item in gallery %}
+                                <a href="{{ item.image }}" class="c-gallery__item glightbox" data-gallery="herna-gallery" aria-label="{{ item.alt or '' }}">
+                                    <img src="{{ item.image }}" alt="" loading="lazy" />
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if hasAside %}
+                <aside class="c-section__aside">
+                    {% if hasMapCard %}
+                        <div class="c-map-card">
+                            <div class="c-map-card__header">
+                                {{ tag(text=mapLabel, color="gold-light", variant="subtle", size="sm", extraClass="mb-2") }}
+                                <p class="c-map-card__address">
+                                    <span class="c-map-card__icon" aria-hidden="true">
+                                        {% icon "map-pin", 16 %}
+                                    </span>
+                                    {{ address }}
+                                </p>
+                                {% if mapsUrl %}
+                                    <a class="c-map-card__link" href="{{ mapsUrl }}" target="_blank" rel="noopener noreferrer">
+                                        Navigovat
+                                        {% icon "chevron-right", 16 %}
+                                    </a>
+                                {% endif %}
+                            </div>
+                            {% if lat and lng %}
+                                <div class="c-map-card__map" data-club-map='{{ [{ name: name, fullName: name, address: address, lat: lat, lng: lng }] | dump }}' data-pin-color="primary" role="application" aria-label="Mapa – {{ name }}"></div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    {% if hours.length %}
+                        <div class="c-herna-aside-card">
+                            <p class="c-section__eyebrow">Otevírací doba</p>
+                            <div class="c-herna-hours">
+                                {% for row in hours %}
+                                    <div class="c-herna-hours__row">
+                                        <span class="c-herna-hours__day">{{ row.day }}</span>
+                                        <span class="c-herna-hours__dots" aria-hidden="true"></span>
+                                        <span class="c-herna-hours__time">{{ row.text }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if hasContactCard %}
+                        <div class="c-herna-aside-card">
+                            <p class="c-section__eyebrow">Kontakt</p>
+                            <div class="c-herna-aside-card__contact">
+                                {% if phone %}
+                                    <a class="c-herna-aside-card__contact-link" href="tel:{{ phone }}">{% icon "phone", 18 %} {{ phone }}</a>
+                                {% endif %}
+                                {% if email %}
+                                    <a class="c-herna-aside-card__contact-link" href="mailto:{{ email }}">{% icon "envelope", 18 %} {{ email }}</a>
+                                {% endif %}
+                                {% if website %}
+                                    <a class="c-herna-aside-card__contact-link" href="{{ website }}" target="_blank" rel="noopener noreferrer">{% icon "globe-alt", 18 %} Web herny</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </aside>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endmacro %}

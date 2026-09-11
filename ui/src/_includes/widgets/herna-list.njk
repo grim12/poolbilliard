@@ -4,7 +4,10 @@
     - Distinct from clubDirectory(): herny are public venues, not member-only clubs — no detail
       page (just a compact card + external "Web" link) and no region grouping, since the search
       + kraj filter narrow the one flat grid instead of the list being pre-split into sections.
-    - items: flat array of { name, address, city, region, url, linkText, lat, lng }
+    - items: flat array of { name, address, city, region, url, linkText, lat, lng, detailUrl }
+    - detailUrl: links the herna's name to its detail page (every herna points to the same
+      "Demo herna" page today, see herna.njk — the site has one template detail page, not a
+      real one per venue).
     - regions: array of region names shown in the Kraj <select> — passed explicitly (the page
       controls the source list and its order, rather than this macro deriving it from `items`
       itself)
@@ -46,7 +49,7 @@
                     <div class="c-herna-card__header">
                         <span class="c-herna-card__badge" aria-hidden="true">{{ herna.name | initials }}</span>
                         <div class="min-w-0">
-                            <p class="c-herna-card__name">{{ herna.name }}</p>
+                            <a class="c-herna-card__name" href="{{ herna.detailUrl or '/herna/' }}">{{ herna.name }}</a>
                             <p class="c-herna-card__address">
                                 {% icon "map-pin", 14 %}
                                 {{ [herna.address, herna.city] | select | join(", ") }}

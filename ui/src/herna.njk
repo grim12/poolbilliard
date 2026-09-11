@@ -1,0 +1,55 @@
+---
+layout: layouts/base.njk
+title: Demo herna — Poolbilliard
+hasMap: true
+hasGallery: true
+---
+{% from "widgets/club-hero.njk" import clubHero %}
+{% from "widgets/herna-detail.njk" import hernaDetail %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ clubHero(
+            backText="Zpět na herny",
+            backUrl="/herny/",
+            title="Demo herna",
+            city="Praha 7",
+            region="Praha"
+        ) }}
+
+        {{ hernaDetail(
+            aboutText="Kulečníková herna v centru Prahy se šesti profesionálními stoly a příjemnou atmosférou pro rekreační i soutěžní hráče. Nabízíme pronájem stolů, prodej vybavení i drobné občerstvení — vhodné pro trénink, přátelské zápasy i firemní akce.",
+            gallery=[
+                { image: "/uploads/smichoff%20bg.jpg", alt: "Interiér herny" },
+                { image: "/uploads/pool-group-blue.jpg", alt: "Kulečníkové stoly" },
+                { image: "/uploads/zacni-hrat.jpg", alt: "Hráč u stolu" },
+                { image: "/uploads/havel.jpg", alt: "Hráč při zahrávání" },
+                { image: "/uploads/federal.jpg", alt: "Trofeje na stole" }
+            ],
+            sports=["Poolbilliard", "Karambol", "Snooker"],
+            hours=[
+                { day: "Pondělí", text: "14:00–24:00" },
+                { day: "Úterý", text: "14:00–24:00" },
+                { day: "Středa", text: "14:00–24:00" },
+                { day: "Čtvrtek", text: "14:00–24:00" },
+                { day: "Pátek", text: "14:00–02:00" },
+                { day: "Sobota", text: "16:00–02:00" },
+                { day: "Neděle", text: "Zavřeno" }
+            ],
+            name="Demo herna",
+            address="Františka Křížka 11, 170 00 Praha 7",
+            lat="50.0975",
+            lng="14.4344",
+            phone="+420 123 456 789",
+            email="info@demoherna.cz",
+            website="#"
+        ) }}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

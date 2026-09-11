@@ -92,24 +92,24 @@
             {% if hasAside %}
                 <aside class="c-club-detail__aside">
                     {% if hasMapCard %}
-                        <div class="c-club-map-card">
-                            <div class="c-club-map-card__header">
+                        <div class="c-map-card">
+                            <div class="c-map-card__header">
                                 {{ tag(text=mapLabel, color="gold-light", variant="subtle", size="sm", extraClass="mb-2") }}
-                                <p class="c-club-map-card__address">
-                                    <span class="c-club-map-card__icon" aria-hidden="true">
+                                <p class="c-map-card__address">
+                                    <span class="c-map-card__icon" aria-hidden="true">
                                         {% icon "map-pin", 16 %}
                                     </span>
                                     {{ [fullName, address] | select | join(", ") }}
                                 </p>
                                 {% if mapsUrl %}
-                                    <a class="c-club-map-card__link" href="{{ mapsUrl }}" target="_blank" rel="noopener noreferrer">
+                                    <a class="c-map-card__link" href="{{ mapsUrl }}" target="_blank" rel="noopener noreferrer">
                                         Navigovat
                                         {% icon "chevron-right", 16 %}
                                     </a>
                                 {% endif %}
                             </div>
                             {% if lat and lng %}
-                                <div class="c-club-map-card__map" data-club-map='{{ [{ name: (name or fullName), fullName: fullName, address: address, lat: lat, lng: lng }] | dump }}' role="application" aria-label="Mapa – {{ name or fullName or address }}"></div>
+                                <div class="c-map-card__map" data-club-map='{{ [{ name: (name or fullName), fullName: fullName, address: address, lat: lat, lng: lng }] | dump }}' role="application" aria-label="Mapa – {{ name or fullName or address }}"></div>
                             {% endif %}
                         </div>
                     {% endif %}

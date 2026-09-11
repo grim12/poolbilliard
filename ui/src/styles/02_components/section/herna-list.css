@@ -66,7 +66,11 @@
   }
 
   .c-herna-card__name {
-    @apply font-bold text-body-main text-sm sm:text-base leading-snug m-0 mb-1;
+    @apply block font-bold text-body-main text-sm sm:text-base leading-snug no-underline m-0 mb-1 transition-colors duration-150 hover:text-primary-600 hover:underline;
+
+    &:focus-visible {
+      @apply outline-none ring-2 ring-offset-2 ring-primary-500 rounded-xs;
+    }
   }
 
   .c-herna-card__address {

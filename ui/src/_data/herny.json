@@ -1,34 +1,34 @@
 [
-  { "name": "Billiard Club Harlequin Praha", "address": "Oblouková 819/35", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "lat": 50.073, "lng": 14.479 },
-  { "name": "Billiard Club Řipská", "address": "Řipská 831/15", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "lat": 50.0863, "lng": 14.4625 },
-  { "name": "Billiard Rajská Zahrada", "address": "Ciglerova 1090/32", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "lat": 50.105, "lng": 14.556 },
-  { "name": "Lucky Ball Billiard Club", "address": "Mukařovského 1985/5", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "lat": 50.061, "lng": 14.366 },
-  { "name": "LEVELS Prague", "address": "Národní 36/40", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "lat": 50.081, "lng": 14.414 },
-  { "name": "Garage Billiard & Bowling Smíchov", "address": "Nádražní 279/1", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "lat": 50.07, "lng": 14.4 },
-  { "name": "Billiard Club Balabuška Bohdalec", "address": "Bohdalec 957/2", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "lat": 50.058, "lng": 14.478 },
+  { "name": "Billiard Club Harlequin Praha", "address": "Oblouková 819/35", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.073, "lng": 14.479 },
+  { "name": "Billiard Club Řipská", "address": "Řipská 831/15", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.0863, "lng": 14.4625 },
+  { "name": "Billiard Rajská Zahrada", "address": "Ciglerova 1090/32", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.105, "lng": 14.556 },
+  { "name": "Lucky Ball Billiard Club", "address": "Mukařovského 1985/5", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.061, "lng": 14.366 },
+  { "name": "LEVELS Prague", "address": "Národní 36/40", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.081, "lng": 14.414 },
+  { "name": "Garage Billiard & Bowling Smíchov", "address": "Nádražní 279/1", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.07, "lng": 14.4 },
+  { "name": "Billiard Club Balabuška Bohdalec", "address": "Bohdalec 957/2", "city": "Praha", "region": "Praha", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.058, "lng": 14.478 },
 
-  { "name": "Bowling Bar Admirál", "address": "Pražská 1006/48", "city": "Poděbrady", "region": "Středočeský", "url": "#", "linkText": "Web", "lat": 50.1415, "lng": 15.1186 },
-  { "name": "Cadillac Bowling & Billiard Club", "address": "Masarykova 989", "city": "Kolín", "region": "Středočeský", "url": "#", "linkText": "Web", "lat": 50.028, "lng": 15.2 },
-  { "name": "Valhalla Sport Bar", "address": "Havlíčkova 1245", "city": "Mladá Boleslav", "region": "Středočeský", "url": "#", "linkText": "Web", "lat": 50.4143, "lng": 14.9028 },
-  { "name": "Bowling Ludmila", "address": "Pražská 2639/2", "city": "Mělník", "region": "Středočeský", "url": "#", "linkText": "Web", "lat": 50.3511, "lng": 14.4738 },
-  { "name": "Stone Bowling Bar Benešov", "address": "Jana Nohy 1441", "city": "Benešov", "region": "Středočeský", "url": "#", "linkText": "Web", "lat": 49.7845, "lng": 14.6879 },
+  { "name": "Bowling Bar Admirál", "address": "Pražská 1006/48", "city": "Poděbrady", "region": "Středočeský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.1415, "lng": 15.1186 },
+  { "name": "Cadillac Bowling & Billiard Club", "address": "Masarykova 989", "city": "Kolín", "region": "Středočeský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.028, "lng": 15.2 },
+  { "name": "Valhalla Sport Bar", "address": "Havlíčkova 1245", "city": "Mladá Boleslav", "region": "Středočeský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.4143, "lng": 14.9028 },
+  { "name": "Bowling Ludmila", "address": "Pražská 2639/2", "city": "Mělník", "region": "Středočeský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.3511, "lng": 14.4738 },
+  { "name": "Stone Bowling Bar Benešov", "address": "Jana Nohy 1441", "city": "Benešov", "region": "Středočeský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 49.7845, "lng": 14.6879 },
 
-  { "name": "Billiard Club Plzeň", "address": "Pobřežní 8", "city": "Plzeň", "region": "Plzeňský", "url": "#", "linkText": "Web", "lat": 49.7384, "lng": 13.3736 },
-  { "name": "Bowling Bar Klatovy", "address": "Plánická 626", "city": "Klatovy", "region": "Plzeňský", "url": "#", "linkText": "Web", "lat": 49.3958, "lng": 13.2948 },
+  { "name": "Billiard Club Plzeň", "address": "Pobřežní 8", "city": "Plzeň", "region": "Plzeňský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 49.7384, "lng": 13.3736 },
+  { "name": "Bowling Bar Klatovy", "address": "Plánická 626", "city": "Klatovy", "region": "Plzeňský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 49.3958, "lng": 13.2948 },
 
-  { "name": "Billiard Club Casablanca Tábor z.s.", "address": "Šafaříkova 1791", "city": "Tábor", "region": "Jihočeský", "url": "#", "linkText": "Web", "lat": 49.4144, "lng": 14.6578 },
-  { "name": "Kulečníková herna Hexpool", "address": "Písecká 20", "city": "České Budějovice", "region": "Jihočeský", "url": "#", "linkText": "Web", "lat": 48.9745, "lng": 14.4744 },
+  { "name": "Billiard Club Casablanca Tábor z.s.", "address": "Šafaříkova 1791", "city": "Tábor", "region": "Jihočeský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 49.4144, "lng": 14.6578 },
+  { "name": "Kulečníková herna Hexpool", "address": "Písecká 20", "city": "České Budějovice", "region": "Jihočeský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 48.9745, "lng": 14.4744 },
 
-  { "name": "Billiard Liberec", "address": "Sokolovská 1133/67", "city": "Liberec", "region": "Liberecký", "url": "#", "linkText": "Web", "lat": 50.7663, "lng": 15.0543 },
-  { "name": "Bowling F1 Česká Lípa", "address": "Hrnčířská 761", "city": "Česká Lípa", "region": "Liberecký", "url": "#", "linkText": "Web", "lat": 50.685, "lng": 14.5378 },
+  { "name": "Billiard Liberec", "address": "Sokolovská 1133/67", "city": "Liberec", "region": "Liberecký", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.7663, "lng": 15.0543 },
+  { "name": "Bowling F1 Česká Lípa", "address": "Hrnčířská 761", "city": "Česká Lípa", "region": "Liberecký", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.685, "lng": 14.5378 },
 
-  { "name": "Billiard Club Chomutov", "address": "Střední 5122", "city": "Chomutov", "region": "Ústecký", "url": "#", "linkText": "Web", "lat": 50.4602, "lng": 13.4177 },
+  { "name": "Billiard Club Chomutov", "address": "Střední 5122", "city": "Chomutov", "region": "Ústecký", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.4602, "lng": 13.4177 },
 
-  { "name": "Billiard Club Hradec Králové", "address": "Milady Horákové 273", "city": "Hradec Králové", "region": "Královéhradecký", "url": "#", "linkText": "Web", "lat": 50.2092, "lng": 15.8328 },
+  { "name": "Billiard Club Hradec Králové", "address": "Milady Horákové 273", "city": "Hradec Králové", "region": "Královéhradecký", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 50.2092, "lng": 15.8328 },
 
-  { "name": "Billiard Club Yellow Fish", "address": "Biskupská 1", "city": "Brno", "region": "Jihomoravský", "url": "#", "linkText": "Web", "lat": 49.1951, "lng": 16.6068 },
-  { "name": "U 3 kouli", "address": "Údolní 40", "city": "Brno", "region": "Jihomoravský", "url": "#", "linkText": "Web", "lat": 49.1936, "lng": 16.6113 },
-  { "name": "Sborovna", "address": "Gorkého 41", "city": "Brno", "region": "Jihomoravský", "url": "#", "linkText": "Web", "lat": 49.2058, "lng": 16.6081 },
+  { "name": "Billiard Club Yellow Fish", "address": "Biskupská 1", "city": "Brno", "region": "Jihomoravský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 49.1951, "lng": 16.6068 },
+  { "name": "U 3 kouli", "address": "Údolní 40", "city": "Brno", "region": "Jihomoravský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 49.1936, "lng": 16.6113 },
+  { "name": "Sborovna", "address": "Gorkého 41", "city": "Brno", "region": "Jihomoravský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 49.2058, "lng": 16.6081 },
 
-  { "name": "Billiard Club Ostrava", "address": "Nádražní 30", "city": "Ostrava", "region": "Moravskoslezský", "url": "#", "linkText": "Web", "lat": 49.8209, "lng": 18.2625 }
+  { "name": "Billiard Club Ostrava", "address": "Nádražní 30", "city": "Ostrava", "region": "Moravskoslezský", "url": "#", "linkText": "Web", "detailUrl": "/herna/", "lat": 49.8209, "lng": 18.2625 }
 ]

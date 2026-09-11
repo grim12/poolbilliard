@@ -2,8 +2,9 @@
 
 {#
     clubHero(backText, backUrl, title, city, region, image, imageAlt, classes)
-    - Full-bleed photo header for the club detail page (Kluby → detail klubu): breadcrumb +
-      club name + location, over a background photo.
+    - Full-bleed photo header for a club/herna detail page (Kluby → detail klubu, Herny →
+      detail herny): breadcrumb + name + location, over a background photo. Generic enough
+      (all params are plain text/URLs, nothing club-specific) that herna.njk reuses it as-is.
     - image: optional — not every club supplies a photo. Falls back to a solid dark background
       (via .t-dark, same media+overlay+fallback technique as banner()) when omitted, so the
       hero always works without one.

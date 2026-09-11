@@ -54,32 +54,6 @@
     @apply text-sm font-bold text-body-main m-0;
   }
 
-  /* --- "Kde nás najdeš" map card --- */
-  .c-club-map-card {
-    @apply rounded-3xl border border-gray-200 bg-white overflow-hidden;
-  }
-
-  .c-club-map-card__header {
-    @apply flex flex-col items-start p-5 sm:p-6 bg-primary-800 text-white;
-  }
-
-  .c-club-map-card__address {
-    @apply inline-flex items-center gap-2 text-sm text-white leading-snug m-0 mb-2;
-  }
-
-  .c-club-map-card__icon {
-    @apply inline-flex items-center justify-center size-7 rounded-full bg-white/10 shrink-0;
-  }
-
-  .c-club-map-card__link {
-    @apply inline-flex items-center gap-1 text-sm font-bold text-white no-underline hover:underline;
-  }
-
-  /* isolate: same z-index containment fix as .c-club-map — see kluby.css */
-  .c-club-map-card__map {
-    @apply relative isolate w-full h-56 sm:h-64 bg-gray-100;
-  }
-
   /* --- "Ambasador klubu" card --- */
   .c-club-ambassador {
     @apply rounded-3xl border border-gray-200 bg-white p-5 sm:p-6;

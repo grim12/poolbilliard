@@ -1,0 +1,31 @@
+@layer components {
+  /* ==========================================================================
+     Map card — "Kde nás najdeš": dark header (label + address + "Navigovat")
+     over a Leaflet map. Shared by clubDetail() and hernaDetail() sidebar asides.
+     ========================================================================== */
+
+  .c-map-card {
+    @apply rounded-3xl border border-gray-200 bg-white overflow-hidden;
+  }
+
+  .c-map-card__header {
+    @apply flex flex-col items-start p-5 sm:p-6 bg-primary-800 text-white;
+  }
+
+  .c-map-card__address {
+    @apply inline-flex items-center gap-2 text-sm text-white leading-snug m-0 mb-2;
+  }
+
+  .c-map-card__icon {
+    @apply inline-flex items-center justify-center size-7 rounded-full bg-white/10 shrink-0;
+  }
+
+  .c-map-card__link {
+    @apply inline-flex items-center gap-1 text-sm font-bold text-white no-underline hover:underline;
+  }
+
+  /* isolate: same z-index containment fix as .c-club-map — see kluby.css */
+  .c-map-card__map {
+    @apply relative isolate w-full h-56 sm:h-64 bg-gray-100;
+  }
+}
