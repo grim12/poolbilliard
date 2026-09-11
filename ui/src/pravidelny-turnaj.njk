@@ -1,0 +1,51 @@
+---
+layout: layouts/base.njk
+title: Turnaje v Balabušce — Poolbilliard
+---
+{% from "widgets/tournament-content.njk" import tournamentContent %}
+{% from "widgets/newsletter.njk" import newsletter %}
+{% from "macros/button.njk" import button %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {% call tournamentContent(
+            classes="bg-gradient-light",
+            tagText="Amatérský turnaj",
+            tagColor="gold",
+            title="Turnaje v Balabušce",
+            dateText="Každá středa, 19:00",
+            locationText="Praha · Billiard Club Balabuška Bohdalec"
+        ) %}
+            <div class="c-tournament-detail__card">
+                <p>Pravidelný amatérský turnaj v poolbilliardu pro hráče všech úrovní — od úplných začátečníků po zkušené rekreační hráče. Přijďte si zahrát, poměřit síly s ostatními a strávit příjemný večer u kulečníku.</p>
+                <ul>
+                    <li>Disciplína: 8-ball</li>
+                    <li>Systém hry: skupiny + play-off</li>
+                    <li>Prezence: 18:30 – 19:00</li>
+                    <li>Startovné: 150 Kč</li>
+                </ul>
+            </div>
+
+            <div class="c-tournament-detail__card">
+                <h2 class="c-tournament-detail__card-title">Odkazy</h2>
+                <a href="/herna/" class="c-tournament-detail__link">
+                    {% icon "map-pin", 18 %}
+                    Detail herny — Billiard Club Balabuška Bohdalec
+                </a>
+            </div>
+
+            {{ button(
+                text="Kontaktovat organizátora",
+                url="#",
+                color="primary",
+                icon="chevron-right"
+            ) }}
+        {% endcall %}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>
