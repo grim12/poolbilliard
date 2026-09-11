@@ -10,4 +10,17 @@
       @apply border-primary-400 ring-2 ring-primary-100;
     }
   }
+
+  /* Select — same field chrome as .c-input, plus a custom chevron (native select arrows can't
+     be restyled directly, so appearance-none + a background-image chevron replaces it). */
+  .c-select {
+    @apply block w-full h-12 pl-4 pr-10 rounded-[14px] border border-gray-200 bg-white bg-no-repeat text-base text-body-main shadow-xs outline-none transition-colors duration-150 cursor-pointer appearance-none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2394a3b8'%3E%3Cpath fill-rule='evenodd' d='M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-position: right 1rem center;
+    background-size: 1.15rem;
+
+    &:focus {
+      @apply border-primary-400 ring-2 ring-primary-100;
+    }
+  }
 }

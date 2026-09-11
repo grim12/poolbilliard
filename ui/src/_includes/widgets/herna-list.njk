@@ -5,11 +5,11 @@
       page (just a compact card + external "Web" link) and no region grouping, since the search
       + kraj filter narrow the one flat grid instead of the list being pre-split into sections.
     - items: flat array of { name, address, city, region, url, linkText, lat, lng }
-    - regions: array of region names shown in the Kraj <select> — passed explicitly (same
-      reasoning as calendarFilter's `items`: the page controls the source list and its order,
-      rather than this macro deriving it from `items` itself)
+    - regions: array of region names shown in the Kraj <select> — passed explicitly (the page
+      controls the source list and its order, rather than this macro deriving it from `items`
+      itself)
     - Search input and Kraj select are intentionally inert (no real filtering wired up yet) —
-      same pattern as newsHeader()'s search / calendarFilter's pills.
+      same pattern as newsHeader()'s search / Kalendář's Svaz/Klub/Zahraniční checkboxes.
 #}
 {% macro hernaList(
     items=[],

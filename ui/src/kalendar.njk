@@ -4,7 +4,6 @@ title: Kalendář — Poolbilliard
 ---
 {% from "widgets/news-header.njk" import newsHeader %}
 {% from "macros/calendar.njk" import calendarMonth %}
-{% from "macros/calendar-filter.njk" import calendarFilter %}
 {% from "macros/no-results.njk" import noResults %}
 {% from "macros/card/tournament.njk" import card_tournament %}
 {% from "macros/recurring-tournaments.njk" import recurringTournaments %}
@@ -24,14 +23,23 @@ title: Kalendář — Poolbilliard
         ) %}
             {#- Filtr Svaz/Klub/Zahraniční bude filtrovat karty i kalendář zároveň (zatím inertní,
                viz komentář u newsHeader). -#}
-            {{ calendarFilter(
-                label="Filtrovat podle typu akce",
-                items=[
-                    { text: "Svaz", value: "svaz", color: "primary", checked: true },
-                    { text: "Klub", value: "klub", color: "accent", checked: true },
-                    { text: "Zahraniční", value: "zahranicni", color: "gold", checked: false }
-                ]
-            ) }}
+            <div class="c-check-pills" role="group" aria-label="Filtrovat podle typu akce">
+                <label class="c-check-pill c-check-pill--primary">
+                    <input type="checkbox" class="c-check-pill__input" checked />
+                    <span class="c-check-pill__box">{% icon "check", 12 %}</span>
+                    Svaz
+                </label>
+                <label class="c-check-pill c-check-pill--accent">
+                    <input type="checkbox" class="c-check-pill__input" checked />
+                    <span class="c-check-pill__box">{% icon "check", 12 %}</span>
+                    Klub
+                </label>
+                <label class="c-check-pill c-check-pill--gold">
+                    <input type="checkbox" class="c-check-pill__input" />
+                    <span class="c-check-pill__box">{% icon "check", 12 %}</span>
+                    Zahraniční
+                </label>
+            </div>
         {% endcall %}
 
         <section class="c-section pt-none">

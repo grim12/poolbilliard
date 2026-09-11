@@ -1,0 +1,196 @@
+---
+layout: layouts/base.njk
+title: Registrace herny — Poolbilliard
+---
+{% from "macros/back-link.njk" import backLink %}
+{% from "macros/tag.njk" import tag %}
+{% from "macros/alert.njk" import alert %}
+{% from "macros/button.njk" import button %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        <div class="bg-gradient-light">
+            <section class="c-section pb-none">
+                <div class="c-container">
+                    {{ backLink(text="Zpět na seznam heren", url="/herny/") }}
+                </div>
+            </section>
+
+            <section class="c-section c-section--form pt-none pb-sm">
+                <div class="c-container c-section__inner">
+                    <div class="mb-4">
+                        {{ tag(text="Registrace herny", color="primary", variant="subtle", size="sm") }}
+                    </div>
+                    <h1 class="mb-3">Přidejte svou hernu do katalogu</h1>
+                    <p class="p--lg mb-8">Provozujete kulečníkovou hernu? Zaregistrujte ji zdarma do adresáře Český Poolbilliard. Po schválení se objeví v seznamu heren a na interaktivní mapě, kde si vás najdou hráči z vašeho okolí.</p>
+
+                    {{ alert(
+                        icon="information-circle",
+                        title="Jak to funguje",
+                        text="Vyplňte pole níže — čím kompletnější údaje, tím rychleji hernu schválíme. Povinné údaje jsou označené hvězdičkou. Poloha herny se používá pro zobrazení na mapě; pokud GPS souřadnice neznáte, vyplňte je nulou a doplníme je při schvalování."
+                    ) }}
+                </div>
+            </section>
+        </div>
+
+        <section class="c-section c-section--form pt-none">
+            <div class="c-container c-section__inner">
+                <form class="c-form">
+                    <div class="c-form__group">
+                        <h3 class="c-form__group-title">Základní údaje</h3>
+                        <div class="c-form__grid">
+                            <label class="c-form__field c-form__field--full">
+                                <span class="c-form__label">Název herny *</span>
+                                <input type="text" class="c-input" placeholder="Např. Harlequin Pool Club" required />
+                            </label>
+                            <label class="c-form__field c-form__field--full">
+                                <span class="c-form__label">Popis herny *</span>
+                                <textarea class="c-input c-form__textarea" rows="4" placeholder="Krátký popis herny, vybavení, atmosféry, počet stolů..." required></textarea>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="c-form__group">
+                        <h3 class="c-form__group-title">Adresa a poloha</h3>
+                        <div class="c-form__grid">
+                            <label class="c-form__field c-form__field--full">
+                                <span class="c-form__label">Ulice a číslo popisné *</span>
+                                <input type="text" class="c-input" placeholder="Františka Křížka 11" required />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Město *</span>
+                                <input type="text" class="c-input" placeholder="Praha 7" required />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">PSČ</span>
+                                <input type="text" class="c-input" placeholder="170 00" />
+                            </label>
+                            <label class="c-form__field c-form__field--full">
+                                <span class="c-form__label">Kraj *</span>
+                                <select class="c-select" required>
+                                    <option value="" selected disabled>Vyberte kraj...</option>
+                                    <option>Praha</option>
+                                    <option>Středočeský</option>
+                                    <option>Jihočeský</option>
+                                    <option>Plzeňský</option>
+                                    <option>Karlovarský</option>
+                                    <option>Ústecký</option>
+                                    <option>Liberecký</option>
+                                    <option>Královéhradecký</option>
+                                    <option>Pardubický</option>
+                                    <option>Vysočina</option>
+                                    <option>Jihomoravský</option>
+                                    <option>Olomoucký</option>
+                                    <option>Zlínský</option>
+                                    <option>Moravskoslezský</option>
+                                </select>
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Zeměpisná šířka (lat)</span>
+                                <input type="text" class="c-input" placeholder="50.0975" />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Zeměpisná délka (lng)</span>
+                                <input type="text" class="c-input" placeholder="14.4344" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="c-form__group">
+                        <h3 class="c-form__group-title">Nabízené sporty *</h3>
+                        <div class="c-check-pills">
+                            <label class="c-check-pill">
+                                <input type="checkbox" class="c-check-pill__input" checked />
+                                <span class="c-check-pill__box">{% icon "check", 12 %}</span>
+                                Poolbilliard
+                            </label>
+                            <label class="c-check-pill">
+                                <input type="checkbox" class="c-check-pill__input" />
+                                <span class="c-check-pill__box">{% icon "check", 12 %}</span>
+                                Karambol
+                            </label>
+                            <label class="c-check-pill">
+                                <input type="checkbox" class="c-check-pill__input" />
+                                <span class="c-check-pill__box">{% icon "check", 12 %}</span>
+                                Snooker
+                            </label>
+                            <label class="c-check-pill">
+                                <input type="checkbox" class="c-check-pill__input" />
+                                <span class="c-check-pill__box">{% icon "check", 12 %}</span>
+                                Pyramida
+                            </label>
+                            <label class="c-check-pill">
+                                <input type="checkbox" class="c-check-pill__input" />
+                                <span class="c-check-pill__box">{% icon "check", 12 %}</span>
+                                Heyball
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="c-form__group">
+                        <h3 class="c-form__group-title">Otevírací doba (nepovinné)</h3>
+                        <div class="c-form__grid">
+                            <label class="c-form__field">
+                                <span class="c-form__label">Pondělí</span>
+                                <input type="text" class="c-input" placeholder="např. 14:00–24:00 nebo Zavřeno" />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Úterý</span>
+                                <input type="text" class="c-input" placeholder="např. 14:00–24:00 nebo Zavřeno" />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Středa</span>
+                                <input type="text" class="c-input" placeholder="např. 14:00–24:00 nebo Zavřeno" />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Čtvrtek</span>
+                                <input type="text" class="c-input" placeholder="např. 14:00–24:00 nebo Zavřeno" />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Pátek</span>
+                                <input type="text" class="c-input" placeholder="např. 14:00–24:00 nebo Zavřeno" />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Sobota</span>
+                                <input type="text" class="c-input" placeholder="např. 14:00–24:00 nebo Zavřeno" />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">Neděle</span>
+                                <input type="text" class="c-input" placeholder="např. 14:00–24:00 nebo Zavřeno" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="c-form__group">
+                        <h3 class="c-form__group-title">Kontakt (nepovinné)</h3>
+                        <div class="c-form__grid">
+                            <label class="c-form__field">
+                                <span class="c-form__label">Telefon</span>
+                                <input type="tel" class="c-input" placeholder="+420 ..." />
+                            </label>
+                            <label class="c-form__field">
+                                <span class="c-form__label">E-mail</span>
+                                <input type="email" class="c-input" placeholder="info@herna.cz" />
+                            </label>
+                            <label class="c-form__field c-form__field--full">
+                                <span class="c-form__label">Web</span>
+                                <input type="url" class="c-input" placeholder="https://" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end mt-8">
+                        {{ button(text="Odeslat ke schválení", type="submit", leadingIcon="paper-airplane", hasArrow=false) }}
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>
