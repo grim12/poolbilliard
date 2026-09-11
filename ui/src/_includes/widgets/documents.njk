@@ -1,0 +1,53 @@
+{#
+    documents(title, years, classes)
+    - "Dokumenty sekce ..." browser: a row of year tabs above an accordion of document
+      categories. Clicking a tab swaps which year's panel is visible (data-doc-tab/
+      data-doc-panel, wired in main.js); within a panel, each category is its own .c-faq
+      accordion group (faq.css/main.js, unmodified) — only the count badge and file grid are
+      specific to this widget, see documents.css.
+    - years: array of { label, active, groups } — groups: array of { title, count,
+      files: [{ name, meta, url }] }. Exactly one year should have active=true (which tab/panel
+      shows first); see _data/svazDokumenty.js.
+#}
+{% macro documents(title, years=[], classes="") %}
+<section class="{{ ["c-section", "c-section--documents", classes] | select | join(" ") }}">
+    <div class="c-container">
+        <div class="c-section__header">
+            <h2 class="c-section__title">{{ title }}</h2>
+        </div>
+
+        {% if years.length %}
+            <div class="c-doc-tabs" role="tablist" aria-label="Rok dokumentů" data-doc-tabs>
+                {% for year in years %}
+                    <button type="button" class="{{ ["c-doc-tabs__pill", "is-active" if year.active] | select | join(" ") }}" role="tab" aria-selected="{{ 'true' if year.active else 'false' }}" aria-controls="doc-panel-{{ loop.index }}" data-doc-tab>{{ year.label }}</button>
+                {% endfor %}
+            </div>
+
+            {% for year in years %}
+                {% set yearIndex = loop.index %}
+                <div class="c-faq c-doc-groups" id="doc-panel-{{ yearIndex }}" role="tabpanel"{% if not year.active %} hidden{% endif %} data-doc-panel>
+                    {% for group in year.groups %}
+                        <div class="c-faq__item">
+                            <button type="button" class="c-faq__question" aria-expanded="{{ 'true' if loop.first else 'false' }}" aria-controls="doc-panel-{{ yearIndex }}-group-{{ loop.index }}" data-faq-toggle>
+                                <span class="c-faq__question-text">{{ group.title }} <span class="c-doc-groups__count">({{ group.count }})</span></span>
+                                {% icon "chevron-down", 20, "c-faq__chevron" %}
+                            </button>
+                            <div class="c-faq__panel" id="doc-panel-{{ yearIndex }}-group-{{ loop.index }}" data-faq-panel>
+                                <div class="c-doc-groups__files">
+                                    {% for file in group.files %}
+                                        <a class="c-doc-file" href="{{ file.url or '#' }}">
+                                            {% icon "document-text", 20, "c-doc-file__icon" %}
+                                            <span class="c-doc-file__name">{{ file.name }}</span>
+                                            <span class="c-doc-file__meta">{{ file.meta }}</span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</section>
+{% endmacro %}

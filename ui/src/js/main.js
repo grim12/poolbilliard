@@ -61,6 +61,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Document year tabs (see widgets/documents.njk): switch which year's accordion panel is
+  // visible. Each panel is its own independent .c-faq group, already wired up above — this
+  // only toggles which one is shown, it doesn't touch their internal open/close state.
+  document.querySelectorAll('[data-doc-tabs]').forEach((tabList) => {
+    const tabs = Array.from(tabList.querySelectorAll('[data-doc-tab]'));
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const panelId = tab.getAttribute('aria-controls');
+
+        tabs.forEach((other) => {
+          const isActive = other === tab;
+          other.classList.toggle('is-active', isActive);
+          other.setAttribute('aria-selected', String(isActive));
+        });
+
+        document.querySelectorAll('[data-doc-panel]').forEach((panel) => {
+          const isShown = panel.id === panelId;
+          panel.hidden = !isShown;
+
+          // A panel that starts hidden (display: none) measures its pre-opened accordion
+          // item's scrollHeight as 0 at page load (see the FAQ init above) — recompute now
+          // that it's actually visible, or its first group would look open but render collapsed.
+          if (isShown) {
+            panel.querySelectorAll('[data-faq-toggle][aria-expanded="true"]').forEach((toggle) => {
+              const itemPanel = document.getElementById(toggle.getAttribute('aria-controls'));
+              if (itemPanel) itemPanel.style.maxHeight = `${itemPanel.scrollHeight}px`;
+            });
+          }
+        });
+      });
+    });
+  });
+
   // Header: hide the topbar on scroll down, reveal it on scroll up (desktop/sticky only)
   const header = document.querySelector('.c-header');
   const desktopMedia = window.matchMedia('(min-width: 64rem)');
