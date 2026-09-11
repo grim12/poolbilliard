@@ -91,6 +91,13 @@
 
   .c-header__dropdown {
     @apply absolute left-0 top-full z-50 mt-1 min-w-64 py-2 rounded-xl bg-white border border-gray-100 shadow-lg opacity-0 invisible -translate-y-1 pointer-events-none transition-all duration-150;
+
+    /* Invisible bridge covering the mt-1 gap between the trigger and the dropdown, so the
+       hover chain doesn't break if the cursor crosses it slower than the CSS transition. */
+    &::before {
+      content: "";
+      @apply absolute inset-x-0 -top-1 h-1 visible pointer-events-auto;
+    }
   }
 
   .c-header__dropdown-link {

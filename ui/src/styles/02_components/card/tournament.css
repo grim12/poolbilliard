@@ -42,6 +42,10 @@
       @apply text-body-600 leading-relaxed m-0;
     }
 
+    .c-card__date--soon {
+      @apply font-bold text-accent-500;
+    }
+
     /* Hover + keyboard-focus interactions */
     &:hover,
     &:focus-within {

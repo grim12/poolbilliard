@@ -2,7 +2,7 @@
   {
     "title": "Kvalifikace na Mistrovství ČR 9-ball",
     "shortTitle": "Kvalifikace MČR 9-ball",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -10,7 +10,8 @@
     "endDate": "2026-09-12",
     "dateText": "12. září 2026",
     "locationText": "Praha · BC Řipská",
-    "badge": false
+    "badge": false,
+    "soon": true
   },
   {
     "title": "Mistrovství ČR 9-ball",
@@ -23,12 +24,13 @@
     "endDate": "2026-09-13",
     "dateText": "13. září 2026",
     "locationText": "Praha · BC Řipská",
-    "badge": true
+    "badge": true,
+    "soon": true
   },
   {
     "title": "MR dvojic 2026",
     "shortTitle": "MR dvojic",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -41,7 +43,7 @@
   {
     "title": "Dynamic Billard Best of the East – Ajara Cup 9-ball",
     "shortTitle": "Ajara Cup 9-ball",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "MEZINÁRODNÍ",
     "tagColor": "gold",
     "kind": "zahranicni",
@@ -54,7 +56,7 @@
   {
     "title": "MR smíšených dvojic 2026",
     "shortTitle": "MR sm. dvojic",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -67,7 +69,7 @@
   {
     "title": "MR žen 14.1 nekonečná 2026",
     "shortTitle": "MR žen 14.1",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -80,7 +82,7 @@
   {
     "title": "MR žen 9-ball 2026",
     "shortTitle": "MR žen 9-ball",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -93,7 +95,7 @@
   {
     "title": "Dynamic Billard Best of the East – Polish 9-ball",
     "shortTitle": "Polish 9-ball",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "MEZINÁRODNÍ",
     "tagColor": "gold",
     "kind": "zahranicni",
@@ -106,7 +108,7 @@
   {
     "title": "Mistrovství ČR 8-ball",
     "shortTitle": "MČR 8-ball",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -119,7 +121,7 @@
   {
     "title": "MR žen 10-ball 2026",
     "shortTitle": "MR žen 10-ball",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -132,7 +134,7 @@
   {
     "title": "MR žen 8-ball 2026",
     "shortTitle": "MR žen 8-ball",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -145,7 +147,7 @@
   {
     "title": "MR juniorů Heyball",
     "shortTitle": "MR juniorů Heyball",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "ČMBS",
     "tagColor": "primary",
     "kind": "svaz",
@@ -158,7 +160,7 @@
   {
     "title": "EuroTour – Predator Spanish Open",
     "shortTitle": "Predator Spanish Open",
-    "url": "#",
+    "url": "/turnaj/",
     "tagText": "MEZINÁRODNÍ",
     "tagColor": "gold",
     "kind": "zahranicni",

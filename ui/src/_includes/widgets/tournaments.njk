@@ -3,7 +3,7 @@
 
 {#
     tournaments(title, items, calendarUrl, calendarText, streamText, streamLinkText, streamUrl)
-    - items: array of { title, url, tagText, tagColor, dateText, locationText, badge }
+    - items: array of { title, url, tagText, tagColor, dateText, locationText, badge, soon }
 #}
 {% macro tournaments(
     title,
@@ -29,7 +29,8 @@
                     tagColor=item.tagColor,
                     dateText=item.dateText,
                     locationText=item.locationText,
-                    badge=item.badge
+                    badge=item.badge,
+                    soon=item.soon
                 ) }}
             {% endfor %}
         </div>

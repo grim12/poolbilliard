@@ -1,7 +1,7 @@
 {% from "macros/tag.njk" import tag %}
 
 {#
-    card_tournament(title, url, tagText, tagColor, tagVariant, dateText, locationText, badge, extraClass, headingLevel)
+    card_tournament(title, url, tagText, tagColor, tagVariant, dateText, locationText, badge, soon, extraClass, headingLevel)
     - title: Tournament name
     - url: Link URL
     - tagText: Category text (e.g. "ČMBS", "MEZINÁRODNÍ")
@@ -10,6 +10,7 @@
     - dateText: Date / date range string
     - locationText: "City · Venue" string
     - badge: true -> shows a gold medal badge (ranking-counting tournament) | false (default)
+    - soon: true -> highlights dateText as bold red (upcoming/blížící se) | false (default)
     - extraClass: Optional extra classes on root card
     - headingLevel: "h3" (default) | "h4" | "h2" | "div"
 #}
@@ -22,6 +23,7 @@
     dateText="",
     locationText="",
     badge=false,
+    soon=false,
     extraClass="",
     headingLevel="h3"
 ) -%}
@@ -44,7 +46,7 @@
             </div>
             {% if dateText or locationText %}
                 <div class="c-card__info">
-                    {% if dateText %}<p class="c-card__date">{{ dateText }}</p>{% endif %}
+                    {% if dateText %}<p class="c-card__date{% if soon %} c-card__date--soon{% endif %}">{{ dateText }}</p>{% endif %}
                     {% if locationText %}<p class="c-card__location">{{ locationText }}</p>{% endif %}
                 </div>
             {% endif %}
