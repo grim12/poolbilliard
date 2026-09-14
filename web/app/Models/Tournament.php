@@ -107,4 +107,16 @@ class Tournament extends Model
                 });
         });
     }
+
+    /**
+     * Soonest first, `sort_order` only breaks ties on the same date. Tournaments with no
+     * start_date at all (TBD) sort last, since there's no real date to compare — `IS NULL`
+     * evaluates to 0/1 in both SQLite and MySQL, so ascending puts non-null dates first.
+     */
+    public function scopeOrderedByStartDate(Builder $query): Builder
+    {
+        return $query->orderByRaw('start_date IS NULL')
+            ->orderBy('start_date')
+            ->orderBy('sort_order');
+    }
 }
