@@ -1,0 +1,346 @@
+@layer components {
+  .c-header {
+    @apply relative z-50 bg-white shadow-sm shadow-black/5 lg:sticky lg:top-0;
+  }
+
+  /* --- Topbar (secondary utility links) --- */
+  .c-header__topbar {
+    @apply block bg-gray-50 border-b border-gray-100 lg:max-h-20 lg:overflow-hidden lg:transition-[max-height] lg:duration-300;
+  }
+
+  .c-header.is-topbar-hidden .c-header__topbar {
+    @apply lg:max-h-0! lg:border-b-0;
+  }
+
+  .c-header__topbar-inner {
+    @apply flex items-center justify-between text-xs text-gray-500;
+  }
+
+  .c-header__topbar-links {
+    @apply flex items-center gap-5;
+
+    a {
+      @apply inline-flex items-center gap-1 h-10 no-underline hover:text-primary-600 transition-colors duration-150;
+    }
+  }
+
+  .c-header__topbar-socials {
+    @apply flex items-center xs:gap-5;
+
+    a {
+      @apply inline-flex items-center h-10 px-1.5 xs:px-0 no-underline hover:text-primary-600 transition-colors duration-150;
+    }
+  }
+
+  .c-header__topbar-tv {
+    @apply gap-1.5 font-bold text-primary-700 hover:text-accent-600!;
+  }
+
+  /* --- Main bar --- */
+  .c-header__main-inner {
+    @apply flex items-center gap-4 lg:gap-2 xl:gap-4 py-3 xl:py-4;
+  }
+
+  /* self-stretch + negative margin bleed the badge through .c-header__main-inner's
+     own vertical padding, so it can reach the bar's true top/bottom edge below. */
+  .c-header__brand {
+    @apply inline-flex items-center self-stretch -my-3 xl:-my-4 shrink-0 no-underline;
+  }
+
+  /* Logo artwork is only approved on a white background — always wrap it in
+     this badge, regardless of theme (it simply blends in on a light header).
+     Full bar height, no radius — a plain rectangular cut-out. */
+  .c-header__brand-badge {
+    @apply flex items-center h-full bg-white;
+  }
+
+  .c-header__brand-logo {
+    @apply h-10 lg:h-12 w-auto;
+  }
+
+  .c-header__nav {
+    @apply hidden lg:flex items-center gap-1 lg:gap-0.5 xl:gap-1 lg:ml-auto;
+  }
+
+  .c-header__nav-item {
+    @apply relative;
+
+    &:hover,
+    &:focus-within {
+      .c-header__dropdown {
+        @apply opacity-100 visible translate-y-0 pointer-events-auto;
+      }
+
+      .c-header__nav-chevron {
+        @apply -rotate-180;
+      }
+    }
+  }
+
+  .c-header__nav-link {
+    @apply inline-flex items-center gap-1 px-3.5 xl:px-5 py-2 rounded-lg font-bold text-base lg:text-sm xl:text-base text-body-main no-underline transition-colors duration-150 hover:bg-gray-100;
+  }
+
+  .c-header__nav-link--is-active {
+    @apply bg-primary-50 text-primary-800;
+  }
+
+  .c-header__nav-chevron {
+    @apply -mr-1 transition-transform duration-200;
+  }
+
+  .c-header__dropdown {
+    @apply absolute left-0 top-full z-50 mt-1 min-w-64 py-2 rounded-xl bg-white border border-gray-100 shadow-lg opacity-0 invisible -translate-y-1 pointer-events-none transition-all duration-150;
+
+    /* Invisible bridge covering the mt-1 gap between the trigger and the dropdown, so the
+       hover chain doesn't break if the cursor crosses it slower than the CSS transition. */
+    &::before {
+      content: "";
+      @apply absolute inset-x-0 -top-1 h-1 visible pointer-events-auto;
+    }
+  }
+
+  .c-header__dropdown-link {
+    @apply block px-4 py-2 text-base font-medium text-body-main no-underline hover:bg-gray-50 hover:text-primary-600 transition-colors duration-150;
+  }
+
+  .c-header__actions {
+    @apply flex items-center gap-2 lg:gap-1 xl:gap-2 shrink-0 ml-auto lg:ml-0;
+  }
+
+  .c-header__actions .c-button {
+    @apply lg:h-9 lg:px-3 xl:h-10 xl:px-4;
+  }
+
+  .c-header__utility {
+    @apply hidden lg:flex items-center gap-1 lg:gap-0.5 xl:gap-1 ml-1 lg:ml-0 xl:ml-1;
+  }
+
+  .c-header__mobile-utility {
+    @apply flex items-center justify-around mt-2 pt-3 border-t border-gray-100;
+  }
+
+  .c-header__lang-switch {
+    @apply inline-flex items-center gap-0.5 rounded-full bg-gray-100 p-1;
+  }
+
+  .c-header__lang-switch-option {
+    @apply px-3 py-1 rounded-full font-bold text-sm text-gray-500 transition-colors duration-150 cursor-pointer;
+
+    &.c-header__lang-switch-option--is-active {
+      @apply bg-white text-primary-700 shadow-xs;
+    }
+  }
+
+  /* --- Language switcher --- */
+  .c-header__lang {
+    @apply relative;
+
+    &:hover,
+    &:focus-within {
+      .c-header__lang-dropdown {
+        @apply opacity-100 visible translate-y-0 pointer-events-auto;
+      }
+
+      .c-header__lang-chevron {
+        @apply -rotate-180;
+      }
+    }
+  }
+
+  .c-header__lang-btn {
+    @apply inline-flex items-center gap-1 h-10 lg:h-9 xl:h-10 px-3 lg:px-2 xl:px-3 rounded-lg font-bold text-sm text-body-main transition-colors duration-150 hover:bg-gray-100 cursor-pointer;
+  }
+
+  .c-header__lang-chevron {
+    @apply transition-transform duration-200;
+  }
+
+  .c-header__lang-dropdown {
+    @apply absolute right-0 top-full z-50 mt-1 min-w-36 py-2 rounded-xl bg-white border border-gray-100 shadow-lg opacity-0 invisible -translate-y-1 pointer-events-none transition-all duration-150;
+  }
+
+  .c-header__lang-option {
+    @apply block px-4 py-2 text-sm font-medium text-body-main no-underline transition-colors duration-150 hover:bg-gray-50 hover:text-primary-600;
+  }
+
+  .c-header__lang-option--is-active {
+    @apply text-primary-700 font-bold;
+  }
+
+  /* --- Search toggle & panel --- */
+  .c-header__search-toggle {
+    @apply inline-flex items-center justify-center w-10 h-10 lg:w-9 lg:h-9 xl:w-10 xl:h-10 rounded-lg text-body-main transition-colors duration-150 hover:bg-gray-100 cursor-pointer;
+  }
+
+  .c-header__search-panel {
+    @apply hidden lg:block max-h-0 overflow-hidden bg-white transition-[max-height] duration-300;
+
+    &.is-open {
+      @apply max-h-24 border-b border-gray-100;
+    }
+  }
+
+  .c-header__mobile-search {
+    @apply lg:hidden max-h-0 overflow-hidden transition-[max-height] duration-300;
+
+    &.is-open {
+      @apply max-h-20 mt-3;
+    }
+  }
+
+  .c-header__mobile-search-inner {
+    @apply flex items-center gap-2 p-1;
+  }
+
+  .c-header__search-panel-inner {
+    @apply flex items-center gap-3 py-4;
+  }
+
+  .c-header__search-form {
+    @apply relative flex-1 flex items-center;
+  }
+
+  .c-header__search-submit {
+    @apply absolute left-4 inline-flex items-center justify-center text-gray-400 cursor-pointer;
+  }
+
+  .c-header__search-input {
+    @apply w-full h-11 pl-11 pr-4 rounded-full border border-gray-200 bg-gray-50 text-sm text-body-main placeholder:text-gray-400 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+
+  .c-header__search-close {
+    @apply inline-flex items-center justify-center w-10 h-10 rounded-lg text-gray-500 shrink-0 transition-colors duration-150 hover:bg-gray-100 hover:text-body-main cursor-pointer;
+  }
+
+  /* --- Mobile toggle & panel --- */
+  .c-header__toggle {
+    @apply lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-body-main hover:bg-gray-100 cursor-pointer;
+  }
+
+  .c-header__mobile-panel {
+    @apply lg:hidden flex flex-col items-stretch gap-1 border-t border-gray-100 px-4 py-4;
+
+    .c-header__nav-link {
+      @apply w-full text-left;
+    }
+  }
+
+  .c-header__mobile-nav-item {
+    @apply flex flex-col;
+  }
+
+  .c-header__mobile-nav-row {
+    @apply flex items-center gap-1;
+
+    .c-header__nav-link {
+      @apply flex-1;
+    }
+  }
+
+  .c-header__mobile-nav-toggle {
+    @apply inline-flex items-center justify-center shrink-0 size-11 rounded-lg text-body-main transition-colors duration-150 hover:bg-gray-100 cursor-pointer;
+  }
+
+  .c-header__mobile-nav-item.is-open .c-header__nav-chevron {
+    @apply -rotate-180;
+  }
+
+  .c-header__mobile-nav-sublist {
+    @apply max-h-0 overflow-hidden transition-[max-height] duration-300;
+  }
+
+  .c-header__mobile-nav-item.is-open .c-header__mobile-nav-sublist {
+    @apply max-h-60;
+  }
+
+  .c-header__mobile-nav-sublink {
+    @apply block py-2 pl-8 pr-4 rounded-lg font-medium text-sm text-body-main no-underline transition-colors duration-150 hover:bg-gray-100 hover:text-primary-600;
+  }
+
+  /* --- Dark variant: add/remove `t-dark` on <header class="c-header"> to switch --- */
+  .t-dark {
+    .c-header__main-inner {
+      @apply py-3 xl:py-3.5;
+    }
+
+    .c-header__brand {
+      @apply -my-3 xl:-my-3.5;
+    }
+
+    .c-header__brand-logo {
+      @apply h-8 lg:h-10;
+    }
+
+    /* Bleed the badge's white background past the container's left padding
+       to the true edge of the viewport, since the container itself doesn't. */
+    .c-header__brand-badge {
+      @apply relative pr-6 xl:pr-8;
+
+      &::before {
+        content: "";
+        @apply absolute inset-y-0 right-full w-screen bg-white;
+      }
+    }
+
+    .c-header__topbar {
+      @apply bg-dark-hover border-white/10;
+    }
+
+    .c-header__search-panel {
+      @apply bg-dark-hover;
+
+      &.is-open {
+        @apply border-white/10;
+      }
+    }
+
+    .c-header__search-close {
+      @apply text-white/70 hover:bg-white/10 hover:text-white;
+    }
+
+    .c-header__topbar-inner {
+      @apply text-white/50;
+    }
+
+    .c-header__topbar-links a,
+    .c-header__topbar-socials a {
+      @apply hover:text-white;
+    }
+
+    .c-header__topbar-tv {
+      @apply text-primary-300 hover:text-accent-400!;
+    }
+
+    .c-header__nav-link {
+      @apply text-white/90 hover:bg-white/10 hover:text-white;
+    }
+
+    .c-header__nav-link--is-active {
+      @apply bg-white/10 text-white;
+    }
+
+    .c-header__lang-btn,
+    .c-header__search-toggle,
+    .c-header__toggle {
+      @apply text-white/90 hover:bg-white/10 hover:text-white;
+    }
+
+    .c-header__mobile-panel,
+    .c-header__mobile-utility {
+      @apply border-white/10;
+    }
+
+    .c-header__lang-switch {
+      @apply bg-white/10;
+    }
+
+    .c-header__lang-switch-option {
+      @apply text-white/70;
+    }
+
+    .c-header__mobile-nav-sublink {
+      @apply text-white/80 hover:bg-white/10 hover:text-white;
+    }
+  }
+}

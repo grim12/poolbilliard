@@ -1,17 +1,8 @@
-<!--
-    Mirrors ui/src/faq.njk. Zatím BEZ site chrome (header/footer/page-hero/link-tiles/
-    newsletter) — ty ještě nejsou portované z ui/, viz partneri.blade.php pro stejnou
-    poznámku. Aside (kontakt + infoPanel) je hotový, protože nezávisí na chrome.
--->
-<!doctype html>
-<html lang="cs">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Časté dotazy — Poolbilliard</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
+{{--
+    Mirrors ui/src/faq.njk. Site chrome (header/footer) now wired via <x-layouts.app>;
+    pageHero() and linkTiles() aren't ported yet — see skills/web-component-guide.md.
+--}}
+<x-layouts.app title="Časté dotazy — Poolbilliard">
     <section class="c-section c-section--faq">
         <div class="c-container">
             <div class="c-section__grid">
@@ -49,5 +40,6 @@
             </div>
         </div>
     </section>
-</body>
-</html>
+
+    <x-newsletter />
+</x-layouts.app>

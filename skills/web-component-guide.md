@@ -43,9 +43,11 @@ web/
 └── boost.json
 ```
 
-**Referenční příklady end-to-end features** (DB → Model → Filament Resource → Blade → route),
-zatím **bez site chrome** (header/footer/page-hero/newsletter — portuje se samostatně, až na
-řadu přijde `layouts/base.njk`/`header.njk`/`footer.njk`):
+**Site chrome (header/hlavní menu/footer/newsletter) je od teď hotové** — `<x-layouts.app>`
+(viz sekce 3) obaluje každou veřejnou stránku. `pageHero()`/`linkTiles()` a další jednotlivé
+widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
+
+**Referenční příklady end-to-end features** (DB → Model → Filament Resource → Blade → route):
 * `Partner` — jeden obrázek na entitu (`FileUpload` + `logo_url` accessor), `sort_order`
   s drag&drop řazením. `app/Models/Partner.php`, `database/seeders/PartnerSeeder.php`,
   `app/Filament/Resources/Partners/`, `resources/views/partneri.blade.php` +
@@ -131,7 +133,7 @@ Viz i pravidlo v hlavním `README.md`. `ui/` je zdroj pravdy pro vzhled — v `w
 3. **BEM třídy (`.c-*`, `.u-*`, `.t-*`) se přenášejí beze změny** — stejný název třídy v Blade i Nunjucks, ať CSS soubor (bod 4) sedí na obě strany beze změny.
 4. Zkopíruj příslušný CSS soubor 1:1 do `web/resources/css/<stejná cesta jako v ui/>` (žádné přepisování na jinou metodiku — pořád Tailwind 4 + `@apply` + BEM, viz `skills/ui-component-guide.md` Pravidlo 3).
 5. Přidej `@import './<stejná cesta>';` do `web/resources/css/app.css` (soubory, případně `02_components/section.css`, mají u sebe komentář, že seznam importů odráží jen to, co je na `web/` straně už portované — udržuj ho v souladu s tím, co skutečně existuje, ne s celým seznamem z `ui/`).
-6. Pokud makro obsahuje `{% icon %}`/`{% brandIcon %}` shortcode (Heroicons), použij Blade ekvivalent — `blade-ui-kit/blade-heroicons` je už závislost Filamentu. **Projekt preferuje "mini" (`m-`) geometrii i pro větší ikony** (stejná konvence jako `ui/`, viz `skills/ui-component-guide.md` Pravidlo 7): `<x-heroicon-m-chevron-down width="20" height="20" class="..." />`. Když je název ikony proměnná (např. `button()`'s `icon`/`leadingIcon` parametr), použij `<x-dynamic-component :component="'heroicon-m-'.$icon" :width="$iconSize" :height="$iconSize" />` — viz `components/button.blade.php`. Brand ikonky (`{% brandIcon %}`, Simple Icons) ještě nemáme portované — až budou potřeba, doplnit sem.
+6. Pokud makro obsahuje `{% icon %}` shortcode (Heroicons), použij Blade ekvivalent — `blade-ui-kit/blade-heroicons` je už závislost Filamentu. **Projekt preferuje "mini" (`m-`) geometrii i pro větší ikony** (stejná konvence jako `ui/`, viz `skills/ui-component-guide.md` Pravidlo 7): `<x-heroicon-m-chevron-down width="20" height="20" class="..." />`. Když je název ikony proměnná (např. `button()`'s `icon`/`leadingIcon` parametr), použij `<x-dynamic-component :component="'heroicon-m-'.$icon" :width="$iconSize" :height="$iconSize" />` — viz `components/button.blade.php`. Pro `{% brandIcon %}` (Simple Icons) použij `<x-brand-facebook>` atd. — viz "Brand ikonky" níže.
 7. Ověř vizuálně vedle sebe (`ui/` dev server vs. `web/` dev server) — musí sedět 1:1.
 
 **Design tokeny** (barvy, radius, fonty, stíny) jsou v `web/resources/css/app.css` uvnitř `@theme { ... }` — je to ruční zrcadlo `@theme` bloku z `ui/src/styles/style.css`. Změníš-li token v `ui/`, proveď stejnou změnu i tady (obě místa výslovně na sebe odkazují komentářem).
@@ -140,7 +142,18 @@ Viz i pravidlo v hlavním `README.md`. `ui/` je zdroj pravdy pro vzhled — v `w
 
 **Rich-text pole** (makro používalo `| safe` filtr na hodnotu z dat, např. FAQ odpověď): v DB obyčejný `text` sloupec s uloženým HTML, ve Filament formuláři `RichEditor::make(...)` (ne `Textarea`/`TextInput` — administrátor needituje HTML ručně), v Blade vypsat neescapovaně přes `{!! $value !!}` (Blade ekvivalent `| safe`). Viz `FaqItemForm` + `components/faq.blade.php`.
 
-**JS chování widgetu** (ne site chrome): pokud makro/widget má v `main.js` vlastní, samostatný blok chování (např. FAQ akordeon `[data-faq-toggle]`), zkopíruj jen ten blok do `web/resources/js/app.js` (ne celý `main.js` najednou — ten obsahuje i header/mobile-nav JS, které čeká na port site chrome). Odkazuj v komentáři na zdrojový blok v `ui/src/js/main.js`.
+**JS chování widgetu**: pokud makro/widget má v `main.js` vlastní, samostatný blok chování (např. FAQ akordeon `[data-faq-toggle]`), zkopíruj jen ten blok do `web/resources/js/app.js` (ne celý `main.js` najednou — pořád tam zbývá dost widget-specifických bloků, co nemají Blade protějšek, např. jump-nav, document-tabs, Leaflet mapa). Odkazuj v komentáři na zdrojový blok v `ui/src/js/main.js`.
+
+**Brand ikonky (Simple Icons)** — žádný oficiální Composer/Blade balíček neexistuje, takže těch pár, co potřebujeme (facebook/instagram/whatsapp/youtube v headeru a patičce), je committnutých natvrdo jako obyčejná SVG v `web/resources/svg/brand/` (zrcadlí `ui/.eleventy.js`'s `brandIcon()` shortcode: `<title>` pryč, `fill="currentColor"` napečené do souboru — zdroj `ui/node_modules/simple-icons/icons/<name>.svg`). Použití: `<x-brand-facebook width="18" height="18" />`. **Nová sada musí být zaregistrovaná v `config/blade-icons.php`'s `sets`, ne v service provideru přes `Factory::add()` v `boot()`** — `Factory`/`IconsManifest` jsou singletony, které si seznam ikon k Blade komponentám zapamatují (memoizují) při prvním resolvnutí view factory, což se stane už během `register()` fáze jiných providerů, dávno před tím, než doběhne `boot()` naší vlastní `AppServiceProvider` (ověřeno — přidání setu v `boot()` tiše nefungovalo, `config/blade-icons.php` ano). Přidání další ikony: zkopírovat SVG (title pryč, `fill="currentColor"` na `<svg>`) do `resources/svg/brand/`, hotovo — soubor se objeví automaticky, žádná další registrace není potřeba.
+
+### Site chrome (layout, header, hlavní menu, footer, newsletter)
+
+- `<x-layouts.app title="..." >...</x-layouts.app>` (`resources/views/components/layouts/app.blade.php`) je Blade **layout komponenta** (ne `@extends`/`@section`) obalující každou veřejnou stránku — zrcadlí `ui/src/_includes/layouts/base.njk` (`<html>`/`<head>`/`@vite`) + `<div class="c-page-wrapper">` + header/footer, které si `ui/` opakuje v každé stránce zvlášť. Zatím bez `hasGallery`/`hasMap` vendor asset pipeline (GLightbox/Leaflet nejsou portované) — propy existují jen pro budoucí parity, negatují nic.
+- `layouts.header`/`layouts.footer` (`resources/views/layouts/{header,footer}.blade.php`) jsou obyčejné **view partiály** (přes `@include`, ne komponenty s propy) — zrcadlí `ui/src/_includes/layouts/{header,footer}.njk` 1:1, včetně `navItems` pole natvrdo v `@php` bloku (stejně jako `ui/`'s `{% set navItems = [...] %}`).
+- `ui/`'s lokální Nunjucks makra uvnitř `header.njk` (`navDropdown`, `mobileNavItem`) nemají v Blade ekvivalent "makro v rámci jednoho souboru" — staly se z nich samostatné komponenty `components/nav-dropdown.blade.php` a `components/mobile-nav-item.blade.php`. `mobile-nav-item` už obsahuje starší UI opravu (text je vždy skutečný odkaz, jen šipka je toggle) — needituj to zpátky na "celý řádek = toggle".
+- Statické brand assety bez DB záznamu (logo v headeru/patičce) patří do `public/uploads/` přímo (`web/public/uploads/cesky_pool.png`) — **ne** přes `Storage::disk('public')` seeder-assets vzor (ten je pro DB-vázaný obsah, viz `PartnerSeeder`). Cesta `/uploads/...` v Blade je stejná jako v `ui/`.
+- `newsletter()` → `<x-newsletter />` (`components/newsletter.blade.php`), stejné propy jako makro.
+- Ověření: `tests/Feature/PublicPagesTest.php` kontroluje, že veřejné stránky vrací 200 **a** obsahují chrome markery (`c-header__nav`, `c-footer__nav`) — 200 samo o sobě neodhalí zapomenutý `<x-layouts.app>` wrapper.
 
 ### Widgety (sekce stránek) → Blade views/komponenty
 - Stejný princip jako makra, ale často už s reálnými daty místo mock JSON — widget přijímá Eloquent kolekci/model místo pole z `ui/src/_data/*.json`.
@@ -185,3 +198,4 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 2. `vendor/bin/pint --dirty --format agent` po úpravě PHP souborů (Laravel Boost guideline).
 3. Testy (Pest/PHPUnit) pro novou funkcionalitu — feature testy preferované před unit testy, viz `web/CLAUDE.md`.
 4. **Ověření admin resource stránek vyžaduje skutečné přihlášení, ne jen kontrolu, že route existuje** — `curl` bez session na `/admin/<resource>` vrátí `302` (redirect na login) i když je za tím rozbitý formulář/tabulka, takže to nic neřekne o tom, jestli se Blade/Livewire fakt vykreslí. `tests/Feature/AdminResourcesTest.php` řeší tohle přes `actingAs($user)->get($url)->assertOk()` pro všechny resources najednou (s jedním reálným záznamem od každého modelu, ať se vykreslí i relace/enum sloupce, ne jen prázdná tabulka) — přidej sem novou resource, jak vznikne. Vyžaduje `App\Models\User implements Filament\Models\Contracts\FilamentUser` s `canAccessPanel(): true` — bez toho Filament mimo `local` prostředí (tedy i v testech) vrátí `403` i pro platně přihlášeného uživatele.
+5. Podobně `tests/Feature/PublicPagesTest.php` pro veřejné stránky — kontroluje 200 **a** přítomnost chrome markerů (`c-header__nav`, `c-footer__nav`), ne jen 200 samotné (viz "Site chrome" výše). Přidej sem novou veřejnou route, jak vznikne.

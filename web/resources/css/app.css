@@ -6,6 +6,9 @@
 
 @import './01_base/typography.css';
 @import './02_components/layout.css';
+@import './02_components/header.css';
+@import './02_components/footer.css';
+@import './02_components/input.css';
 @import './02_components/partner-card.css';
 @import './02_components/tag.css';
 @import './02_components/button.css';

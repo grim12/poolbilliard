@@ -1,0 +1,76 @@
+{{-- Mirrors ui/src/_includes/layouts/footer.njk. --}}
+<footer class="c-footer">
+    <div class="c-container c-footer__top">
+        <div class="c-footer__brand">
+            <a href="/" class="c-footer__logo" aria-label="Český pool — domů">
+                <span class="c-footer__logo-badge">
+                    <img class="c-footer__logo-img" src="/uploads/cesky_pool.png" alt="Český Pool" loading="lazy" />
+                </span>
+            </a>
+            <p class="c-footer__tagline">Centrální platforma Českého poolbilliardu, sportovní sekce, která je součástí Českomoravského billiardového svazu.</p>
+
+            <ul class="c-footer__socials">
+                <li>
+                    <a href="https://www.facebook.com/ceskypool" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <x-brand-facebook width="16" height="16" />
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/ceskypool/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <x-brand-instagram width="16" height="16" />
+                    </a>
+                </li>
+                <li>
+                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                        <x-brand-whatsapp width="16" height="16" />
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/cmbstv" target="_blank" rel="noopener noreferrer" aria-label="YouTube — ČMBS TV">
+                        <x-brand-youtube width="16" height="16" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <nav class="c-footer__nav" aria-label="Odkazy v patičce">
+            <div class="c-footer__nav-col">
+                <p class="c-footer__nav-title">Hraj</p>
+                <ul class="c-footer__nav-list">
+                    <li><a href="/kalendar">Kalendář</a></li>
+                    <li><a href="/kluby">Kluby</a></li>
+                    <li><a href="/herny">Herny</a></li>
+                    <li><a href="/souteze">Soutěže</a></li>
+                </ul>
+            </div>
+
+            <div class="c-footer__nav-col">
+                <p class="c-footer__nav-title">Začni</p>
+                <ul class="c-footer__nav-list">
+                    <li><a href="/jak-zacit">Jak začít</a></li>
+                    <li><a href="/pravidla">Pravidla kulečníku</a></li>
+                    <li><a href="/kluby">Najdi si klub</a></li>
+                    <li><a href="/herny">Najdi si hernu</a></li>
+                    <li><a href="/faq">Časté dotazy</a></li>
+                </ul>
+            </div>
+
+            <div class="c-footer__nav-col">
+                <p class="c-footer__nav-title">Svaz</p>
+                <ul class="c-footer__nav-list">
+                    <li><a href="/sportovni-svaz">Sportovní svaz</a></li>
+                    <li><a href="/novinky">Novinky</a></li>
+                    <li><a href="/zpravodajstvi/vykonny-vybor">Výkonný výbor</a></li>
+                    <li><a href="/partneri">Partneři</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="c-footer__bottom">
+        <div class="c-container c-footer__bottom-inner">
+            <span class="c-footer__copyright">© {{ now()->year }} ČMBS — Český poolbilliard</span>
+            <span class="c-footer__credit">Vytvořeno s ❤ pro českou poolovou komunitu</span>
+        </div>
+    </div>
+</footer>
