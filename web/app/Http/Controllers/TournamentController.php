@@ -15,7 +15,7 @@ class TournamentController extends Controller
     public function index(): View
     {
         return view('turnaje', [
-            'tournaments' => Tournament::currentAndUpcoming()->orderBy('sort_order')->get(),
+            'tournaments' => Tournament::with('category')->currentAndUpcoming()->orderBy('sort_order')->get(),
         ]);
     }
 }

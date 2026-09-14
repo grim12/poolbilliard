@@ -3,19 +3,21 @@
 namespace Database\Seeders;
 
 use App\Models\Tournament;
+use App\Models\TournamentCategory;
 use Illuminate\Database\Seeder;
 
 class TournamentSeeder extends Seeder
 {
     /**
-     * Mirrors ui/src/_data/turnaje.json.
+     * Mirrors ui/src/_data/turnaje.json. `category` is a name lookup against
+     * TournamentCategorySeeder's rows (run before this one, see DatabaseSeeder), resolved to
+     * tournament_category_id below — not stored directly.
      */
     private const TOURNAMENTS = [
         [
             'title' => 'EuroTour 10-ball',
             'url' => '/turnaj/',
-            'tag_text' => 'MEZINÁRODNÍ',
-            'tag_color' => 'gold',
+            'category' => 'MEZINÁRODNÍ',
             'start_date' => '2026-08-20',
             'end_date' => '2026-08-23',
             'location_text' => 'Itálie · Treviso',
@@ -24,8 +26,7 @@ class TournamentSeeder extends Seeder
         [
             'title' => 'Mistrovství ČR 9-ball',
             'url' => '/turnaj/',
-            'tag_text' => 'ČMBS',
-            'tag_color' => 'primary',
+            'category' => 'ČMBS',
             'start_date' => '2026-09-12',
             'end_date' => '2026-09-13',
             'location_text' => 'Praha · BC Řipská',
@@ -34,8 +35,7 @@ class TournamentSeeder extends Seeder
         [
             'title' => 'MR Dvojic',
             'url' => '/turnaj/',
-            'tag_text' => 'ČMBS',
-            'tag_color' => 'primary',
+            'category' => 'ČMBS',
             'start_date' => '2026-09-19',
             'end_date' => null,
             'location_text' => 'Praha · Rajská Zahrada',
@@ -44,8 +44,7 @@ class TournamentSeeder extends Seeder
         [
             'title' => 'MR Smíšených Dvojic',
             'url' => '/turnaj/',
-            'tag_text' => 'ČMBS',
-            'tag_color' => 'primary',
+            'category' => 'ČMBS',
             'start_date' => '2026-09-12',
             'end_date' => '2026-09-13',
             'location_text' => 'Praha · Rajská Zahrada',
@@ -59,9 +58,16 @@ class TournamentSeeder extends Seeder
     public function run(): void
     {
         foreach (self::TOURNAMENTS as $index => $tournament) {
+            $categoryName = $tournament['category'];
+            unset($tournament['category']);
+
             Tournament::updateOrCreate(
                 ['title' => $tournament['title']],
-                [...$tournament, 'sort_order' => $index]
+                [
+                    ...$tournament,
+                    'tournament_category_id' => TournamentCategory::where('name', $categoryName)->value('id'),
+                    'sort_order' => $index,
+                ]
             );
         }
     }

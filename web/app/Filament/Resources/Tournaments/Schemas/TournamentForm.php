@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Tournaments\Schemas;
 
+use App\Filament\Resources\TournamentCategories\Schemas\TournamentCategoryForm;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -18,17 +19,12 @@ class TournamentForm
                     ->required()
                     ->columnSpanFull(),
                 TextInput::make('url'),
-                TextInput::make('tag_text'),
-                Select::make('tag_color')
-                    ->options([
-                        'primary' => 'Primary',
-                        'accent' => 'Accent',
-                        'gold' => 'Gold',
-                        'dark' => 'Dark',
-                        'gray' => 'Gray',
-                    ])
-                    ->default('primary')
-                    ->required(),
+                Select::make('tournament_category_id')
+                    ->label('Kategorie')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm(TournamentCategoryForm::components()),
                 DatePicker::make('start_date')
                     ->label('Datum začátku')
                     ->helperText('Zobrazovaný text na webu se z tohoto data počítá automaticky (viz náhled ve sloupci "Datum" v tabulce).'),

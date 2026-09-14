@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('url')->nullable();
-            $table->string('tag_text')->nullable();
-            $table->string('tag_color')->default('primary');
+            $table->foreignId('tournament_category_id')->nullable()->constrained()->nullOnDelete();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('location_text')->nullable();

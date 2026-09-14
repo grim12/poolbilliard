@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Tournament extends Model
 {
@@ -17,14 +18,18 @@ class Tournament extends Model
     protected $fillable = [
         'title',
         'url',
-        'tag_text',
-        'tag_color',
+        'tournament_category_id',
         'start_date',
         'end_date',
         'location_text',
         'badge',
         'sort_order',
     ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(TournamentCategory::class, 'tournament_category_id');
+    }
 
     protected function casts(): array
     {

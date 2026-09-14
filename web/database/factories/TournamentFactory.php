@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Tournament;
+use App\Models\TournamentCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +21,7 @@ class TournamentFactory extends Factory
         return [
             'title' => $this->faker->sentence(3),
             'url' => '#',
-            'tag_text' => 'ČMBS',
-            'tag_color' => 'primary',
+            'tournament_category_id' => TournamentCategory::factory(),
             'start_date' => $this->faker->dateTimeBetween('now', '+2 months'),
             'end_date' => null,
             'location_text' => $this->faker->city(),

@@ -1,7 +1,8 @@
 {{--
     <x-tournaments :title :items :calendar-url :calendar-text />
-    - items: collection/array of tournaments (title, url, tagText, tagColor, dateText,
-      locationText, badge, soon). Mirrors ui/src/_includes/widgets/tournaments.njk.
+    - items: collection of Tournament models (title, url, category relation, date_text/soon
+      accessors, location_text, badge). Mirrors ui/src/_includes/widgets/tournaments.njk —
+      category->name/color map onto the card's generic tagText/tagColor props.
     - NOTE: the "sledujte přímé přenosy... ČMBS TV" footer note (brand YouTube icon) is not
       ported yet — Simple Icons brand pack isn't a dependency here, only blade-heroicons.
       Add it when a brand-icon Blade package is introduced, see skills/web-component-guide.md.
@@ -23,8 +24,8 @@
                 <x-tournament-card
                     :title="$item->title"
                     :url="$item->url"
-                    :tag-text="$item->tag_text"
-                    :tag-color="$item->tag_color"
+                    :tag-text="$item->category?->name"
+                    :tag-color="$item->category?->color"
                     :date-text="$item->date_text"
                     :location-text="$item->location_text"
                     :badge="$item->badge"

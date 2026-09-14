@@ -17,6 +17,10 @@ class TournamentsTable
             ->columns([
                 TextColumn::make('title')
                     ->searchable(),
+                TextColumn::make('category.name')
+                    ->label('Kategorie')
+                    ->badge()
+                    ->sortable(),
                 TextColumn::make('start_date')
                     ->label('Začátek')
                     ->date()

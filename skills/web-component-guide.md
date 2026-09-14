@@ -54,11 +54,14 @@ zatím **bez site chrome** (header/footer/page-hero/newsletter — portuje se sa
   `app/Models/FaqItem.php`, `database/seeders/FaqItemSeeder.php`,
   `app/Filament/Resources/FaqItems/`, `resources/views/faq.blade.php` +
   `resources/views/components/faq.blade.php`, route `/faq`.
-* `Tournament` — enum-like sloupec (`tag_color` jako `Select` s pevnou nabídkou), `badge`
-  jako `boolean` (Filament `Toggle`/`IconColumn`), a `soon` jako **computed accessor** místo
-  ručního boolean sloupce (`start_date` + globální `GeneralSettings::$tournament_soon_threshold_days`,
-  viz body 1 a 4). `app/Models/Tournament.php`, `database/seeders/TournamentSeeder.php`,
-  `app/Filament/Resources/Tournaments/`, `resources/views/turnaje.blade.php` +
+* `Tournament` — `badge` jako `boolean` (Filament `Toggle`/`IconColumn`), a `soon`/`dateText`
+  jako **computed accessory** místo ručních polí (`start_date`/`end_date` + globální
+  `GeneralSettings::$tournament_soon_threshold_days`, viz body 1 a 4). Kategorie (dřív volné
+  `tag_text`/`tag_color` na každém turnaji) je vlastní model `TournamentCategory` (name, color,
+  `sort_order`) — **taxonomie/číselník jako samostatná tabulka + `belongsTo`, ne volný text
+  opakovaný na každém záznamu** (viz bod 4). `app/Models/{Tournament,TournamentCategory}.php`,
+  `database/seeders/{TournamentCategorySeeder,TournamentSeeder}.php`,
+  `app/Filament/Resources/{Tournaments,TournamentCategories}/`, `resources/views/turnaje.blade.php` +
   `resources/views/components/{tournament-card,tournaments}.blade.php`, route `/turnaje`.
   **Poznámka:** `ui/` nemá pro tenhle grid samostatnou stránku (jen homepage sekce + plný
   Kalendář s JS filtry) — `/turnaje` je dočasná ukázková route, ne 1:1 port existující `ui/`
@@ -129,6 +132,8 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 * **Odvozená (computed) hodnota namísto ručně udržovaného boolean flagu** — pokud lze hodnotu spočítat z jiných dat (typicky z data + prahu), nepřidávej sloupec, který musí někdo ručně přepínat a může se rozjet od reality. Ulož skutečná data (např. `start_date`) a spočítej odvozenou hodnotu accessorem (`Attribute::get(...)`) — Filament tabulky/formuláře umí číst i computed accessory stejně jako sloupce (jen bez `->sortable()`/`->searchable()`, které fungují jen na reálné DB sloupce). Práh/konstanta pro výpočet patří do globálního nastavení (viz bod 1), ne natvrdo do modelu. Referenční příklad: `Tournament::soon()` (`start_date` + `GeneralSettings::$tournament_soon_threshold_days`, nahradilo dřívější ruční `soon` boolean sloupec).
 * **Filtrování "aktuální a nadcházející" podle data konce/začátku:** efektivní konec akce je `end_date`, a když ten chybí, `start_date` (jednodenní akce). V SQL to řeší `COALESCE(end_date, start_date) >= dnes`, plus samostatná podmínka pro záznamy zcela bez data (TBD — ty se vždy zahrnou, protože o nich nevíme, že skončily). `COALESCE` funguje stejně v SQLite i MySQL, žádná DB-specifická obezlička. Referenční příklad: `Tournament::scopeCurrentAndUpcoming()`, použito v `TournamentController::index()`.
 * **Úprava ještě neuvolněné migrace:** dokud je schéma nové entity v aktivním vývoji jen lokálně (SQLite, žádná sdílená/produkční data), uprav rovnou původní `create_<entity>_table` migraci místo přidávání `alter_table` migrace navíc — čistší historie. Jakmile je něco nasazené/sdílené s reálnými daty, tohle už neplatí (pak vždy nová migrace). Po úpravě spusť `php artisan migrate:fresh --seed`.
+* **Opakovaná dvojice "volný text + barva/varianta" na více záznamech → vlastní model (taxonomie), ne duplikovaný text na každém řádku.** Jakmile se stejná kategorie/štítek (název + barva) opakuje napříč záznamy (např. `tag_text`/`tag_color` na každém turnaji), extrahuj ji do vlastní tabulky s `belongsTo` vztahem — řeší to překlepy a nekonzistentní barvu pro "stejnou" kategorii a dá se to spravovat centrálně v adminu. Ve Filament formuláři použij `Select::make(...)->relationship('<vztah>', 'name')` s `->createOptionForm(...)`, ať admin může novou kategorii založit inline bez opuštění formuláře (sdílej pole s Resource formulářem té kategorie přes veřejnou `static function components(): array` metodu, ne přes duplikaci). Nízkoúrovňová Blade komponenta (karta) zůstává na obecných propech (`tagText`/`tagColor`) — mapování `$model->category->name`/`->color` na ně dělá až volající (widget/stránka), karta samotná koncept "kategorie" nezná. Referenční příklad: `TournamentCategory` + `Tournament::category()`.
+* **Pořadí migrací u nové provázané tabulky:** `make:model -mf` časuje soubor na "teď", což může být PO migraci tabulky, která na něj bude odkazovat cizím klíčem — přejmenuj soubor nové migrace na dřívější timestamp (např. o pár minut před), ať `Schema::create` proběhne ve správném pořadí. Týká se to i pořadí seederů v `DatabaseSeeder` (číselník před tabulkou, co na něj odkazuje).
 
 ---
 
