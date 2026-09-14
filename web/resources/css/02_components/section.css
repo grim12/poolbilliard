@@ -44,3 +44,8 @@
 @import "./section/faq.css";
 @import "./section/tournaments.css";
 @import "./section/newsletter.css";
+@import "./section/news-header.css";
+@import "./section/news-grid.css";
+@import "./section/article.css";
+@import "./section/gallery.css";
+@import "./section/related-articles.css";

@@ -4,11 +4,16 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+@import './04_utils/spacing.css';
+@import './04_utils/backgrounds.css';
+@import './04_utils/borders.css';
 @import './01_base/typography.css';
 @import './02_components/layout.css';
 @import './02_components/header.css';
 @import './02_components/footer.css';
 @import './02_components/input.css';
+@import './02_components/back-link.css';
+@import './02_components/pagination.css';
 @import './02_components/partner-card.css';
 @import './02_components/tag.css';
 @import './02_components/button.css';

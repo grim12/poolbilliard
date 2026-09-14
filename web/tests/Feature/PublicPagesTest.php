@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Article;
+use App\Models\ArticleCategory;
 use App\Models\FaqItem;
 use App\Models\Partner;
 use App\Models\Tournament;
@@ -23,15 +25,32 @@ class PublicPagesTest extends TestCase
     {
         Partner::factory()->create();
         FaqItem::factory()->create();
-        $category = TournamentCategory::factory()->create();
-        Tournament::factory()->create(['tournament_category_id' => $category->id]);
+        $tournamentCategory = TournamentCategory::factory()->create();
+        Tournament::factory()->create(['tournament_category_id' => $tournamentCategory->id]);
+        $articleCategory = ArticleCategory::factory()->create();
+        Article::factory()->create(['article_category_id' => $articleCategory->id]);
 
-        foreach (['/partneri', '/faq', '/turnaje'] as $url) {
+        foreach (['/partneri', '/faq', '/turnaje', '/novinky'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
             $response->assertSee('c-header__nav', false);
             $response->assertSee('c-footer__nav', false);
         }
+    }
+
+    public function test_article_detail_page_renders(): void
+    {
+        $category = ArticleCategory::factory()->create();
+        $article = Article::factory()->create([
+            'article_category_id' => $category->id,
+            'body' => '<p>Test body</p>',
+        ]);
+
+        $response = $this->get(route('novinky.show', $article->slug));
+
+        $response->assertOk();
+        $response->assertSee($article->title);
+        $response->assertSee('Test body', false);
     }
 }

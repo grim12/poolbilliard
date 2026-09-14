@@ -90,7 +90,7 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   `/herna/{slug}` (vč. Leaflet mapy, self-hosted, žádný API klíč, generický `[data-club-map]`
   init v `ui/src/js/main.js`) jsou samostatný další krok.
 * **Podmíněné třídy v Blade:** pro `class="a @if(...) b @endif"` použij radši `@class(['a', 'b' => $podminka])` direktivu (nedělá nadbytečné mezery v atributu) — viz `tournament-card.blade.php`.
-* **Brand ikonky (Simple Icons) ještě nejsou portované** — `tournaments.blade.php` proto zatím vynechává poznámku "sledujte přímé přenosy... ČMBS TV" (potřebuje YouTube brand ikonu). Až bude potřeba, doplnit balíček a poznámku zpět.
+* **Brand ikonky (Simple Icons) jsou portované** (viz sekce 3, "Site chrome") — dostupné jako `<x-brand-facebook>` atd., ne přes shortcode syntaxi.
 * `Article` + `ArticleCategory` a `Notice` — další dvojice "má kategorii" vs. "nemá kategorii,
   jen boolean", stejný rozhodovací pár jako `TournamentCategory`/`badge` bool. `ArticleCategory`
   (name, color, sort_order, `belongsTo` z `Article` — barva je 1:1 vlastnost kategorie, ne volně
@@ -99,8 +99,13 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   `Herna`/`Partner`, a `published_at` (skutečné datum) + computed `dateText()` accessor (stejný
   vzor jako `Tournament::dateText()`) místo ručně psaného textového data. `app/Models/{Article,
   ArticleCategory,Notice}.php`, `database/seeders/{ArticleCategorySeeder,ArticleSeeder,
-  NoticeSeeder}.php`, `app/Filament/Resources/{Articles,ArticleCategories,Notices}/`. Zatím bez
-  veřejných Blade stránek (stejné zastavení jako u `Club`/`Herna`).
+  NoticeSeeder}.php`, `app/Filament/Resources/{Articles,ArticleCategories,Notices}/`.
+  **`Article` má teď i veřejné stránky** (`/novinky` výpis + `/novinky/{article:slug}` detail,
+  `ArticleController`, `resources/views/{novinky,clanek}.blade.php` + komponenty
+  `article-card`/`article-content`/`gallery`/`related-articles`/`news-header`/`pagination`) —
+  viz sekce 3 "Novinky/Článek". `Notice` zůstává zatím jen v adminu — jeho veřejná stránka
+  (`/zpravodajstvi/vykonny-vybor`) sdílí `newsGrid`/`notice()` kartu s `ui/`, kterou jsme
+  zatím neportovali, protože se do dnešní dávky nevešla.
 
 ---
 
@@ -154,6 +159,17 @@ Viz i pravidlo v hlavním `README.md`. `ui/` je zdroj pravdy pro vzhled — v `w
 - Statické brand assety bez DB záznamu (logo v headeru/patičce) patří do `public/uploads/` přímo (`web/public/uploads/cesky_pool.png`) — **ne** přes `Storage::disk('public')` seeder-assets vzor (ten je pro DB-vázaný obsah, viz `PartnerSeeder`). Cesta `/uploads/...` v Blade je stejná jako v `ui/`.
 - `newsletter()` → `<x-newsletter />` (`components/newsletter.blade.php`), stejné propy jako makro.
 - Ověření: `tests/Feature/PublicPagesTest.php` kontroluje, že veřejné stránky vrací 200 **a** obsahují chrome markery (`c-header__nav`, `c-footer__nav`) — 200 samo o sobě neodhalí zapomenutý `<x-layouts.app>` wrapper.
+
+### Novinky / Článek (`/novinky`, `/novinky/{article:slug}`)
+
+Referenční příklad prvního **reálného list+detail páru** (na rozdíl od `/partneri`/`/faq`/`/turnaje`, což jsou pořád jen preview stránky bez plného obsahu okolo).
+
+- **Skutečná paginace, ne dekorativní.** `ui/`'s `macros/pagination.njk` jen předstírá `?page=N` odkazy nad statickým mockem (`currentPage`/`totalPages` natvrdo). My máme reálná data → `Article::paginate(9)` + `components/pagination.blade.php` čte skutečný `LengthAwarePaginator` (`$paginator->url($page)`, `->hasMorePages()` atd.) — stejné BEM třídy/markup jako `ui/`, takže žádná CSS změna, ale funkčně je to o level líp než předloha.
+- **"Podobné články" jsou reálný dotaz, ne ručně vybraná trojice** jako v `ui/`'s statickém příkladu — `ArticleController::show()` bere 3 nejnovější články ze **stejné kategorie** (fallback na nejnovější celkově, když článek nemá kategorii). U článku, kde žádný jiný v kategorii není, se sekce korektně vůbec nezobrazí (`@if ($related->isNotEmpty())`).
+- **Kategorie filtr taby jsou pořád dekorativní** (stejně jako v `ui/` — tam explicitně říká "search/filter je záměrně inertní"), ale postavené z reálných `ArticleCategory` záznamů + "Vše" natvrdo napřed, ne z hardcoded pole. `data-category` hodnota je `Str::slug($category->name)` za běhu — `ArticleCategory` nemá vlastní `slug` sloupec, není potřeba, dokud se filtr fakticky nezapojí.
+- **Galerie zatím bez lightboxu** (GLightbox není portovaný) — dlaždice v `components/gallery.blade.php` mají navíc `target="_blank"` oproti `ui/`'s předloze, ať klik aspoň neopustí článek. Až se GLightbox portuje, `target="_blank"` zase odstranit a přidat `glightbox`/`data-gallery` zpátky.
+- Nové utility soubory poprvé portované touhle dávkou: `04_utils/{spacing,backgrounds,borders}.css` (`.pt-none`/`.pb-none`, `.bg-gradient-light`, `.border-top`/`.border-bottom`) — potřebné, jakmile se sekce s různým/stejným pozadím řadí za sebe (viz `skills/ui-component-guide.md`'s "PAST" o dvojitém paddingu/borderu).
+- `Notice` sdílí stejný `newsGrid`/`notice()` vzor pro svoji budoucí `/zpravodajstvi/vykonny-vybor` stránku — až na ni dojde řada, `card_article_grid`/`article-card` větev v `newsGrid` je hotová, chybí jen `notice()` karta (`macros/card/notice.njk`, zatím neportovaná) a `cardType="notice"` větev.
 
 ### Widgety (sekce stránek) → Blade views/komponenty
 - Stejný princip jako makra, ale často už s reálnými daty místo mock JSON — widget přijímá Eloquent kolekci/model místo pole z `ui/src/_data/*.json`.

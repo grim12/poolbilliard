@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\TournamentController;
@@ -12,3 +13,5 @@ Route::get('/', function () {
 Route::get('/partneri', [PartnerController::class, 'index'])->name('partneri');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/turnaje', [TournamentController::class, 'index'])->name('turnaje');
+Route::get('/novinky', [ArticleController::class, 'index'])->name('novinky');
+Route::get('/novinky/{article:slug}', [ArticleController::class, 'show'])->name('novinky.show');
