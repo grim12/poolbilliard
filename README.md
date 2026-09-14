@@ -31,11 +31,24 @@ poolbilliard/
 │   ├── postcss.config.js   # Konfigurace Tailwind CSS v4 PostCSS pluginu
 │   └── package.json
 │
-├── web/                    # Backend / produkční webová aplikace (Laravel + Filament)
-│   └── (připraveno pro inicializaci backendové aplikace)
+├── web/                    # Backend / produkční webová aplikace (Laravel + Filament) — 2. fáze
+│   ├── app/
+│   │   ├── Filament/       # Filament Resources (admin CRUD pro turnaje, kluby, herny...)
+│   │   ├── Models/         # Eloquent modely
+│   │   └── Providers/Filament/AdminPanelProvider.php
+│   ├── resources/
+│   │   ├── views/          # Blade šablony a komponenty — zrcadlené z ui/src/_includes
+│   │   └── css/, js/       # Zrcadlené Tailwind styly a JS z ui/src/styles, ui/src/js
+│   ├── database/
+│   │   ├── migrations/
+│   │   └── database.sqlite # Lokální dev DB (viz sekce 2. Fáze níže)
+│   ├── routes/web.php
+│   ├── AGENTS.md, CLAUDE.md # Laravel Boost — obecné Laravel/PHP konvence (auto-generováno, needitovat ručně)
+│   └── composer.json
 │
 ├── skills/                 # Pravidla, konvence a instrukce pro vývojáře a AI asistenty
-│   └── ui-component-guide.md # Návod pro tvorbu UI komponent a šablon
+│   ├── ui-component-guide.md  # Návod pro tvorbu UI komponent a šablon (ui/)
+│   └── web-component-guide.md # Návod pro Blade komponenty, Filament resources a workflow ui/ → web/
 │
 ├── designs/                # Podklady z grafiky a screenshoty komponent (Figma)
 │   ├── components/
@@ -79,7 +92,42 @@ Vygeneruje optimalizovaný statický web do složky `ui/_site/` a zkompilované 
 
 ## 2. Fáze: Backend aplikace (`web/`)
 
-V další fázi bude do složky `web/` integrován backendový framework (Laravel + Filament admin). Šablony a komponenty z `ui/` budou přímo převzaty nebo zrcadleny do Blade komponent.
+Do složky `web/` je integrován backendový framework Laravel + Filament (admin panel).
+
+### Technologický stack
+* **Framework:** [Laravel 13](https://laravel.com/)
+* **Admin panel:** [Filament v5](https://filamentphp.com/)
+* **PHP:** 8.5 (Homebrew — `brew install composer` si PHP 8.5 vytáhne jako závislost)
+* **Databáze (lokálně):** SQLite (`database/database.sqlite`) — zatím, pro rychlý start bez závislosti na běžícím DB serveru. Až bude potřeba testovat proti stejnému enginu jako produkce (MySQL, spravováno přes phpMyAdmin u hostingu), přepneme `.env` na MySQL (lokálně např. přes MAMP).
+* **AI asistence:** [Laravel Boost](https://github.com/laravel/boost) — generuje/aktualizuje `web/AGENTS.md` a `web/CLAUDE.md` s obecnými Laravel/PHP/testing konvencemi (needitovat ručně, spravuje `php artisan boost:install`). Projektově specifické konvence (Blade komponenty, Filament resources, workflow `ui/` → `web/`) jsou v [`skills/web-component-guide.md`](skills/web-component-guide.md).
+
+### Požadavky
+* PHP 8.3+ (v projektu použito 8.5)
+* [Composer](https://getcomposer.org/)
+* Node.js + npm (pro Vite build CSS/JS)
+
+### Spuštění vývoje
+```bash
+cd web
+composer install
+npm install
+php artisan serve      # http://localhost:8000
+npm run dev             # Vite dev server pro CSS/JS (samostatně, nebo `composer run dev` spustí obojí + queue listener najednou)
+```
+Admin panel běží na `http://localhost:8000/admin`. Přihlašovací účet se zakládá přes:
+```bash
+php artisan make:filament-user
+```
+
+### `ui/` a `web/` — směr workflow
+
+`ui/` a `web/` **nejsou dva nezávislé projekty se sdíleným zdrojem** — `ui/` je rychlý, samostatný sandbox pro návrh a ladění UI (Eleventy dev server, live reload, mock data, žádná závislost na PHP/DB), `web/` je zrcadlená produkční implementace v Blade.
+
+> ⚠️ **Závazné pravidlo: veškeré úpravy vzhledu/UI se dělají nejprve v `ui/`, teprve hotové (odladěné, schválené) se ručně přenášejí (portují) do `web/` jako Blade komponenty/views.**
+> - `ui/` je zdroj pravdy pro vzhled — nikdy needitujeme Blade šablonu jako první místo pro vizuální změnu.
+> - Přenos je **ruční zrcadlení**, ne sdílený include/symlink — Nunjucks makro/widget a jeho Blade protějšek jsou dva samostatné soubory, které je nutné udržovat v souladu.
+> - Po portování komponenty do `web/` si oba stavy (ui/ i web/) musí vizuálně odpovídat — postup a konvence pro Blade stranu jsou ve [`skills/web-component-guide.md`](skills/web-component-guide.md).
+> - Pokud se v `web/` najde nutná drobná úprava (např. kvůli reálným datům), přenáší se **zpět** do `ui/` co nejdřív, aby `ui/` zůstal aktuální referencí — neroztéká se vzhled do dvou verzí pravdy.
 
 ---
 
@@ -88,7 +136,8 @@ V další fázi bude do složky `web/` integrován backendový framework (Larave
 Projekt je navržen tak, aby na něm mohl kdokoliv plynule navázat – ať už samostatně, nebo s libovolným AI asistentem (Claude, Junie, Cursor, Copilot atd.).
 
 Kompletní metodika a detailní kódové vzory jsou uloženy ve složce **`skills/`**:
-* **[`skills/ui-component-guide.md`](skills/ui-component-guide.md)** – Podrobný návod pro tvorbu komponent, Nunjucks maker, kompozičních BEM tříd a Tailwind 4 stylů s `@apply`.
+* **[`skills/ui-component-guide.md`](skills/ui-component-guide.md)** – Podrobný návod pro tvorbu komponent, Nunjucks maker, kompozičních BEM tříd a Tailwind 4 stylů s `@apply` (`ui/`).
+* **[`skills/web-component-guide.md`](skills/web-component-guide.md)** – Návod pro Blade komponenty, Eloquent modely, Filament resources a workflow přenosu hotových úprav z `ui/` do `web/`.
 
 ### Rychlý přehled klíčových pravidel:
 1. **Kompoziční (ortogonální) BEM třídy:** Výchozí třída komponenty (např. `.c-button`) nese kompletní výchozí vzhled (primary + solid + md). Modifikátory (`--accent`, `--outline`, `--sm`, `--lg`...) pouze přepisují konkrétní vlastnosti.
