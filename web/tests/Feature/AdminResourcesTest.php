@@ -11,6 +11,7 @@ use App\Models\FaqGroup;
 use App\Models\FaqItem;
 use App\Models\Herna;
 use App\Models\Leaderboard;
+use App\Models\LinkTile;
 use App\Models\Notice;
 use App\Models\Partner;
 use App\Models\Tournament;
@@ -44,6 +45,7 @@ class AdminResourcesTest extends TestCase
         Notice::factory()->create();
         Banner::factory()->create();
         Leaderboard::factory()->create();
+        LinkTile::factory()->create();
 
         $urls = [
             '/admin/partners',
@@ -58,6 +60,7 @@ class AdminResourcesTest extends TestCase
             '/admin/notices',
             '/admin/banners',
             '/admin/leaderboards',
+            '/admin/link-tiles',
             '/admin/manage-general-settings',
         ];
 
