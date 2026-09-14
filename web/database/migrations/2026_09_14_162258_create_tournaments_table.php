@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->string('tag_text')->nullable();
             $table->string('tag_color')->default('primary');
-            $table->string('date_text')->nullable();
             $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->string('location_text')->nullable();
             $table->boolean('badge')->default(false);
             $table->unsignedInteger('sort_order')->default(0);

@@ -29,13 +29,13 @@ class TournamentForm
                     ])
                     ->default('primary')
                     ->required(),
-                TextInput::make('date_text')
-                    ->label('Datum (text)')
-                    ->helperText('Zobrazuje se na webu — může být rozsah, např. "12. – 13. září 2026".')
-                    ->required(),
                 DatePicker::make('start_date')
                     ->label('Datum začátku')
-                    ->helperText('Skutečné datum pro výpočet "blíží se" (viz Nastavení) — nezobrazuje se na webu, tam je date_text.'),
+                    ->helperText('Zobrazovaný text na webu se z tohoto data počítá automaticky (viz náhled ve sloupci "Datum" v tabulce).'),
+                DatePicker::make('end_date')
+                    ->label('Datum konce')
+                    ->helperText('Nech prázdné u jednodenního turnaje.')
+                    ->afterOrEqual('start_date'),
                 TextInput::make('location_text')
                     ->label('Místo konání'),
                 Toggle::make('badge')
