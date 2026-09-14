@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Models\Banner;
 use App\Models\Club;
 use App\Models\ClubMember;
 use App\Models\FaqGroup;
@@ -40,6 +41,7 @@ class AdminResourcesTest extends TestCase
         $articleCategory = ArticleCategory::factory()->create();
         Article::factory()->create(['article_category_id' => $articleCategory->id]);
         Notice::factory()->create();
+        Banner::factory()->create();
 
         $urls = [
             '/admin/partners',
@@ -52,6 +54,7 @@ class AdminResourcesTest extends TestCase
             '/admin/article-categories',
             '/admin/articles',
             '/admin/notices',
+            '/admin/banners',
             '/admin/manage-general-settings',
         ];
 
