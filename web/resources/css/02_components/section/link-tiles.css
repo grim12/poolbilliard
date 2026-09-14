@@ -1,0 +1,11 @@
+@layer components {
+  /* ==========================================================================
+     Section: Link tiles (rozcestník — Začni hrát, Pravidla, ...)
+     ========================================================================== */
+
+  .c-section--link-tiles {
+    .c-section__grid {
+      @apply xs:grid-cols-2 lg:grid-cols-4 gap-5;
+    }
+  }
+}

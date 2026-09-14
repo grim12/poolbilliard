@@ -1,0 +1,106 @@
+@layer components {
+  /* ==========================================================================
+     Calendar — real month grid with event pills (Kalendář page)
+     Saturday & Sunday columns are intentionally wider (--weekend-fr), since
+     most tournaments are played on weekends.
+     ========================================================================== */
+
+  .c-calendar {
+    @apply rounded-4xl bg-white border border-gray-200 shadow-card-sm overflow-hidden;
+  }
+
+  .c-calendar__header {
+    @apply flex flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-7 sm:py-6;
+  }
+
+  .c-calendar__title {
+    @apply font-extrabold text-body-main text-xl sm:text-2xl m-0;
+  }
+
+  .c-calendar__nav {
+    @apply flex items-center gap-2;
+  }
+
+  .c-calendar__today-btn {
+    @apply inline-flex items-center justify-center h-9 rounded-full border border-gray-200 px-4 text-sm font-semibold text-body-600 no-underline transition-colors duration-150 hover:bg-gray-50 hover:text-body-main;
+  }
+
+  .c-calendar__nav-btn {
+    @apply inline-flex items-center justify-center size-9 rounded-full border border-gray-200 text-body-600 transition-colors duration-150 hover:bg-gray-50 hover:text-body-main;
+  }
+
+  /* Single shared grid: weekday labels + every day cell are direct children, in DOM order.
+     One grid means one set of column tracks, so every row is pixel-locked to the same
+     widths — a per-row grid could theoretically size its own tracks independently.
+     Tracks use minmax(0, …) instead of a bare fr unit — a plain `1fr` track has an
+     implicit minimum of `auto` (its content's min-content size), so one cell with long,
+     unbreakable text could force that whole column wider than its fair share and blow
+     the grid out of the card. minmax(0, …) caps that floor at 0 so overflow is always
+     handled inside the cell (truncate), never by the grid growing. */
+  .c-calendar__grid {
+    @apply grid gap-1 sm:gap-2 px-2 pb-2 sm:px-4 sm:pb-4 border-t border-gray-200 pt-3 sm:pt-4;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(0, 2fr) minmax(0, 2fr);
+  }
+
+  .c-calendar__weekday {
+    @apply py-1.5 sm:py-2 text-center text-[11px] sm:text-xs font-bold uppercase tracking-wider text-body-600;
+  }
+
+  .c-calendar__weekday--weekend {
+    @apply text-accent-500;
+  }
+
+  .c-calendar__day {
+    @apply flex flex-col gap-1 min-w-0 overflow-hidden rounded-lg sm:rounded-2xl min-h-14 sm:min-h-18 lg:min-h-20 p-1 sm:p-2 bg-gray-50;
+  }
+
+  .c-calendar__day--weekend {
+    @apply bg-primary-50/70;
+  }
+
+  .c-calendar__day--empty {
+    @apply bg-transparent;
+  }
+
+  .c-calendar__day--today {
+    @apply bg-white ring-2 ring-primary-500 ring-inset;
+  }
+
+  .c-calendar__day-number {
+    @apply inline-flex items-center justify-center size-5 rounded-full text-xs font-bold text-body-main;
+  }
+
+  .c-calendar__day--today .c-calendar__day-number {
+    @apply bg-primary-600 text-white;
+  }
+
+  .c-calendar__events {
+    @apply flex flex-col gap-1 min-w-0 mt-auto;
+  }
+
+  .c-calendar__event {
+    @apply flex items-center gap-1.5 no-underline min-w-0;
+  }
+
+  .c-calendar__event-dot {
+    @apply size-2 rounded-full shrink-0;
+  }
+
+  .c-calendar__event-dot--primary { @apply bg-primary-600; }
+  .c-calendar__event-dot--gold    { @apply bg-gold-600; }
+  .c-calendar__event-dot--accent  { @apply bg-accent-500; }
+  .c-calendar__event-dot--gray    { @apply bg-gray-400; }
+
+  .c-calendar__event-label {
+    @apply block min-w-0 flex-1 text-[9px] xs:text-[10px] font-semibold leading-tight truncate transition-colors duration-150;
+  }
+
+  .c-calendar__event--primary .c-calendar__event-label { @apply text-primary-800; }
+  .c-calendar__event--gold .c-calendar__event-label    { @apply text-gold-800; }
+  .c-calendar__event--accent .c-calendar__event-label  { @apply text-accent-700; }
+  .c-calendar__event--gray .c-calendar__event-label    { @apply text-gray-600; }
+
+  .c-calendar__event:hover .c-calendar__event-label {
+    @apply underline;
+  }
+}

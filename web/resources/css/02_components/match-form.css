@@ -1,0 +1,47 @@
+@layer components {
+  /* ==========================================================================
+     Form — shared shell for a single-card form: matchForm()'s "find me a
+     club/hall/coach" request, and multi-group forms like Registrace herny
+     (.c-form__group + .c-form__group-title dividing it into named sections).
+     ========================================================================== */
+
+  .c-form {
+    @apply rounded-3xl border border-gray-200 bg-gray-50 p-6 sm:p-8;
+  }
+
+  .c-form__text {
+    @apply text-body-600 mb-6;
+  }
+
+  /* Divides a multi-group form (e.g. Registrace herny) into named sections within one .c-form
+     card — matchForm's single flat .c-form__grid doesn't use this. */
+  .c-form__group + .c-form__group {
+    @apply mt-8 pt-8 border-t border-gray-200;
+  }
+
+  /* Full typography override, not just margin (see ui-component-guide.md) — no .h1-.h5 size
+     fits a small group heading that stays the same size at every breakpoint. */
+  .c-form__group-title {
+    @apply font-bold text-lg text-body-main mb-4;
+  }
+
+  .c-form__grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-4 items-end;
+  }
+
+  .c-form__field {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .c-form__field--full {
+    @apply sm:col-span-2;
+  }
+
+  .c-form__label {
+    @apply text-sm font-bold text-body-main;
+  }
+
+  .c-form__textarea {
+    @apply h-auto py-3 resize-y;
+  }
+}

@@ -37,15 +37,31 @@
   }
 }
 
-/* Jen porty už hotové na straně web/ (zrcadlí ui/src/styles/02_components/section.css) —
-   při portování dalšího widgetu sem přidej odpovídající @import, ať tenhle seznam sedí
-   s tím, co je v ui/ hotové a portované. */
-@import "./section/partner-directory.css";
-@import "./section/faq.css";
+@import "./section/hp-featured-articles.css";
+@import "./section/notices.css";
+@import "./section/event-banner.css";
 @import "./section/tournaments.css";
+@import "./section/kalendar.css";
+@import "./section/kluby.css";
+@import "./section/club-directory.css";
+@import "./section/club-hero.css";
+@import "./section/club-detail.css";
+@import "./section/herna-detail.css";
+@import "./section/faq.css";
+@import "./section/herna-list.css";
+@import "./section/page-hero.css";
+@import "./section/form-section.css";
+@import "./section/cta.css";
+@import "./section/leaderboards.css";
+@import "./section/link-tiles.css";
+@import "./section/partners.css";
 @import "./section/newsletter.css";
 @import "./section/news-header.css";
 @import "./section/news-grid.css";
-@import "./section/article.css";
-@import "./section/gallery.css";
+@import "./section/rule-cards.css";
+@import "./section/svaz-info.css";
+@import "./section/documents.css";
+@import "./section/partner-directory.css";
 @import "./section/related-articles.css";
+@import "./section/gallery.css";
+@import "./section/article.css";

@@ -5,22 +5,40 @@
 @source '../../storage/framework/views/*.php';
 
 @import './04_utils/spacing.css';
-@import './04_utils/backgrounds.css';
 @import './04_utils/borders.css';
+@import './04_utils/backgrounds.css';
 @import './01_base/typography.css';
 @import './02_components/layout.css';
+@import './02_components/back-link.css';
 @import './02_components/header.css';
 @import './02_components/footer.css';
-@import './02_components/input.css';
-@import './02_components/back-link.css';
-@import './02_components/pagination.css';
-@import './02_components/partner-card.css';
-@import './02_components/tag.css';
 @import './02_components/button.css';
-@import './02_components/faq.css';
-@import './02_components/info-panel.css';
+@import './02_components/tag.css';
+@import './02_components/input.css';
 @import './02_components/card.css';
+@import './02_components/tournament-detail.css';
+@import './02_components/pagination.css';
+@import './02_components/leaderboard.css';
+@import './02_components/banner.css';
+@import './02_components/no-results.css';
+@import './02_components/alert.css';
+@import './02_components/content-section.css';
+@import './02_components/jump-nav.css';
+@import './02_components/steps.css';
+@import './02_components/feature-card.css';
+@import './02_components/rule-card.css';
+@import './02_components/faq.css';
+@import './02_components/match-form.css';
+@import './02_components/calendar.css';
+@import './02_components/recurring-tournaments.css';
+@import './02_components/calendar-sources.css';
+@import './02_components/info-panel.css';
+@import './02_components/committee-list.css';
+@import './02_components/map-card.css';
+@import './02_components/partner-card.css';
+@import './02_components/check-pill.css';
 @import './02_components/section.css';
+@import './03_themes/dark.css';
 
 /* Design tokeny — zrcadlené z ui/src/styles/style.css (@theme blok). Při úpravě tokenů
    v ui/ (barvy, radius, typografie...) proveď stejnou změnu i tady. */
