@@ -14,7 +14,7 @@
             class="pb-none"
         />
 
-        <section class="c-section c-section--news-grid">
+        <section class="c-section c-section--news-grid pt-none">
             <div class="c-container">
                 <div class="c-section__grid c-news-grid__layout">
                     <div class="c-news-grid__main">
