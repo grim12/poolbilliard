@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call(PartnerSeeder::class);
+        $this->call(FaqGroupSeeder::class);
         $this->call(FaqItemSeeder::class);
         $this->call(TournamentCategorySeeder::class);
         $this->call(TournamentSeeder::class);

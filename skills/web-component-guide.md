@@ -54,6 +54,11 @@ zatím **bez site chrome** (header/footer/page-hero/newsletter — portuje se sa
   `app/Models/FaqItem.php`, `database/seeders/FaqItemSeeder.php`,
   `app/Filament/Resources/FaqItems/`, `resources/views/faq.blade.php` +
   `resources/views/components/faq.blade.php`, route `/faq`.
+  **Umístění (které stránky/sekce položku zobrazí) řeší many-to-many `FaqGroup`**
+  (`name`, `slug`, `sort_order`) — jedna centrální správa FAQ položek, obsah se filtruje podle
+  skupiny (`FaqItem::whereHas('groups', fn ($q) => $q->where('slug', 'obecne'))`), ne
+  duplikovaný/spravovaný zvlášť pro každou stránku. `belongsToMany`, ne `belongsTo`, protože
+  jedna otázka může dávat smysl na víc místech zároveň (viz bod 4).
 * `Tournament` — `badge` jako `boolean` (Filament `Toggle`/`IconColumn`), a `soon`/`dateText`
   jako **computed accessory** místo ručních polí (`start_date`/`end_date` + globální
   `GeneralSettings::$tournament_soon_threshold_days`, viz body 1 a 4). Kategorie (dřív volné
@@ -134,6 +139,7 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 * **Úprava ještě neuvolněné migrace:** dokud je schéma nové entity v aktivním vývoji jen lokálně (SQLite, žádná sdílená/produkční data), uprav rovnou původní `create_<entity>_table` migraci místo přidávání `alter_table` migrace navíc — čistší historie. Jakmile je něco nasazené/sdílené s reálnými daty, tohle už neplatí (pak vždy nová migrace). Po úpravě spusť `php artisan migrate:fresh --seed`.
 * **Opakovaná dvojice "volný text + barva/varianta" na více záznamech → vlastní model (taxonomie), ne duplikovaný text na každém řádku.** Jakmile se stejná kategorie/štítek (název + barva) opakuje napříč záznamy (např. `tag_text`/`tag_color` na každém turnaji), extrahuj ji do vlastní tabulky s `belongsTo` vztahem — řeší to překlepy a nekonzistentní barvu pro "stejnou" kategorii a dá se to spravovat centrálně v adminu. Ve Filament formuláři použij `Select::make(...)->relationship('<vztah>', 'name')` s `->createOptionForm(...)`, ať admin může novou kategorii založit inline bez opuštění formuláře (sdílej pole s Resource formulářem té kategorie přes veřejnou `static function components(): array` metodu, ne přes duplikaci). Nízkoúrovňová Blade komponenta (karta) zůstává na obecných propech (`tagText`/`tagColor`) — mapování `$model->category->name`/`->color` na ně dělá až volající (widget/stránka), karta samotná koncept "kategorie" nezná. Referenční příklad: `TournamentCategory` + `Tournament::category()`.
 * **Pořadí migrací u nové provázané tabulky:** `make:model -mf` časuje soubor na "teď", což může být PO migraci tabulky, která na něj bude odkazovat cizím klíčem — přejmenuj soubor nové migrace na dřívější timestamp (např. o pár minut před), ať `Schema::create` proběhne ve správném pořadí. Týká se to i pořadí seederů v `DatabaseSeeder` (číselník před tabulkou, co na něj odkazuje).
+* **`belongsTo` vs. `belongsToMany` u taxonomie/číselníku — podle toho, jestli záznam patří vždy jen na jedno místo, nebo může na víc zároveň.** Turnaj má vždy přesně jednu kategorii → `TournamentCategory` + `belongsTo` (cizí klíč přímo na turnaji). FAQ položka ale může dávat smysl na víc místech současně (obecná stránka FAQ i konkrétní stránka) → `FaqGroup` + `belongsToMany` (pivot tabulka), ať se stejná otázka nemusí duplikovat do víc řádků, když ji chceš zobrazit na dvou místech. Pivot tabulka: `php artisan make:migration create_<a>_<b>_table` (Laravel konvence názvu: singulární jména modelů podle abecedy, podtržítkem — `faq_group_faq_item`), `foreignId(...)->constrained()->cascadeOnDelete()` na obě strany + `unique([...])`. V Blade/Filamentu se to používá stejně jako `belongsTo` (`Select::make(...)->relationship(...)->multiple()`), jen výsledek je kolekce, ne jeden model. Referenční příklad: `FaqGroup` + `FaqItem::groups()`, filtr v `FaqController` (`whereHas('groups', fn ($q) => $q->where('slug', 'obecne'))`).
 
 ---
 

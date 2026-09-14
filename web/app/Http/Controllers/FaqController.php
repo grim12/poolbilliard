@@ -13,7 +13,9 @@ class FaqController extends Controller
     public function index(): View
     {
         return view('faq', [
-            'items' => FaqItem::orderBy('sort_order')->get(),
+            'items' => FaqItem::whereHas('groups', fn ($query) => $query->where('slug', 'obecne'))
+                ->orderBy('sort_order')
+                ->get(),
         ]);
     }
 }

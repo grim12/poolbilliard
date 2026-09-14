@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FaqGroup;
 use App\Models\FaqItem;
 use Illuminate\Database\Seeder;
 
@@ -56,11 +57,15 @@ class FaqItemSeeder extends Seeder
      */
     public function run(): void
     {
+        $obecneGroupId = FaqGroup::where('slug', 'obecne')->value('id');
+
         foreach (self::ITEMS as $index => $item) {
-            FaqItem::updateOrCreate(
+            $faqItem = FaqItem::updateOrCreate(
                 ['question' => $item['question']],
                 ['answer' => $item['answer'], 'sort_order' => $index]
             );
+
+            $faqItem->groups()->syncWithoutDetaching([$obecneGroupId]);
         }
     }
 }
