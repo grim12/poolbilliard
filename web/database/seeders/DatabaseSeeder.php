@@ -32,5 +32,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ArticleSeeder::class);
         $this->call(NoticeSeeder::class);
         $this->call(BannerSeeder::class);
+        $this->call(LeaderboardSeeder::class);
     }
 }

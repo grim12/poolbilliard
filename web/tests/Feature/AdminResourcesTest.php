@@ -10,6 +10,7 @@ use App\Models\ClubMember;
 use App\Models\FaqGroup;
 use App\Models\FaqItem;
 use App\Models\Herna;
+use App\Models\Leaderboard;
 use App\Models\Notice;
 use App\Models\Partner;
 use App\Models\Tournament;
@@ -42,6 +43,7 @@ class AdminResourcesTest extends TestCase
         Article::factory()->create(['article_category_id' => $articleCategory->id]);
         Notice::factory()->create();
         Banner::factory()->create();
+        Leaderboard::factory()->create();
 
         $urls = [
             '/admin/partners',
@@ -55,6 +57,7 @@ class AdminResourcesTest extends TestCase
             '/admin/articles',
             '/admin/notices',
             '/admin/banners',
+            '/admin/leaderboards',
             '/admin/manage-general-settings',
         ];
 
@@ -75,5 +78,18 @@ class AdminResourcesTest extends TestCase
 
         $this->actingAs($user)->get('/admin/banners/create')->assertOk();
         $this->actingAs($user)->get("/admin/banners/{$banner->id}/edit")->assertOk();
+    }
+
+    /**
+     * Leaderboard's `entries` Repeater is reorderable (order = ranking), unlike Banner's fixed
+     * order — worth its own create/edit smoke test too.
+     */
+    public function test_leaderboard_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $leaderboard = Leaderboard::factory()->create();
+
+        $this->actingAs($user)->get('/admin/leaderboards/create')->assertOk();
+        $this->actingAs($user)->get("/admin/leaderboards/{$leaderboard->id}/edit")->assertOk();
     }
 }
