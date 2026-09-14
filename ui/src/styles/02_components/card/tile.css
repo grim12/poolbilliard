@@ -6,6 +6,15 @@
   .c-card--tile {
     @apply block w-full relative overflow-hidden rounded-3xl bg-dark text-white aspect-4/3 max-h-52;
 
+    /* .c-card__link is normally sized via `h-full` (percentage height of its parent), but here
+       the parent's height comes from `aspect-ratio` + `max-h-52` rather than an explicit height —
+       some WebKit/Safari versions fail to resolve percentage heights against that, leaving the
+       link (and the bottom-aligned .c-card__body inside it) taller than the tile and clipped by
+       overflow:hidden. Pin it directly to the tile's box instead of relying on percentage height. */
+    .c-card__link {
+      @apply absolute inset-0;
+    }
+
     .c-card__media {
       @apply absolute inset-0 w-full h-full overflow-hidden;
 
