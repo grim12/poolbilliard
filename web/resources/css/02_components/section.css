@@ -41,3 +41,4 @@
    při portování dalšího widgetu sem přidej odpovídající @import, ať tenhle seznam sedí
    s tím, co je v ui/ hotové a portované. */
 @import "./section/partner-directory.css";
+@import "./section/faq.css";

@@ -42,13 +42,20 @@ web/
 └── boost.json
 ```
 
-**Referenční příklad prvního end-to-end feature** (DB → Model → Filament Resource → Blade → route):
-`Partner` — `app/Models/Partner.php`, `database/migrations/*_create_partners_table.php`,
-`database/seeders/PartnerSeeder.php`, `app/Filament/Resources/Partners/`,
-`app/Http/Controllers/PartnerController.php`, `resources/views/partneri.blade.php` +
-`resources/views/components/partner-card.blade.php`, route `/partneri`. Stránka zatím
-**nemá site chrome** (header/footer/page-hero/newsletter) — to se portuje samostatně, až na
-řadu přijde `layouts/base.njk`/`header.njk`/`footer.njk`.
+**Referenční příklady end-to-end features** (DB → Model → Filament Resource → Blade → route),
+zatím **bez site chrome** (header/footer/page-hero/newsletter — portuje se samostatně, až na
+řadu přijde `layouts/base.njk`/`header.njk`/`footer.njk`):
+* `Partner` — jeden obrázek na entitu (`FileUpload` + `logo_url` accessor), `sort_order`
+  s drag&drop řazením. `app/Models/Partner.php`, `database/seeders/PartnerSeeder.php`,
+  `app/Filament/Resources/Partners/`, `resources/views/partneri.blade.php` +
+  `resources/views/components/partner-card.blade.php`, route `/partneri`.
+* `FaqItem` — rich-text pole (`RichEditor`), akordeon s JS chováním portovaným z `main.js`.
+  `app/Models/FaqItem.php`, `database/seeders/FaqItemSeeder.php`,
+  `app/Filament/Resources/FaqItems/`, `resources/views/faq.blade.php` +
+  `resources/views/components/faq.blade.php`, route `/faq`.
+* Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
+  jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
+  widgetu) — viz jejich použití v `info-panel.blade.php`.
 
 ---
 
@@ -79,10 +86,16 @@ Viz i pravidlo v hlavním `README.md`. `ui/` je zdroj pravdy pro vzhled — v `w
 3. **BEM třídy (`.c-*`, `.u-*`, `.t-*`) se přenášejí beze změny** — stejný název třídy v Blade i Nunjucks, ať CSS soubor (bod 4) sedí na obě strany beze změny.
 4. Zkopíruj příslušný CSS soubor 1:1 do `web/resources/css/<stejná cesta jako v ui/>` (žádné přepisování na jinou metodiku — pořád Tailwind 4 + `@apply` + BEM, viz `skills/ui-component-guide.md` Pravidlo 3).
 5. Přidej `@import './<stejná cesta>';` do `web/resources/css/app.css` (soubory, případně `02_components/section.css`, mají u sebe komentář, že seznam importů odráží jen to, co je na `web/` straně už portované — udržuj ho v souladu s tím, co skutečně existuje, ne s celým seznamem z `ui/`).
-6. Pokud makro obsahuje `{% icon %}`/`{% brandIcon %}` shortcode (Heroicons/Simple Icons), použij Blade ekvivalent — `blade-ui-kit/blade-heroicons` je už závislost Filamentu (`<x-heroicon-s-chevron-down class="..." />` apod.), případně `blade-ui-kit/blade-icons` pro brand ikonky.
+6. Pokud makro obsahuje `{% icon %}`/`{% brandIcon %}` shortcode (Heroicons), použij Blade ekvivalent — `blade-ui-kit/blade-heroicons` je už závislost Filamentu. **Projekt preferuje "mini" (`m-`) geometrii i pro větší ikony** (stejná konvence jako `ui/`, viz `skills/ui-component-guide.md` Pravidlo 7): `<x-heroicon-m-chevron-down width="20" height="20" class="..." />`. Když je název ikony proměnná (např. `button()`'s `icon`/`leadingIcon` parametr), použij `<x-dynamic-component :component="'heroicon-m-'.$icon" :width="$iconSize" :height="$iconSize" />` — viz `components/button.blade.php`. Brand ikonky (`{% brandIcon %}`, Simple Icons) ještě nemáme portované — až budou potřeba, doplnit sem.
 7. Ověř vizuálně vedle sebe (`ui/` dev server vs. `web/` dev server) — musí sedět 1:1.
 
 **Design tokeny** (barvy, radius, fonty, stíny) jsou v `web/resources/css/app.css` uvnitř `@theme { ... }` — je to ruční zrcadlo `@theme` bloku z `ui/src/styles/style.css`. Změníš-li token v `ui/`, proveď stejnou změnu i tady (obě místa výslovně na sebe odkazují komentářem).
+
+**`extraClass` parametr maker se do Blade nepřenáší jako samostatný prop** — Blade má nativní mechanismus přesně pro tohle (`$attributes`), použij ho: komponenta v základu vrací `{{ $attributes->merge(['class' => $classes]) }}` na root elementu, volající pak přidá extra třídy prostě jako `class="..."` atribut na tag komponenty (`<x-tag ... class="mb-2" />`), stejně jako `id`, `data-*` apod. Viz `components/tag.blade.php`, `components/button.blade.php`.
+
+**Rich-text pole** (makro používalo `| safe` filtr na hodnotu z dat, např. FAQ odpověď): v DB obyčejný `text` sloupec s uloženým HTML, ve Filament formuláři `RichEditor::make(...)` (ne `Textarea`/`TextInput` — administrátor needituje HTML ručně), v Blade vypsat neescapovaně přes `{!! $value !!}` (Blade ekvivalent `| safe`). Viz `FaqItemForm` + `components/faq.blade.php`.
+
+**JS chování widgetu** (ne site chrome): pokud makro/widget má v `main.js` vlastní, samostatný blok chování (např. FAQ akordeon `[data-faq-toggle]`), zkopíruj jen ten blok do `web/resources/js/app.js` (ne celý `main.js` najednou — ten obsahuje i header/mobile-nav JS, které čeká na port site chrome). Odkazuj v komentáři na zdrojový blok v `ui/src/js/main.js`.
 
 ### Widgety (sekce stránek) → Blade views/komponenty
 - Stejný princip jako makra, ale často už s reálnými daty místo mock JSON — widget přijímá Eloquent kolekci/model místo pole z `ui/src/_data/*.json`.

@@ -7,6 +7,10 @@
 @import './01_base/typography.css';
 @import './02_components/layout.css';
 @import './02_components/partner-card.css';
+@import './02_components/tag.css';
+@import './02_components/button.css';
+@import './02_components/faq.css';
+@import './02_components/info-panel.css';
 @import './02_components/section.css';
 
 /* Design tokeny — zrcadlené z ui/src/styles/style.css (@theme blok). Při úpravě tokenů
