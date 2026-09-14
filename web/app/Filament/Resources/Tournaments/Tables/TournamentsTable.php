@@ -35,7 +35,7 @@ class TournamentsTable
                     ->label('Místo'),
                 IconColumn::make('badge')
                     ->boolean()
-                    ->label('Žebříček'),
+                    ->label('Badge'),
                 IconColumn::make('soon')
                     ->boolean()
                     ->label('Blíží se'),
