@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\FaqItem;
+use App\Models\Notice;
 use App\Models\Partner;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
@@ -29,8 +30,9 @@ class PublicPagesTest extends TestCase
         Tournament::factory()->create(['tournament_category_id' => $tournamentCategory->id]);
         $articleCategory = ArticleCategory::factory()->create();
         Article::factory()->create(['article_category_id' => $articleCategory->id]);
+        Notice::factory()->create();
 
-        foreach (['/partneri', '/faq', '/turnaje', '/novinky'] as $url) {
+        foreach (['/partneri', '/faq', '/turnaje', '/novinky', '/zpravodajstvi/vykonny-vybor'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -52,5 +54,20 @@ class PublicPagesTest extends TestCase
         $response->assertOk();
         $response->assertSee($article->title);
         $response->assertSee('Test body', false);
+    }
+
+    public function test_notice_detail_page_renders(): void
+    {
+        $notice = Notice::factory()->create([
+            'is_important' => true,
+            'body' => '<p>Test notice body</p>',
+        ]);
+
+        $response = $this->get(route('zpravodajstvi.vykonny-vybor.show', $notice->slug));
+
+        $response->assertOk();
+        $response->assertSee($notice->title);
+        $response->assertSee('Test notice body', false);
+        $response->assertSee('Důležité');
     }
 }

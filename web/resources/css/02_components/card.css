@@ -24,3 +24,4 @@
    portování dalšího card variantu sem přidej odpovídající @import. */
 @import "./card/tournament.css";
 @import "./card/article-grid.css";
+@import "./card/notice.css";
