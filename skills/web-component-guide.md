@@ -177,7 +177,7 @@ Referenční příklad prvního **reálného list+detail páru** (na rozdíl od 
 - `components/notice-card.blade.php` mirrors `macros/card/notice.njk` (`size="md"` kompaktní řádek se šipkou | `size="lg"` větší karta s excerptem, bez šipky — na listing stránce používáme `size="lg"`, stejně jako `ui/`).
 - **Detail stránka nemá vlastní komponentu** — `ui/`'s `vykonny-vybor-detail.njk` přímo znovupoužívá `articleContent()` (jen `tagPosition="inline"`, `tagColor="accent"`), takže `zpravodajstvi/vykonny-vybor-detail.blade.php` dělá to samé s `<x-article-content>` — žádný nový "notice content" widget.
 - "Důležité" (`is_important` boolean) se mapuje na `tagText="DŮLEŽITÉ"`/`"Důležité"` + `tagColor="accent"` (default barva `notice-card`u i `<x-tag>` volání) — stejný mechanismus jako v `ui/` (žádná speciální `.c-notice--important` třída, jen barevný tag).
-- **"Kontakt" info box na téhle stránce (ne Novinek) je pořád vynechaný** — `newsGrid`'s sidebar grid layout (`.c-news-grid__layout`/`__sidebar`) už je hotový a používaný na Novinkách (viz výše), na `/zpravodajstvi/vykonny-vybor` ho ale `ui/` naplňuje jiným obsahem (prostý kontaktní box, ne notice karty) — až bude potřeba, jen se doplní obsah do stejného, už existujícího layoutu.
+- **"Kontakt" info box je hotový** — stejný `.c-section__grid c-news-grid__layout`/`<aside class="c-news-grid__sidebar">` layout jako Novinky, ale naplněný `.c-news-grid__info` blokem (nadpis s obálkovou ikonou + `mailto:` odkaz), ne notice kartami — přesně jak to dělá `ui/`'s vlastní `newsGrid()` volání na téhle stránce.
 
 ### Widgety (sekce stránek) → Blade views/komponenty
 - Stejný princip jako makra, ale často už s reálnými daty místo mock JSON — widget přijímá Eloquent kolekci/model místo pole z `ui/src/_data/*.json`.
