@@ -126,6 +126,8 @@ DB je zatím SQLite (`database/database.sqlite`) — žádná závislost na bě�
 
 > ⚠️ **PAST: `DatabaseSeeder`/libovolný seeder nesmí mít `use WithoutModelEvents;`, pokud se v projektu spoléháme na model eventy (např. `HasSlug`'s `creating`).** Laravel to do `DatabaseSeeder` scaffoldu dává defaultně (kvůli rychlosti u `User::factory(10)->create()`), ale ten trait **potichu vypne všechny model eventy pro celý běh seederu** — `slug` se pak nikdy nedopočítá a insert spadne na `NOT NULL constraint` bez zjevné souvislosti s eventy. Trait jsme z `DatabaseSeeder` odstranili — nepřidávej ho zpátky, pokud si nejsi jistý, že žádný aktivní model nespoléhá na `creating`/`saving`/atd.
 
+> ⚠️ **PAST: `php artisan serve`/`composer run dev` bez `PHP_CLI_SERVER_WORKERS` běží jednovláknově — obsluhuje jen jeden request najednou.** Livewire (Filamentu) si pro leccos (např. náhled velikosti nahraného souboru u `FileUpload`) posílá vlastní asynchronní dotaz na server — pokud v tu chvíli visí jiné spojení, tenhle dotaz čeká ve frontě donekonečna a v UI to vypadá jako věčné "Loading" bez chybové hlášky. Řešení: `PHP_CLI_SERVER_WORKERS=4` v `.env` (odkomentováno v `.env`/`.env.example`) — čte se jen při startu serveru, po změně je nutný restart `php artisan serve`/`composer run dev`.
+
 ---
 
 ## 3. Workflow: přenos z `ui/` do `web/`
