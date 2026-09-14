@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Models\Notice;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
     /**
-     * "Novinky" — mirrors ui/src/novinky.njk (article grid only; the "Důležité zprávy" sidebar
-     * reuses the Notice model and is deferred until Notice gets its own public surface).
-     * Category filter pills are decorative, same as ui/'s own (search/filter aren't wired up
-     * to real filtering there either — see components/news-header.blade.php).
+     * "Novinky" — mirrors ui/src/novinky.njk, including the "Důležité zprávy" sidebar (a real
+     * query against Notice now that it has its own public surface, instead of ui/'s 4
+     * hand-picked static examples). Category filter pills are decorative, same as ui/'s own
+     * (search/filter aren't wired up to real filtering there either — see
+     * components/news-header.blade.php).
      */
     public function index(): View
     {
@@ -32,9 +34,15 @@ class ArticleController extends Controller
                 ])
             );
 
+        $sidebarNotices = Notice::whereNotNull('published_at')
+            ->orderByDesc('published_at')
+            ->take(4)
+            ->get();
+
         return view('novinky', [
             'articles' => $articles,
             'categoryTabs' => $categoryTabs,
+            'sidebarNotices' => $sidebarNotices,
         ]);
     }
 

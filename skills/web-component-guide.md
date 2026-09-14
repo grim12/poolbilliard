@@ -170,12 +170,14 @@ Referenční příklad prvního **reálného list+detail páru** (na rozdíl od 
 - **Kategorie filtr taby jsou pořád dekorativní** (stejně jako v `ui/` — tam explicitně říká "search/filter je záměrně inertní"), ale postavené z reálných `ArticleCategory` záznamů + "Vše" natvrdo napřed, ne z hardcoded pole. `data-category` hodnota je `Str::slug($category->name)` za běhu — `ArticleCategory` nemá vlastní `slug` sloupec, není potřeba, dokud se filtr fakticky nezapojí.
 - **Galerie zatím bez lightboxu** (GLightbox není portovaný) — dlaždice v `components/gallery.blade.php` mají navíc `target="_blank"` oproti `ui/`'s předloze, ať klik aspoň neopustí článek. Až se GLightbox portuje, `target="_blank"` zase odstranit a přidat `glightbox`/`data-gallery` zpátky.
 - Nové utility soubory poprvé portované touhle dávkou: `04_utils/{spacing,backgrounds,borders}.css` (`.pt-none`/`.pb-none`, `.bg-gradient-light`, `.border-top`/`.border-bottom`) — potřebné, jakmile se sekce s různým/stejným pozadím řadí za sebe (viz `skills/ui-component-guide.md`'s "PAST" o dvojitém paddingu/borderu).
+- **"Důležité zprávy" sidebar je hotový** — `.c-section__grid c-news-grid__layout` (dvousloupcový grid) + `<aside class="c-news-grid__sidebar">` s `notice-card`y, přesná struktura `widgets/news-grid.njk`'s `{% call %}` bloku. `ArticleController::index()` bere 4 nejnovější zprávy (`Notice::orderByDesc('published_at')->take(4)`) místo `ui/`'s 4 ručně vypsaných příkladů — stejný princip jako u "podobných článků".
+
 ### Zprávy výboru (`/zpravodajstvi/vykonny-vybor`, `/zpravodajstvi/vykonny-vybor/{notice:slug}`)
 
 - `components/notice-card.blade.php` mirrors `macros/card/notice.njk` (`size="md"` kompaktní řádek se šipkou | `size="lg"` větší karta s excerptem, bez šipky — na listing stránce používáme `size="lg"`, stejně jako `ui/`).
 - **Detail stránka nemá vlastní komponentu** — `ui/`'s `vykonny-vybor-detail.njk` přímo znovupoužívá `articleContent()` (jen `tagPosition="inline"`, `tagColor="accent"`), takže `zpravodajstvi/vykonny-vybor-detail.blade.php` dělá to samé s `<x-article-content>` — žádný nový "notice content" widget.
 - "Důležité" (`is_important` boolean) se mapuje na `tagText="DŮLEŽITÉ"`/`"Důležité"` + `tagColor="accent"` (default barva `notice-card`u i `<x-tag>` volání) — stejný mechanismus jako v `ui/` (žádná speciální `.c-notice--important` třída, jen barevný tag).
-- "Kontakt" info box, který `ui/` dává do `newsGrid`'s sidebaru, je vynechaný — stejné zjednodušení jako u Novinek (žádný sidebar layout zatím neexistuje).
+- **"Kontakt" info box na téhle stránce (ne Novinek) je pořád vynechaný** — `newsGrid`'s sidebar grid layout (`.c-news-grid__layout`/`__sidebar`) už je hotový a používaný na Novinkách (viz výše), na `/zpravodajstvi/vykonny-vybor` ho ale `ui/` naplňuje jiným obsahem (prostý kontaktní box, ne notice karty) — až bude potřeba, jen se doplní obsah do stejného, už existujícího layoutu.
 
 ### Widgety (sekce stránek) → Blade views/komponenty
 - Stejný princip jako makra, ale často už s reálnými daty místo mock JSON — widget přijímá Eloquent kolekci/model místo pole z `ui/src/_data/*.json`.

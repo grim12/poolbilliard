@@ -1,7 +1,6 @@
 {{--
-    Mirrors ui/src/novinky.njk — article grid + real pagination. The "Důležité zprávy"
-    sidebar (reuses the Notice model) is deferred until Notice gets its own public surface,
-    see skills/web-component-guide.md.
+    Mirrors ui/src/novinky.njk — article grid + real pagination + "Důležité zprávy" sidebar
+    (real Notice query instead of ui/'s hand-picked static list).
 --}}
 <x-layouts.app title="Novinky — Poolbilliard">
     <div class="bg-gradient-light">
@@ -9,21 +8,43 @@
 
         <section class="c-section c-section--news-grid pt-none">
             <div class="c-container">
-                <div class="c-section__grid c-news-grid__cards">
-                    @foreach ($articles as $article)
-                        <x-article-card
-                            :title="$article->title"
-                            :url="route('novinky.show', $article->slug)"
-                            :image="$article->image_url"
-                            :tag-text="$article->category?->name"
-                            :tag-color="$article->category?->color"
-                            :date="$article->date_text"
-                            :excerpt="$article->excerpt"
-                        />
-                    @endforeach
-                </div>
+                <div class="c-section__grid c-news-grid__layout">
+                    <div class="c-news-grid__main">
+                        <div class="c-news-grid__cards">
+                            @foreach ($articles as $article)
+                                <x-article-card
+                                    :title="$article->title"
+                                    :url="route('novinky.show', $article->slug)"
+                                    :image="$article->image_url"
+                                    :tag-text="$article->category?->name"
+                                    :tag-color="$article->category?->color"
+                                    :date="$article->date_text"
+                                    :excerpt="$article->excerpt"
+                                />
+                            @endforeach
+                        </div>
 
-                <x-pagination :paginator="$articles" />
+                        <x-pagination :paginator="$articles" />
+                    </div>
+
+                    <aside class="c-news-grid__sidebar">
+                        <x-tag text="Výkonný výbor" color="primary" variant="plain" size="sm" class="c-news-grid__sidebar-tag" />
+                        <h2 class="h4 c-news-grid__sidebar-title">Důležité zprávy</h2>
+
+                        <div class="c-news-grid__sidebar-list">
+                            @foreach ($sidebarNotices as $notice)
+                                <x-notice-card
+                                    :title="$notice->title"
+                                    :url="route('zpravodajstvi.vykonny-vybor.show', $notice->slug)"
+                                    :tag-text="$notice->is_important ? 'DŮLEŽITÉ' : ''"
+                                    :date="$notice->date_text"
+                                />
+                            @endforeach
+                        </div>
+
+                        <x-button text="Archiv všech zpráv" :url="route('zpravodajstvi.vykonny-vybor')" variant="link" class="w-full" />
+                    </aside>
+                </div>
             </div>
         </section>
     </div>
