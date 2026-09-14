@@ -1,0 +1,22 @@
+{#
+    noResults(title, text, icon, extraClass, headingLevel)
+    - Generic empty-state block: dashed-border card with an icon + message.
+    - Used anywhere a filtered/searched list can come back empty (filtered cards, search
+      results, …) — e.g. shown under the Kalendář tournament cards when a filter excludes
+      everything.
+    - title: main message, e.g. "Žádné akce neodpovídají zvoleným filtrům."
+    - text: optional smaller supporting line
+    - icon: heroicon name (default "magnifying-glass")
+    - headingLevel: "p" (default) | "h2" | "h3" | "h4" — use a heading only if this block
+      is the primary content of its section, not just a fallback state next to real content
+#}
+{% macro noResults(title, text="", icon="magnifying-glass", extraClass="", headingLevel="p") %}
+{%- set classes = ["c-no-results", extraClass] | select | join(" ") -%}
+<div class="{{ classes }}">
+    <span class="c-no-results__icon" aria-hidden="true">
+        {% icon icon, 28 %}
+    </span>
+    <{{ headingLevel }} class="c-no-results__title">{{ title }}</{{ headingLevel }}>
+    {% if text %}<p class="c-no-results__text">{{ text }}</p>{% endif %}
+</div>
+{% endmacro %}

@@ -1,0 +1,206 @@
+{% from "macros/button.njk" import button %}
+
+{% set navItems = [
+    {
+        text: "Novinky",
+        url: "/novinky/",
+        children: [
+            { text: "Články", url: "/novinky/" },
+            { text: "Zprávy výkonného výboru", url: "/zpravodajstvi/vykonny-vybor" }
+        ]
+    },
+    { text: "Kalendář", url: "/kalendar/" },
+    {
+        text: "Kde hrát",
+        url: "/kluby/",
+        children: [
+            { text: "Kluby", url: "/kluby/" },
+            { text: "Herny", url: "/herny/" }
+        ]
+    },
+    { text: "Soutěže", url: "/souteze/" },
+    {
+        text: "Jak začít",
+        url: "/jak-zacit/",
+        isActive: true,
+        children: [
+            { text: "Jsem začátečník", url: "/jak-zacit/#zacatecnik" },
+            { text: "Jsem rekreační hráč", url: "/jak-zacit/#rekreacni-hrac" },
+            { text: "Jsem rodič", url: "/jak-zacit/#rodic" },
+            { text: "Pravidla kulečníku", url: "/pravidla/" }
+        ]
+    },
+    { text: "Svaz", url: "/sportovni-svaz/" }
+] %}
+
+{#
+    navDropdown(text, url, items, isActive)
+    - Desktop nav link with a chevron + hover/focus dropdown panel of demo links
+#}
+{% macro navDropdown(text, url, items, isActive=false) %}
+<div class="c-header__nav-item">
+    <a class="c-header__nav-link{{ ' c-header__nav-link--is-active' if isActive }}" href="{{ url }}" aria-haspopup="true">
+        {{ text }}
+        {% icon "chevron-down", 16, "c-header__nav-chevron" %}
+    </a>
+    <div class="c-header__dropdown">
+        {% for item in items %}
+            <a class="c-header__dropdown-link" href="{{ item.url }}">{{ item.text }}</a>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+{#
+    mobileNavItem(text, url, children, isActive)
+    - Mobile nav link; when children are given, renders a tap-to-expand accordion instead
+#}
+{% macro mobileNavItem(text, url, children, isActive=false) %}
+{% if children %}
+<div class="c-header__mobile-nav-item" data-accordion>
+    <div class="c-header__mobile-nav-row">
+        <a class="c-header__nav-link{{ ' c-header__nav-link--is-active' if isActive }}" href="{{ url }}">{{ text }}</a>
+        <button type="button" class="c-header__mobile-nav-toggle" data-accordion-toggle aria-expanded="false" aria-label="Rozbalit podnabídku {{ text }}">
+            {% icon "chevron-down", 16, "c-header__nav-chevron" %}
+        </button>
+    </div>
+    <div class="c-header__mobile-nav-sublist" data-accordion-panel>
+        {% for child in children %}
+            <a class="c-header__mobile-nav-sublink" href="{{ child.url }}">{{ child.text }}</a>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<a class="c-header__nav-link{{ ' c-header__nav-link--is-active' if isActive }}" href="{{ url }}">{{ text }}</a>
+{% endif %}
+{% endmacro %}
+
+<header class="c-header{{ ' t-dark' if headerDark }}">
+  <div class="c-header__topbar">
+    <div class="c-container c-header__topbar-inner">
+      <ul class="c-header__topbar-links">
+        <li><a href="/faq/">FAQ</a></li>
+        <li>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            ČMBS
+            {% icon "arrow-top-right-on-square", 12 %}
+          </a>
+        </li>
+      </ul>
+
+      <ul class="c-header__topbar-socials">
+        <li>
+          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            {% brandIcon "facebook", 18 %}
+          </a>
+        </li>
+        <li>
+          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            {% brandIcon "instagram", 18 %}
+          </a>
+        </li>
+        <li>
+          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            {% brandIcon "whatsapp", 18 %}
+          </a>
+        </li>
+        <li>
+          <a href="#" class="c-header__topbar-tv" target="_blank" rel="noopener noreferrer">
+            {% brandIcon "youtube", 18 %}
+            ČMBS TV
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="c-header__main">
+    <div class="c-container c-header__main-inner">
+      <a href="/" class="c-header__brand" aria-label="Český pool — domů">
+        <span class="c-header__brand-badge">
+          <img class="c-header__brand-logo" src="/uploads/cesky_pool.png" alt="Český Pool" />
+        </span>
+      </a>
+
+      <nav class="c-header__nav" aria-label="Hlavní navigace">
+        {% for item in navItems %}
+            {% if item.children %}
+                {{ navDropdown(item.text, item.url, item.children, item.isActive) }}
+            {% else %}
+                <a class="c-header__nav-link{{ ' c-header__nav-link--is-active' if item.isActive }}" href="{{ item.url }}">{{ item.text }}</a>
+            {% endif %}
+        {% endfor %}
+      </nav>
+
+      <div class="c-header__actions">
+        {{ button(text="Registrace na turnaje", url="/kalendar/", color="accent", size="sm", hasArrow=false) }}
+
+        <div class="c-header__utility">
+          <div class="c-header__lang">
+            <button type="button" class="c-header__lang-btn" aria-haspopup="true" aria-expanded="false">
+              CZ
+              {% icon "chevron-down", 12, "c-header__lang-chevron" %}
+            </button>
+            <div class="c-header__lang-dropdown">
+              <a href="#" class="c-header__lang-option c-header__lang-option--is-active">CZ — Čeština</a>
+              <a href="#" class="c-header__lang-option">EN — English</a>
+            </div>
+          </div>
+
+          <button type="button" class="c-header__search-toggle" data-search-toggle aria-expanded="false" aria-controls="header-search-panel" aria-label="Hledat">
+            {% icon "magnifying-glass", 20 %}
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="c-header__toggle" data-header-toggle aria-expanded="false" aria-controls="header-mobile-panel" aria-label="Otevřít menu">
+        {% icon "bars-3", 22 %}
+      </button>
+    </div>
+
+    <div class="c-header__search-panel" id="header-search-panel" data-search-panel>
+      <div class="c-container c-header__search-panel-inner">
+        <form class="c-header__search-form" role="search" action="#" method="get">
+          <button type="submit" class="c-header__search-submit" aria-label="Hledat">
+            {% icon "magnifying-glass", 18 %}
+          </button>
+          <input type="search" name="q" class="c-header__search-input" data-search-input placeholder="Hledat kluby, hráče, novinky…" />
+        </form>
+        <button type="button" class="c-header__search-close" data-search-close aria-label="Zavřít vyhledávání">
+          {% icon "x-mark", 18 %}
+        </button>
+      </div>
+    </div>
+
+    <div class="c-header__mobile-panel" id="header-mobile-panel" data-header-panel hidden>
+      {% for item in navItems %}
+          {{ mobileNavItem(item.text, item.url, item.children, item.isActive) }}
+      {% endfor %}
+
+      <div class="c-header__mobile-utility">
+        <div class="c-header__lang-switch" role="group" aria-label="Přepnout jazyk">
+          <button type="button" class="c-header__lang-switch-option c-header__lang-switch-option--is-active">CZ</button>
+          <button type="button" class="c-header__lang-switch-option">EN</button>
+        </div>
+
+        <button type="button" class="c-header__search-toggle" data-search-toggle aria-expanded="false" aria-controls="header-mobile-search-panel" aria-label="Hledat">
+          {% icon "magnifying-glass", 20 %}
+        </button>
+      </div>
+
+      <div class="c-header__mobile-search" id="header-mobile-search-panel" data-search-panel>
+        <div class="c-header__mobile-search-inner">
+          <form class="c-header__search-form" role="search" action="#" method="get">
+            <button type="submit" class="c-header__search-submit" aria-label="Hledat">
+              {% icon "magnifying-glass", 18 %}
+            </button>
+            <input type="search" name="q" class="c-header__search-input" data-search-input placeholder="Hledat kluby, hráče, novinky…" />
+          </form>
+          <button type="button" class="c-header__search-close" data-search-close aria-label="Zavřít vyhledávání">
+            {% icon "x-mark", 18 %}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

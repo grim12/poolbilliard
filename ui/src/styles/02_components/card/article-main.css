@@ -1,0 +1,47 @@
+@layer components {
+  /* ==========================================================================
+     Card: Article Main (Hero / Featured Article)
+     ========================================================================== */
+
+  .c-card--article-main {
+    @apply flex flex-col w-full rounded-4xl bg-dark shadow-card-lg sm:block sm:relative sm:overflow-hidden;
+    @apply sm:min-h-90 md:min-h-100 lg:min-h-115 xl:min-h-144;
+
+    .c-card__media {
+      @apply w-full aspect-3/2 overflow-hidden rounded-t-3xl sm:rounded-none sm:absolute sm:inset-0 sm:h-full;
+
+      img {
+        @apply w-full h-full object-cover transition-transform duration-700 ease-out;
+      }
+    }
+
+    .c-card__overlay {
+      @apply hidden sm:block sm:absolute sm:inset-0 sm:bg-[linear-gradient(14deg,var(--color-primary-950)_20%,transparent_65%)];
+    }
+
+    .c-card__body {
+      @apply flex flex-col justify-start p-6 sm:absolute sm:inset-0 sm:justify-end sm:h-full sm:z-10 sm:p-8 lg:pt-12 lg:pr-24 lg:pb-12 lg:pl-12;
+    }
+
+    .c-card__meta {
+      @apply flex items-baseline gap-3 mb-3 sm:mb-4 flex-wrap text-sm font-medium;
+
+      /* Override tags inside article-main if needed */
+      .c-tag {
+        @apply shadow-sm;
+      }
+    }
+
+    .c-card__date {
+      @apply text-xs sm:text-sm font-medium text-white/90;
+    }
+
+    /* Hover + keyboard-focus interactions */
+    &:hover,
+    &:focus-within {
+      .c-card__media img {
+        @apply scale-105 -rotate-1;
+      }
+    }
+  }
+}

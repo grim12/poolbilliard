@@ -1,0 +1,32 @@
+@layer components {
+  /* ==========================================================================
+     Section: Homepage featured articles (main article + latest news sidebar)
+     ========================================================================== */
+
+  .c-section--hp-featured-articles {
+    @apply py-4 md:py-6 lg:py-8 relative overflow-hidden;
+
+    .c-section__grid {
+      @apply lg:grid-cols-[2fr_1fr] gap-4 relative;
+    }
+
+    .c-section__featured {
+      @apply h-full;
+    }
+
+    .c-card--article-main {
+      @apply md:h-full;
+    }
+
+    .c-section__sidebar {
+      @apply flex flex-col gap-4;
+    }
+
+    .c-section__sidebar-list {
+      @apply flex flex-col gap-4 grow sm:grid sm:grid-cols-2 lg:flex lg:flex-col;
+      .c-card {
+        @apply flex-1;
+      }
+    }
+  }
+}

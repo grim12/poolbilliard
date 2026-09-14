@@ -1,0 +1,57 @@
+{% from "macros/tag.njk" import tag %}
+
+{#
+    card_article_grid(title, url, image, imageAlt, tagText, tagColor, tagVariant, date, excerpt, extraClass, headingLevel)
+    - Vertical card for a listing grid: image on top, tag + date, title, short excerpt below.
+    - title: Article title
+    - url: Link URL
+    - image: Image URL
+    - imageAlt: Alt text for image (leave empty — image is decorative, whole card is one link labelled via aria-label)
+    - tagText: Text for category badge
+    - tagColor: "primary" (default) | "accent" | "dark" | "gold"
+    - tagVariant: "plain" (default) | "subtle" | "solid" | "outline"
+    - date: Publication date string
+    - excerpt: Optional short lead paragraph
+    - extraClass: Optional extra classes on root card
+    - headingLevel: "h3" (default) | "h4" | "h2" | "div"
+#}
+{% macro card_article_grid(
+    title,
+    url="#",
+    image="",
+    imageAlt="",
+    tagText="",
+    tagColor="primary",
+    tagVariant="plain",
+    date="",
+    excerpt="",
+    extraClass="",
+    headingLevel="h3"
+) -%}
+    {%- set classes = ["c-card", "c-card--article-grid", extraClass] | select | join(" ") -%}
+    <article class="{{ classes }}">
+        <a href="{{ url }}" class="c-card__link" aria-label="{{ title }}">
+            {% if image %}
+                <div class="c-card__media">
+                    <img src="{{ image }}" alt="{{ imageAlt }}" loading="lazy" />
+                </div>
+            {% endif %}
+            <div class="c-card__body">
+                {% if tagText or date %}
+                    <div class="c-card__meta">
+                        {% if tagText %}
+                            {{ tag(text=tagText, color=tagColor, variant=tagVariant, size="sm") }}
+                        {% endif %}
+                        {% if date %}
+                            <time class="c-card__date">{{ date }}</time>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                <{{ headingLevel }} class="c-card__title">{{ title }}</{{ headingLevel }}>
+                {% if excerpt %}
+                    <p class="c-card__excerpt">{{ excerpt }}</p>
+                {% endif %}
+            </div>
+        </a>
+    </article>
+{%- endmacro %}

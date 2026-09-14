@@ -1,0 +1,16 @@
+{#
+    backLink(text, url, extraClass)
+    - Generic "back to listing" link, used as a breadcrumb-substitute above a page's H1 on
+      every detail/sub-listing page (novinky, articleContent, tournamentContent, clubHero...).
+    - One shared component so every page renders the exact same back button instead of each
+      section hand-rolling its own copy of the same markup.
+    - extraClass: additional utility classes — e.g. spacing tweaks for the section it sits in
+      (that section owns the spacing around it, not this component).
+#}
+{% macro backLink(text="Zpět", url="#", extraClass="") -%}
+    {%- set classes = ["c-back-link", extraClass] | select | join(" ") -%}
+    <a href="{{ url }}" class="{{ classes }}">
+        {% icon "arrow-left", 18 %}
+        {{ text }}
+    </a>
+{%- endmacro %}

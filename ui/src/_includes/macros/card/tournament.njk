@@ -1,0 +1,55 @@
+{% from "macros/tag.njk" import tag %}
+
+{#
+    card_tournament(title, url, tagText, tagColor, tagVariant, dateText, locationText, badge, soon, extraClass, headingLevel)
+    - title: Tournament name
+    - url: Link URL
+    - tagText: Category text (e.g. "ČMBS", "MEZINÁRODNÍ")
+    - tagColor: "primary" (default) | "accent" | "gold" | "dark" | "gray"
+    - tagVariant: "plain" (default) | "solid" | "subtle" | "outline"
+    - dateText: Date / date range string
+    - locationText: "City · Venue" string
+    - badge: true -> shows a gold medal badge (ranking-counting tournament) | false (default)
+    - soon: true -> highlights dateText as bold red (upcoming/blížící se) | false (default)
+    - extraClass: Optional extra classes on root card
+    - headingLevel: "h3" (default) | "h4" | "h2" | "div"
+#}
+{% macro card_tournament(
+    title,
+    url="#",
+    tagText="",
+    tagColor="primary",
+    tagVariant="plain",
+    dateText="",
+    locationText="",
+    badge=false,
+    soon=false,
+    extraClass="",
+    headingLevel="h3"
+) -%}
+    {%- set classes = ["c-card", "c-card--tournament", extraClass] | select | join(" ") -%}
+    <article class="{{ classes }}">
+        <a href="{{ url }}" class="c-card__link" aria-label="{{ title }}">
+            <div class="c-card__header">
+                {% if tagText %}
+                    {{ tag(text=tagText, color=tagColor, variant=tagVariant, size="sm") }}
+                {% endif %}
+                {% if badge %}
+                    <span class="c-card__badge" aria-hidden="true">
+                        {% icon "trophy", 22 %}
+                    </span>
+                {% endif %}
+            </div>
+            <div class="c-card__row">
+                <{{ headingLevel }} class="c-card__title">{{ title }}</{{ headingLevel }}>
+                {% icon "chevron-right", 24, "c-card__arrow", 20 %}
+            </div>
+            {% if dateText or locationText %}
+                <div class="c-card__info">
+                    {% if dateText %}<p class="c-card__date{% if soon %} c-card__date--soon{% endif %}">{{ dateText }}</p>{% endif %}
+                    {% if locationText %}<p class="c-card__location">{{ locationText }}</p>{% endif %}
+                </div>
+            {% endif %}
+        </a>
+    </article>
+{%- endmacro %}

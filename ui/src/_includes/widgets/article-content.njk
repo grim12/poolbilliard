@@ -1,0 +1,63 @@
+{% from "macros/tag.njk" import tag %}
+{% from "macros/back-link.njk" import backLink %}
+
+{#
+    articleContent(backText, backUrl, tagText, tagColor, tagPosition, title, date, image, imageAlt, classes)
+    - Breadcrumb + header (category tag, title, date) + hero image for an article detail page.
+    - Body copy (h3/p/strong/ul/ol) is passed as the call block, e.g.:
+      {% call articleContent(title="...", date="...", image="...") %}
+          <p>...</p>
+          <h3>...</h3>
+      {% endcall %}
+    - tagColor: "primary" (default) | "accent" | "dark" | "gray" | "gold"
+    - tagPosition: "above" (default) — tag on its own line above the title | "inline" — tag next to the date, below the title
+#}
+{% macro articleContent(
+    backText="Zpět na novinky",
+    backUrl="#",
+    tagText="",
+    tagColor="primary",
+    tagPosition="above",
+    title="",
+    date="",
+    image="",
+    imageAlt="",
+    classes=""
+) %}
+<section class="{{ ["c-section", "c-section--article", classes] | select | join(" ") }}">
+    <div class="c-container">
+        {{ backLink(text=backText, url=backUrl) }}
+    </div>
+
+    <div class="c-container c-section__inner">
+        <header class="c-section__header">
+            {% if tagText and tagPosition == "above" %}
+                {{ tag(text=tagText, color=tagColor, variant="plain", size="sm", extraClass="c-section__tag") }}
+            {% endif %}
+            <h1 class="c-section__title">{{ title }}</h1>
+            {% if tagPosition == "inline" and (tagText or date) %}
+                <div class="c-section__meta">
+                    {% if date %}
+                        <time class="c-section__date">{{ date }}</time>
+                    {% endif %}
+                    {% if tagText %}
+                        {{ tag(text=tagText, color=tagColor, variant="subtle", size="sm") }}
+                    {% endif %}
+                </div>
+            {% elif date %}
+                <time class="c-section__date">{{ date }}</time>
+            {% endif %}
+        </header>
+
+        {% if image %}
+            <div class="c-section__media">
+                <img src="{{ image }}" alt="{{ imageAlt }}" loading="lazy" />
+            </div>
+        {% endif %}
+
+        <div class="c-section__body">
+            {{ caller() }}
+        </div>
+    </div>
+</section>
+{% endmacro %}

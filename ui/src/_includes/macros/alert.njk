@@ -1,0 +1,29 @@
+{#
+    alert(icon, title, text, color, size, extraClass)
+    - Horizontal notice card: icon badge + title + text — e.g. "Nábor uzavřen"/"Nábor otevřen"
+      on the club detail page. Generic, not tied to that one use case.
+    - color: "gray" (default, neutral) | "primary" | "accent" | "gold"
+    - size: "md" (default) | "lg" — bigger icon badge + title, for a more prominent notice
+#}
+{% macro alert(
+    icon="information-circle",
+    title="",
+    text="",
+    color="gray",
+    size="md",
+    extraClass=""
+) -%}
+    {%- set colorClass = ("c-alert--" + color) if (color and color != "gray") else "" -%}
+    {%- set sizeClass = ("c-alert--" + size) if (size and size != "md") else "" -%}
+    {%- set iconSize = 28 if size == "lg" else 20 -%}
+    {%- set classes = ["c-alert", colorClass, sizeClass, extraClass] | select | join(" ") -%}
+    <div class="{{ classes }}" role="note">
+        <span class="c-alert__icon" aria-hidden="true">
+            {% icon icon, iconSize %}
+        </span>
+        <div class="c-alert__body">
+            {% if title %}<p class="c-alert__title">{{ title }}</p>{% endif %}
+            {% if text %}<p class="c-alert__text">{{ text }}</p>{% endif %}
+        </div>
+    </div>
+{%- endmacro %}

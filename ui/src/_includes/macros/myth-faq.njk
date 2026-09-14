@@ -1,0 +1,31 @@
+{#
+    mythFaq(items, idPrefix)
+    - Myth/fact list as an FAQ-style accordion — the myth is always visible as the closed-state
+      question (so it still reads as a list to skim), click reveals the correct rule as the
+      answer. Reuses the .c-faq component as-is (question/answer/chevron/panel classes, plus
+      the optional .c-faq__badge element it supports) — no separate component, see faq.njk/css.
+    - items: array of { mythText, correctText }
+    - The first item starts open (aria-expanded="true", expanded on load by main.js) so the
+      answer pattern is obvious at a glance instead of the whole list looking collapsed/inert.
+#}
+{% macro mythFaq(items=[], idPrefix="myth-faq") %}
+{% if items.length %}
+<div class="c-faq">
+    {% for item in items %}
+        <div class="c-faq__item">
+            <button type="button" class="c-faq__question" aria-expanded="{{ 'true' if loop.first else 'false' }}" aria-controls="{{ idPrefix }}-panel-{{ loop.index }}" data-faq-toggle>
+                <span class="c-faq__badge c-faq__badge--myth">{% icon "exclamation-triangle", 12 %} Mýtus</span>
+                <span class="c-faq__question-text">„{{ item.mythText | safe }}“</span>
+                {% icon "chevron-down", 20, "c-faq__chevron" %}
+            </button>
+            <div class="c-faq__panel" id="{{ idPrefix }}-panel-{{ loop.index }}" data-faq-panel>
+                <div class="c-faq__answer">
+                    <span class="c-faq__badge c-faq__badge--correct">{% icon "check-circle", 12 %} Správně</span>
+                    <p>{{ item.correctText | safe }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endmacro %}

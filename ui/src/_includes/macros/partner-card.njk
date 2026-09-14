@@ -1,0 +1,15 @@
+{#
+    partnerCard(name, image, url)
+    - Bordered logo card + caption, whole card links out to the partner's site — for the full
+      partner directory grid (Partneři). Heavier than partners()'s bare logo-wall teaser strip
+      on the homepage, which just needs a quick "who backs us" glance, not a browsable list.
+    - url: falls back to "#" if not supplied yet.
+#}
+{% macro partnerCard(name, image, url="#") %}
+<a class="c-partner-card" href="{{ url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ name }}">
+    <div class="c-partner-card__logo">
+        <img src="{{ image }}" alt="" loading="lazy" />
+    </div>
+    <p class="c-partner-card__name">{{ name }}</p>
+</a>
+{% endmacro %}

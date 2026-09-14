@@ -1,0 +1,36 @@
+{#
+    committeeList(members, classes)
+    - Row list of committee members: avatar photo + name/role on the left, email on the right —
+      see the "Výkonný výbor" panel on Svaz.
+    - members: array of { name, role, email, photo } — photo is optional per member (a
+      placeholder icon is shown instead, same "must work without the image" idea as clubDetail's
+      member grid).
+#}
+{% macro committeeList(members=[], classes="") %}
+{% if members.length %}
+<div class="{{ ["c-committee-list", classes] | select | join(" ") }}">
+    <div class="c-committee-list__head">
+        <span>Jméno</span>
+        <span>E-mail</span>
+    </div>
+    {% for member in members %}
+        <div class="c-committee-list__row">
+            <div class="c-committee-list__person">
+                <div class="c-committee-list__photo">
+                    {% if member.photo %}
+                        <img src="{{ member.photo }}" alt="" loading="lazy" />
+                    {% else %}
+                        {% icon "user-circle", 24, "c-committee-list__placeholder" %}
+                    {% endif %}
+                </div>
+                <div class="min-w-0">
+                    <p class="c-committee-list__name">{{ member.name }}</p>
+                    {% if member.role %}<p class="c-committee-list__role">{{ member.role }}</p>{% endif %}
+                </div>
+            </div>
+            <a class="c-committee-list__email" href="mailto:{{ member.email }}">{{ member.email }}</a>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endmacro %}

@@ -1,0 +1,32 @@
+---
+layout: layouts/base.njk
+title: Partneři — Poolbilliard
+---
+{% from "widgets/page-hero.njk" import pageHero %}
+{% from "macros/partner-card.njk" import partnerCard %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ pageHero(
+            title="Seznam partnerů",
+            text="Organizace, svazy a firmy, které podporují a rozvíjejí český poolbilliard."
+        ) }}
+
+        <section class="c-section c-section--partner-directory">
+            <div class="c-container">
+                <div class="c-section__grid">
+                    {% for partner in partneri %}
+                        {{ partnerCard(name=partner.name, image=partner.image, url=partner.url) }}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

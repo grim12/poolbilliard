@@ -1,0 +1,11 @@
+# Dev/staging template — password-protect the whole site (see MEMORY/README note).
+AuthType Basic
+AuthName "Restricted access"
+AuthUserFile /data/web/virtuals/164542/virtual/www/subdom/.htpasswd
+Require valid-user
+
+# Belt-and-braces: block direct HTTP access to the password file itself,
+# in case it ends up inside the webroot (same folder as this .htaccess).
+<Files ".htpasswd">
+  Require all denied
+</Files>

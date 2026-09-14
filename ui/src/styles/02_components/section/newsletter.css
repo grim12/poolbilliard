@@ -1,0 +1,41 @@
+@layer components {
+  /* ==========================================================================
+     Section: Newsletter — email capture, primary-color gradient (distinct from footer)
+     ========================================================================== */
+
+  .c-section.c-section--newsletter {
+    @apply bg-linear-to-tr from-primary-600 via-primary-800 to-primary-950;
+
+    .c-container {
+      @apply flex flex-col items-center text-center max-w-2xl mx-auto;
+    }
+  }
+
+  .c-newsletter__tag {
+    @apply mb-4;
+  }
+
+  .c-newsletter__form {
+    @apply flex flex-col xs:flex-row items-stretch gap-3 w-full max-w-lg;
+  }
+
+  .c-newsletter__field {
+    @apply relative flex-1;
+  }
+
+  .c-newsletter__icon {
+    @apply absolute inset-y-0 left-4 flex items-center text-body-500 pointer-events-none;
+  }
+
+  .c-newsletter__input {
+    @apply pl-11;
+  }
+
+  .c-newsletter__legal {
+    @apply text-sm mt-6 mb-0;
+
+    a {
+      @apply text-white underline underline-offset-2 hover:text-body-200 transition-colors duration-150;
+    }
+  }
+}

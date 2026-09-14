@@ -1,0 +1,75 @@
+{% from "macros/card/article-grid.njk" import card_article_grid %}
+{% from "macros/card/notice.njk" import notice %}
+{% from "macros/tag.njk" import tag %}
+{% from "macros/pagination.njk" import pagination %}
+
+{#
+    newsGrid(items, cardType, sidebarTagText, sidebarTitle, currentPage, totalPages, baseUrl, classes)
+    - items: array of card data.
+      cardType="article" (default): { title, url, image, tagText, tagColor, date, excerpt }
+      cardType="notice": { title, url, tagText, tagColor, date, excerpt } — bigger notice cards, single column
+    - sidebarTagText / sidebarTitle: optional small tag + heading above the sidebar's own content
+    - Sidebar content (list of cards, an info block, ...) is passed as the call block — omit the
+      call entirely to render without a sidebar:
+      {% call newsGrid(items=..., sidebarTagText="Výkonný výbor", sidebarTitle="Důležité zprávy") %}
+          <p>...</p>
+      {% endcall %}
+#}
+{% macro newsGrid(
+    items=[],
+    cardType="article",
+    sidebarTagText="",
+    sidebarTitle="",
+    currentPage=1,
+    totalPages=1,
+    baseUrl="/novinky/",
+    classes=""
+) %}
+<section class="c-section c-section--news-grid {{ classes }}">
+    <div class="c-container">
+        <div class="c-section__grid c-news-grid__layout">
+            <div class="c-news-grid__main">
+                <div class="{{ ["c-news-grid__cards", "c-news-grid__cards--notice" if cardType == "notice"] | select | join(" ") }}">
+                    {% for item in items %}
+                        {% if cardType == "notice" %}
+                            {{ notice(
+                                title=item.title,
+                                url=item.url,
+                                tagText=item.tagText,
+                                tagColor=item.tagColor,
+                                date=item.date,
+                                excerpt=item.excerpt,
+                                size="lg"
+                            ) }}
+                        {% else %}
+                            {{ card_article_grid(
+                                title=item.title,
+                                url=item.url,
+                                image=item.image,
+                                tagText=item.tagText,
+                                tagColor=item.tagColor,
+                                date=item.date,
+                                excerpt=item.excerpt
+                            ) }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                {{ pagination(currentPage=currentPage, totalPages=totalPages, baseUrl=baseUrl) }}
+            </div>
+
+            {% if caller %}
+                <aside class="c-news-grid__sidebar">
+                    {% if sidebarTagText %}
+                        {{ tag(text=sidebarTagText, color="primary", variant="plain", size="sm", extraClass="c-news-grid__sidebar-tag") }}
+                    {% endif %}
+                    {% if sidebarTitle %}
+                        <h2 class="h4 c-news-grid__sidebar-title">{{ sidebarTitle }}</h2>
+                    {% endif %}
+                    {{ caller() }}
+                </aside>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endmacro %}

@@ -1,0 +1,27 @@
+@layer components {
+  /* ==========================================================================
+     Partner card — bordered logo + caption, links out to the partner's site.
+     See macros/partner-card.njk ("Seznam partnerů" grid on Partneři).
+     ========================================================================== */
+
+  .c-partner-card {
+    @apply flex flex-col h-full items-center gap-6 rounded-3xl border border-gray-200 bg-white pt-6 sm:pt-8 px-6 sm:px-8 pb-4 sm:pb-5 no-underline transition-colors duration-150 hover:border-primary-200 hover:shadow-card-md;
+
+    &:focus-visible {
+      @apply outline-none ring-2 ring-offset-2 ring-primary-500;
+    }
+  }
+
+  .c-partner-card__logo {
+    @apply flex items-center justify-center h-16 w-full;
+
+    img {
+      @apply max-h-16 max-w-full object-contain;
+    }
+  }
+
+  /* mt-auto pins the caption to the bottom regardless of logo height or row-stretch height. */
+  .c-partner-card__name {
+    @apply text-sm font-semibold text-body-600 text-center mt-auto mb-0;
+  }
+}

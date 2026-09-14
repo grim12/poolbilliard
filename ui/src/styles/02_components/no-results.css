@@ -1,0 +1,21 @@
+@layer components {
+  /* ==========================================================================
+     No results — generic empty-state placeholder (search, filtered lists, …)
+     ========================================================================== */
+
+  .c-no-results {
+    @apply flex flex-col items-center justify-center gap-3 text-center rounded-3xl border border-dashed border-gray-300 bg-gray-50 py-14 px-6;
+  }
+
+  .c-no-results__icon {
+    @apply inline-flex items-center justify-center size-12 rounded-full bg-white border border-gray-200 text-gray-400;
+  }
+
+  .c-no-results__title {
+    @apply font-bold text-body-main text-base m-0;
+  }
+
+  .c-no-results__text {
+    @apply text-sm text-body-600 mt-1 mb-0;
+  }
+}

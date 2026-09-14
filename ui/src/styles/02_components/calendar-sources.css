@@ -1,0 +1,49 @@
+@layer components {
+  /* ==========================================================================
+     Calendar sources — white sidebar card: list of external calendars
+     ========================================================================== */
+
+  .c-calendar-sources {
+    @apply rounded-4xl bg-white border border-gray-200 p-6 sm:p-7;
+  }
+
+  .c-calendar-sources__title {
+    @apply flex items-center gap-2 text-base font-extrabold text-body-main mb-1;
+
+    svg {
+      @apply text-primary-600 shrink-0;
+    }
+  }
+
+  .c-calendar-sources__list {
+    @apply flex flex-col;
+  }
+
+  .c-calendar-sources__item {
+    @apply flex items-center justify-between gap-3 py-3.5 border-b border-gray-100 no-underline text-inherit transition-colors duration-150 hover:text-primary-600;
+
+    &:last-child {
+      @apply border-b-0 pb-0;
+    }
+  }
+
+  .c-calendar-sources__body {
+    @apply flex flex-col min-w-0;
+  }
+
+  .c-calendar-sources__name {
+    @apply font-bold text-body-main text-sm transition-colors duration-150;
+  }
+
+  .c-calendar-sources__item:hover .c-calendar-sources__name {
+    @apply text-primary-600;
+  }
+
+  .c-calendar-sources__desc {
+    @apply text-xs text-body-600 truncate;
+  }
+
+  .c-calendar-sources__external {
+    @apply text-gray-400 shrink-0;
+  }
+}

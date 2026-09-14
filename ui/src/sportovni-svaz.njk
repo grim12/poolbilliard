@@ -1,0 +1,123 @@
+---
+layout: layouts/base.njk
+title: Českomoravský billiardový svaz — Poolbilliard
+---
+{% from "widgets/page-hero.njk" import pageHero %}
+{% from "macros/button.njk" import button %}
+{% from "macros/committee-list.njk" import committeeList %}
+{% from "widgets/documents.njk" import documents %}
+{% from "widgets/notices.njk" import notices %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {{ pageHero(
+            title="Českomoravský billiardový svaz",
+            text="Stejně jako ostatní sporty má i poolbilliard svůj národní sportovní svaz, který zajišťuje organizaci soutěží, rozvoj sportu a reprezentaci České republiky."
+        ) }}
+
+        <section class="c-section c-section--svaz-info">
+            <div class="c-container">
+                <div class="c-section__grid">
+                    <div>
+                        <h2>Českomoravský billiardový svaz</h2>
+                        <p>Český poolbilliard sdružuje desítky klubů a stovky aktivních hráčů napříč republikou. ČMBS vytváří podmínky pro fungování soutěží, podporuje kluby, rozvoj mládeže i reprezentaci České republiky na mezinárodní scéně.</p>
+                        <p>Společně budujeme prostředí, ve kterém může růst rekreační i vrcholový poolbilliard.</p>
+
+                        <div class="c-svaz-info__links">
+                            {{ button(text="Oficiální web ČMBS", url="#", variant="link", size="sm", icon="arrow-top-right-on-square", target="_blank") }}
+                            {{ button(text="Stanovy ČMBS", url="#", variant="link", size="sm", icon="arrow-top-right-on-square", target="_blank") }}
+                        </div>
+
+                        <div class="c-svaz-info__divider"></div>
+
+                        <div class="c-svaz-info__tasks">
+                            <div>
+                                <h3 class="mb-3">Potřebuji vyřídit …</h3>
+                                <div class="c-svaz-info__links c-svaz-info__links--stacked">
+                                    {{ button(text="Registrace nového klubu", url="#", variant="link", size="sm", icon="arrow-top-right-on-square", target="_blank") }}
+                                    {{ button(text="Přestup hráče do jiného klubu", url="#", variant="link", size="sm", icon="arrow-top-right-on-square", target="_blank") }}
+                                    {{ button(text="Hostování hráče do jiného klubu", url="#", variant="link", size="sm", icon="arrow-top-right-on-square", target="_blank") }}
+                                </div>
+                            </div>
+                            <img src="/uploads/cmbs-logo.png" alt="ČMBS" class="c-svaz-info__logo" loading="lazy" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2>Výkonný výbor sekce Český poolbilliard</h2>
+                        <p>Pro zprávy určené celému Výkonnému výboru sekce poolbilliard ČMBS můžete využívat emailovou adresu <a href="mailto:vvs.pool@cmbs.cz">vvs.pool@cmbs.cz</a>.</p>
+                        <p>Číslo účtu: <strong>212931827/0600</strong></p>
+
+                        {{ committeeList(members=[
+                            {
+                                name: "Robin Vladyka",
+                                role: "Prezident sekce",
+                                email: "robin.vladyka@cmbs.cz",
+                                photo: "/uploads/vv-robin-vladyka.png"
+                            },
+                            {
+                                name: "Tomáš Vančura",
+                                role: "Rozvoj a podpora mládeže",
+                                email: "tomas.vancura@poolbilliard.cz",
+                                photo: "/uploads/vv-tomas-vancura.png"
+                            },
+                            {
+                                name: "Milan Ugrin",
+                                role: "Organizace soutěží a propagace",
+                                email: "milan.ugrin@poolbilliard.cz",
+                                photo: "/uploads/vv-milan-ugrin.png"
+                            },
+                            {
+                                name: "Jan Strádal",
+                                role: "Komunikace, strategické plánování a fundraising",
+                                email: "jan.stradal@poolbilliard.cz",
+                                photo: "/uploads/vv-jan-stradal.png"
+                            }
+                        ]) }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{ documents(
+            title="Dokumenty sekce Český poolbilliard",
+            years=svazDokumenty,
+            classes="pt-none"
+        ) }}
+
+        {{ notices(
+            title="Zprávy výkonného výboru",
+            subtitle="Oficiální rozhodnutí a důležité informace",
+            moreUrl="/zpravodajstvi/vykonny-vybor/",
+            classes="pt-none",
+            items=[
+                {
+                    title: "Poslední 3 dny na registraci na MČR 9 ball",
+                    url: "/zpravodajstvi/vykonny-vybor-detail/",
+                    tagText: "DŮLEŽITÉ",
+                    tagColor: "accent",
+                    date: "17. června 2026"
+                },
+                {
+                    title: "Zveřejnili jsme nasazení hráčů do sobotního 4. kola ČPT v Praze",
+                    url: "/article-detail/",
+                    date: "16. června 2026"
+                },
+                {
+                    title: "Pozvánka na valnou hromadu konanou v neděli 21. 6. 2026",
+                    url: "/article-detail/",
+                    tagText: "DŮLEŽITÉ",
+                    tagColor: "accent",
+                    date: "15. června 2026"
+                }
+            ]
+        ) }}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

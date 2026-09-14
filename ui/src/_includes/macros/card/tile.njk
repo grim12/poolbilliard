@@ -1,0 +1,33 @@
+{#
+    card_tile(title, url, image, imageAlt, extraClass, headingLevel)
+    - title: Tile label
+    - url: Link URL
+    - image: Background image URL
+    - imageAlt: Alt text (leave empty — image is decorative, whole card is one link labelled via aria-label)
+    - extraClass: Optional extra classes on root card
+    - headingLevel: "h3" (default) | "h2" | "div"
+#}
+{% macro card_tile(
+    title,
+    url="#",
+    image="",
+    imageAlt="",
+    extraClass="",
+    headingLevel="h3"
+) -%}
+    {%- set classes = ["c-card", "c-card--tile", extraClass] | select | join(" ") -%}
+    <article class="{{ classes }}">
+        <a href="{{ url }}" class="c-card__link" aria-label="{{ title }}">
+            {% if image %}
+                <div class="c-card__media">
+                    <img src="{{ image }}" alt="{{ imageAlt }}" loading="lazy" />
+                </div>
+            {% endif %}
+            <div class="c-card__overlay"></div>
+            <div class="c-card__body">
+                <{{ headingLevel }} class="c-card__title">{{ title }}</{{ headingLevel }}>
+                {% icon "chevron-right", 22, "c-card__arrow", 20 %}
+            </div>
+        </a>
+    </article>
+{%- endmacro %}

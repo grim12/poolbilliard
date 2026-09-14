@@ -1,0 +1,61 @@
+{#
+    calendarMonth(label, weekdays, weeks, prevUrl, nextUrl, todayUrl)
+    - label: Month + year heading, e.g. "Září 2026"
+    - weekdays: array of 7 short labels, Monday first (default CZ abbreviations)
+    - weeks: array of weeks; each week is an array of 7 cells (null for leading/trailing blanks)
+      cell: { day, iso, isToday, isWeekend, events: [{ title, url, tagColor }] }
+      tagColor on events: "primary" | "gold" | "accent" | "gray" (matches c-tag palette)
+    - prevUrl / nextUrl / todayUrl: month navigation (demo-only, not wired to real dates)
+#}
+{% macro calendarMonth(
+    label,
+    weekdays=["PO", "ÚT", "ST", "ČT", "PÁ", "SO", "NE"],
+    weeks=[],
+    prevUrl="#",
+    nextUrl="#",
+    todayUrl="#"
+) %}
+<div class="c-calendar">
+    <div class="c-calendar__header">
+        <h2 class="c-calendar__title">{{ label }}</h2>
+        <div class="c-calendar__nav">
+            <a href="{{ prevUrl }}" class="c-calendar__nav-btn" aria-label="Předchozí měsíc">
+                {% icon "chevron-left", 18 %}
+            </a>
+            <a href="{{ todayUrl }}" class="c-calendar__today-btn">Dnes</a>
+            <a href="{{ nextUrl }}" class="c-calendar__nav-btn" aria-label="Následující měsíc">
+                {% icon "chevron-right", 18 %}
+            </a>
+        </div>
+    </div>
+
+    {#- One shared CSS grid for weekday labels + every day cell (not one grid per row) —
+       so every row resolves the same 7 column tracks and can't drift out of alignment. -#}
+    <div class="c-calendar__grid">
+        {% for wd in weekdays %}
+            <div class="c-calendar__weekday{{ ' c-calendar__weekday--weekend' if loop.index0 >= 5 }}">{{ wd }}</div>
+        {% endfor %}
+        {% for week in weeks %}
+            {% for cell in week %}
+                {% if cell %}
+                    <div class="c-calendar__day{{ ' c-calendar__day--weekend' if cell.isWeekend }}{{ ' c-calendar__day--today' if cell.isToday }}">
+                        <span class="c-calendar__day-number">{{ cell.day }}</span>
+                        {% if cell.events.length %}
+                            <div class="c-calendar__events">
+                                {% for ev in cell.events %}
+                                    <a href="{{ ev.url }}" class="c-calendar__event c-calendar__event--{{ ev.tagColor }}" aria-label="{{ ev.title }}" title="{{ ev.title }}">
+                                        <span class="c-calendar__event-dot c-calendar__event-dot--{{ ev.tagColor }}"></span>
+                                        <span class="c-calendar__event-label">{{ ev.title }}</span>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="c-calendar__day c-calendar__day--empty" aria-hidden="true"></div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}

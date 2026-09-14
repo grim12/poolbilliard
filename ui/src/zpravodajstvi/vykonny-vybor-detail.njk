@@ -1,0 +1,31 @@
+---
+layout: layouts/base.njk
+title: Poslední 3 dny na registraci na MČR 9 ball — Poolbilliard
+---
+{% from "widgets/article-content.njk" import articleContent %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        {% call articleContent(
+            classes="bg-gradient-light",
+            backText="Zpět na zprávy výboru",
+            backUrl="/zpravodajstvi/vykonny-vybor",
+            tagText="Důležité",
+            tagColor="accent",
+            tagPosition="inline",
+            title="Poslední 3 dny na registraci na MČR 9 ball",
+            date="17. června 2026"
+        ) %}
+            <p>Připomínáme, že registrace na Mistrovství České republiky v disciplíně 9-Ball se uzavírá v pátek 20. 6. 2026 ve 23:59.</p>
+            <p>Přihlášku je možné podat prostřednictvím přihlašovacího systému ČMBS na poolbilliard.cz. Startovné je splatné při registraci, bez uhrazené platby není přihláška platná.</p>
+            <p>Výkonný výbor upozorňuje hráče, že kapacita turnaje je omezená a o pořadí na startovní listině rozhoduje čas přijetí platby. Pozdější přihlášky budou zařazeny pouze v případě volných míst.</p>
+        {% endcall %}
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>

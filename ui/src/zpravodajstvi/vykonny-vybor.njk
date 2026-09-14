@@ -1,0 +1,72 @@
+---
+layout: layouts/base.njk
+title: Zprávy výboru — Poolbilliard
+---
+{% from "widgets/news-header.njk" import newsHeader %}
+{% from "widgets/news-grid.njk" import newsGrid %}
+{% from "widgets/newsletter.njk" import newsletter %}
+
+<div class="c-page-wrapper">
+    {% include "layouts/header.njk" %}
+
+    <main id="main-content">
+        <div class="bg-gradient-light">
+        {{ newsHeader(
+            title="Zprávy výboru",
+            backText="Zpět na novinky",
+            backUrl="/novinky/",
+            showSearch=false,
+            classes="pb-none"
+        ) }}
+
+        {% call newsGrid(
+            cardType="notice",
+            currentPage=1,
+            totalPages=2,
+            baseUrl="/zpravodajstvi/vykonny-vybor",
+            items=[
+                {
+                    title: "Poslední 3 dny na registraci na MČR 9 ball",
+                    url: "/zpravodajstvi/vykonny-vybor-detail/",
+                    tagText: "DŮLEŽITÉ",
+                    tagColor: "accent",
+                    date: "17. června 2026",
+                    excerpt: "Připomínáme, že registrace na Mistrovství České republiky v disciplíně 9-Ball se uzavírá v pátek 20. 6. 2026 ve 23:59. Přihlášku je možné podat prostřednictvím přihlašovacího systému ČMBS na poolbilliard.cz. Startovné je splatné při registraci, bez uhrazené platby není přihláška platná. Výkonný výbor upozorňuje hráče, že kapacita turnaje je omezená…"
+                },
+                {
+                    title: "Zveřejnili jsme nasazení hráčů do sobotního 4. kola ČPT v Praze",
+                    url: "/article-detail/",
+                    date: "16. června 2026",
+                    excerpt: "Na webu výsledkového servisu cmbs.cz je k dispozici nasazení hráčů pro sobotní 4. kolo České Poolové Tour, které se odehraje v Billiard Rajské zahradě v Praze. Hráči jsou nasazeni podle aktuálního žebříčku ČPT po třech odehraných kolech. Prezence účastníků proběhne od 9:00, samotná hra začne v 10:00. Případné odhlášky je nutné nahlásit nejpozd…"
+                },
+                {
+                    title: "Pozvánka na valnou hromadu konanou v neděli 21. 6. 2026",
+                    url: "/article-detail/",
+                    tagText: "DŮLEŽITÉ",
+                    tagColor: "accent",
+                    date: "15. června 2026",
+                    excerpt: "Výkonný výbor svolává řádnou valnou hromadu sekce Pool ČMBS, která se uskuteční v neděli 21. 6. 2026 od 10:00 v hotelu Olšanka v Praze. Program valné hromady: 1. Zahájení a volba orgánů valné hromady 2. Zpráva o činnosti výkonného výboru za rok 2025 3. Zpráva o hospodaření a zpráva revizní komise 4. Schválení plánu činnosti a rozpočtu…"
+                },
+                {
+                    title: "Změna propozic pro letní sérii amatérských turnajů",
+                    url: "/article-detail/",
+                    date: "14. června 2026",
+                    excerpt: "Výkonný výbor schválil úpravu propozic pro letní sérii amatérských turnajů, která startuje v červenci. Hlavní změny oproti loňskému ročníku: - Disciplína 8-Ball se hraje na rasu 5, předtím 4 - Maximální handicap mezi soupeři snížen na 2 body - Startovné jednotně 200 Kč ve všech kolech série - Zavedení nové kategorie „Začátečníci“ s vlastním pavoukem…"
+                }
+            ]
+        ) %}
+            <div class="c-news-grid__info">
+                <h3 class="c-news-grid__info-heading">
+                    {% icon "envelope", 18 %}
+                    Kontakt
+                </h3>
+                <p>Pro jakékoliv informace od Sportovního svazu kontaktujte výkonný výbor na emailu <a href="mailto:vvs.pool@cmbs.cz">vvs.pool@cmbs.cz</a></p>
+            </div>
+        {% endcall %}
+        </div>
+
+        {{ newsletter() }}
+    </main>
+
+    {% include "layouts/footer.njk" %}
+</div>
