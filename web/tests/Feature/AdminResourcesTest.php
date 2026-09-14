@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Models\Article;
+use App\Models\ArticleCategory;
 use App\Models\Club;
 use App\Models\ClubMember;
 use App\Models\FaqGroup;
 use App\Models\FaqItem;
 use App\Models\Herna;
+use App\Models\Notice;
 use App\Models\Partner;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
@@ -34,6 +37,9 @@ class AdminResourcesTest extends TestCase
         Tournament::factory()->create(['tournament_category_id' => $category->id]);
         Club::factory()->has(ClubMember::factory()->count(2), 'members')->create();
         Herna::factory()->create();
+        $articleCategory = ArticleCategory::factory()->create();
+        Article::factory()->create(['article_category_id' => $articleCategory->id]);
+        Notice::factory()->create();
 
         $urls = [
             '/admin/partners',
@@ -43,6 +49,9 @@ class AdminResourcesTest extends TestCase
             '/admin/tournaments',
             '/admin/clubs',
             '/admin/hernas',
+            '/admin/article-categories',
+            '/admin/articles',
+            '/admin/notices',
             '/admin/manage-general-settings',
         ];
 
