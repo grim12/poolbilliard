@@ -1,0 +1,30 @@
+{% from "macros/card/article-grid.njk" import card_article_grid %}
+
+{#
+    relatedArticles(title, items, classes)
+    - Section listing more/related articles at the end of an article detail page.
+    - items: array of { title, url, image, imageAlt, tagText, tagColor, date, excerpt }
+#}
+{% macro relatedArticles(title="Další články", items=[], classes="") %}
+<section class="c-section c-section--related-articles {{ classes }}">
+    <div class="c-container">
+        <div class="c-section__header">
+            <h2 class="c-section__title">{{ title }}</h2>
+        </div>
+        <div class="c-section__grid">
+            {% for item in items %}
+                {{ card_article_grid(
+                    title=item.title,
+                    url=item.url,
+                    image=item.image,
+                    imageAlt=item.imageAlt,
+                    tagText=item.tagText,
+                    tagColor=item.tagColor,
+                    date=item.date,
+                    excerpt=item.excerpt
+                ) }}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endmacro %}

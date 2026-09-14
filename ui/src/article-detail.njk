@@ -5,6 +5,7 @@ hasGallery: true
 ---
 {% from "widgets/article-content.njk" import articleContent %}
 {% from "widgets/gallery.njk" import gallery %}
+{% from "widgets/related-articles.njk" import relatedArticles %}
 {% from "widgets/newsletter.njk" import newsletter %}
 
 <div class="c-page-wrapper">
@@ -76,6 +77,15 @@ hasGallery: true
                 { image: "/uploads/petr-urban-zvitezil-na-mr-10-ball-v-brne.jpg", alt: "Petr Urban na MR 10-ball v Brně" },
                 { image: "/uploads/pool-group-blue.jpg", alt: "Hráči u kulečníkového stolu" },
                 { image: "/uploads/vitezem-1-kola-junior-open-alexandr-hofmann.jpg", alt: "Alexandr Hofmann, vítěz 1. kola Junior Open" }
+            ]
+        ) }}
+
+        {{ relatedArticles(
+            classes="bg-gray-100 border-top",
+            items=[
+                { title: "Vítězem 1. kola Junior Open je Alexandr Hofmann", url: "/article-detail/", image: "/uploads/vitezem-1-kola-junior-open-alexandr-hofmann.jpg", tagText: "Junior Open", tagColor: "gold", date: "5. června 2026", excerpt: "Mladý talent si připsal první vítězství v seriálu Junior Open a potvrdil, že patří mezi nejnadějnější hráče své generace." },
+                { title: "Matouš Vlk ovládl první kolo ČPTour 2026", url: "/article-detail/", image: "/uploads/matous-vlk-ovladl-prvni-kolo-cptour-2026.jpg", tagText: "ČPTour", tagColor: "primary", date: "25. února 2026", excerpt: "Úvodní kolo prestižního seriálu přineslo napínavé souboje a přesvědčivé vítězství domácího hráče." },
+                { title: "Petr Urban zvítězil na MR 10-ball v Brně", url: "/article-detail/", image: "/uploads/petr-urban-zvitezil-na-mr-10-ball-v-brne.jpg", tagText: "Mistrovství ČR", tagColor: "primary", date: "12. dubna 2026", excerpt: "Zkušený reprezentant si v Brně došel pro titul mistra republiky v disciplíně 10-ball." }
             ]
         ) }}
 

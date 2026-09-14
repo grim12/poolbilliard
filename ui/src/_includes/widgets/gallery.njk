@@ -7,14 +7,16 @@
 #}
 {% macro gallery(items=[], title="", classes="") %}
 {% if items and items.length %}
-<section class="{{ ["c-gallery", classes] | select | join(" ") }}">
+<section class="{{ ["c-section", "c-section--gallery", classes] | select | join(" ") }}">
     <div class="c-container">
         {% if title %}
-            <h2 class="c-gallery__title">{{ title }}</h2>
+            <div class="c-section__header">
+                <h4 class="c-section__title h4">{{ title }}</h4>
+            </div>
         {% endif %}
-        <div class="c-gallery__grid">
+        <div class="c-section__grid">
             {% for item in items %}
-                <a href="{{ item.image }}" class="c-gallery__item glightbox" data-gallery="article-gallery" aria-label="{{ item.alt or title }}">
+                <a href="{{ item.image }}" class="c-section__item glightbox" data-gallery="article-gallery" aria-label="{{ item.alt or title }}">
                     <img src="{{ item.image }}" alt="" loading="lazy" />
                 </a>
             {% endfor %}

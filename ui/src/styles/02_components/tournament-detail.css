@@ -10,7 +10,7 @@
   }
 
   /* Narrower reading column, centered within the page's own .c-container gutter —
-     matches .c-article__inner on the article detail page. */
+     matches .c-section__inner on the article detail page (c-section--article). */
   .c-tournament-detail__inner {
     @apply max-w-3xl mx-auto;
   }

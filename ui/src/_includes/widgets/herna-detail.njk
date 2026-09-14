@@ -65,9 +65,9 @@
                 {% if gallery.length %}
                     <div>
                         <h2>Fotogalerie</h2>
-                        <div class="c-gallery__grid">
+                        <div class="c-herna-gallery">
                             {% for item in gallery %}
-                                <a href="{{ item.image }}" class="c-gallery__item glightbox" data-gallery="herna-gallery" aria-label="{{ item.alt or '' }}">
+                                <a href="{{ item.image }}" class="c-herna-gallery__item glightbox" data-gallery="herna-gallery" aria-label="{{ item.alt or '' }}">
                                     <img src="{{ item.image }}" alt="" loading="lazy" />
                                 </a>
                             {% endfor %}
