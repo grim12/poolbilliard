@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BannerColor;
 use Database\Factories\BannerFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,10 +20,18 @@ class Banner extends Model
         'image',
         'tag_text',
         'meta_text',
-        'button_text',
-        'button_url',
+        'color',
+        'buttons',
         'sort_order',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'color' => BannerColor::class,
+            'buttons' => 'array',
+        ];
+    }
 
     protected function imageUrl(): Attribute
     {

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\BannerColor;
 use App\Models\Banner;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,11 +20,13 @@ class BannerFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(4),
-            'text' => $this->faker->paragraph(),
+            'text' => '<p>'.$this->faker->paragraph().'</p>',
             'tag_text' => $this->faker->boolean() ? $this->faker->words(2, true) : null,
             'meta_text' => $this->faker->boolean() ? $this->faker->words(4, true) : null,
-            'button_text' => 'Detail akce',
-            'button_url' => '#',
+            'color' => $this->faker->randomElement(BannerColor::cases()),
+            'buttons' => [
+                ['text' => 'Detail akce', 'url' => '#', 'variant' => 'solid'],
+            ],
             'sort_order' => $this->faker->numberBetween(0, 10),
         ];
     }

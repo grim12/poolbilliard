@@ -62,4 +62,18 @@ class AdminResourcesTest extends TestCase
             $this->actingAs($user)->get($url)->assertOk();
         }
     }
+
+    /**
+     * Banner's form has the newest/most fragile field types in the admin (a Repeater storing a
+     * JSON array of buttons, RichEditor, an enum Select) — worth its own create/edit smoke test
+     * beyond the plain index-page check above.
+     */
+    public function test_banner_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $banner = Banner::factory()->create();
+
+        $this->actingAs($user)->get('/admin/banners/create')->assertOk();
+        $this->actingAs($user)->get("/admin/banners/{$banner->id}/edit")->assertOk();
+    }
 }

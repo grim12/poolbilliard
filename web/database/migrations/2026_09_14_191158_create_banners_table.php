@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('tag_text')->nullable();
             $table->string('meta_text')->nullable();
-            $table->string('button_text')->default('Detail akce');
-            $table->string('button_url')->default('#');
+            $table->string('color')->default('accent');
+            $table->json('buttons')->nullable();
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
         });

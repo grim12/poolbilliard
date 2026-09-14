@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\Banners\Tables;
 
+use App\Enums\BannerColor;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class BannersTable
@@ -22,6 +24,9 @@ class BannersTable
                     ->searchable(),
                 TextColumn::make('tag_text')
                     ->label('Štítek'),
+                TextColumn::make('color')
+                    ->label('Barva')
+                    ->badge(),
                 TextColumn::make('sort_order')
                     ->label('Pořadí')
                     ->numeric()
@@ -38,7 +43,9 @@ class BannersTable
             ->defaultSort('sort_order')
             ->reorderable('sort_order')
             ->filters([
-                //
+                SelectFilter::make('color')
+                    ->label('Barva')
+                    ->options(BannerColor::class),
             ])
             ->recordActions([
                 EditAction::make(),
