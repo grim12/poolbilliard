@@ -1,18 +1,14 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import { bunny } from 'laravel-vite-plugin/fonts';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     plugins: [
+        // Archivo is loaded via the Google Fonts @import in resources/css/app.css,
+        // same as ui/src/styles/style.css — no self-hosted (bunny) font here.
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
-            fonts: [
-                bunny('Instrument Sans', {
-                    weights: [400, 500, 600],
-                }),
-            ],
         }),
         tailwindcss(),
     ],

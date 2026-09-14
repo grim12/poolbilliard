@@ -1,0 +1,62 @@
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-sans antialiased text-body-main bg-white;
+  }
+
+  /* --- Text Blocks: Margin Resets for First/Last Child --- */
+  h1, .h1,
+  .h1--big,
+  h2, .h2,
+  h3, .h3,
+  h4, .h4,
+  h5, .h5,
+  p, .p,
+  .p--lg {
+    &:first-child {
+      @apply mt-0;
+    }
+
+    &:last-child {
+      @apply mb-0;
+    }
+  }
+
+  /* --- Headings --- */
+  h1, .h1 {
+    @apply font-black tracking-tight-2 text-body-main leading-h1 text-4xl sm:text-6xl lg:text-6.5xl mb-6;
+  }
+
+  /* Extra-large variant — the size h1 used to be, for spots that need the bigger hero treatment */
+  .h1--big {
+    @apply font-black tracking-tight-2 text-body-main leading-h1 text-4xl sm:text-6xl lg:text-7xl mb-6;
+  }
+
+  h2, .h2 {
+    @apply font-black tracking-tight-2 text-body-main leading-h2 text-3xl sm:text-4xl lg:text-5xl mb-5;
+  }
+
+  h3, .h3 {
+    @apply font-extrabold tracking-tight-2 text-body-main leading-h3 text-xl sm:text-2xl lg:text-3xl mb-4;
+  }
+
+  h4, .h4 {
+    @apply font-extrabold tracking-tight-2 text-body-main leading-h3 text-lg sm:text-xl lg:text-2xl mb-3;
+  }
+
+  h5, .h5 {
+    @apply font-extrabold tracking-tight-2 text-body-main leading-h3 text-base sm:text-lg lg:text-xl mb-2;
+  }
+
+  /* --- Paragraphs & Body Text --- */
+  p, .p {
+    @apply font-normal text-body-600 tracking-normal text-base leading-body mb-4;
+  }
+
+  .p--lg {
+    @apply font-medium text-lg leading-body mb-5;
+  }
+}

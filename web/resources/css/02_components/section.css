@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Section (Base + Submodules)
+   ========================================================================== */
+
+@layer components {
+  /* Generic section base — every homepage section is <section class="c-section c-section--<type>"> */
+  .c-section {
+    @apply relative w-full py-14 sm:py-16 lg:py-20 bg-transparent;
+  }
+
+  .c-section__header {
+    @apply mb-6 lg:mb-8;
+  }
+
+  .c-section__title {
+    @apply mb-2;
+  }
+
+  .c-section__subtitle {
+    @apply font-medium text-lg leading-body text-body-600 m-0;
+  }
+
+  .c-section__eyebrow {
+    @apply text-xs font-bold uppercase tracking-wider text-primary-600 mb-3;
+  }
+
+  .c-section__grid {
+    @apply grid grid-cols-1 gap-5 lg:gap-6;
+  }
+
+  .c-section__actions {
+    @apply flex flex-wrap items-center gap-4 mt-8;
+  }
+
+  .c-section__footer {
+    @apply mt-8;
+  }
+}
+
+/* Jen porty už hotové na straně web/ (zrcadlí ui/src/styles/02_components/section.css) —
+   při portování dalšího widgetu sem přidej odpovídající @import, ať tenhle seznam sedí
+   s tím, co je v ui/ hotové a portované. */
+@import "./section/partner-directory.css";
