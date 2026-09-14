@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(PartnerSeeder::class);
         $this->call(FaqItemSeeder::class);
+        $this->call(TournamentSeeder::class);
     }
 }

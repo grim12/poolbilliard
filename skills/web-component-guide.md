@@ -53,9 +53,18 @@ zatím **bez site chrome** (header/footer/page-hero/newsletter — portuje se sa
   `app/Models/FaqItem.php`, `database/seeders/FaqItemSeeder.php`,
   `app/Filament/Resources/FaqItems/`, `resources/views/faq.blade.php` +
   `resources/views/components/faq.blade.php`, route `/faq`.
+* `Tournament` — enum-like sloupce (`tag_color` jako `Select` s pevnou nabídkou, `badge`/`soon`
+  jako `boolean` + Filament `Toggle`/`IconColumn`). `app/Models/Tournament.php`,
+  `database/seeders/TournamentSeeder.php`, `app/Filament/Resources/Tournaments/`,
+  `resources/views/turnaje.blade.php` + `resources/views/components/{tournament-card,tournaments}.blade.php`,
+  route `/turnaje`. **Poznámka:** `ui/` nemá pro tenhle grid samostatnou stránku (jen homepage
+  sekce + plný Kalendář s JS filtry) — `/turnaje` je dočasná ukázková route, ne 1:1 port
+  existující `ui/` stránky.
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
-  widgetu) — viz jejich použití v `info-panel.blade.php`.
+  widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.
+* **Podmíněné třídy v Blade:** pro `class="a @if(...) b @endif"` použij radši `@class(['a', 'b' => $podminka])` direktivu (nedělá nadbytečné mezery v atributu) — viz `tournament-card.blade.php`.
+* **Brand ikonky (Simple Icons) ještě nejsou portované** — `tournaments.blade.php` proto zatím vynechává poznámku "sledujte přímé přenosy... ČMBS TV" (potřebuje YouTube brand ikonu). Až bude potřeba, doplnit balíček a poznámku zpět.
 
 ---
 

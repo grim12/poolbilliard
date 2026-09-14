@@ -11,6 +11,7 @@
 @import './02_components/button.css';
 @import './02_components/faq.css';
 @import './02_components/info-panel.css';
+@import './02_components/card.css';
 @import './02_components/section.css';
 
 /* Design tokeny — zrcadlené z ui/src/styles/style.css (@theme blok). Při úpravě tokenů
