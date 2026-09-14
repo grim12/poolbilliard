@@ -58,6 +58,10 @@
 
     p {
       @apply text-base text-body-600 m-0;
+
+      a {
+        @apply text-primary-600 underline hover:no-underline;
+      }
     }
   }
 }

@@ -18,12 +18,12 @@
             <div class="c-faq__item">
                 <button type="button" class="c-faq__question" aria-expanded="false" aria-controls="{{ idPrefix }}-panel-{{ loop.index }}" data-faq-toggle>
                     <span class="c-faq__index">{{ "0" if loop.index < 10 else "" }}{{ loop.index }}</span>
-                    <span class="c-faq__question-text">{{ item.question }}</span>
+                    <span class="c-faq__question-text">{{ item.question | safe }}</span>
                     {% icon "chevron-down", 20, "c-faq__chevron" %}
                 </button>
                 <div class="c-faq__panel" id="{{ idPrefix }}-panel-{{ loop.index }}" data-faq-panel>
                     <div class="c-faq__answer">
-                        <p>{{ item.answer }}</p>
+                        <p>{{ item.answer | safe }}</p>
                     </div>
                 </div>
             </div>
