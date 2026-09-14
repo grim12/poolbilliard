@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\FaqGroup;
+use App\Models\Club;
+use App\Models\ClubMember;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
- * @extends Factory<FaqGroup>
+ * @extends Factory<ClubMember>
  */
-class FaqGroupFactory extends Factory
+class ClubMemberFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,11 +18,9 @@ class FaqGroupFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->unique()->words(2, true);
-
         return [
-            'name' => $name,
-            'slug' => Str::slug($name),
+            'club_id' => Club::factory(),
+            'name' => $this->faker->name(),
             'sort_order' => 0,
         ];
     }

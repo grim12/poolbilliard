@@ -74,6 +74,19 @@ zatím **bez site chrome** (header/footer/page-hero/newsletter — portuje se sa
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.
+* `Club` a `Herna` — první entity s reálným per-záznamovým routováním (`ui/`'s `klub.njk`/
+  `herna.njk` jsou napevno jedna ukázková stránka bez dynamického routování), řeší `HasSlug`
+  trait (`app/Models/Concerns/HasSlug.php`, auto-slug z `name` při vytvoření). `Club` má
+  `members` (hasMany `ClubMember`, Filament `Repeater` s `->relationship()`), `ambassador_*`
+  pole a nábor (`recruitment_open` boolean + `recruitment_text` nepovinný rich text s globálním
+  fallbackem, viz bod 4). `Herna` má `sports`/`hours`/`gallery` jako obyčejné JSON sloupce (ne
+  tabulky — viz bod 4) a `status` (`HernaStatus` enum) pro budoucí schvalovací workflow
+  veřejné registrace (formulář samotný ještě není portovaný). `Region`/`Sport`/`HernaStatus`
+  jsou PHP backed enumy v `app/Enums/`, ne DB taxonomie — viz bod 4. Zatím bez site chrome i bez
+  veřejné Blade stránky (jen model + Filament resources) — na rozdíl od předchozích entit jsme
+  se tentokrát zastavili po admin straně, veřejná `/kluby`, `/klub/{slug}`, `/herny`,
+  `/herna/{slug}` (vč. Leaflet mapy, self-hosted, žádný API klíč, generický `[data-club-map]`
+  init v `ui/src/js/main.js`) jsou samostatný další krok.
 * **Podmíněné třídy v Blade:** pro `class="a @if(...) b @endif"` použij radši `@class(['a', 'b' => $podminka])` direktivu (nedělá nadbytečné mezery v atributu) — viz `tournament-card.blade.php`.
 * **Brand ikonky (Simple Icons) ještě nejsou portované** — `tournaments.blade.php` proto zatím vynechává poznámku "sledujte přímé přenosy... ČMBS TV" (potřebuje YouTube brand ikonu). Až bude potřeba, doplnit balíček a poznámku zpět.
 
@@ -92,6 +105,8 @@ npm run dev             # Vite dev server, nebo `composer run dev` spustí serve
 Admin uživatel: `php artisan make:filament-user`.
 
 DB je zatím SQLite (`database/database.sqlite`) — žádná závislost na běžícím MySQL serveru. Přepnutí na MySQL (až bude potřeba): upravit `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` v `.env` a spustit `php artisan migrate:fresh`.
+
+> ⚠️ **PAST: `DatabaseSeeder`/libovolný seeder nesmí mít `use WithoutModelEvents;`, pokud se v projektu spoléháme na model eventy (např. `HasSlug`'s `creating`).** Laravel to do `DatabaseSeeder` scaffoldu dává defaultně (kvůli rychlosti u `User::factory(10)->create()`), ale ten trait **potichu vypne všechny model eventy pro celý běh seederu** — `slug` se pak nikdy nedopočítá a insert spadne na `NOT NULL constraint` bez zjevné souvislosti s eventy. Trait jsme z `DatabaseSeeder` odstranili — nepřidávej ho zpátky, pokud si nejsi jistý, že žádný aktivní model nespoléhá na `creating`/`saving`/atd.
 
 ---
 
@@ -140,6 +155,9 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 * **Opakovaná dvojice "volný text + barva/varianta" na více záznamech → vlastní model (taxonomie), ne duplikovaný text na každém řádku.** Jakmile se stejná kategorie/štítek (název + barva) opakuje napříč záznamy (např. `tag_text`/`tag_color` na každém turnaji), extrahuj ji do vlastní tabulky s `belongsTo` vztahem — řeší to překlepy a nekonzistentní barvu pro "stejnou" kategorii a dá se to spravovat centrálně v adminu. Ve Filament formuláři použij `Select::make(...)->relationship('<vztah>', 'name')` s `->createOptionForm(...)`, ať admin může novou kategorii založit inline bez opuštění formuláře (sdílej pole s Resource formulářem té kategorie přes veřejnou `static function components(): array` metodu, ne přes duplikaci). Nízkoúrovňová Blade komponenta (karta) zůstává na obecných propech (`tagText`/`tagColor`) — mapování `$model->category->name`/`->color` na ně dělá až volající (widget/stránka), karta samotná koncept "kategorie" nezná. Referenční příklad: `TournamentCategory` + `Tournament::category()`.
 * **Pořadí migrací u nové provázané tabulky:** `make:model -mf` časuje soubor na "teď", což může být PO migraci tabulky, která na něj bude odkazovat cizím klíčem — přejmenuj soubor nové migrace na dřívější timestamp (např. o pár minut před), ať `Schema::create` proběhne ve správném pořadí. Týká se to i pořadí seederů v `DatabaseSeeder` (číselník před tabulkou, co na něj odkazuje).
 * **`belongsTo` vs. `belongsToMany` u taxonomie/číselníku — podle toho, jestli záznam patří vždy jen na jedno místo, nebo může na víc zároveň.** Turnaj má vždy přesně jednu kategorii → `TournamentCategory` + `belongsTo` (cizí klíč přímo na turnaji). FAQ položka ale může dávat smysl na víc místech současně (obecná stránka FAQ i konkrétní stránka) → `FaqGroup` + `belongsToMany` (pivot tabulka), ať se stejná otázka nemusí duplikovat do víc řádků, když ji chceš zobrazit na dvou místech. Pivot tabulka: `php artisan make:migration create_<a>_<b>_table` (Laravel konvence názvu: singulární jména modelů podle abecedy, podtržítkem — `faq_group_faq_item`), `foreignId(...)->constrained()->cascadeOnDelete()` na obě strany + `unique([...])`. V Blade/Filamentu se to používá stejně jako `belongsTo` (`Select::make(...)->relationship(...)->multiple()`), jen výsledek je kolekce, ne jeden model. Referenční příklad: `FaqGroup` + `FaqItem::groups()`, filtr v `FaqController` (`whereHas('groups', fn ($q) => $q->where('slug', 'obecne'))`).
+* **Uzavřený/neměnný seznam hodnot → PHP backed enum, ne DB tabulka/taxonomie.** `TournamentCategory`/`FaqGroup` jsou admin-manageable (přibývají, admin je edituje) — ale český kraj nebo "sport, který herna nabízí" jsou uzavřené, dané seznamy, který se v reálném životě nemění a nikdo je nebude "spravovat" v adminu. Pro tyhle patří `enum <Name>: string implements \Filament\Support\Contracts\HasLabel` v `app/Enums/` (`getLabel()` vrací zobrazovaný text), ne další tabulka s `belongsTo`/`belongsToMany`. Filament `Select`/`CheckboxList` bere enum třídu přímo (`->options(Region::class)`), sloupec se castuje `'region' => Region::class` v modelu. Referenční příklad: `Region` (sdílený mezi `Club`/`Herna`), `Sport` (na `Herna::$sports`, viz níže), `HernaStatus` (implementuje i `HasColor` pro barevné badge v tabulce).
+* **Malá, vždy pohromadě patřící, ohraničená strukturovaná data (ne nezávisle spravovaný seznam) → obyčejný JSON sloupec, ne samostatná tabulka.** `Herna::$sports` (pole hodnot z `Sport` enumu), `$hours` (pole `{day, text}` pro 7 dní) a `$gallery` (pole cest k nahraným obrázkům, přes Filament `FileUpload::make('gallery')->multiple()` — **žádná samostatná `herna_images` tabulka, žádný Spatie Media Library**, i pro víc obrázků na entitu, pokud nejde o něco, co potřebuje vlastní řazení/metadata nad rámec pořadí v poli). Cast `'sports' => 'array'` atd. Accessor `galleryUrls()` mapuje uložené relativní cesty na plné `Storage::disk('public')->url(...)` (stejný princip jako `logo_url` u jednoho obrázku, jen na celé pole).
+* **Auto-generovaný `slug` pro entity s reálným per-záznamovým routováním** (na rozdíl od entit, které mají jen listing bez detailu) — sdílený `HasSlug` trait (`app/Models/Concerns/HasSlug.php`): `protected static function bootHasSlug()` s `static::creating(...)`, doplní `slug` ze `Str::slug($model->name)` jen pokud není zadaný, s `-2`/`-3`... při kolizi. Použij `use HasSlug;` v modelu + `slug` sloupec (`unique()`) v migraci.
 
 ---
 
@@ -156,3 +174,4 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 1. `php artisan serve` + `npm run dev` — ověřit stránku v prohlížeči vedle `ui/` verze.
 2. `vendor/bin/pint --dirty --format agent` po úpravě PHP souborů (Laravel Boost guideline).
 3. Testy (Pest/PHPUnit) pro novou funkcionalitu — feature testy preferované před unit testy, viz `web/CLAUDE.md`.
+4. **Ověření admin resource stránek vyžaduje skutečné přihlášení, ne jen kontrolu, že route existuje** — `curl` bez session na `/admin/<resource>` vrátí `302` (redirect na login) i když je za tím rozbitý formulář/tabulka, takže to nic neřekne o tom, jestli se Blade/Livewire fakt vykreslí. `tests/Feature/AdminResourcesTest.php` řeší tohle přes `actingAs($user)->get($url)->assertOk()` pro všechny resources najednou (s jedním reálným záznamem od každého modelu, ať se vykreslí i relace/enum sloupce, ne jen prázdná tabulka) — přidej sem novou resource, jak vznikne. Vyžaduje `App\Models\User implements Filament\Models\Contracts\FilamentUser` s `canAccessPanel(): true` — bez toho Filament mimo `local` prostředí (tedy i v testech) vrátí `403` i pro platně přihlášeného uživatele.
