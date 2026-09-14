@@ -32,6 +32,7 @@ class ClubForm
                         FileUpload::make('image')
                             ->label('Úvodní fotka')
                             ->image()
+                            ->disk('public')
                             ->directory('clubs')
                             ->columnSpanFull(),
                         RichEditor::make('about_text')
@@ -86,6 +87,7 @@ class ClubForm
                                 FileUpload::make('photo')
                                     ->label('Fotka')
                                     ->image()
+                                    ->disk('public')
                                     ->directory('club-members'),
                             ])
                             ->columns(2)

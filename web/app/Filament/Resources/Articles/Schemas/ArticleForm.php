@@ -41,6 +41,7 @@ class ArticleForm
                         FileUpload::make('image')
                             ->label('Úvodní obrázek')
                             ->image()
+                            ->disk('public')
                             ->directory('articles')
                             ->columnSpanFull(),
                         Textarea::make('excerpt')
@@ -56,6 +57,7 @@ class ArticleForm
                         FileUpload::make('gallery')
                             ->hiddenLabel()
                             ->image()
+                            ->disk('public')
                             ->multiple()
                             ->reorderable()
                             ->directory('articles'),

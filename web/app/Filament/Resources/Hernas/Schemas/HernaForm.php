@@ -99,6 +99,7 @@ class HernaForm
                         FileUpload::make('gallery')
                             ->hiddenLabel()
                             ->image()
+                            ->disk('public')
                             ->multiple()
                             ->reorderable()
                             ->directory('herny'),

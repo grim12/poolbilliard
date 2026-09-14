@@ -41,6 +41,7 @@ class BannerForm
                         FileUpload::make('image')
                             ->label('Obrázek na pozadí')
                             ->image()
+                            ->disk('public')
                             ->directory('banners')
                             ->columnSpanFull(),
                         TextInput::make('tag_text')
