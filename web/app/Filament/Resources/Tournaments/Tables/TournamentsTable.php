@@ -19,6 +19,10 @@ class TournamentsTable
                     ->searchable(),
                 TextColumn::make('date_text')
                     ->label('Datum'),
+                TextColumn::make('start_date')
+                    ->label('Datum začátku')
+                    ->date()
+                    ->sortable(),
                 TextColumn::make('location_text')
                     ->label('Místo'),
                 IconColumn::make('badge')

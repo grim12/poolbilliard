@@ -23,9 +23,9 @@ class TournamentFactory extends Factory
             'tag_text' => 'ČMBS',
             'tag_color' => 'primary',
             'date_text' => $this->faker->date(),
+            'start_date' => $this->faker->dateTimeBetween('now', '+2 months'),
             'location_text' => $this->faker->city(),
             'badge' => false,
-            'soon' => false,
             'sort_order' => 0,
         ];
     }

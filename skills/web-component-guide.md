@@ -17,6 +17,7 @@
 * **Databáze:** SQLite lokálně (rychlý start), MySQL na produkci (hosting spravuje DB přes phpMyAdmin) — až bude potřeba testovat proti reálnému enginu, přepneme `.env` na MySQL i lokálně.
 * **Frontend build:** Vite (`npm run dev` / `npm run build`), Tailwind CSS 4 — styly a JS jsou **zrcadlené** z `ui/`, ne nezávisle psané (viz sekce 3).
 * **AI asistence:** Laravel Boost (`composer require laravel/boost --dev` + `php artisan boost:install --guidelines`) — generuje `AGENTS.md`/`CLAUDE.md` s konvencemi podle nainstalovaných balíčků. Tyto dva soubory jsou nástrojem spravované, needitujte je ručně — spusťte znovu `php artisan boost:install` po přidání nového balíčku, ať se guidelines aktualizují.
+* **Globální nastavení (admin-editovatelné, ne v `config/`):** [`spatie/laravel-settings`](https://github.com/spatie/laravel-settings) + [`filament/spatie-laravel-settings-plugin`](https://github.com/filamentphp/spatie-laravel-settings-plugin). Settings třída v `app/Settings/<Name>Settings.php` (auto-discovered), počáteční hodnota přes `php artisan make:settings-migration <Name>` (soubor v `database/settings/`), admin stránka ručně napsaná jako `app/Filament/Pages/Manage<Name>Settings.php` extends `Filament\Pages\SettingsPage` (generátor `make:filament-settings-page` padá na name-collision, když se stránka i settings třída jmenují stejně — pojmenuj stránku `Manage<Name>Settings`, ne `<Name>Settings`). Referenční příklad: `GeneralSettings` (`tournament_soon_threshold_days`), viz sekce 4.
 
 ### Adresářová struktura (`web/`, relevantní pro naši práci)
 
@@ -53,13 +54,15 @@ zatím **bez site chrome** (header/footer/page-hero/newsletter — portuje se sa
   `app/Models/FaqItem.php`, `database/seeders/FaqItemSeeder.php`,
   `app/Filament/Resources/FaqItems/`, `resources/views/faq.blade.php` +
   `resources/views/components/faq.blade.php`, route `/faq`.
-* `Tournament` — enum-like sloupce (`tag_color` jako `Select` s pevnou nabídkou, `badge`/`soon`
-  jako `boolean` + Filament `Toggle`/`IconColumn`). `app/Models/Tournament.php`,
-  `database/seeders/TournamentSeeder.php`, `app/Filament/Resources/Tournaments/`,
-  `resources/views/turnaje.blade.php` + `resources/views/components/{tournament-card,tournaments}.blade.php`,
-  route `/turnaje`. **Poznámka:** `ui/` nemá pro tenhle grid samostatnou stránku (jen homepage
-  sekce + plný Kalendář s JS filtry) — `/turnaje` je dočasná ukázková route, ne 1:1 port
-  existující `ui/` stránky.
+* `Tournament` — enum-like sloupec (`tag_color` jako `Select` s pevnou nabídkou), `badge`
+  jako `boolean` (Filament `Toggle`/`IconColumn`), a `soon` jako **computed accessor** místo
+  ručního boolean sloupce (`start_date` + globální `GeneralSettings::$tournament_soon_threshold_days`,
+  viz body 1 a 4). `app/Models/Tournament.php`, `database/seeders/TournamentSeeder.php`,
+  `app/Filament/Resources/Tournaments/`, `resources/views/turnaje.blade.php` +
+  `resources/views/components/{tournament-card,tournaments}.blade.php`, route `/turnaje`.
+  **Poznámka:** `ui/` nemá pro tenhle grid samostatnou stránku (jen homepage sekce + plný
+  Kalendář s JS filtry) — `/turnaje` je dočasná ukázková route, ne 1:1 port existující `ui/`
+  stránky.
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.
@@ -122,6 +125,8 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 * **Obrázky/loga (jeden obrázek na entitu):** obyčejný `string` sloupec (relativní cesta na disku, ne absolutní URL) + Filament `FileUpload` (`->directory('<entita>')`, `->image()`, `->visibility('public')`). Model má accessor `<pole>_url` (`Attribute::get(fn () => $this->logo ? Storage::disk('public')->url($this->logo) : null)`), který teprve v Blade dává plnou URL — viz `app/Models/Partner.php` jako referenční příklad. **Nepoužíváme Spatie Media Library** (přidali bychom komplexitu navíc — polymorfní tabulka, konverze — kterou zatím nic v projektu nevyžaduje). Až narazíme na entitu s víc obrázky (galerie u herny/článku), řešíme to jako samostatné rozhodnutí až tehdy, ne teď dopředu.
 * **Řazení spravované adminem** (např. pořadí partnerů/karet na stránce): `sort_order` (`unsignedInteger`, `default(0)`), v tabulce Filament resource `->defaultSort('sort_order')->reorderable('sort_order')` (drag&drop v adminu).
 * **Seed dat zrcadlících `ui/`:** zdrojové obrázky (loga, fotky) pro seed patří do `database/seeders/assets/<entita>/` (committed do gitu — jsou to skutečné projektové assety, ne runtime uploady) a seeder je při běhu kopíruje na disk `public` (`Storage::disk('public')->put(...)`) — **`storage/app/public/` samotné je gitignored** (Laravel default, runtime/regenerovatelný obsah), takže tam zdrojové soubory nikdy nedávej přímo. Referenční příklad: `database/seeders/PartnerSeeder.php` + `database/seeders/assets/partners/`.
+* **Odvozená (computed) hodnota namísto ručně udržovaného boolean flagu** — pokud lze hodnotu spočítat z jiných dat (typicky z data + prahu), nepřidávej sloupec, který musí někdo ručně přepínat a může se rozjet od reality. Ulož skutečná data (např. `start_date`) a spočítej odvozenou hodnotu accessorem (`Attribute::get(...)`) — Filament tabulky/formuláře umí číst i computed accessory stejně jako sloupce (jen bez `->sortable()`/`->searchable()`, které fungují jen na reálné DB sloupce). Práh/konstanta pro výpočet patří do globálního nastavení (viz bod 1), ne natvrdo do modelu. Referenční příklad: `Tournament::soon()` (`start_date` + `GeneralSettings::$tournament_soon_threshold_days`, nahradilo dřívější ruční `soon` boolean sloupec).
+* **Úprava ještě neuvolněné migrace:** dokud je schéma nové entity v aktivním vývoji jen lokálně (SQLite, žádná sdílená/produkční data), uprav rovnou původní `create_<entity>_table` migraci místo přidávání `alter_table` migrace navíc — čistší historie. Jakmile je něco nasazené/sdílené s reálnými daty, tohle už neplatí (pak vždy nová migrace). Po úpravě spusť `php artisan migrate:fresh --seed`.
 
 ---
 
@@ -129,6 +134,7 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 
 * Generuj přes `php artisan make:filament-resource <Model> --generate` (odvodí formulář/tabulku z DB schématu), pak dolaď: `TextInput` pro cestu k obrázku přepiš na `FileUpload` (viz bod 4), přidej `ImageColumn` do tabulky pro náhled.
 * Konvence pojmenování a struktura souborů (Filament v5): `app/Filament/Resources/<Entity>/{<Entity>Resource.php, Pages/, Schemas/<Entity>Form.php, Tables/<Entity>sTable.php}` — necháváme, jak to generátor vytvoří.
+* `--generate` u čerstvě vytvořeného modelu (hned po `make:model -mfs`, ještě před `php artisan migrate`) občas vrátí prázdné `Schema`/`Table` místo odvozených polí (pravděpodobně kvůli interaktivnímu dotazu na "title attribute" i přes `--no-interaction`) — pokud se to stane, napiš `Schema`/`Table` komponenty ručně podle sloupců migrace, generátor nezkoušej spouštět znovu.
 
 ---
 

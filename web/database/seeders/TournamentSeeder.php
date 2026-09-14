@@ -17,9 +17,9 @@ class TournamentSeeder extends Seeder
             'tag_text' => 'MEZINÁRODNÍ',
             'tag_color' => 'gold',
             'date_text' => '20. – 23. srpna 2026',
+            'start_date' => '2026-08-20',
             'location_text' => 'Itálie · Treviso',
             'badge' => false,
-            'soon' => false,
         ],
         [
             'title' => 'Mistrovství ČR 9-ball',
@@ -27,9 +27,9 @@ class TournamentSeeder extends Seeder
             'tag_text' => 'ČMBS',
             'tag_color' => 'primary',
             'date_text' => '12. – 13. září 2026',
+            'start_date' => '2026-09-12',
             'location_text' => 'Praha · BC Řipská',
             'badge' => true,
-            'soon' => true,
         ],
         [
             'title' => 'MR Dvojic',
@@ -37,9 +37,9 @@ class TournamentSeeder extends Seeder
             'tag_text' => 'ČMBS',
             'tag_color' => 'primary',
             'date_text' => '19. září 2026',
+            'start_date' => '2026-09-19',
             'location_text' => 'Praha · Rajská Zahrada',
             'badge' => false,
-            'soon' => false,
         ],
         [
             'title' => 'MR Smíšených Dvojic',
@@ -47,9 +47,9 @@ class TournamentSeeder extends Seeder
             'tag_text' => 'ČMBS',
             'tag_color' => 'primary',
             'date_text' => '12. – 13. září 2026',
+            'start_date' => '2026-09-12',
             'location_text' => 'Praha · Rajská Zahrada',
             'badge' => false,
-            'soon' => false,
         ],
     ];
 
