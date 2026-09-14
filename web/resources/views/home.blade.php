@@ -34,13 +34,22 @@
         @endif
     </div>
 
+    {{--
+        Tournaments and Leaderboards both have bg-gray-100/border-top/border-bottom — normally
+        two separate gray sections, but when Banner 2 is empty they become directly adjacent
+        (no white section between them). Per skills/ui-component-guide.md's documented pattern,
+        two same-background sections back to back must drop the border on their shared inner
+        seam (Tournaments' border-bottom, Leaderboards' border-top — each keeps the border on
+        its own outer edge) and the *following* section (Leaderboards) drops its top padding,
+        not the preceding one, to avoid a doubled gap between them.
+    --}}
     <x-tournaments
         :title="$settings->tournaments_title"
         :items="$tournaments"
         :calendar-text="$settings->tournaments_button_text"
         calendar-url="/kalendar"
         :stream-url="$cmbsTvUrl"
-        class="bg-gray-100 border-top border-bottom"
+        @class(['bg-gray-100', 'border-top', 'border-bottom' => $banner2])
     />
 
     @if ($banner2)
@@ -58,7 +67,7 @@
         :more-text="$settings->leaderboards_button_text"
         more-url="/souteze"
         :max-entries="5"
-        class="bg-gray-100 border-top border-bottom"
+        @class(['bg-gray-100', 'border-bottom', 'border-top' => $banner2, 'pt-none' => ! $banner2])
     />
 
     @if ($linkTiles->isNotEmpty())

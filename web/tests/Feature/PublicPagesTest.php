@@ -107,4 +107,23 @@ class PublicPagesTest extends TestCase
         $response->assertSee('c-section--event-banner', false);
         $response->assertDontSee('c-section--cta', false);
     }
+
+    /**
+     * When Banner 2 is empty, Tournaments and Leaderboards (both bg-gray-100) become directly
+     * adjacent with no white section between them — per skills/ui-component-guide.md's
+     * documented pattern, the shared inner seam must drop its border on both sides (Tournaments
+     * keeps border-top, drops border-bottom; Leaderboards keeps border-bottom, drops border-top)
+     * and the following section (Leaderboards) drops its top padding to avoid a doubled gap.
+     */
+    public function test_homepage_drops_inner_border_and_padding_when_banner_2_is_empty(): void
+    {
+        app(HomepageSettings::class)->fill(['banner_2_id' => null])->save();
+
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertDontSee('c-section--cta', false);
+        $response->assertSee('c-section--tournaments bg-gray-100 border-top"', false);
+        $response->assertSee('c-section--leaderboards bg-gray-100 border-bottom pt-none"', false);
+    }
 }
