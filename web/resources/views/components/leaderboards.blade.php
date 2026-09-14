@@ -1,8 +1,9 @@
 {{--
-    <x-leaderboards :title :subtitle :items :more-url :more-text :id />
+    <x-leaderboards :title :subtitle :items :more-url :more-text :max-entries :id />
     - items: collection of Leaderboard models (title, entries, featured). Mirrors
       ui/src/_includes/widgets/leaderboards.njk. Each card's "Detail série"/"Celý žebříček" link
       has no real destination yet (no per-series page exists) — same as ui/'s own "#" placeholder.
+    - maxEntries: passed straight through to each <x-leaderboard> — see its own doc comment.
 --}}
 @props([
     'title' => '',
@@ -10,6 +11,7 @@
     'items' => [],
     'moreUrl' => '#',
     'moreText' => 'Systémy soutěží',
+    'maxEntries' => null,
     'id' => '',
 ])
 
@@ -28,6 +30,7 @@
                     :entries="$item->entries"
                     :featured="$item->featured"
                     :link-text="$item->featured ? 'Celý žebříček' : 'Detail série'"
+                    :max-entries="$maxEntries"
                 />
             @endforeach
         </div>

@@ -62,6 +62,7 @@ class AdminResourcesTest extends TestCase
             '/admin/leaderboards',
             '/admin/link-tiles',
             '/admin/manage-general-settings',
+            '/admin/manage-homepage-settings',
         ];
 
         foreach ($urls as $url) {

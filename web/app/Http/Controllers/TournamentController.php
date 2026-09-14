@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tournament;
+use App\Settings\GeneralSettings;
 use Illuminate\View\View;
 
 class TournamentController extends Controller
@@ -12,10 +13,11 @@ class TournamentController extends Controller
      * a dedicated route for this yet (there it's only a homepage section + the full Kalendář
      * page, which also needs its interactive calendar/filters ported separately).
      */
-    public function index(): View
+    public function index(GeneralSettings $settings): View
     {
         return view('turnaje', [
             'tournaments' => Tournament::with('category')->currentAndUpcoming()->orderedByStartDate()->get(),
+            'cmbsTvUrl' => $settings->cmbs_tv_url,
         ]);
     }
 }

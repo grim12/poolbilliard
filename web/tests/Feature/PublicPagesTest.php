@@ -4,11 +4,15 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Models\Banner;
 use App\Models\FaqItem;
+use App\Models\Leaderboard;
+use App\Models\LinkTile;
 use App\Models\Notice;
 use App\Models\Partner;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
+use App\Settings\HomepageSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -32,7 +36,7 @@ class PublicPagesTest extends TestCase
         Article::factory()->create(['article_category_id' => $articleCategory->id]);
         Notice::factory()->create();
 
-        foreach (['/partneri', '/faq', '/turnaje', '/novinky', '/zpravodajstvi/vykonny-vybor'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/turnaje', '/novinky', '/zpravodajstvi/vykonny-vybor'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -69,5 +73,38 @@ class PublicPagesTest extends TestCase
         $response->assertSee($notice->title);
         $response->assertSee('Test notice body', false);
         $response->assertSee('Důležité');
+    }
+
+    /**
+     * Homepage-specific behavior beyond the plain chrome smoke test above: a HomepageSettings
+     * banner slot with no selection must skip that section entirely (not render an empty
+     * <x-banner>), and Leaderboard only shows its top 5 of 10 stored entries here (the full 10
+     * is reserved for a future /souteze page).
+     */
+    public function test_homepage_renders_selected_content_and_hides_empty_banner_slot(): void
+    {
+        $articleCategory = ArticleCategory::factory()->create();
+        Article::factory()->create(['article_category_id' => $articleCategory->id]);
+        $banner = Banner::factory()->create(['title' => 'Testovací banner']);
+        $linkTile = LinkTile::factory()->create(['title' => 'Testovací dlaždice']);
+        Leaderboard::factory()->create([
+            'entries' => collect(range(1, 10))->map(fn (int $i) => ['name' => "Hráč {$i}", 'club' => null])->all(),
+        ]);
+
+        app(HomepageSettings::class)->fill([
+            'banner_1_id' => $banner->id,
+            'banner_2_id' => null,
+            'link_tile_ids' => [$linkTile->id],
+        ])->save();
+
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertSee('Testovací banner');
+        $response->assertSee('Testovací dlaždice');
+        $response->assertSee('Hráč 5');
+        $response->assertDontSee('Hráč 6');
+        $response->assertSee('c-section--event-banner', false);
+        $response->assertDontSee('c-section--cta', false);
     }
 }

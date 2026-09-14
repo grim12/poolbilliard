@@ -21,6 +21,13 @@ class GeneralSettings extends Settings
 
     public string $recruitment_closed_fallback_text;
 
+    /**
+     * Odkaz na živé přenosy z turnajů (ČMBS TV) — zobrazený v poznámce pod sekcí Turnaje na
+     * homepage. Globální fakt, ne obsah jedné konkrétní stránky, proto tady a ne v
+     * HomepageSettings — kdyby se stejná poznámka objevila i jinde, je hned k dispozici.
+     */
+    public string $cmbs_tv_url;
+
     public static function group(): string
     {
         return 'general';

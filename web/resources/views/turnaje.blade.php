@@ -9,5 +9,6 @@
         title="Nejbližší turnaje"
         :items="$tournaments"
         calendar-url="/kalendar/"
+        :stream-url="$cmbsTvUrl"
     />
 </x-layouts.app>

@@ -2,14 +2,13 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/partneri', [PartnerController::class, 'index'])->name('partneri');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');

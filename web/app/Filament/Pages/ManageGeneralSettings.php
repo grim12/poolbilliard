@@ -34,6 +34,10 @@ class ManageGeneralSettings extends SettingsPage
                             ->required()
                             ->numeric()
                             ->minValue(1),
+                        TextInput::make('cmbs_tv_url')
+                            ->label('Odkaz na ČMBS TV')
+                            ->helperText('Cíl odkazu v poznámce "Přímé přenosy z turnajů sledujte na ČMBS TV" pod sekcí Turnaje. "#" znamená zatím bez reálného cíle.')
+                            ->required(),
                     ]),
                 Section::make('Nábor do klubů')
                     ->description('Použije se u klubu, který má vyplněný jen stav náboru (otevřeno/zavřeno), ale ne vlastní text.')
