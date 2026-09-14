@@ -230,8 +230,16 @@
     @apply flex flex-col;
   }
 
+  .c-header__mobile-nav-row {
+    @apply flex items-center gap-1;
+
+    .c-header__nav-link {
+      @apply flex-1;
+    }
+  }
+
   .c-header__mobile-nav-toggle {
-    @apply justify-between cursor-pointer;
+    @apply inline-flex items-center justify-center shrink-0 size-11 rounded-lg text-body-main transition-colors duration-150 hover:bg-gray-100 cursor-pointer;
   }
 
   .c-header__mobile-nav-item.is-open .c-header__nav-chevron {

@@ -12,7 +12,7 @@
     { text: "Kalendář", url: "/kalendar/" },
     {
         text: "Kde hrát",
-        url: "#",
+        url: "/kluby/",
         children: [
             { text: "Kluby", url: "/kluby/" },
             { text: "Herny", url: "/herny/" }
@@ -58,10 +58,12 @@
 {% macro mobileNavItem(text, url, children, isActive=false) %}
 {% if children %}
 <div class="c-header__mobile-nav-item" data-accordion>
-    <button type="button" class="c-header__nav-link c-header__mobile-nav-toggle" data-accordion-toggle aria-expanded="false">
-        {{ text }}
-        {% icon "chevron-down", 16, "c-header__nav-chevron" %}
-    </button>
+    <div class="c-header__mobile-nav-row">
+        <a class="c-header__nav-link{{ ' c-header__nav-link--is-active' if isActive }}" href="{{ url }}">{{ text }}</a>
+        <button type="button" class="c-header__mobile-nav-toggle" data-accordion-toggle aria-expanded="false" aria-label="Rozbalit podnabídku {{ text }}">
+            {% icon "chevron-down", 16, "c-header__nav-chevron" %}
+        </button>
+    </div>
     <div class="c-header__mobile-nav-sublist" data-accordion-panel>
         {% for child in children %}
             <a class="c-header__mobile-nav-sublink" href="{{ child.url }}">{{ child.text }}</a>
