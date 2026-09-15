@@ -25,7 +25,7 @@ class BannerFactory extends Factory
             'meta_text' => $this->faker->boolean() ? $this->faker->words(4, true) : null,
             'color' => $this->faker->randomElement(BannerColor::cases()),
             'buttons' => [
-                ['text' => 'Detail akce', 'url' => '#', 'variant' => 'solid'],
+                ['text' => ['cs' => 'Detail akce'], 'url' => '#', 'variant' => 'solid'],
             ],
             'sort_order' => $this->faker->numberBetween(0, 10),
         ];

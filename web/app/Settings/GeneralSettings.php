@@ -15,11 +15,16 @@ class GeneralSettings extends Settings
     /**
      * Fallback rich text shown on a club's recruitment notice when the club's own
      * recruitment_text is empty — one for each Club::$recruitment_open state. See
-     * Club::recruitmentMessage().
+     * Club::recruitmentMessage(). `_en` siblings hold the English translation — see
+     * skills/web-component-guide.md's "Dvojjazyčný obsah" section.
      */
     public string $recruitment_open_fallback_text;
 
+    public ?string $recruitment_open_fallback_text_en;
+
     public string $recruitment_closed_fallback_text;
+
+    public ?string $recruitment_closed_fallback_text_en;
 
     /**
      * Odkaz na živé přenosy z turnajů (ČMBS TV) — zobrazený v poznámce pod sekcí Turnaje na

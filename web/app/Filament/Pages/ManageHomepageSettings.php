@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Support\TranslatableTabs;
 use App\Models\Banner;
 use App\Models\LinkTile;
 use App\Settings\HomepageSettings;
@@ -33,22 +34,26 @@ class ManageHomepageSettings extends SettingsPage
                 Section::make('Novinky')
                     ->columns(1)
                     ->components([
-                        TextInput::make('featured_articles_button_text')
-                            ->label('Text tlačítka')
-                            ->required(),
+                        TranslatableTabs::makeForSettings([
+                            'featured_articles_button_text' => fn (string $locale) => TextInput::make('featured_articles_button_text')
+                                ->label('Text tlačítka')
+                                ->required($locale === 'cs'),
+                        ]),
                     ]),
                 Section::make('Zprávy výkonného výboru')
                     ->columns(1)
                     ->components([
-                        TextInput::make('notices_title')
-                            ->label('Titulek')
-                            ->required(),
-                        TextInput::make('notices_subtitle')
-                            ->label('Podnadpis')
-                            ->required(),
-                        TextInput::make('notices_button_text')
-                            ->label('Text tlačítka')
-                            ->required(),
+                        TranslatableTabs::makeForSettings([
+                            'notices_title' => fn (string $locale) => TextInput::make('notices_title')
+                                ->label('Titulek')
+                                ->required($locale === 'cs'),
+                            'notices_subtitle' => fn (string $locale) => TextInput::make('notices_subtitle')
+                                ->label('Podnadpis')
+                                ->required($locale === 'cs'),
+                            'notices_button_text' => fn (string $locale) => TextInput::make('notices_button_text')
+                                ->label('Text tlačítka')
+                                ->required($locale === 'cs'),
+                        ]),
                     ]),
                 Section::make('Banner 1')
                     ->description('Zobrazí se hned pod sekcí Zprávy výkonného výboru. Bez výběru se sekce vůbec nevypíše.')
@@ -63,12 +68,14 @@ class ManageHomepageSettings extends SettingsPage
                 Section::make('Turnaje')
                     ->columns(1)
                     ->components([
-                        TextInput::make('tournaments_title')
-                            ->label('Titulek')
-                            ->required(),
-                        TextInput::make('tournaments_button_text')
-                            ->label('Text tlačítka')
-                            ->required(),
+                        TranslatableTabs::makeForSettings([
+                            'tournaments_title' => fn (string $locale) => TextInput::make('tournaments_title')
+                                ->label('Titulek')
+                                ->required($locale === 'cs'),
+                            'tournaments_button_text' => fn (string $locale) => TextInput::make('tournaments_button_text')
+                                ->label('Text tlačítka')
+                                ->required($locale === 'cs'),
+                        ]),
                     ]),
                 Section::make('Banner 2')
                     ->description('Zobrazí se hned pod sekcí Turnaje. Bez výběru se sekce vůbec nevypíše.')
@@ -83,15 +90,17 @@ class ManageHomepageSettings extends SettingsPage
                 Section::make('Žebříčky')
                     ->columns(1)
                     ->components([
-                        TextInput::make('leaderboards_title')
-                            ->label('Titulek')
-                            ->required(),
-                        TextInput::make('leaderboards_subtitle')
-                            ->label('Podnadpis')
-                            ->required(),
-                        TextInput::make('leaderboards_button_text')
-                            ->label('Text tlačítka')
-                            ->required(),
+                        TranslatableTabs::makeForSettings([
+                            'leaderboards_title' => fn (string $locale) => TextInput::make('leaderboards_title')
+                                ->label('Titulek')
+                                ->required($locale === 'cs'),
+                            'leaderboards_subtitle' => fn (string $locale) => TextInput::make('leaderboards_subtitle')
+                                ->label('Podnadpis')
+                                ->required($locale === 'cs'),
+                            'leaderboards_button_text' => fn (string $locale) => TextInput::make('leaderboards_button_text')
+                                ->label('Text tlačítka')
+                                ->required($locale === 'cs'),
+                        ]),
                     ]),
                 Section::make('Dlaždice')
                     ->description('Výběr a pořadí dlaždic zobrazených na homepage. Prázdný výběr = sekce se nevypíše.')
@@ -106,12 +115,14 @@ class ManageHomepageSettings extends SettingsPage
                 Section::make('Partneři')
                     ->columns(1)
                     ->components([
-                        TextInput::make('partners_title')
-                            ->label('Titulek')
-                            ->required(),
-                        TextInput::make('partners_button_text')
-                            ->label('Text tlačítka')
-                            ->required(),
+                        TranslatableTabs::makeForSettings([
+                            'partners_title' => fn (string $locale) => TextInput::make('partners_title')
+                                ->label('Titulek')
+                                ->required($locale === 'cs'),
+                            'partners_button_text' => fn (string $locale) => TextInput::make('partners_button_text')
+                                ->label('Text tlačítka')
+                                ->required($locale === 'cs'),
+                        ]),
                     ]),
             ]);
     }

@@ -25,7 +25,7 @@ class BannerSeeder extends Seeder
             'meta_text' => '23. – 25. října 2026 · Bratislava',
             'color' => BannerColor::Accent,
             'buttons' => [
-                ['text' => 'Detail akce', 'url' => '#', 'variant' => 'solid'],
+                ['text' => ['cs' => 'Detail akce'], 'url' => '#', 'variant' => 'solid'],
             ],
             'sort_order' => 0,
         ],
@@ -37,8 +37,8 @@ class BannerSeeder extends Seeder
             'meta_text' => null,
             'color' => BannerColor::Primary,
             'buttons' => [
-                ['text' => 'Jak začít s poolem', 'url' => '/jak-zacit', 'variant' => 'outline'],
-                ['text' => 'Najdi si nejbližší klub', 'url' => '/kluby', 'variant' => 'solid'],
+                ['text' => ['cs' => 'Jak začít s poolem'], 'url' => '/jak-zacit', 'variant' => 'outline'],
+                ['text' => ['cs' => 'Najdi si nejbližší klub'], 'url' => '/kluby', 'variant' => 'solid'],
             ],
             'sort_order' => 1,
         ],

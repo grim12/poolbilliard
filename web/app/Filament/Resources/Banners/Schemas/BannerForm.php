@@ -70,9 +70,11 @@ class BannerForm
                         Repeater::make('buttons')
                             ->hiddenLabel()
                             ->schema([
-                                TextInput::make('text')
-                                    ->label('Text tlačítka')
+                                TextInput::make('text.cs')
+                                    ->label('Text tlačítka (CZ)')
                                     ->required(),
+                                TextInput::make('text.en')
+                                    ->label('Text tlačítka (EN)'),
                                 TextInput::make('url')
                                     ->label('Odkaz')
                                     ->required(),
@@ -82,11 +84,11 @@ class BannerForm
                                     ->default('solid')
                                     ->required(),
                             ])
-                            ->columns(3)
+                            ->columns(4)
                             ->defaultItems(0)
                             ->maxItems(2)
                             ->addActionLabel('Přidat tlačítko')
-                            ->helperText('Nejvýše 2 tlačítka, obě nepovinná.'),
+                            ->helperText('Nejvýše 2 tlačítka, obě nepovinná. Text tlačítka jde vyplnit zvlášť pro CZ/EN, odkaz a varianta jsou společné pro oba jazyky.'),
                     ]),
             ]);
     }

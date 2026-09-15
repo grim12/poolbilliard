@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Support\TranslatableTabs;
 use App\Settings\GeneralSettings;
 use BackedEnum;
 use Filament\Forms\Components\RichEditor;
@@ -48,12 +49,14 @@ class ManageGeneralSettings extends SettingsPage
                     ->description('Použije se u klubu, který má vyplněný jen stav náboru (otevřeno/zavřeno), ale ne vlastní text.')
                     ->columns(1)
                     ->components([
-                        RichEditor::make('recruitment_open_fallback_text')
-                            ->label('Výchozí text — nábor otevřen')
-                            ->required(),
-                        RichEditor::make('recruitment_closed_fallback_text')
-                            ->label('Výchozí text — nábor uzavřen')
-                            ->required(),
+                        TranslatableTabs::makeForSettings([
+                            'recruitment_open_fallback_text' => fn (string $locale) => RichEditor::make('recruitment_open_fallback_text')
+                                ->label('Výchozí text — nábor otevřen')
+                                ->required($locale === 'cs'),
+                            'recruitment_closed_fallback_text' => fn (string $locale) => RichEditor::make('recruitment_closed_fallback_text')
+                                ->label('Výchozí text — nábor uzavřen')
+                                ->required($locale === 'cs'),
+                        ]),
                     ]),
             ]);
     }

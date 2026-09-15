@@ -1,7 +1,7 @@
 {{--
     <x-banner :banner :heading-level />
     - banner: a Banner model (title, text rich-HTML, image_url, tag_text, meta_text, color enum,
-      buttons array of {text, url, variant}). Mirrors ui/src/_includes/macros/banner.njk —
+      buttons array of {text: {cs, en}, url, variant}). Mirrors ui/src/_includes/macros/banner.njk —
       color drives the tag and every button unless a button has its own variant (buttons don't
       store a per-button color override, only variant, see skills/web-component-guide.md).
 --}}
@@ -40,7 +40,7 @@
             <div class="c-banner__actions">
                 @foreach ($banner->buttons as $button)
                     <x-button
-                        :text="$button['text']"
+                        :text="$button['text'][app()->getLocale()] ?? $button['text']['cs'] ?? ''"
                         :url="$button['url']"
                         :color="$color"
                         :variant="$button['variant'] ?? 'solid'"
