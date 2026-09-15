@@ -269,14 +269,23 @@ Web bude muset být CZ/EN. Zatím je připravená jen **datová vrstva + admin**
   }
   ```
   `HasTranslatableFormFields` (`app/Models/Concerns/HasTranslatableFormFields.php`) zabaluje `Spatie\Translatable\HasTranslations` a navíc pro každé translatable pole vystaví **virtuální** `{field}_translations` atribut (`['cs' => ..., 'en' => ...]`) — bez psaní per-pole `Attribute::make()` accessoru na každém modelu zvlášť. `$model->title` (bez suffixu) zůstává obyčejný string v aktuální lokalizaci (spatie magic accessor) — veřejný Blade/controller kód se díky tomu **vůbec nemusí měnit**, jen admin formuláře cílí na `{field}_translations.cs`/`.en`. Obě varianty (`title` i `title_translations`) patří do `$fillable` — `title` kvůli factories/seederům (obyčejný string → uloží se jen do `cs`, `en` zůstane nepřeložené a čte se přes fallback), `title_translations` kvůli Filament formulářům (viz níže).
-* **Vzor ve Filament formuláři** (referenční příklad: `app/Filament/Resources/Articles/Schemas/ArticleForm.php`):
+* **Vzor ve Filament formuláři — JEDEN Tabs pár na celý resource, ne jeden na pole** (referenční příklad: `app/Filament/Resources/Articles/Schemas/ArticleForm.php`):
   ```php
-  TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
-      ->label('Titulek')
-      ->required($locale === 'cs'))
-      ->columnSpanFull(),
+  Section::make('Obsah')
+      ->components([
+          TranslatableTabs::make([
+              'title' => fn (string $locale) => TextInput::make('title')
+                  ->label('Titulek')
+                  ->required($locale === 'cs'),
+              'excerpt' => fn (string $locale) => Textarea::make('excerpt')
+                  ->label('Perex')
+                  ->rows(3),
+              'body' => fn (string $locale) => RichEditor::make('body')
+                  ->label('Obsah článku'),
+          ]),
+      ]),
   ```
-  `App\Filament\Support\TranslatableTabs` zabalí libovolnou komponentu do CZ/EN `Tabs` a nastaví jí správný `statePath` (`{field}_translations.{locale}`) — closure dostane `$locale`, takže volající řídí per-jazyk detaily (`->required($locale === 'cs')`, jiný `->helperText()` apod.). Tabulky (`Tables/*Table.php`) se **nemění** — `TextColumn::make('title')` funguje beze změny (magic accessor).
+  `App\Filament\Support\TranslatableTabs::make(array $fields, ...)` bere **všechna** translatable pole daného resource najednou (ne volání po jednom poli) a postaví z nich jeden CZ/EN `Tabs` — jeden přepínač jazyka pro celý záznam, ne jeden u každého pole zvlášť (to bylo matoucí — první iterace to dělala per-pole, přestavěno na základě zpětné vazby). Klíč pole v poli `$fields` → `statePath` `{field}_translations.{locale}`, closure dostane `$locale` a řídí per-jazyk detaily (`->required($locale === 'cs')` apod.). **Needitovatelná pole (slug, obrázek, vztahy, datum...) zůstávají mimo** tenhle blok, ve svých původních sekcích — jen translatable pole se přesunou dohromady do vlastní sekce (typicky nazvané "Obsah"), i když byla předtím rozeseta po více sekcích (viz `ClubForm`: `about_text` bylo v "Základní údaje", `recruitment_text` v "Nábor" — obě teď spolu v jedné `TranslatableTabs::make([...])`). Tabulky (`Tables/*Table.php`) se **nemění** — `TextColumn::make('title')` funguje beze změny (magic accessor).
   * **PAST (velmi snadné zopakovat): field state se musí přepojit přes `->statePath(...)`, ne `->name(...)`.** `->name()` mění jen label/id komponenty, ne kam se váže její state — vypadá to, že to funguje (žádná chyba při vyplňování), ale ve skutečnosti oba jazykové taby zůstanou tiše navázané na původní `::make()` argument (tj. na sebe navzájem). Projeví se to různě podle typu pole — u `TextInput` prostě obě pole ukládají/čtou to samé, u `RichEditor` to spadne (Tiptap dostane pole místo stringu → `Undefined array key "content"`). Ověřeno end-to-end přes `Livewire::test(CreateXxx::class)->fillForm([...])->call('create')`, ne jen "stránka se načte" smoke testem — ten chybu neodhalí.
   * **PAST: `RichEditor`/Tiptap (`ueberdosis/tiptap-php`) padá na prázdném **stringu** (`''`), ne na `null`.** Filament's `RichEditorStateCast` má `$state ?? [default doc]` fallback jen pro `null`. Proto `HasTranslatableFormFields::getAttribute()` pro nepřeloženou lokalizaci vrací `null` (přes `getTranslation($field, $locale, useFallbackLocale: false)`), **ne** `''`.
   * `relationship('category', 'name')` selecty (a `Model::pluck('title', 'id')`) obcházejí magic accessor (SQL-level projekce) — u translatable cílového sloupce potřebují buď `->getOptionLabelFromRecordUsing(fn ($record) => $record->name)`, nebo `->get()->pluck('title', 'id')` místo přímého `pluck()` na query builderu. Referenční příklady: `ArticleForm`'s kategorie select, `ManageHomepageSettings`'s banner/link-tile selecty.

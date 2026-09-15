@@ -32,25 +32,12 @@ class BannerForm
                 Section::make('Základní údaje')
                     ->columns(2)
                     ->components([
-                        TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
-                            ->label('Titulek')
-                            ->required($locale === 'cs'))
-                            ->columnSpanFull(),
-                        TranslatableTabs::make('text', fn (string $locale) => RichEditor::make('text')
-                            ->label('Text'))
-                            ->columnSpanFull(),
                         FileUpload::make('image')
                             ->label('Obrázek na pozadí')
                             ->image()
                             ->disk('public')
                             ->directory('banners')
                             ->columnSpanFull(),
-                        TranslatableTabs::make('tag_text', fn (string $locale) => TextInput::make('tag_text')
-                            ->label('Štítek')
-                            ->helperText('Např. "ZA 2 MĚSÍCE" nebo "Pro začátečníky" — nepovinné.')),
-                        TranslatableTabs::make('meta_text', fn (string $locale) => TextInput::make('meta_text')
-                            ->label('Doplňkový text')
-                            ->helperText('Např. "23. – 25. října 2026 · Bratislava" — nepovinné.')),
                         Select::make('color')
                             ->label('Barva')
                             ->options(BannerColor::class)
@@ -61,6 +48,22 @@ class BannerForm
                             ->required()
                             ->numeric()
                             ->default(0),
+                    ]),
+                Section::make('Obsah')
+                    ->components([
+                        TranslatableTabs::make([
+                            'title' => fn (string $locale) => TextInput::make('title')
+                                ->label('Titulek')
+                                ->required($locale === 'cs'),
+                            'text' => fn (string $locale) => RichEditor::make('text')
+                                ->label('Text'),
+                            'tag_text' => fn (string $locale) => TextInput::make('tag_text')
+                                ->label('Štítek')
+                                ->helperText('Např. "ZA 2 MĚSÍCE" nebo "Pro začátečníky" — nepovinné.'),
+                            'meta_text' => fn (string $locale) => TextInput::make('meta_text')
+                                ->label('Doplňkový text')
+                                ->helperText('Např. "23. – 25. října 2026 · Bratislava" — nepovinné.'),
+                        ]),
                     ]),
                 Section::make('Tlačítka')
                     ->components([

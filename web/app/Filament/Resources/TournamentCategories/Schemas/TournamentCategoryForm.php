@@ -25,8 +25,10 @@ class TournamentCategoryForm
     public static function components(): array
     {
         return [
-            TranslatableTabs::make('name', fn (string $locale) => TextInput::make('name')
-                ->required($locale === 'cs')),
+            TranslatableTabs::make([
+                'name' => fn (string $locale) => TextInput::make('name')
+                    ->required($locale === 'cs'),
+            ]),
             Select::make('color')
                 ->options([
                     'primary' => 'Primary',

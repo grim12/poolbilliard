@@ -18,10 +18,6 @@ class LeaderboardForm
                 Section::make('Základní údaje')
                     ->columns(2)
                     ->components([
-                        TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
-                            ->label('Název žebříčku')
-                            ->required($locale === 'cs'))
-                            ->columnSpanFull(),
                         Toggle::make('featured')
                             ->label('Zvýraznit 1. místo')
                             ->helperText('Akcentní barva místo tmavě modré — použij jen pro hlavní celostátní žebříček.'),
@@ -30,6 +26,14 @@ class LeaderboardForm
                             ->required()
                             ->numeric()
                             ->default(0),
+                    ]),
+                Section::make('Obsah')
+                    ->components([
+                        TranslatableTabs::make([
+                            'title' => fn (string $locale) => TextInput::make('title')
+                                ->label('Název žebříčku')
+                                ->required($locale === 'cs'),
+                        ]),
                     ]),
                 Section::make('Pořadí hráčů')
                     ->components([

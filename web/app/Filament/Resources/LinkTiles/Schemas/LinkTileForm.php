@@ -13,9 +13,11 @@ class LinkTileForm
     {
         return $schema
             ->components([
-                TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
-                    ->label('Titulek')
-                    ->required($locale === 'cs')),
+                TranslatableTabs::make([
+                    'title' => fn (string $locale) => TextInput::make('title')
+                        ->label('Titulek')
+                        ->required($locale === 'cs'),
+                ]),
                 TextInput::make('url')
                     ->label('Odkaz')
                     ->required(),

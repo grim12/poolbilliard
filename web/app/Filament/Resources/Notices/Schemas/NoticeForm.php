@@ -16,10 +16,6 @@ class NoticeForm
     {
         return $schema
             ->components([
-                TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
-                    ->label('Titulek')
-                    ->required($locale === 'cs'))
-                    ->columnSpanFull(),
                 TextInput::make('slug_cs')
                     ->label('Slug (CZ)')
                     ->helperText('Generuje se automaticky z titulku při založení. Needituj bez rozmyslu, pokud je zpráva už publikovaná — mění se tím URL.')
@@ -34,13 +30,16 @@ class NoticeForm
                 Toggle::make('is_important')
                     ->label('Důležité')
                     ->helperText('Zvýrazní zprávu značkou "DŮLEŽITÉ" v přehledu.'),
-                TranslatableTabs::make('excerpt', fn (string $locale) => Textarea::make('excerpt')
-                    ->label('Perex (krátký úvodní text v přehledu)')
-                    ->rows(3))
-                    ->columnSpanFull(),
-                TranslatableTabs::make('body', fn (string $locale) => RichEditor::make('body')
-                    ->label('Obsah zprávy'))
-                    ->columnSpanFull(),
+                TranslatableTabs::make([
+                    'title' => fn (string $locale) => TextInput::make('title')
+                        ->label('Titulek')
+                        ->required($locale === 'cs'),
+                    'excerpt' => fn (string $locale) => Textarea::make('excerpt')
+                        ->label('Perex (krátký úvodní text v přehledu)')
+                        ->rows(3),
+                    'body' => fn (string $locale) => RichEditor::make('body')
+                        ->label('Obsah zprávy'),
+                ])->columnSpanFull(),
             ]);
     }
 }

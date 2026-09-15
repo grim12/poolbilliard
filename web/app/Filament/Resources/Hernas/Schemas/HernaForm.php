@@ -41,9 +41,13 @@ class HernaForm
                             ->label('Stav')
                             ->options(HernaStatus::class)
                             ->required(),
-                        TranslatableTabs::make('about_text', fn (string $locale) => RichEditor::make('about_text')
-                            ->label('O herně'))
-                            ->columnSpanFull(),
+                    ]),
+                Section::make('Obsah')
+                    ->components([
+                        TranslatableTabs::make([
+                            'about_text' => fn (string $locale) => RichEditor::make('about_text')
+                                ->label('O herně'),
+                        ]),
                     ]),
                 Section::make('Adresa a poloha')
                     ->columns(2)

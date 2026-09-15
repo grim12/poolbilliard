@@ -17,9 +17,6 @@ class TournamentForm
     {
         return $schema
             ->components([
-                TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
-                    ->required($locale === 'cs'))
-                    ->columnSpanFull(),
                 TextInput::make('url'),
                 Select::make('tournament_category_id')
                     ->label('Kategorie')
@@ -35,8 +32,12 @@ class TournamentForm
                     ->label('Datum konce')
                     ->helperText('Nech prázdné u jednodenního turnaje.')
                     ->afterOrEqual('start_date'),
-                TranslatableTabs::make('location_text', fn (string $locale) => TextInput::make('location_text')
-                    ->label('Místo konání')),
+                TranslatableTabs::make([
+                    'title' => fn (string $locale) => TextInput::make('title')
+                        ->required($locale === 'cs'),
+                    'location_text' => fn (string $locale) => TextInput::make('location_text')
+                        ->label('Místo konání'),
+                ])->columnSpanFull(),
                 Toggle::make('badge')
                     ->label('Has Badge'),
                 TextInput::make('sort_order')

@@ -23,10 +23,6 @@ class ArticleForm
                 Section::make('Základní údaje')
                     ->columns(2)
                     ->components([
-                        TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
-                            ->label('Titulek')
-                            ->required($locale === 'cs'))
-                            ->columnSpanFull(),
                         TextInput::make('slug_cs')
                             ->label('Slug (CZ)')
                             ->helperText('Generuje se automaticky z titulku při založení. Needituj bez rozmyslu, pokud je článek už publikovaný — mění se tím URL.')
@@ -52,13 +48,19 @@ class ArticleForm
                             ->disk('public')
                             ->directory('articles')
                             ->columnSpanFull(),
-                        TranslatableTabs::make('excerpt', fn (string $locale) => Textarea::make('excerpt')
-                            ->label('Perex (krátký úvodní text v přehledu)')
-                            ->rows(3))
-                            ->columnSpanFull(),
-                        TranslatableTabs::make('body', fn (string $locale) => RichEditor::make('body')
-                            ->label('Obsah článku'))
-                            ->columnSpanFull(),
+                    ]),
+                Section::make('Obsah')
+                    ->components([
+                        TranslatableTabs::make([
+                            'title' => fn (string $locale) => TextInput::make('title')
+                                ->label('Titulek')
+                                ->required($locale === 'cs'),
+                            'excerpt' => fn (string $locale) => Textarea::make('excerpt')
+                                ->label('Perex (krátký úvodní text v přehledu)')
+                                ->rows(3),
+                            'body' => fn (string $locale) => RichEditor::make('body')
+                                ->label('Obsah článku'),
+                        ]),
                     ]),
                 Section::make('Fotogalerie')
                     ->components([

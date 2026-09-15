@@ -41,9 +41,16 @@ class ClubForm
                             ->disk('public')
                             ->directory('clubs')
                             ->columnSpanFull(),
-                        TranslatableTabs::make('about_text', fn (string $locale) => RichEditor::make('about_text')
-                            ->label('O klubu'))
-                            ->columnSpanFull(),
+                    ]),
+                Section::make('Obsah')
+                    ->components([
+                        TranslatableTabs::make([
+                            'about_text' => fn (string $locale) => RichEditor::make('about_text')
+                                ->label('O klubu'),
+                            'recruitment_text' => fn (string $locale) => RichEditor::make('recruitment_text')
+                                ->label('Vlastní text náboru (nepovinné)')
+                                ->helperText('Když necháš prázdné, použije se výchozí text pro daný stav náboru (Nastavení > Nábor do klubů).'),
+                        ]),
                     ]),
                 Section::make('Adresa a poloha')
                     ->columns(2)
@@ -77,9 +84,6 @@ class ClubForm
                         Toggle::make('recruitment_open')
                             ->label('Nábor otevřen')
                             ->default(true),
-                        TranslatableTabs::make('recruitment_text', fn (string $locale) => RichEditor::make('recruitment_text')
-                            ->label('Vlastní text (nepovinné)')
-                            ->helperText('Když necháš prázdné, použije se výchozí text pro daný stav náboru (Nastavení > Nábor do klubů).')),
                     ]),
                 Section::make('Členové klubu')
                     ->components([

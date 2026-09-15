@@ -15,12 +15,12 @@ class FaqItemForm
     {
         return $schema
             ->components([
-                TranslatableTabs::make('question', fn (string $locale) => TextInput::make('question')
-                    ->required($locale === 'cs'))
-                    ->columnSpanFull(),
-                TranslatableTabs::make('answer', fn (string $locale) => RichEditor::make('answer')
-                    ->required($locale === 'cs'))
-                    ->columnSpanFull(),
+                TranslatableTabs::make([
+                    'question' => fn (string $locale) => TextInput::make('question')
+                        ->required($locale === 'cs'),
+                    'answer' => fn (string $locale) => RichEditor::make('answer')
+                        ->required($locale === 'cs'),
+                ]),
                 Select::make('groups')
                     ->label('Kde se zobrazí (skupiny)')
                     ->relationship('groups', 'name')
