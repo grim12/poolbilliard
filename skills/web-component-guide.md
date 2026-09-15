@@ -97,7 +97,21 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   `KlubySettings`/`HernySettings`, `group()` `'kalendar'`) drží editovatelný titulek + podnadpis
   hlavičky (`ManageKalendarSettings`) — bez info panelu (ten `/kluby`/`/herny` mají, Kalendář ne),
   jen `<x-news-header>`'s title/subtitle; oddělené od `HomepageSettings::$tournaments_title`,
-  protože jde o jinou stránku s vlastním textem.
+  protože jde o jinou stránku s vlastním textem. Drží taky text `<x-recurring-tournaments>`'s
+  karty ("Chceš si zahrát?" — `recurring_tag_text`/`recurring_title`/`recurring_text`, stejný
+  CZ/EN pár jako ostatní pole) a **`calendar_sources`** — `Filament\Forms\Components\Repeater`
+  (`title`/`subtitle`/`url` na řádek), admin-editovatelný seznam pro `<x-calendar-sources>`, bez
+  vlastního modelu/tabulky (žije jen na téhle jedné stránce, nic jinam neodkazuje ani se odjinud
+  nedotazuje). **Ne-translatable per řádek** (na rozdíl od ostatních polí) — jde o názvy
+  organizací (ČMBS/EPBF/EEBC/Matchroom), co by se v EN verzi nezměnily, a per-row CZ/EN taby
+  uvnitř `Repeater`u nemají v projektu zatím žádný precedent. **PAST: `calendar_sources` nesmí
+  mít `@var` docblock s generickým typem pole** (`array<int, array<...>>` ani PHPStan-style
+  `list<array{...}>`) — `spatie/laravel-settings` z docblocku odvozuje cast a jeho
+  `ArraySettingsCast` neumí postavit cast pro vnořené pole-v-poli (buď selže už při parsování
+  shape syntaxe, nebo za běhu na `ArraySettingsCast::__construct(null)`). Bez `@var` vůbec
+  (jen obyčejná PHP `array` typová nápověda) reflection cast building úplně přeskočí (viz
+  `Spatie\LaravelSettings\Support\PropertyReflector`) — přesně to, co chceme, žádné
+  per-položkové castování není potřeba.
   **`RecurringTournament`** (pravidelné amatérské turnaje, např. "Turnaje v Balabušce, každá
   středa") je **samostatný model**, ne flag na `Tournament` — different shape (`frequency` text
   místo `start_date`/`end_date`, žádná kategorie/badge, malý stabilní počet záznamů) by na

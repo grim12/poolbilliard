@@ -6,7 +6,8 @@
     (intentionally inert, same "not wired up yet" treatment as /novinky's category tabs — it
     doesn't actually filter $tournaments or $calendarMonth). $recurringTournaments:
     RecurringTournament collection, eager-loaded herna. $settings: App\Settings\KalendarSettings
-    — editorial text for the header (title/subtitle).
+    — editorial text for the header (title/subtitle), the "Chceš si zahrát?" recurring-
+    tournaments card (tag/title/text), and the calendar_sources repeater.
 --}}
 <x-layouts.app :title="$settings->title.' — Poolbilliard'">
     <div class="bg-gradient-light">
@@ -77,6 +78,9 @@
 
                         @if ($recurringTournaments->isNotEmpty())
                             <x-recurring-tournaments
+                                :tag-text="$settings->recurring_tag_text"
+                                :title="$settings->recurring_title"
+                                :text="$settings->recurring_text"
                                 :items="$recurringTournaments->map(fn ($item) => [
                                     'frequency' => $item->frequency,
                                     'title' => $item->title,
@@ -90,14 +94,7 @@
                             />
                         @endif
 
-                        <x-calendar-sources
-                            :sources="[
-                                ['title' => 'ČMBS kalendář', 'subtitle' => 'Svazové soutěže a akce', 'url' => '#'],
-                                ['title' => 'EPBF kalendář', 'subtitle' => 'European Pocket Billiard Federation', 'url' => '#'],
-                                ['title' => 'EEBC kalendář', 'subtitle' => 'East European Billiard Council', 'url' => '#'],
-                                ['title' => 'Matchroom kalendář', 'subtitle' => 'Matchroom Pool', 'url' => '#'],
-                            ]"
-                        />
+                        <x-calendar-sources :sources="$settings->calendar_sources" />
                     </aside>
                 </div>
             </div>

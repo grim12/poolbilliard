@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Filament\Support\TranslatableTabs;
 use App\Settings\KalendarSettings;
 use BackedEnum;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\SettingsPage;
@@ -40,7 +41,36 @@ class ManageKalendarSettings extends SettingsPage
                             'subtitle' => fn (string $locale) => Textarea::make('subtitle')
                                 ->label('Hlavička — podnadpis')
                                 ->rows(2),
+                            'recurring_tag_text' => fn (string $locale) => TextInput::make('recurring_tag_text')
+                                ->label('Karta "Chceš si zahrát?" — štítek'),
+                            'recurring_title' => fn (string $locale) => TextInput::make('recurring_title')
+                                ->label('Karta "Chceš si zahrát?" — titulek')
+                                ->required($locale === 'cs'),
+                            'recurring_text' => fn (string $locale) => Textarea::make('recurring_text')
+                                ->label('Karta "Chceš si zahrát?" — text')
+                                ->rows(2),
                         ]),
+                    ]),
+                Section::make('Zdrojové kalendáře')
+                    ->description('Seznam externích kalendářů v postranní kartě.')
+                    ->components([
+                        Repeater::make('calendar_sources')
+                            ->hiddenLabel()
+                            ->schema([
+                                TextInput::make('title')
+                                    ->label('Titulek')
+                                    ->required(),
+                                TextInput::make('subtitle')
+                                    ->label('Podtitulek'),
+                                TextInput::make('url')
+                                    ->label('Odkaz')
+                                    ->url()
+                                    ->required(),
+                            ])
+                            ->columns(3)
+                            ->reorderable()
+                            ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                            ->addActionLabel('Přidat kalendář'),
                     ]),
             ]);
     }
