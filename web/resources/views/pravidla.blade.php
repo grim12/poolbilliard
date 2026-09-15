@@ -1,6 +1,6 @@
 {{--
-    Mirrors ui/src/pravidla.njk. $settings: App\Settings\PravidlaSettings — hero text, the myth
-    section's title/subtitle + myths repeater, and the rule-cards section title. $ruleCards:
+    Mirrors ui/src/pravidla.njk. $settings: App\Settings\PravidlaSettings — the 3 section
+    headers (hero, myth intro, rule-cards intro). $myths: Myth collection, ordered. $ruleCards:
     RuleCard collection, ordered.
 --}}
 <x-layouts.app :title="$settings->hero_title.' — Poolbilliard'">
@@ -15,7 +15,7 @@
                 <h2 class="c-section__title">{{ $settings->myths_title }}</h2>
                 <p class="c-section__subtitle max-w-3xl">{!! $settings->myths_subtitle !!}</p>
             </div>
-            <x-myth-faq :items="$settings->myths" id-prefix="mytus" />
+            <x-myth-faq :items="$myths" id-prefix="mytus" />
         </div>
     </section>
 

@@ -5,10 +5,12 @@ namespace App\Settings;
 use Spatie\LaravelSettings\Settings;
 
 /**
- * Editorial text for /pravidla — the page's 3 section headers (hero, myth/fact intro, rule
- * cards intro) plus the myth/fact repeater. Same "{field}_en" nullable sibling CZ/EN pattern as
- * KalendarSettings/SoutezeSettings. The rule cards themselves are a separate model (RuleCard,
- * see RuleCardResource) — they're repeating, image-bearing records, not page-singleton text.
+ * Editorial text for /pravidla — just the page's 3 section headers (hero, myth/fact intro,
+ * rule cards intro). Same "{field}_en" nullable sibling CZ/EN pattern as KalendarSettings/
+ * SoutezeSettings. Both the myth/fact items (Myth) and the rule cards (RuleCard) are separate
+ * models, not settings fields — they're repeating records with their own admin CRUD, not
+ * page-singleton text. Myth started as a Repeater here, then got promoted to its own entity
+ * once it became clear myths might get reused/grouped elsewhere later (see MythResource).
  */
 class PravidlaSettings extends Settings
 {
@@ -27,17 +29,6 @@ class PravidlaSettings extends Settings
     public string $myths_subtitle;
 
     public ?string $myths_subtitle_en;
-
-    /**
-     * Myth-vs-fact accordion items (see <x-myth-faq>). Each item: ['myth_text', 'myth_text_en',
-     * 'correct_text', 'correct_text_en'] — same flat "{field}_en" sibling convention as this
-     * class's own fields, repeated per row (same reasoning as KalendarSettings::$calendar_sources
-     * for skipping a per-row `TranslatableTabs` toggle).
-     *
-     * No `@var` docblock on purpose — see KalendarSettings::$calendar_sources's own comment
-     * (spatie/laravel-settings' cast reflection can't handle a nested array-of-arrays type).
-     */
-    public array $myths;
 
     public string $rule_cards_title;
 

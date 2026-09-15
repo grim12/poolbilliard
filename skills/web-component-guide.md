@@ -178,9 +178,16 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   jako `PartnerSeeder`). `iconVariant="balls"` z `ui/`'s makra se **neportoval** (stejný důvod
   jako `content-section`'s zahozený `eyebrowColor="accent"` — žádná karta ho nepoužívá) — místo
   uloženého příznaku se varianta (obrázek vs. ikona) odvozuje z toho, co je vyplněné.
-  **`PravidlaSettings`** drží hlavičkové texty (hero + oba `<h2>` nadpisy sekcí) a `myths`
-  repeater (`myth_text`/`correct_text` + `_en` sourozenci, stejný vzor jako
-  `KalendarSettings::$calendar_sources` — zase bez `@var` docblocku).
+  **`PravidlaSettings`** drží jen hlavičkové texty (hero + oba `<h2>` nadpisy sekcí) — žádný
+  repeater. **`Myth`** (mýty/fakta) začínal jako `PravidlaSettings`'s repeater (stejný vzor jako
+  `calendar_sources`/`stats`), ale povýšil se na vlastní model + Filament Resource
+  (`myth_text`/`correct_text`, `TranslatableTabs::make()` — jeden přepínač jazyka na záznam,
+  stejně jako u `RuleCard`/`CompetitionSection`) — zatím se vypisují jen na `/pravidla`, ale
+  počítá se s tím, že by časem mohly být i jinde, a tomu repeater vázaný na jednu stránku
+  neodpovídá. **Vědomě zatím bez vlastní taxonomie/skupiny** (na rozdíl od `FaqGroup`/`FaqItem`,
+  kde `belongsToMany` řeší umístění na víc místech) — až se reálně objeví druhé místo, kde se
+  mýty mají vypisovat, přidá se stejný `belongsToMany` vzor, ne dřív (viz bod 4 "Uzavřený/
+  neměnný seznam..." — tady je to spíš "zatím jen jedno umístění, neřeš to předem").
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.

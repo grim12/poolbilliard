@@ -5,8 +5,8 @@
       answer. Reuses the .c-faq component's CSS as-is (question/answer/chevron/panel classes,
       plus the .c-faq__badge element it supports) — no separate CSS, same as
       components/faq.blade.php but with a "Mýtus"/"Správně" badge instead of a numbered index.
-    - items: array of ['myth_text', 'correct_text'] (correct_text may contain trusted HTML —
-      printed unescaped, same as ui/'s `| safe` filter).
+    - items: Myth collection (correct_text may contain trusted HTML — printed unescaped, same
+      as ui/'s `| safe` filter).
     - The first item starts open (aria-expanded="true") so the answer pattern is obvious at a
       glance — resources/js/app.js already expands any pre-opened item on load (ported from
       ui/'s main.js well before this component existed).
@@ -26,7 +26,7 @@
                         <x-heroicon-m-exclamation-triangle width="12" height="12" />
                         Mýtus
                     </span>
-                    <span class="c-faq__question-text">„{{ $item['myth_text'] }}“</span>
+                    <span class="c-faq__question-text">„{{ $item->myth_text }}“</span>
                     <x-heroicon-m-chevron-down class="c-faq__chevron" width="20" height="20" />
                 </button>
                 <div class="c-faq__panel" id="{{ $idPrefix }}-panel-{{ $index + 1 }}" data-faq-panel>
@@ -35,7 +35,9 @@
                             <x-heroicon-m-check-circle width="12" height="12" />
                             Správně
                         </span>
-                        <p>{!! $item['correct_text'] !!}</p>
+                        {{-- correct_text is RichEditor-authored HTML (own <p> tags already) —
+                             no wrapping <p>, same pitfall as about_text/description elsewhere. --}}
+                        {!! $item->correct_text !!}
                     </div>
                 </div>
             </div>

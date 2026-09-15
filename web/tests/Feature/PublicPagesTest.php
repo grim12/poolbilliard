@@ -13,6 +13,7 @@ use App\Models\FaqItem;
 use App\Models\Herna;
 use App\Models\Leaderboard;
 use App\Models\LinkTile;
+use App\Models\Myth;
 use App\Models\Notice;
 use App\Models\Partner;
 use App\Models\RecurringTournament;
@@ -217,11 +218,18 @@ class PublicPagesTest extends TestCase
     }
 
     /**
-     * /pravidla: PravidlaSettings' myths repeater renders via <x-myth-faq> (first item
-     * pre-opened, aria-expanded="true") and RuleCard records via <x-rule-card>.
+     * /pravidla: Myth records render via <x-myth-faq> (first item pre-opened,
+     * aria-expanded="true") and RuleCard records via <x-rule-card>. Both are separate entities
+     * from PravidlaSettings (just the page's 3 section headers) — Myth in particular started
+     * as a PravidlaSettings repeater, then got promoted to its own model/resource once it
+     * became clear myths might appear elsewhere later (see MythResource).
      */
     public function test_pravidla_page_renders_myths_and_rule_cards(): void
     {
+        Myth::factory()->create([
+            'myth_text' => 'Testovací mýtus',
+            'correct_text' => '<p>Testovací správné pravidlo</p>',
+        ]);
         RuleCard::factory()->create([
             'title' => 'Testovací disciplína',
             'text' => '<p>Testovací pravidlo</p>',
@@ -232,10 +240,10 @@ class PublicPagesTest extends TestCase
         $response->assertOk();
         $response->assertSee('Testovací disciplína');
         $response->assertSee('Testovací pravidlo', false);
-        // Seeded myth data (see RuleCardSeeder/PravidlaSettings defaults) — first item must be
-        // pre-opened, not just present.
+        $response->assertSee('Testovací mýtus');
+        $response->assertSee('Testovací správné pravidlo', false);
+        // First item must be pre-opened, not just present.
         $response->assertSee('aria-expanded="true" aria-controls="mytus-panel-1"', false);
-        $response->assertSee('protější kapsy');
     }
 
     public function test_recurring_tournament_detail_page_renders_and_optionally_links_to_herna(): void

@@ -5,7 +5,6 @@ namespace App\Filament\Pages;
 use App\Filament\Support\TranslatableTabs;
 use App\Settings\PravidlaSettings;
 use BackedEnum;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -55,28 +54,6 @@ class ManagePravidlaSettings extends SettingsPage
                             'myths_subtitle' => fn (string $locale) => RichEditor::make('myths_subtitle')
                                 ->label('Text'),
                         ]),
-                    ]),
-                Section::make('Mýty a fakta')
-                    ->description('Seznam mýtů — vždy zobrazen jako otázka, po rozkliknutí se ukáže správné pravidlo.')
-                    ->components([
-                        Repeater::make('myths')
-                            ->hiddenLabel()
-                            ->schema([
-                                TextInput::make('myth_text')
-                                    ->label('Mýtus (CZ)')
-                                    ->required(),
-                                TextInput::make('myth_text_en')
-                                    ->label('Mýtus (EN)'),
-                                RichEditor::make('correct_text')
-                                    ->label('Správné pravidlo (CZ)')
-                                    ->required(),
-                                RichEditor::make('correct_text_en')
-                                    ->label('Správné pravidlo (EN)'),
-                            ])
-                            ->columns(2)
-                            ->reorderable()
-                            ->itemLabel(fn (array $state): ?string => $state['myth_text'] ?? null)
-                            ->addActionLabel('Přidat mýtus'),
                     ]),
                 Section::make('Sekce "Pravidla podle disciplíny"')
                     ->columns(1)
