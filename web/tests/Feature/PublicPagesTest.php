@@ -8,6 +8,7 @@ use App\Models\ArticleCategory;
 use App\Models\Banner;
 use App\Models\Club;
 use App\Models\ClubMember;
+use App\Models\CompetitionSection;
 use App\Models\FaqItem;
 use App\Models\Herna;
 use App\Models\Leaderboard;
@@ -43,7 +44,7 @@ class PublicPagesTest extends TestCase
         Club::factory()->create();
         Herna::factory()->create(['status' => HernaStatus::Approved]);
 
-        foreach (['/', '/partneri', '/faq', '/kalendar', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/kalendar', '/souteze', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -183,6 +184,35 @@ class PublicPagesTest extends TestCase
         $octoberResponse->assertOk();
         $octoberResponse->assertSee('Říjen 2026');
         $octoberResponse->assertSee($eventPill, false);
+    }
+
+    /**
+     * /souteze is the "hub" page: numbered CompetitionSection records rendered via
+     * <x-content-section> (with a real named-slot `aside`), a jump-nav derived from them, and
+     * the full Leaderboard listing (unlike homepage's top-5-per-board teaser).
+     */
+    public function test_souteze_page_renders_sections_and_full_leaderboards(): void
+    {
+        CompetitionSection::factory()->create([
+            'anchor' => 'test-sekce',
+            'nav_label' => 'Test sekce',
+            'title' => 'Testovací sekce',
+            'body' => '<p>Testovací obsah sekce</p>',
+            'aside' => '<p>Testovací postranní karta</p>',
+        ]);
+        Leaderboard::factory()->create([
+            'title' => 'Testovací žebříček',
+            'entries' => collect(range(1, 10))->map(fn (int $i) => ['name' => "Hráč {$i}", 'club' => null])->all(),
+        ]);
+
+        $response = $this->get('/souteze');
+
+        $response->assertOk();
+        $response->assertSee('Test sekce');
+        $response->assertSee('id="test-sekce"', false);
+        $response->assertSee('Testovací obsah sekce', false);
+        $response->assertSee('Testovací postranní karta', false);
+        $response->assertSee('Hráč 10');
     }
 
     public function test_recurring_tournament_detail_page_renders_and_optionally_links_to_herna(): void

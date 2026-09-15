@@ -131,6 +131,39 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   Filament/Resources/RecurringTournaments/`. Nové sdílené komponenty `calendar-month`,
   `recurring-tournaments`, `calendar-sources`, `no-results` (`resources/views/components/`)
   mirrors stejnojmenné `ui/`'s macra 1:1.
+* **Soutěže** (`/souteze`, `SoutezeController`) mirrors `ui/src/souteze.njk` — vědomě jen
+  **"hub" stránka s přehledovými informacemi**, ne finální podoba (uživatel počítá s tím, že se
+  jednotlivé soutěže/série časem rozpadnou na samostatné stránky). `<x-page-hero>` (titulek/
+  podnadpis/text/až 4 staty) + `<x-jump-nav>` (pilulky nahoře, scroll-spy JS už existuje v
+  `app.js` — kopíroval se 1:1 s celým `main.js` dávno předtím, byl jen neaktivní no-op bez
+  odpovídajícího markupu) + řada číslovaných `<x-content-section>` bloků + `<x-leaderboards>`
+  bez `max-entries` (plný TOP 10 žebříček, na rozdíl od homepage teaseru).
+  **`CompetitionSection`** — nový model pro číslované sekce (Regiony, Česká poolová tour, MČR
+  jednotlivců...), schválně **ne** `Competition` (až vznikne skutečná entita jedné soutěže/
+  série s vlastní stránkou, ať jí jméno nekoliduje). `title`/`eyebrow`/`nav_label`/`body`/
+  `aside`/`below` (translatable), `anchor` (**ne** `HasSlug` — je to ručně zadaná `#kotva` pro
+  jump-nav, často zkratka odlišná od titulku, ne mechanický slug z názvu), `sort_order`. Číslo
+  sekce (1, 2, 3...) se **nikde neukládá** — je to jen pozice ve `@foreach` smyčce
+  (`resources/views/souteze.blade.php`), stejná "odvozená hodnota místo ručně drženého pole"
+  logika jako `Tournament::soon()`/`dateText()`. Vlastní Filament Resource (jako Article/Notice),
+  ne Settings stránka — je to opakující se, řaditelná entita, ne stránková hlavička.
+  **Vědomá ztráta vizuální věrnosti u `aside`/`below`:** `ui/`'s mock má tam ručně psaný markup
+  (dvousloupcový stat rozpad, mřížka kategorie-dlaždic, barevná `infoPanel()` karta s tagem a
+  tlačítkem) — RichEditor tohle nedokáže reprodukovat (umí jen odstavce/tučně/seznamy/odkazy).
+  Místo budování strukturovaných polí pro každý bespoke prvek je `aside`/`below` obyčejný
+  RichEditor obsah zabalený do obecné `.c-section__card` krabičky — schválené zjednodušení
+  (viz konverzace), ne přehlédnutí, protože se stejně čeká na přestavbu podle bodu výše.
+  **`<x-content-section>`** má na rozdíl od `ui/`'s `contentSection()` makra (jen jeden
+  `caller()` blok) skutečné pojmenované sloty `aside`/`below` (Blade to umí, Nunjucks ne) —
+  žádný `{% set %}`-string-workaround navíc. `eyebrowColor` param z `ui/`'s makra se **neportoval**
+  — žádná stránka nikdy nepoužije `"accent"` a `.c-section__eyebrow--accent` modifier CSS
+  neexistuje ani v `ui/`, ani ve `web/`, takže to nebyla reálná funkční možnost.
+  **`SoutezeSettings`** (spatie-settings, stejný vzor jako `KalendarSettings`) drží jen
+  `<x-page-hero>`'s obsah (title/subtitle/text + `stats` repeater `{value, label, label_en}`,
+  opět bez `@var` docblocku ze stejného důvodu jako `KalendarSettings::$calendar_sources`).
+  `app/Models/CompetitionSection.php`, `database/seeders/CompetitionSectionSeeder.php`, `app/
+  Filament/Resources/CompetitionSections/`, `app/Settings/SoutezeSettings.php`, `app/Filament/
+  Pages/ManageSoutezeSettings.php`, nové komponenty `page-hero`/`jump-nav`/`content-section`.
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.
