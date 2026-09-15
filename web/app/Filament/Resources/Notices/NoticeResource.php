@@ -18,7 +18,13 @@ class NoticeResource extends Resource
 {
     protected static ?string $model = Notice::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBellAlert;
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $modelLabel = 'zpráva VV';
+
+    protected static ?string $pluralModelLabel = 'zprávy VV';
 
     public static function form(Schema $schema): Schema
     {

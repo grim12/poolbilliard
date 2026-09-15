@@ -13,12 +13,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class LinkTileResource extends Resource
 {
     protected static ?string $model = LinkTile::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSquares2x2;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Správa Obsahu';
+
+    protected static ?string $modelLabel = 'dlaždice';
+
+    protected static ?string $pluralModelLabel = 'dlaždice';
 
     public static function form(Schema $schema): Schema
     {

@@ -18,7 +18,13 @@ class ArticleResource extends Resource
 {
     protected static ?string $model = Article::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $modelLabel = 'článek';
+
+    protected static ?string $pluralModelLabel = 'články';
 
     public static function form(Schema $schema): Schema
     {

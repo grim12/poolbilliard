@@ -13,12 +13,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class TournamentResource extends Resource
 {
     protected static ?string $model = Tournament::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTrophy;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Správa Obsahu';
+
+    protected static ?string $modelLabel = 'turnaj';
+
+    protected static ?string $pluralModelLabel = 'turnaje';
 
     public static function form(Schema $schema): Schema
     {

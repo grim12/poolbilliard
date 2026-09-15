@@ -13,12 +13,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class FaqGroupResource extends Resource
 {
     protected static ?string $model = FaqGroup::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Taxonomie';
+
+    protected static ?string $modelLabel = 'skupina FAQ';
+
+    protected static ?string $pluralModelLabel = 'skupiny FAQ';
 
     public static function form(Schema $schema): Schema
     {

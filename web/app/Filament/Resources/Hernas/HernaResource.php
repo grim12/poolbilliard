@@ -13,12 +13,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class HernaResource extends Resource
 {
     protected static ?string $model = Herna::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingStorefront;
+
+    protected static string|UnitEnum|null $navigationGroup = 'Správa Obsahu';
+
+    protected static ?string $modelLabel = 'herna';
+
+    protected static ?string $pluralModelLabel = 'herny';
 
     public static function form(Schema $schema): Schema
     {
