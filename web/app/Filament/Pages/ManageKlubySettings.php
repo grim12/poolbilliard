@@ -29,33 +29,27 @@ class ManageKlubySettings extends SettingsPage
     {
         return $schema
             ->components([
-                Section::make('Hlavička')
+                Section::make('Obsah')
+                    ->description('Veškerý překladatelný text stránky na jednom místě — jeden přepínač jazyka pro celou stránku.')
                     ->columns(1)
                     ->components([
                         TranslatableTabs::makeForSettings([
                             'title' => fn (string $locale) => TextInput::make('title')
-                                ->label('Titulek')
+                                ->label('Hlavička — titulek')
                                 ->required($locale === 'cs'),
-                        ]),
-                    ]),
-                Section::make('Info panel')
-                    ->description('Karta vedle mapy klubů.')
-                    ->columns(1)
-                    ->components([
-                        TranslatableTabs::makeForSettings([
                             'info_tag_text' => fn (string $locale) => TextInput::make('info_tag_text')
-                                ->label('Štítek'),
+                                ->label('Info panel — štítek'),
                             'info_title' => fn (string $locale) => TextInput::make('info_title')
-                                ->label('Titulek')
+                                ->label('Info panel — titulek')
                                 ->required($locale === 'cs'),
                             'info_text' => fn (string $locale) => Textarea::make('info_text')
-                                ->label('Text')
+                                ->label('Info panel — text')
                                 ->rows(3),
                             'info_foot_text' => fn (string $locale) => Textarea::make('info_foot_text')
-                                ->label('Text pod seznamem výhod')
+                                ->label('Info panel — text pod seznamem výhod')
                                 ->rows(2),
                             'info_button_text' => fn (string $locale) => TextInput::make('info_button_text')
-                                ->label('Text tlačítka')
+                                ->label('Info panel — text tlačítka')
                                 ->required($locale === 'cs'),
                         ]),
                     ]),
