@@ -1,6 +1,7 @@
 {{--
     Mirrors ui/src/herny.njk — map + info panel hero, then the flat herna card grid.
     $hernas: only HernaStatus::Approved records (see HernaController::index()).
+    $settings: App\Settings\KlubyHernySettings — editorial text for the heading/info panel.
 --}}
 @php
     $mapHernas = $hernas->map(fn ($herna) => [
@@ -13,11 +14,11 @@
     ])->filter(fn ($herna) => $herna['lat'] && $herna['lng'])->values();
 @endphp
 
-<x-layouts.app title="Kulečníkové herny — Poolbilliard">
+<x-layouts.app :title="$settings->herny_title.' — Poolbilliard'">
     <div class="bg-gradient-light">
         <x-news-header
-            title="Kulečníkové herny"
-            subtitle="Najděte si hernu ve svém regionu! Objevte místa, kde si můžete zahrát poolbilliard, potrénovat nebo poznat další hráče."
+            :title="$settings->herny_title"
+            :subtitle="$settings->herny_subtitle"
             :show-search="false"
             class="pb-none"
         />
@@ -28,10 +29,10 @@
                     <div class="c-club-map" data-club-map='{{ json_encode($mapHernas) }}' data-pin-color="primary" role="application" aria-label="Mapa heren v České republice"></div>
 
                     <x-info-panel
-                        tag-text="Přidejte svou hernu"
-                        title="Provozujete hernu?"
-                        text="Zařaďte ji do našeho katalogu. Vyplňte jednoduchý registrační formulář a po schválení se herna objeví v seznamu i na mapě, kde si ji najdou hráči z vašeho okolí."
-                        button-text="Registrovat hernu"
+                        :tag-text="$settings->herny_info_tag_text"
+                        :title="$settings->herny_info_title"
+                        :text="$settings->herny_info_text"
+                        :button-text="$settings->herny_info_button_text"
                         button-url="/registrace-herny"
                     />
                 </div>

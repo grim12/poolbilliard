@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Club;
+use App\Settings\KlubyHernySettings;
 use Illuminate\View\View;
 
 class ClubController extends Controller
@@ -15,13 +16,14 @@ class ClubController extends Controller
      * `region->value` — grouping directly on the enum instance would throw ("Illegal offset
      * type"), since PHP array/collection keys can't be objects.
      */
-    public function index(): View
+    public function index(KlubyHernySettings $settings): View
     {
         $clubs = Club::orderBy('region')->orderBy('name')->get()
             ->groupBy(fn (Club $club) => $club->region?->value);
 
         return view('kluby', [
             'clubs' => $clubs,
+            'settings' => $settings,
         ]);
     }
 
