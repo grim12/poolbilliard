@@ -1,0 +1,44 @@
+{{--
+    Mirrors ui/src/pravidla.njk. $settings: App\Settings\PravidlaSettings — hero text, the myth
+    section's title/subtitle + myths repeater, and the rule-cards section title. $ruleCards:
+    RuleCard collection, ordered.
+--}}
+<x-layouts.app :title="$settings->hero_title.' — Poolbilliard'">
+    <x-page-hero
+        :title="$settings->hero_title"
+        :text="$settings->hero_text"
+    />
+
+    <section class="c-section">
+        <div class="c-container">
+            <div class="c-section__header">
+                <h2 class="c-section__title">{{ $settings->myths_title }}</h2>
+                <p class="c-section__subtitle max-w-3xl">{!! $settings->myths_subtitle !!}</p>
+            </div>
+            <x-myth-faq :items="$settings->myths" id-prefix="mytus" />
+        </div>
+    </section>
+
+    <section class="c-section c-section--rule-cards bg-gray-100 border-top border-bottom">
+        <div class="c-container">
+            <div class="c-section__header">
+                <h2 class="c-section__title">{{ $settings->rule_cards_title }}</h2>
+            </div>
+            <div class="c-section__grid">
+                @foreach ($ruleCards as $ruleCard)
+                    <x-rule-card
+                        :icon="$ruleCard->icon"
+                        :image="$ruleCard->image_url"
+                        :image-alt="$ruleCard->image_alt"
+                        :title="$ruleCard->title"
+                        :subtitle="$ruleCard->subtitle"
+                        :text="$ruleCard->text"
+                        :button-url="$ruleCard->button_url"
+                    />
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <x-newsletter />
+</x-layouts.app>

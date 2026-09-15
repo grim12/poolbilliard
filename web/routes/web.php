@@ -8,6 +8,7 @@ use App\Http\Controllers\HernaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PravidlaController;
 use App\Http\Controllers\RecurringTournamentController;
 use App\Http\Controllers\SoutezeController;
 use App\Http\Controllers\TournamentController;
@@ -17,6 +18,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/partneri', [PartnerController::class, 'index'])->name('partneri');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+Route::get('/pravidla', [PravidlaController::class, 'index'])->name('pravidla');
 Route::get('/kalendar', [CalendarController::class, 'index'])->name('kalendar');
 Route::get('/souteze', [SoutezeController::class, 'index'])->name('souteze');
 Route::get('/turnaj/{tournament:slug_cs}', [TournamentController::class, 'show'])->name('turnaj.show');

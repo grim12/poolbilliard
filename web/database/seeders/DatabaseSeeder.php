@@ -36,5 +36,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LeaderboardSeeder::class);
         $this->call(LinkTileSeeder::class);
         $this->call(CompetitionSectionSeeder::class);
+        $this->call(RuleCardSeeder::class);
     }
 }

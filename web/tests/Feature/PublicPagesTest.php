@@ -16,6 +16,7 @@ use App\Models\LinkTile;
 use App\Models\Notice;
 use App\Models\Partner;
 use App\Models\RecurringTournament;
+use App\Models\RuleCard;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
 use App\Settings\HomepageSettings;
@@ -44,7 +45,7 @@ class PublicPagesTest extends TestCase
         Club::factory()->create();
         Herna::factory()->create(['status' => HernaStatus::Approved]);
 
-        foreach (['/', '/partneri', '/faq', '/kalendar', '/souteze', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/pravidla', '/kalendar', '/souteze', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -213,6 +214,28 @@ class PublicPagesTest extends TestCase
         $response->assertSee('Testovací obsah sekce', false);
         $response->assertSee('Testovací postranní karta', false);
         $response->assertSee('Hráč 10');
+    }
+
+    /**
+     * /pravidla: PravidlaSettings' myths repeater renders via <x-myth-faq> (first item
+     * pre-opened, aria-expanded="true") and RuleCard records via <x-rule-card>.
+     */
+    public function test_pravidla_page_renders_myths_and_rule_cards(): void
+    {
+        RuleCard::factory()->create([
+            'title' => 'Testovací disciplína',
+            'text' => '<p>Testovací pravidlo</p>',
+        ]);
+
+        $response = $this->get('/pravidla');
+
+        $response->assertOk();
+        $response->assertSee('Testovací disciplína');
+        $response->assertSee('Testovací pravidlo', false);
+        // Seeded myth data (see RuleCardSeeder/PravidlaSettings defaults) — first item must be
+        // pre-opened, not just present.
+        $response->assertSee('aria-expanded="true" aria-controls="mytus-panel-1"', false);
+        $response->assertSee('protější kapsy');
     }
 
     public function test_recurring_tournament_detail_page_renders_and_optionally_links_to_herna(): void

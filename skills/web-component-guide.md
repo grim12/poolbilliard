@@ -164,6 +164,23 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   `app/Models/CompetitionSection.php`, `database/seeders/CompetitionSectionSeeder.php`, `app/
   Filament/Resources/CompetitionSections/`, `app/Settings/SoutezeSettings.php`, `app/Filament/
   Pages/ManageSoutezeSettings.php`, nové komponenty `page-hero`/`jump-nav`/`content-section`.
+* **Pravidla** (`/pravidla`, `PravidlaController`) mirrors `ui/src/pravidla.njk` — `<x-page-hero>`
+  (bez statů) + mýtus/fakt akordeon + grid `<x-rule-card>` karet pro jednotlivé disciplíny.
+  **`<x-myth-faq>`** znovupoužívá `.c-faq`'s CSS 1:1 (question/answer/chevron/panel + volitelný
+  `.c-faq__badge` prvek) — žádné nové styly, jen jiný obsah badge ("Mýtus"/"Správně" místo
+  číslovaného indexu) a první položka pre-opened (`aria-expanded="true"`) — `resources/js/app.js`
+  už tohle přesně řešilo (komentář u `[data-faq-toggle]` handleru zmiňuje `mythFaq`'s první
+  položku), i když se tenhle Blade port teprve teď napsal. **`RuleCard`** — vlastní model
+  (title/subtitle/text/icon/image/button_url/sort_order), ne Settings repeater jako
+  `calendar_sources`/`stats` — má `FileUpload` obrázek a je to samostatně řaditelná entita, ne
+  page-singleton text, takže sedí lépe do vzoru `Partner`/`Banner` (vlastní Filament Resource,
+  seed obrázky přes `database/seeders/assets/rule-cards/` → `Storage::disk('public')`, stejně
+  jako `PartnerSeeder`). `iconVariant="balls"` z `ui/`'s makra se **neportoval** (stejný důvod
+  jako `content-section`'s zahozený `eyebrowColor="accent"` — žádná karta ho nepoužívá) — místo
+  uloženého příznaku se varianta (obrázek vs. ikona) odvozuje z toho, co je vyplněné.
+  **`PravidlaSettings`** drží hlavičkové texty (hero + oba `<h2>` nadpisy sekcí) a `myths`
+  repeater (`myth_text`/`correct_text` + `_en` sourozenci, stejný vzor jako
+  `KalendarSettings::$calendar_sources` — zase bez `@var` docblocku).
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.
