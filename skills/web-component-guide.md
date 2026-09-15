@@ -84,11 +84,9 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   fallbackem, viz bod 4). `Herna` má `sports`/`hours`/`gallery` jako obyčejné JSON sloupce (ne
   tabulky — viz bod 4) a `status` (`HernaStatus` enum) pro budoucí schvalovací workflow
   veřejné registrace (formulář samotný ještě není portovaný). `Region`/`Sport`/`HernaStatus`
-  jsou PHP backed enumy v `app/Enums/`, ne DB taxonomie — viz bod 4. Zatím bez site chrome i bez
-  veřejné Blade stránky (jen model + Filament resources) — na rozdíl od předchozích entit jsme
-  se tentokrát zastavili po admin straně, veřejná `/kluby`, `/klub/{slug}`, `/herny`,
-  `/herna/{slug}` (vč. Leaflet mapy, self-hosted, žádný API klíč, generický `[data-club-map]`
-  init v `ui/src/js/main.js`) jsou samostatný další krok.
+  jsou PHP backed enumy v `app/Enums/`, ne DB taxonomie — viz bod 4. **Má teď i veřejné stránky**
+  (`/kluby` + `/klub/{club:slug_cs}`, `/herny` + `/herna/{herna:slug_cs}`, vč. self-hosted
+  Leaflet mapy) — viz sekce 3 "Kluby / Herny".
 * **Podmíněné třídy v Blade:** pro `class="a @if(...) b @endif"` použij radši `@class(['a', 'b' => $podminka])` direktivu (nedělá nadbytečné mezery v atributu) — viz `tournament-card.blade.php`.
 * **Brand ikonky (Simple Icons) jsou portované** (viz sekce 3, "Site chrome") — dostupné jako `<x-brand-facebook>` atd., ne přes shortcode syntaxi.
 * `Article` + `ArticleCategory` a `Notice` — další dvojice "má kategorii" vs. "nemá kategorii,
@@ -182,6 +180,20 @@ Referenční příklad prvního **reálného list+detail páru** (na rozdíl od 
 - **Detail stránka nemá vlastní komponentu** — `ui/`'s `vykonny-vybor-detail.njk` přímo znovupoužívá `articleContent()` (jen `tagPosition="inline"`, `tagColor="accent"`), takže `zpravodajstvi/vykonny-vybor-detail.blade.php` dělá to samé s `<x-article-content>` — žádný nový "notice content" widget.
 - "Důležité" (`is_important` boolean) se mapuje na `tagText="DŮLEŽITÉ"`/`"Důležité"` + `tagColor="accent"` (default barva `notice-card`u i `<x-tag>` volání) — stejný mechanismus jako v `ui/` (žádná speciální `.c-notice--important` třída, jen barevný tag).
 - **"Kontakt" info box je hotový** — stejný `.c-section__grid c-news-grid__layout`/`<aside class="c-news-grid__sidebar">` layout jako Novinky, ale naplněný `.c-news-grid__info` blokem (nadpis s obálkovou ikonou + `mailto:` odkaz), ne notice kartami — přesně jak to dělá `ui/`'s vlastní `newsGrid()` volání na téhle stránce.
+
+### Kluby / Herny (`/kluby`, `/klub/{club:slug_cs}`, `/herny`, `/herna/{herna:slug_cs}`)
+
+CSS pro tuhle dvojici (`02_components/section/{kluby,club-hero,club-detail,club-directory,herna-list,herna-detail}.css`) bylo 1:1 portované už dřív, spolu s `map-card.css`/`alert.css` — teprve Blade/PHP strana byla samostatný krok.
+
+- **Leaflet mapa je skutečná knihovna, ne statický obrázek** — `ui/` ji vendoruje jako Eleventy passthrough-copy (`node_modules/leaflet/dist/*` → `/css|js/vendor/leaflet.*`, globální `window.L`, načtený jen na stránkách s `hasMap: true`). `web/` používá Vite (jeden globální bundle pro celý web, stejně jako u všeho ostatního v `resources/js/app.js` — žádné per-stránkové entry pointy), takže port je `npm install leaflet` + `import * as L from 'leaflet'; import 'leaflet/dist/leaflet.css'; window.L = L;` na začátku `app.js` — zbytek `[data-club-map]` handleru (custom `.c-map-pin` divIcon, `L.map()`/`L.marker()`/`L.tileLayer()`) je **beze změny zkopírovaný** z `ui/src/js/main.js`, protože ten kód už na `window.L` čekal (viz komentář v souboru před portem). Mapa se teď natahuje na každé stránce (malá cena za jeden bundle), ne jen na `hasMap` stránkách jako v `ui/`.
+  - **PAST: `lat`/`lng` musí být explicitně `(float)` cast před `json_encode()` pro `data-club-map`.** `Club`/`Herna` mají `'lat' => 'decimal:7'` (kvůli přesnosti), což PHP/Eloquent serializuje jako **string** (`"50.0836000"`), ne number — `json_encode` by pak poslal `"lat": "50.0836000"` (v uvozovkách). `main.js`'s `typeof club.lat === 'number'` filtr by takové záznamy tiše vyřadil (žádná chyba, jen chybějící piny na mapě). Řešení: `'lat' => (float) $club->lat` při stavbě pole pro `json_encode`, viz `resources/views/kluby.blade.php`/`components/map-card.blade.php`.
+  - `data-pin-color="primary"` na Herny mapách (modré piny) vs. výchozí červená na Kluby — stejná `main.js` konvence, jen předaná dál přes `pin-color` prop na `<x-map-card>`.
+- **`region` je `App\Enums\Region` backed enum na modelu** (`'region' => Region::class` cast) — `Collection::groupBy('region')` na `ClubController::index()` proto **musí** seskupovat přes `fn ($club) => $club->region?->value`, ne přímo `'region'` stringem — seskupení přes samotnou enum instanci jako klíč kolekce by spadlo (`Illegal offset type`, protože PHP/Illuminate klíče kolekce/pole musí být `int|string`). Stejně tak kdekoliv se `$region` vypisuje v Blade (`<option value="{{ $region }}">`), musí to být `$region->value`/`->getLabel()` — enum instance samo o sobě nemá `__toString()`.
+- **`x-alert` a `x-map-card`** jsou nové sdílené komponenty (dřív existovalo jen `alert.css`/`map-card.css`, ne Blade strana) — `x-alert` zobrazuje `Club::recruitmentMessage()` accessor (**už existoval** z i18n práce, žádná nová logika), `x-map-card` bere pole záznamů (`items`, vždy přesně 1 položka tady) ve stejném tvaru, jaký potřebuje `[data-club-map]`.
+- **`Str::initials()` macro** (`AppServiceProvider::register()`) — zrcadlí `ui/`'s Eleventy `initials` filtr (badge na herna kartách, např. "Billiard Club Harlequin Praha" → "BCH").
+- **Fotogalerie u herny stejná provizorka jako `/novinky`** — GLightbox není portovaný, `target="_blank"` místo lightboxu (viz `components/gallery.blade.php`'s stejný komentář).
+- **Search input a kraj `<select>`** na obou list stránkách jsou **dekorativní** (`data-herna-search`/`data-herna-region`, nic je nezpracovává) — stejný princip jako kategorie-filtr taby na `/novinky`, skutečné filtrování je samostatné budoucí rozhodnutí.
+- Klubová `region` seskupovací tabulka (`club-directory`) řadí regiony/kluby abecedně (`Club::orderBy('region')->orderBy('name')`) — `ui/`'s mock měl regiony v ručně napsaném pořadí (Praha první), což nebylo záměrné rozhodnutí, jen pořadí psaní mock dat, takže abecední řazení je v pořádku.
 
 ### Homepage (`/`)
 

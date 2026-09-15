@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\DevCommands;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,7 +13,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        /**
+         * Mirrors ui/'s .eleventy.js "initials" Nunjucks filter — badge label for herna cards
+         * (e.g. "Billiard Club Harlequin Praha" -> "BCH"). `Str::initials($herna->name)` in Blade.
+         */
+        Str::macro('initials', function (string $name, int $max = 3): string {
+            return collect(preg_split('/\s+/', trim($name)))
+                ->filter()
+                ->take($max)
+                ->map(fn (string $word) => mb_strtoupper(mb_substr($word, 0, 1)))
+                ->implode('');
+        });
     }
 
     /**

@@ -2,10 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Enums\HernaStatus;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\Banner;
+use App\Models\Club;
+use App\Models\ClubMember;
 use App\Models\FaqItem;
+use App\Models\Herna;
 use App\Models\Leaderboard;
 use App\Models\LinkTile;
 use App\Models\Notice;
@@ -35,8 +39,10 @@ class PublicPagesTest extends TestCase
         $articleCategory = ArticleCategory::factory()->create();
         Article::factory()->create(['article_category_id' => $articleCategory->id]);
         Notice::factory()->create();
+        Club::factory()->create();
+        Herna::factory()->create(['status' => HernaStatus::Approved]);
 
-        foreach (['/', '/partneri', '/faq', '/turnaje', '/novinky', '/zpravodajstvi/vykonny-vybor'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/turnaje', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -58,6 +64,53 @@ class PublicPagesTest extends TestCase
         $response->assertOk();
         $response->assertSee($article->title);
         $response->assertSee('Test body', false);
+    }
+
+    /**
+     * Exercises the parts test_public_pages_render_with_site_chrome's bare factory create()
+     * doesn't reach: members, the recruitment alert, and the aside collapsing to a single
+     * column when address/ambassador are both empty (no map card, no ambassador card).
+     */
+    public function test_club_detail_page_renders(): void
+    {
+        $club = Club::factory()->create([
+            'address' => '',
+            'ambassador_name' => null,
+            'ambassador_website' => null,
+            'about_text' => 'O klubu text',
+            'recruitment_open' => false,
+        ]);
+        ClubMember::factory()->for($club)->create(['name' => 'Testovací člen']);
+
+        $response = $this->get(route('klub.show', $club));
+
+        $response->assertOk();
+        $response->assertSee($club->name);
+        $response->assertSee('Testovací člen');
+        $response->assertSee('Nábor uzavřen');
+    }
+
+    /**
+     * Same "everything optional collapses cleanly" idea as the club test above, but for the
+     * herna detail page's own optional blocks: sports tags, opening hours, contact card.
+     */
+    public function test_herna_detail_page_renders(): void
+    {
+        $herna = Herna::factory()->create([
+            'status' => HernaStatus::Approved,
+            'about_text' => 'O herně text',
+            'sports' => ['Poolbilliard', 'Snooker'],
+            'hours' => [['day' => 'Pondělí', 'text' => '14:00–24:00']],
+            'phone' => '+420123456789',
+        ]);
+
+        $response = $this->get(route('herna.show', $herna));
+
+        $response->assertOk();
+        $response->assertSee($herna->name);
+        $response->assertSee('Poolbilliard');
+        $response->assertSee('14:00–24:00');
+        $response->assertSee('+420123456789');
     }
 
     public function test_notice_detail_page_renders(): void

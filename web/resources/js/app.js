@@ -1,7 +1,17 @@
 // Mirrors ui/src/js/main.js in full — see skills/web-component-guide.md. Blocks below act only
 // on elements matched via querySelector/dataset attributes, so pieces without a Blade port yet
-// (doc tabs, jump nav, GLightbox, Leaflet map — none of those libraries/attributes exist in
-// web/ yet) simply no-op instead of erroring.
+// (doc tabs, jump nav, GLightbox — GLightbox isn't installed here) simply no-op instead of
+// erroring.
+import * as L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// ui/'s main.js loads Leaflet as a vendored global <script> (window.L) via Eleventy's
+// passthrough-copy, conditionally per-page (hasMap front-matter). web/ bundles everything
+// through one Vite entry instead (same "single global app.js, functions no-op without their
+// DOM hooks" approach already used for every other block here) — importing as an ES module and
+// re-exposing it as window.L keeps the Kluby/Herny map block below identical to ui/'s.
+window.L = L;
+
 document.addEventListener('DOMContentLoaded', () => {
   // Header: mobile menu toggle
   const headerToggle = document.querySelector('[data-header-toggle]');
@@ -223,9 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });
   }
 
-  // Kluby/Herny: Leaflet map with one marker per item (loaded only on pages with a
-  // [data-club-map] element) — library isn't installed in web/ yet, so this is currently
-  // always a no-op.
+  // Kluby/Herny: Leaflet map with one marker per item — runs only on pages with a
+  // [data-club-map] element (Kluby/Herny list + detail), no-ops everywhere else.
   const clubMapEl = document.querySelector('[data-club-map]');
 
   if (clubMapEl && window.L) {

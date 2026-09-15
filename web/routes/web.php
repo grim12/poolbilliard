@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ClubController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\HernaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\PartnerController;
@@ -18,3 +20,8 @@ Route::get('/novinky/{article:slug_cs}', [ArticleController::class, 'show'])->na
 
 Route::get('/zpravodajstvi/vykonny-vybor', [NoticeController::class, 'index'])->name('zpravodajstvi.vykonny-vybor');
 Route::get('/zpravodajstvi/vykonny-vybor/{notice:slug_cs}', [NoticeController::class, 'show'])->name('zpravodajstvi.vykonny-vybor.show');
+
+Route::get('/kluby', [ClubController::class, 'index'])->name('kluby');
+Route::get('/klub/{club:slug_cs}', [ClubController::class, 'show'])->name('klub.show');
+Route::get('/herny', [HernaController::class, 'index'])->name('herny');
+Route::get('/herna/{herna:slug_cs}', [HernaController::class, 'show'])->name('herna.show');
