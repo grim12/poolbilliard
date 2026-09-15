@@ -1,16 +1,18 @@
 {{--
-    Mirrors ui/src/kalendar.njk. $tournaments: Tournament collection (current + upcoming, same
-    query as /turnaje). $calendarMonth: month-grid data built by CalendarController — its
-    prev/next/today links are real navigation, unlike the Svaz/Klub/Zahraniční checkbox filter
-    below (intentionally inert, same "not wired up yet" treatment as /novinky's category tabs —
-    it doesn't actually filter $tournaments or $calendarMonth). $recurringTournaments:
-    RecurringTournament collection, eager-loaded herna.
+    Mirrors ui/src/kalendar.njk — the hub for Tournament content (there's no separate /turnaje
+    anymore, see skills/web-component-guide.md). $tournaments: Tournament collection (current +
+    upcoming). $calendarMonth: month-grid data built by CalendarController — its prev/next/today
+    links are real navigation, unlike the Svaz/Klub/Zahraniční checkbox filter below
+    (intentionally inert, same "not wired up yet" treatment as /novinky's category tabs — it
+    doesn't actually filter $tournaments or $calendarMonth). $recurringTournaments:
+    RecurringTournament collection, eager-loaded herna. $settings: App\Settings\KalendarSettings
+    — editorial text for the header (title/subtitle).
 --}}
-<x-layouts.app title="Kalendář — Poolbilliard">
+<x-layouts.app :title="$settings->title.' — Poolbilliard'">
     <div class="bg-gradient-light">
         <x-news-header
-            title="Kalendář"
-            subtitle="Přehled turnajů a akcí Českého poolbilliardu — svazové soutěže, kluby i mezinárodní turnaje na jednom místě."
+            :title="$settings->title"
+            :subtitle="$settings->subtitle"
             :show-search="false"
             class="pb-none"
         >

@@ -43,7 +43,7 @@ class PublicPagesTest extends TestCase
         Club::factory()->create();
         Herna::factory()->create(['status' => HernaStatus::Approved]);
 
-        foreach (['/', '/partneri', '/faq', '/kalendar', '/turnaje', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/kalendar', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -157,9 +157,9 @@ class PublicPagesTest extends TestCase
      * The month mini-calendar's prev/next navigation is real (unlike the Svaz/Klub/Zahraniční
      * checkbox filter next to it) — a tournament dated in a different month must only get an
      * event pill on that month's grid, not the default (current month) one. The tournament
-     * itself still appears in the card list either way (that list isn't month-filtered, same
-     * as /turnaje) — the calendar-grid event pill (`.c-calendar__event-label`) is checked
-     * specifically, since it's the one piece of the page that's actually month-scoped.
+     * itself still appears in the card list either way (that list isn't month-filtered) — the
+     * calendar-grid event pill (`.c-calendar__event-label`) is checked specifically, since it's
+     * the one piece of the page that's actually month-scoped.
      */
     public function test_calendar_month_navigation_shows_real_data_for_the_requested_month(): void
     {

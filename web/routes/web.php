@@ -17,7 +17,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/partneri', [PartnerController::class, 'index'])->name('partneri');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/kalendar', [CalendarController::class, 'index'])->name('kalendar');
-Route::get('/turnaje', [TournamentController::class, 'index'])->name('turnaje');
 Route::get('/turnaj/{tournament:slug_cs}', [TournamentController::class, 'show'])->name('turnaj.show');
 Route::get('/pravidelny-turnaj/{recurringTournament:slug_cs}', [RecurringTournamentController::class, 'show'])->name('pravidelny-turnaj.show');
 Route::get('/novinky', [ArticleController::class, 'index'])->name('novinky');

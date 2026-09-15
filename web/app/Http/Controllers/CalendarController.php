@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RecurringTournament;
 use App\Models\Tournament;
+use App\Settings\KalendarSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -16,15 +17,18 @@ class CalendarController extends Controller
      * (same "not wired up yet" treatment as /novinky's category tabs) — only the month
      * mini-calendar's prev/next/today navigation is real, driven by a `month` (Y-m) query
      * param and built from actual Tournament dates, since that's cheap and not "filtering" in
-     * the same sense (closer to /novinky's real pagination).
+     * the same sense (closer to /novinky's real pagination). This is the only place tournament
+     * cards get a public listing page — there's no separate /turnaje anymore, Kalendář is the
+     * hub (cards + calendar + recurring tournaments together).
      */
-    public function index(Request $request): View
+    public function index(Request $request, KalendarSettings $settings): View
     {
         $month = $request->query('month')
             ? Carbon::createFromFormat('Y-m', $request->query('month'))->startOfMonth()
             : now()->startOfMonth();
 
         return view('kalendar', [
+            'settings' => $settings,
             'tournaments' => Tournament::with('category')->currentAndUpcoming()->orderedByStartDate()->get(),
             'calendarMonth' => $this->buildCalendarMonth($month),
             'recurringTournaments' => RecurringTournament::with('herna')->orderBy('sort_order')->get(),

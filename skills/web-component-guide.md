@@ -68,14 +68,12 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   `sort_order`) — **taxonomie/číselník jako samostatná tabulka + `belongsTo`, ne volný text
   opakovaný na každém záznamu** (viz bod 4). `app/Models/{Tournament,TournamentCategory}.php`,
   `database/seeders/{TournamentCategorySeeder,TournamentSeeder}.php`,
-  `app/Filament/Resources/{Tournaments,TournamentCategories}/`, `resources/views/turnaje.blade.php` +
-  `resources/views/components/{tournament-card,tournaments}.blade.php`, route `/turnaje`.
-  **Poznámka:** `ui/` nemá pro tenhle grid samostatnou stránku (jen homepage sekce a Kalendář,
-  viz níže) — `/turnaje` je dočasná ukázková route, ne 1:1 port existující `ui/` stránky.
-  **`TurnajeSettings`** (spatie-settings, stejný vzor jako `KlubySettings`/`HernySettings`,
-  `group()` `'turnaje'`) drží jen editovatelný titulek hlavičky listu (`ManageTurnajeSettings`) —
-  oddělené od `HomepageSettings::$tournaments_title`, protože jde o jinou stránku s vlastním textem.
-  **Má teď i detail turnaje** (`/turnaj/{tournament:slug_cs}`, `TournamentController::show()`,
+  `app/Filament/Resources/{Tournaments,TournamentCategories}/`,
+  `resources/views/components/{tournament-card,tournaments}.blade.php`.
+  **Žádná samostatná `/turnaje` listing stránka** — existovala krátce jako dočasná ukázková
+  route bez protějšku v `ui/`, ale byla zrušená: Kalendář (viz níže) je jediný hub, kde se
+  turnajové karty veřejně vypisují (mimo homepage sekci), duplicitní list stránka vedle něj
+  nedávala smysl. **Má teď i detail turnaje** (`/turnaj/{tournament:slug_cs}`, `TournamentController::show()`,
   `resources/views/turnaj.blade.php` + `components/tournament-content.blade.php`) — `ui/`'s
   `turnaj.njk`/`pravidelny-turnaj.njk` jsou (jako dřív `klub.njk`/`herna.njk`) dvě napevno
   ukázkové stránky sdílející `tournamentContent()` widget, ne reálné per-záznamové routování, tak
@@ -86,16 +84,20 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   servis) vykreslený tlačítkem na detailu — kartička v gridu (`tournament-card`) teď linkuje na
   interní `route('turnaj.show', $tournament)`, ne na `$item->url` (stejný princip jako
   `Club`/`Herna`, kde karta vede na vlastní detail, ne na externí web).
-* **Kalendář** (`/kalendar`, `CalendarController`) mirrors `ui/src/kalendar.njk` —
-  `Tournament::currentAndUpcoming()` karty (stejný dotaz jako `/turnaje`) + měsíční mini-kalendář
-  + `RecurringTournament` postranní karta + statický seznam zdrojových kalendářů. Svaz/Klub/
+* **Kalendář** (`/kalendar`, `CalendarController`) mirrors `ui/src/kalendar.njk` — hub stránka
+  pro turnajový obsah: `Tournament::currentAndUpcoming()` karty + měsíční mini-kalendář +
+  `RecurringTournament` postranní karta + statický seznam zdrojových kalendářů. Svaz/Klub/
   Zahraniční checkbox filtr je **záměrně inertní** (stejné řešení jako `/novinky`'s kategorie
   taby — vidět, ale nefiltruje). **Měsíční navigace (prev/next/dnes) je ale skutečná** —
   `?month=Y-m` query param, `CalendarController::buildCalendarMonth()` počítá mřížku dnů +
   eventy ze skutečných `start_date`/`end_date` (stejná logika jako `ui/`'s build-time-only
   `kalendarMesic.js`, jen za běhu a pro libovolný měsíc, ne zamrzlé na jeden) — bráno jako běžná
   navigace (jako skutečná paginace u `/novinky`), ne "filtrování", proto zůstalo funkční i když
-  checkbox filtr ne.
+  checkbox filtr ne. **`KalendarSettings`** (spatie-settings, stejný vzor jako
+  `KlubySettings`/`HernySettings`, `group()` `'kalendar'`) drží editovatelný titulek + podnadpis
+  hlavičky (`ManageKalendarSettings`) — bez info panelu (ten `/kluby`/`/herny` mají, Kalendář ne),
+  jen `<x-news-header>`'s title/subtitle; oddělené od `HomepageSettings::$tournaments_title`,
+  protože jde o jinou stránku s vlastním textem.
   **`RecurringTournament`** (pravidelné amatérské turnaje, např. "Turnaje v Balabušce, každá
   středa") je **samostatný model**, ne flag na `Tournament` — different shape (`frequency` text
   místo `start_date`/`end_date`, žádná kategorie/badge, malý stabilní počet záznamů) by na

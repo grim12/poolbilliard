@@ -6,7 +6,7 @@
 --}}
 <x-layouts.app :title="$tournament->title.' — Poolbilliard'">
     <x-tournament-content
-        back-url="{{ route('turnaje') }}"
+        back-url="{{ route('kalendar') }}"
         :tag-text="$tournament->category?->name"
         :tag-color="$tournament->category?->color"
         :title="$tournament->title"

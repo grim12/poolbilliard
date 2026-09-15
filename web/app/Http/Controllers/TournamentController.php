@@ -3,26 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tournament;
-use App\Settings\GeneralSettings;
-use App\Settings\TurnajeSettings;
 use Illuminate\View\View;
 
 class TournamentController extends Controller
 {
-    /**
-     * Standalone preview of the tournaments() teaser widget with real data — ui/ doesn't have
-     * a dedicated route for this yet (there it's only a homepage section + the full Kalendář
-     * page, which also needs its interactive calendar/filters ported separately).
-     */
-    public function index(GeneralSettings $generalSettings, TurnajeSettings $settings): View
-    {
-        return view('turnaje', [
-            'tournaments' => Tournament::with('category')->currentAndUpcoming()->orderedByStartDate()->get(),
-            'cmbsTvUrl' => $generalSettings->cmbs_tv_url,
-            'settings' => $settings,
-        ]);
-    }
-
     /**
      * Single tournament — mirrors ui/src/turnaj.njk + pravidelny-turnaj.njk, which are two
      * hardcoded example pages sharing the same tournamentContent() widget (one-off "Svazový"

@@ -7,7 +7,6 @@
 --}}
 <x-layouts.app :title="$tournament->title.' — Poolbilliard'">
     <x-tournament-content
-        back-text="Zpět na kalendář"
         back-url="{{ route('kalendar') }}"
         tag-text="Amatérský turnaj"
         tag-color="gold"

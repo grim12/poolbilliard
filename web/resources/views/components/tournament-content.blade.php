@@ -9,7 +9,7 @@
     - tagColor: "primary" (Svaz) | "accent" (Klub) | "gold" (Zahraniční) — matches tournament-card.
 --}}
 @props([
-    'backText' => 'Zpět na turnaje',
+    'backText' => 'Zpět na kalendář',
     'backUrl' => '#',
     'tagText' => '',
     'tagColor' => 'primary',
