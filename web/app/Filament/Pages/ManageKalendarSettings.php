@@ -52,22 +52,27 @@ class ManageKalendarSettings extends SettingsPage
                         ]),
                     ]),
                 Section::make('Zdrojové kalendáře')
-                    ->description('Seznam externích kalendářů v postranní kartě.')
+                    ->description('Seznam externích kalendářů v postranní kartě — titulek a podtitulek zvlášť pro češtinu a angličtinu, odkaz je společný pro obě jazykové verze.')
                     ->components([
                         Repeater::make('calendar_sources')
                             ->hiddenLabel()
                             ->schema([
                                 TextInput::make('title')
-                                    ->label('Titulek')
+                                    ->label('Titulek (CZ)')
                                     ->required(),
+                                TextInput::make('title_en')
+                                    ->label('Titulek (EN)'),
                                 TextInput::make('subtitle')
-                                    ->label('Podtitulek'),
+                                    ->label('Podtitulek (CZ)'),
+                                TextInput::make('subtitle_en')
+                                    ->label('Podtitulek (EN)'),
                                 TextInput::make('url')
                                     ->label('Odkaz')
                                     ->url()
-                                    ->required(),
+                                    ->required()
+                                    ->columnSpanFull(),
                             ])
-                            ->columns(3)
+                            ->columns(2)
                             ->reorderable()
                             ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
                             ->addActionLabel('Přidat kalendář'),

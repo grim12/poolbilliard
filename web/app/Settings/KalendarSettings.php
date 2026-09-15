@@ -41,13 +41,14 @@ class KalendarSettings extends Settings
     public ?string $recurring_text_en;
 
     /**
-     * "Zdrojové kalendáře" sidebar list — plain array of ['title', 'subtitle', 'url'], not
-     * translatable per-item (same call as Club::$members Repeater: these are external
-     * organization names — ČMBS/EPBF/EEBC/Matchroom — that wouldn't change in an English
-     * version anyway, and per-row CZ/EN tabs inside a Repeater have no established pattern yet
-     * in this project). Admin-managed repeater, not a separate model/table — this list only
-     * exists on this one page, no querying/reuse elsewhere (unlike e.g. LinkTile). Each item:
-     * ['title' => string, 'subtitle' => string, 'url' => string].
+     * "Zdrojové kalendáře" sidebar list — admin-managed repeater, not a separate model/table
+     * (this list only exists on this one page, no querying/reuse elsewhere unlike e.g.
+     * LinkTile). Each item: ['title', 'title_en', 'subtitle', 'subtitle_en', 'url'] — same flat
+     * "{field}_en" nullable sibling convention as this class's own top-level fields, just
+     * repeated per row (no `TranslatableTabs` toggle inside the `Repeater` — a per-row CZ/EN tab
+     * switch adds UI nesting for little benefit at this data density; plain side-by-side
+     * CZ/EN inputs read better across several short rows). `url` isn't translatable — same
+     * link either way.
      *
      * No `@var` docblock on purpose — spatie/laravel-settings reflects it to build a cast, and
      * its `ArraySettingsCast` can't handle a nested array-of-arrays value type (crashes trying

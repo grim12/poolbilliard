@@ -29,10 +29,10 @@ return new class extends SettingsMigration
         $this->migrator->add('kalendar.recurring_text_en', null);
 
         $this->migrator->add('kalendar.calendar_sources', [
-            ['title' => 'ČMBS kalendář', 'subtitle' => 'Svazové soutěže a akce', 'url' => '#'],
-            ['title' => 'EPBF kalendář', 'subtitle' => 'European Pocket Billiard Federation', 'url' => '#'],
-            ['title' => 'EEBC kalendář', 'subtitle' => 'East European Billiard Council', 'url' => '#'],
-            ['title' => 'Matchroom kalendář', 'subtitle' => 'Matchroom Pool', 'url' => '#'],
+            ['title' => 'ČMBS kalendář', 'title_en' => null, 'subtitle' => 'Svazové soutěže a akce', 'subtitle_en' => null, 'url' => '#'],
+            ['title' => 'EPBF kalendář', 'title_en' => null, 'subtitle' => 'European Pocket Billiard Federation', 'subtitle_en' => null, 'url' => '#'],
+            ['title' => 'EEBC kalendář', 'title_en' => null, 'subtitle' => 'East European Billiard Council', 'subtitle_en' => null, 'url' => '#'],
+            ['title' => 'Matchroom kalendář', 'title_en' => null, 'subtitle' => 'Matchroom Pool', 'subtitle_en' => null, 'url' => '#'],
         ]);
     }
 };
