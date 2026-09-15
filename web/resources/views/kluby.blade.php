@@ -1,7 +1,7 @@
 {{--
     Mirrors ui/src/kluby.njk — map + info panel hero, then the region-grouped club directory.
     $clubs: Collection grouped by region value (see ClubController::index()).
-    $settings: App\Settings\KlubyHernySettings — editorial text for the heading/info panel.
+    $settings: App\Settings\KlubySettings — editorial text for the heading/info panel.
 --}}
 @php
     $mapClubs = $clubs->flatten()->map(fn ($club) => [
@@ -14,10 +14,10 @@
     ])->filter(fn ($club) => $club['lat'] && $club['lng'])->values();
 @endphp
 
-<x-layouts.app :title="$settings->kluby_title.' — Poolbilliard'">
+<x-layouts.app :title="$settings->title.' — Poolbilliard'">
     <div class="bg-gradient-light">
         <x-news-header
-            :title="$settings->kluby_title"
+            :title="$settings->title"
             :show-search="false"
             class="pb-none"
         />
@@ -28,16 +28,16 @@
                     <div class="c-club-map" data-club-map='{{ json_encode($mapClubs) }}' role="application" aria-label="Mapa klubů v České republice"></div>
 
                     <x-info-panel
-                        :tag-text="$settings->kluby_info_tag_text"
-                        :title="$settings->kluby_info_title"
-                        :text="$settings->kluby_info_text"
+                        :tag-text="$settings->info_tag_text"
+                        :title="$settings->info_title"
+                        :text="$settings->info_text"
                         :items="[
                             ['icon' => 'user-group', 'text' => 'Přátelská komunita všech úrovní'],
                             ['icon' => 'trophy', 'text' => 'Tréninky, ligy i turnaje pro každého'],
                             ['icon' => 'map-pin', 'text' => 'Kluby po celé České republice'],
                         ]"
-                        :foot-text="$settings->kluby_info_foot_text"
-                        :button-text="$settings->kluby_info_button_text"
+                        :foot-text="$settings->info_foot_text"
+                        :button-text="$settings->info_button_text"
                         button-url="/jak-zacit"
                     />
                 </div>

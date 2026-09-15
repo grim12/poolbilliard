@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\HernaStatus;
 use App\Enums\Region;
 use App\Models\Herna;
-use App\Settings\KlubyHernySettings;
+use App\Settings\HernySettings;
 use Illuminate\View\View;
 
 class HernaController extends Controller
@@ -16,7 +16,7 @@ class HernaController extends Controller
      * skills/web-component-guide.md). Flat, ungrouped grid — unlike Kluby's directory, herny
      * aren't split by region (see ui/'s herna-list.njk doc comment).
      */
-    public function index(KlubyHernySettings $settings): View
+    public function index(HernySettings $settings): View
     {
         return view('herny', [
             'hernas' => Herna::where('status', HernaStatus::Approved)->orderBy('name')->get(),

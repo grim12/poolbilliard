@@ -1,7 +1,7 @@
 {{--
     Mirrors ui/src/herny.njk — map + info panel hero, then the flat herna card grid.
     $hernas: only HernaStatus::Approved records (see HernaController::index()).
-    $settings: App\Settings\KlubyHernySettings — editorial text for the heading/info panel.
+    $settings: App\Settings\HernySettings — editorial text for the heading/info panel.
 --}}
 @php
     $mapHernas = $hernas->map(fn ($herna) => [
@@ -14,11 +14,11 @@
     ])->filter(fn ($herna) => $herna['lat'] && $herna['lng'])->values();
 @endphp
 
-<x-layouts.app :title="$settings->herny_title.' — Poolbilliard'">
+<x-layouts.app :title="$settings->title.' — Poolbilliard'">
     <div class="bg-gradient-light">
         <x-news-header
-            :title="$settings->herny_title"
-            :subtitle="$settings->herny_subtitle"
+            :title="$settings->title"
+            :subtitle="$settings->subtitle"
             :show-search="false"
             class="pb-none"
         />
@@ -29,10 +29,10 @@
                     <div class="c-club-map" data-club-map='{{ json_encode($mapHernas) }}' data-pin-color="primary" role="application" aria-label="Mapa heren v České republice"></div>
 
                     <x-info-panel
-                        :tag-text="$settings->herny_info_tag_text"
-                        :title="$settings->herny_info_title"
-                        :text="$settings->herny_info_text"
-                        :button-text="$settings->herny_info_button_text"
+                        :tag-text="$settings->info_tag_text"
+                        :title="$settings->info_title"
+                        :text="$settings->info_text"
+                        :button-text="$settings->info_button_text"
                         button-url="/registrace-herny"
                     />
                 </div>
