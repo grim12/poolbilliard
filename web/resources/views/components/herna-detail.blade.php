@@ -27,7 +27,7 @@
                 @if ($herna->about_text)
                     <div>
                         <h2>O herně</h2>
-                        <p>{{ $herna->about_text }}</p>
+                        {!! $herna->about_text !!}
                     </div>
                 @endif
 

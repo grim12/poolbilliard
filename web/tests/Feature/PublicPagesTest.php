@@ -77,7 +77,7 @@ class PublicPagesTest extends TestCase
             'address' => '',
             'ambassador_name' => null,
             'ambassador_website' => null,
-            'about_text' => 'O klubu text',
+            'about_text' => '<p>O klubu text</p>',
             'recruitment_open' => false,
         ]);
         ClubMember::factory()->for($club)->create(['name' => 'Testovací člen']);
@@ -88,6 +88,9 @@ class PublicPagesTest extends TestCase
         $response->assertSee($club->name);
         $response->assertSee('Testovací člen');
         $response->assertSee('Nábor uzavřen');
+        // about_text is RichEditor-authored HTML — must render raw, not escaped (regression
+        // check for the {{ }} vs {!! !!} mixup this originally shipped with).
+        $response->assertSee('<p>O klubu text</p>', false);
     }
 
     /**
@@ -98,7 +101,7 @@ class PublicPagesTest extends TestCase
     {
         $herna = Herna::factory()->create([
             'status' => HernaStatus::Approved,
-            'about_text' => 'O herně text',
+            'about_text' => '<p>O herně text</p>',
             'sports' => ['Poolbilliard', 'Snooker'],
             'hours' => [['day' => 'Pondělí', 'text' => '14:00–24:00']],
             'phone' => '+420123456789',
@@ -111,6 +114,9 @@ class PublicPagesTest extends TestCase
         $response->assertSee('Poolbilliard');
         $response->assertSee('14:00–24:00');
         $response->assertSee('+420123456789');
+        // about_text is RichEditor-authored HTML — must render raw, not escaped (regression
+        // check for the {{ }} vs {!! !!} mixup this originally shipped with).
+        $response->assertSee('<p>O herně text</p>', false);
     }
 
     public function test_notice_detail_page_renders(): void

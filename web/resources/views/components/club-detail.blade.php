@@ -29,7 +29,7 @@
                 @if ($club->about_text)
                     <div>
                         <h2>O klubu</h2>
-                        <p class="c-club-detail__text">{{ $club->about_text }}</p>
+                        <div class="c-club-detail__text">{!! $club->about_text !!}</div>
                     </div>
                 @endif
 
