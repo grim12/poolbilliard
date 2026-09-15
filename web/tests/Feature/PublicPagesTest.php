@@ -134,6 +134,24 @@ class PublicPagesTest extends TestCase
         $response->assertSee('Důležité');
     }
 
+    public function test_tournament_detail_page_renders(): void
+    {
+        $category = TournamentCategory::factory()->create(['name' => 'ČMBS']);
+        $tournament = Tournament::factory()->create([
+            'tournament_category_id' => $category->id,
+            'url' => 'https://vysledky.cmbs.cz/turnaje/test',
+            'description' => '<p>Testovací popis turnaje</p>',
+        ]);
+
+        $response = $this->get(route('turnaj.show', $tournament));
+
+        $response->assertOk();
+        $response->assertSee($tournament->title);
+        $response->assertSee('ČMBS');
+        $response->assertSee('Testovací popis turnaje', false);
+        $response->assertSee('https://vysledky.cmbs.cz/turnaje/test', false);
+    }
+
     /**
      * Homepage-specific behavior beyond the plain chrome smoke test above: a HomepageSettings
      * banner slot with no selection must skip that section entirely (not render an empty

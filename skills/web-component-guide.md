@@ -72,7 +72,20 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   `resources/views/components/{tournament-card,tournaments}.blade.php`, route `/turnaje`.
   **Poznámka:** `ui/` nemá pro tenhle grid samostatnou stránku (jen homepage sekce + plný
   Kalendář s JS filtry) — `/turnaje` je dočasná ukázková route, ne 1:1 port existující `ui/`
-  stránky.
+  stránky. **`TurnajeSettings`** (spatie-settings, stejný vzor jako `KlubySettings`/`HernySettings`,
+  `group()` `'turnaje'`) drží jen editovatelný titulek hlavičky listu (`ManageTurnajeSettings`) —
+  oddělené od `HomepageSettings::$tournaments_title`, protože jde o jinou stránku s vlastním textem.
+  **Má teď i detail turnaje** (`/turnaj/{tournament:slug_cs}`, `TournamentController::show()`,
+  `resources/views/turnaj.blade.php` + `components/tournament-content.blade.php`) — `ui/`'s
+  `turnaj.njk`/`pravidelny-turnaj.njk` jsou (jako dřív `klub.njk`/`herna.njk`) dvě napevno
+  ukázkové stránky sdílející `tournamentContent()` widget, ne reálné per-záznamové routování, tak
+  řeší stejný `HasSlug` trait jako `Club`/`Herna` (`slugSourceField()` vrací `title`, protože je
+  translatable stejně jako `Article`/`Notice`). Nové pole `description` (translatable
+  `RichEditor`) je freeform obsah detailu (pravidla/startovné/odkazy), co `ui/`'s mock měl
+  natvrdo napsaný v markupu. **`url` zůstává jen externí CTA odkaz** (přihlášky/výsledkový
+  servis) vykreslený tlačítkem na detailu — kartička v gridu (`tournament-card`) teď linkuje na
+  interní `route('turnaj.show', $tournament)`, ne na `$item->url` (stejný princip jako
+  `Club`/`Herna`, kde karta vede na vlastní detail, ne na externí web).
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.

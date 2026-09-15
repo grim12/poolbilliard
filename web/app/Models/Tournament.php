@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\HasTranslatableFormFields;
 use App\Settings\GeneralSettings;
 use Database\Factories\TournamentFactory;
@@ -16,19 +17,24 @@ class Tournament extends Model
     /** @use HasFactory<TournamentFactory> */
     use HasFactory;
 
+    use HasSlug;
     use HasTranslatableFormFields;
 
-    public array $translatable = ['title', 'location_text'];
+    public array $translatable = ['title', 'location_text', 'description'];
 
     protected $fillable = [
         'title',
         'title_translations',
+        'slug_cs',
+        'slug_en',
         'url',
         'tournament_category_id',
         'start_date',
         'end_date',
         'location_text',
         'location_text_translations',
+        'description',
+        'description_translations',
         'badge',
         'sort_order',
     ];
@@ -36,6 +42,11 @@ class Tournament extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(TournamentCategory::class, 'tournament_category_id');
+    }
+
+    protected static function slugSourceField(): string
+    {
+        return 'title';
     }
 
     protected function casts(): array

@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
             $table->json('title');
+            $table->string('slug_cs')->unique();
+            $table->string('slug_en')->unique();
             $table->string('url')->nullable();
             $table->foreignId('tournament_category_id')->nullable()->constrained()->nullOnDelete();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->json('location_text')->nullable();
+            $table->json('description')->nullable();
             $table->boolean('badge')->default(false);
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();

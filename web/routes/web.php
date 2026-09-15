@@ -15,6 +15,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/partneri', [PartnerController::class, 'index'])->name('partneri');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/turnaje', [TournamentController::class, 'index'])->name('turnaje');
+Route::get('/turnaj/{tournament:slug_cs}', [TournamentController::class, 'show'])->name('turnaj.show');
 Route::get('/novinky', [ArticleController::class, 'index'])->name('novinky');
 Route::get('/novinky/{article:slug_cs}', [ArticleController::class, 'show'])->name('novinky.show');
 

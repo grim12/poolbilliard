@@ -1,8 +1,10 @@
 {{--
     <x-tournaments :title :items :calendar-url :calendar-text :stream-url />
-    - items: collection of Tournament models (title, url, category relation, date_text/soon
+    - items: collection of Tournament models (title, slug_cs, category relation, date_text/soon
       accessors, location_text, badge). Mirrors ui/src/_includes/widgets/tournaments.njk —
-      category->name/color map onto the card's generic tagText/tagColor props.
+      category->name/color map onto the card's generic tagText/tagColor props. The card links to
+      the tournament's own detail page (route('turnaj.show', ...)), not $item->url — that field
+      is the external registration/results link shown as a CTA button on the detail page itself.
     - stream-url: pass GeneralSettings::$cmbs_tv_url — the surrounding sentence is hardcoded
       (structural design copy, not editorial content), only the link destination is
       admin-editable. See skills/web-component-guide.md.
@@ -24,7 +26,7 @@
             @foreach ($items as $item)
                 <x-tournament-card
                     :title="$item->title"
-                    :url="$item->url"
+                    :url="route('turnaj.show', $item)"
                     :tag-text="$item->category?->name"
                     :tag-color="$item->category?->color"
                     :date-text="$item->date_text"
