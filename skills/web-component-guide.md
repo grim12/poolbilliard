@@ -70,9 +70,9 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   `database/seeders/{TournamentCategorySeeder,TournamentSeeder}.php`,
   `app/Filament/Resources/{Tournaments,TournamentCategories}/`, `resources/views/turnaje.blade.php` +
   `resources/views/components/{tournament-card,tournaments}.blade.php`, route `/turnaje`.
-  **Poznámka:** `ui/` nemá pro tenhle grid samostatnou stránku (jen homepage sekce + plný
-  Kalendář s JS filtry) — `/turnaje` je dočasná ukázková route, ne 1:1 port existující `ui/`
-  stránky. **`TurnajeSettings`** (spatie-settings, stejný vzor jako `KlubySettings`/`HernySettings`,
+  **Poznámka:** `ui/` nemá pro tenhle grid samostatnou stránku (jen homepage sekce a Kalendář,
+  viz níže) — `/turnaje` je dočasná ukázková route, ne 1:1 port existující `ui/` stránky.
+  **`TurnajeSettings`** (spatie-settings, stejný vzor jako `KlubySettings`/`HernySettings`,
   `group()` `'turnaje'`) drží jen editovatelný titulek hlavičky listu (`ManageTurnajeSettings`) —
   oddělené od `HomepageSettings::$tournaments_title`, protože jde o jinou stránku s vlastním textem.
   **Má teď i detail turnaje** (`/turnaj/{tournament:slug_cs}`, `TournamentController::show()`,
@@ -86,6 +86,32 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   servis) vykreslený tlačítkem na detailu — kartička v gridu (`tournament-card`) teď linkuje na
   interní `route('turnaj.show', $tournament)`, ne na `$item->url` (stejný princip jako
   `Club`/`Herna`, kde karta vede na vlastní detail, ne na externí web).
+* **Kalendář** (`/kalendar`, `CalendarController`) mirrors `ui/src/kalendar.njk` —
+  `Tournament::currentAndUpcoming()` karty (stejný dotaz jako `/turnaje`) + měsíční mini-kalendář
+  + `RecurringTournament` postranní karta + statický seznam zdrojových kalendářů. Svaz/Klub/
+  Zahraniční checkbox filtr je **záměrně inertní** (stejné řešení jako `/novinky`'s kategorie
+  taby — vidět, ale nefiltruje). **Měsíční navigace (prev/next/dnes) je ale skutečná** —
+  `?month=Y-m` query param, `CalendarController::buildCalendarMonth()` počítá mřížku dnů +
+  eventy ze skutečných `start_date`/`end_date` (stejná logika jako `ui/`'s build-time-only
+  `kalendarMesic.js`, jen za běhu a pro libovolný měsíc, ne zamrzlé na jeden) — bráno jako běžná
+  navigace (jako skutečná paginace u `/novinky`), ne "filtrování", proto zůstalo funkční i když
+  checkbox filtr ne.
+  **`RecurringTournament`** (pravidelné amatérské turnaje, např. "Turnaje v Balabušce, každá
+  středa") je **samostatný model**, ne flag na `Tournament` — different shape (`frequency` text
+  místo `start_date`/`end_date`, žádná kategorie/badge, malý stabilní počet záznamů) by na
+  `Tournament` znamenalo hromadu polí relevantních jen pro jeden typ záznamu a ztrácely by se
+  admin-side v rostoucí tabulce turnajů. Řeší stejný `HasSlug` trait (`slugSourceField()` →
+  `title`) a **vlastní detail** (`/pravidelny-turnaj/{recurringTournament:slug_cs}`,
+  `RecurringTournamentController::show()`, `resources/views/pravidelny-turnaj.blade.php`) —
+  znovupoužívá `<x-tournament-content>` (ta na `Tournament` modelu vůbec nezávisí), jen s pevnou
+  klasifikací `tagText="Amatérský turnaj"`/`tagColor="gold"` (na rozdíl od `Tournament`, `Recur-
+  ringTournament` nemá vlastní kategorie). **Nepovinná vazba `herna_id` (`belongsTo Herna`)** —
+  když je vyplněná, detail zobrazí kartu "Odkazy" s proklikem na `route('herna.show', ...)`
+  (mapa/adresa řeší už hotová herna detail stránka, tahle vazba slouží jen k prokliku). `app/
+  Models/RecurringTournament.php`, `database/seeders/RecurringTournamentSeeder.php`, `app/
+  Filament/Resources/RecurringTournaments/`. Nové sdílené komponenty `calendar-month`,
+  `recurring-tournaments`, `calendar-sources`, `no-results` (`resources/views/components/`)
+  mirrors stejnojmenné `ui/`'s macra 1:1.
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.

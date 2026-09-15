@@ -14,6 +14,7 @@ use App\Models\Leaderboard;
 use App\Models\LinkTile;
 use App\Models\Notice;
 use App\Models\Partner;
+use App\Models\RecurringTournament;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
 use App\Settings\HomepageSettings;
@@ -42,7 +43,7 @@ class PublicPagesTest extends TestCase
         Club::factory()->create();
         Herna::factory()->create(['status' => HernaStatus::Approved]);
 
-        foreach (['/', '/partneri', '/faq', '/turnaje', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/kalendar', '/turnaje', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -150,6 +151,64 @@ class PublicPagesTest extends TestCase
         $response->assertSee('ČMBS');
         $response->assertSee('Testovací popis turnaje', false);
         $response->assertSee('https://vysledky.cmbs.cz/turnaje/test', false);
+    }
+
+    /**
+     * The month mini-calendar's prev/next navigation is real (unlike the Svaz/Klub/Zahraniční
+     * checkbox filter next to it) — a tournament dated in a different month must only get an
+     * event pill on that month's grid, not the default (current month) one. The tournament
+     * itself still appears in the card list either way (that list isn't month-filtered, same
+     * as /turnaje) — the calendar-grid event pill (`.c-calendar__event-label`) is checked
+     * specifically, since it's the one piece of the page that's actually month-scoped.
+     */
+    public function test_calendar_month_navigation_shows_real_data_for_the_requested_month(): void
+    {
+        $category = TournamentCategory::factory()->create();
+        $tournament = Tournament::factory()->create([
+            'title' => 'Říjnový turnaj',
+            'tournament_category_id' => $category->id,
+            'start_date' => '2026-10-15',
+            'end_date' => null,
+        ]);
+        $eventPill = 'c-calendar__event-label">'.$tournament->title;
+
+        $this->travelTo(now()->setDate(2026, 9, 1));
+
+        $septemberResponse = $this->get('/kalendar');
+        $septemberResponse->assertOk();
+        $septemberResponse->assertSee('Září 2026');
+        $septemberResponse->assertDontSee($eventPill, false);
+
+        $octoberResponse = $this->get('/kalendar?month=2026-10');
+        $octoberResponse->assertOk();
+        $octoberResponse->assertSee('Říjen 2026');
+        $octoberResponse->assertSee($eventPill, false);
+    }
+
+    public function test_recurring_tournament_detail_page_renders_and_optionally_links_to_herna(): void
+    {
+        $herna = Herna::factory()->create(['name' => 'Testovací herna', 'status' => HernaStatus::Approved]);
+        $withHerna = RecurringTournament::factory()->create([
+            'title' => 'Turnaje v Testovně',
+            'frequency' => 'Každé pondělí',
+            'herna_id' => $herna->id,
+            'description' => '<p>Testovací popis pravidelného turnaje</p>',
+        ]);
+        $withoutHerna = RecurringTournament::factory()->create([
+            'title' => 'Turnaje bez herny',
+            'herna_id' => null,
+        ]);
+
+        $responseWithHerna = $this->get(route('pravidelny-turnaj.show', $withHerna));
+        $responseWithHerna->assertOk();
+        $responseWithHerna->assertSee($withHerna->title);
+        $responseWithHerna->assertSee('Testovací popis pravidelného turnaje', false);
+        $responseWithHerna->assertSee(route('herna.show', $herna), false);
+
+        $responseWithoutHerna = $this->get(route('pravidelny-turnaj.show', $withoutHerna));
+        $responseWithoutHerna->assertOk();
+        $responseWithoutHerna->assertSee($withoutHerna->title);
+        $responseWithoutHerna->assertDontSee('c-tournament-detail__card-title">Odkazy', false);
     }
 
     /**
