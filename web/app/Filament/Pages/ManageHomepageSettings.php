@@ -12,6 +12,7 @@ use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use UnitEnum;
 
 class ManageHomepageSettings extends SettingsPage
 {
@@ -20,6 +21,8 @@ class ManageHomepageSettings extends SettingsPage
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHome;
 
     protected static ?string $navigationLabel = 'Homepage';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Stránky';
 
     protected static ?string $title = 'Nastavení homepage';
 
@@ -53,7 +56,7 @@ class ManageHomepageSettings extends SettingsPage
                     ->components([
                         Select::make('banner_1_id')
                             ->label('Banner')
-                            ->options(fn () => Banner::orderBy('sort_order')->pluck('title', 'id'))
+                            ->options(fn () => Banner::orderBy('sort_order')->get()->pluck('title', 'id'))
                             ->placeholder('— žádný banner —')
                             ->searchable(),
                     ]),
@@ -73,7 +76,7 @@ class ManageHomepageSettings extends SettingsPage
                     ->components([
                         Select::make('banner_2_id')
                             ->label('Banner')
-                            ->options(fn () => Banner::orderBy('sort_order')->pluck('title', 'id'))
+                            ->options(fn () => Banner::orderBy('sort_order')->get()->pluck('title', 'id'))
                             ->placeholder('— žádný banner —')
                             ->searchable(),
                     ]),
@@ -96,7 +99,7 @@ class ManageHomepageSettings extends SettingsPage
                     ->components([
                         Select::make('link_tile_ids')
                             ->hiddenLabel()
-                            ->options(fn () => LinkTile::orderBy('sort_order')->pluck('title', 'id'))
+                            ->options(fn () => LinkTile::orderBy('sort_order')->get()->pluck('title', 'id'))
                             ->multiple()
                             ->reorderable(),
                     ]),

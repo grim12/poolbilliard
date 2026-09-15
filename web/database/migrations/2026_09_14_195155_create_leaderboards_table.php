@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('leaderboards', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->json('title');
             $table->boolean('featured')->default(false);
             $table->json('entries')->nullable();
             $table->unsignedInteger('sort_order')->default(0);

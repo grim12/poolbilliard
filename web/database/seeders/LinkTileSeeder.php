@@ -33,8 +33,9 @@ class LinkTileSeeder extends Seeder
                 $disk->put($imagePath, file_get_contents(database_path('seeders/assets/link-tiles/'.$imageFile)));
             }
 
-            LinkTile::updateOrCreate(
-                ['title' => $data['title']],
+            LinkTile::updateOrCreateByTranslation(
+                'title',
+                $data['title'],
                 [
                     'url' => $data['url'],
                     'image' => $imagePath,

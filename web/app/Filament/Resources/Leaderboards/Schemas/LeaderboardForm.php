@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Leaderboards\Schemas;
 
+use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -17,9 +18,9 @@ class LeaderboardForm
                 Section::make('Základní údaje')
                     ->columns(2)
                     ->components([
-                        TextInput::make('title')
+                        TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
                             ->label('Název žebříčku')
-                            ->required()
+                            ->required($locale === 'cs'))
                             ->columnSpanFull(),
                         Toggle::make('featured')
                             ->label('Zvýraznit 1. místo')

@@ -22,7 +22,7 @@
                             @foreach ($notices as $notice)
                                 <x-notice-card
                                     :title="$notice->title"
-                                    :url="route('zpravodajstvi.vykonny-vybor.show', $notice->slug)"
+                                    :url="route('zpravodajstvi.vykonny-vybor.show', $notice->slug_cs)"
                                     :tag-text="$notice->is_important ? 'DŮLEŽITÉ' : ''"
                                     :date="$notice->date_text"
                                     :excerpt="$notice->excerpt"

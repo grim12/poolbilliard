@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\TournamentCategories\Schemas;
 
+use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Component;
@@ -24,9 +25,8 @@ class TournamentCategoryForm
     public static function components(): array
     {
         return [
-            TextInput::make('name')
-                ->required()
-                ->unique(ignoreRecord: true),
+            TranslatableTabs::make('name', fn (string $locale) => TextInput::make('name')
+                ->required($locale === 'cs')),
             Select::make('color')
                 ->options([
                     'primary' => 'Primary',

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tournament_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->json('name');
             $table->string('color')->default('primary');
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();

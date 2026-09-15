@@ -113,13 +113,14 @@ class ArticleSeeder extends Seeder
                 })->all();
             }
 
-            Article::updateOrCreate(
-                ['title' => $data['title']],
+            Article::updateOrCreateByTranslation(
+                'title',
+                $data['title'],
                 [
                     ...$data,
                     ...$extra,
                     'image' => $imagePath,
-                    'article_category_id' => ArticleCategory::where('name', $categoryName)->value('id'),
+                    'article_category_id' => ArticleCategory::whereJsonContainsLocale('name', 'cs', $categoryName)->value('id'),
                 ]
             );
         }

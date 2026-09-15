@@ -19,7 +19,7 @@
             <div class="c-section__featured">
                 <x-article-card-main
                     :title="$featured->title"
-                    :url="route('novinky.show', $featured->slug)"
+                    :url="route('novinky.show', $featured->slug_cs)"
                     :image="$featured->image_url"
                     :tag-text="$featured->category?->name"
                     :tag-color="$featured->category?->color"
@@ -31,7 +31,7 @@
                     @foreach ($items as $item)
                         <x-article-card-compact
                             :title="$item->title"
-                            :url="route('novinky.show', $item->slug)"
+                            :url="route('novinky.show', $item->slug_cs)"
                             :image="$item->image_url"
                             :tag-text="$item->category?->name"
                             :tag-color="$item->category?->color"

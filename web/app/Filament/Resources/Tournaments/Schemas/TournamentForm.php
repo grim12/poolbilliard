@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Tournaments\Schemas;
 
 use App\Filament\Resources\TournamentCategories\Schemas\TournamentCategoryForm;
+use App\Filament\Support\TranslatableTabs;
+use App\Models\TournamentCategory;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -15,13 +17,14 @@ class TournamentForm
     {
         return $schema
             ->components([
-                TextInput::make('title')
-                    ->required()
+                TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
+                    ->required($locale === 'cs'))
                     ->columnSpanFull(),
                 TextInput::make('url'),
                 Select::make('tournament_category_id')
                     ->label('Kategorie')
                     ->relationship('category', 'name')
+                    ->getOptionLabelFromRecordUsing(fn (TournamentCategory $record) => $record->name)
                     ->searchable()
                     ->preload()
                     ->createOptionForm(TournamentCategoryForm::components()),
@@ -32,8 +35,8 @@ class TournamentForm
                     ->label('Datum konce')
                     ->helperText('Nech prázdné u jednodenního turnaje.')
                     ->afterOrEqual('start_date'),
-                TextInput::make('location_text')
-                    ->label('Místo konání'),
+                TranslatableTabs::make('location_text', fn (string $locale) => TextInput::make('location_text')
+                    ->label('Místo konání')),
                 Toggle::make('badge')
                     ->label('Has Badge'),
                 TextInput::make('sort_order')

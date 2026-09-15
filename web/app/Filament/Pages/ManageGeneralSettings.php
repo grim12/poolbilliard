@@ -10,6 +10,7 @@ use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use UnitEnum;
 
 class ManageGeneralSettings extends SettingsPage
 {
@@ -18,6 +19,10 @@ class ManageGeneralSettings extends SettingsPage
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
 
     protected static ?string $navigationLabel = 'Nastavení';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Správa Obsahu';
+
+    protected static ?int $navigationSort = 100;
 
     protected static ?string $title = 'Obecné nastavení';
 

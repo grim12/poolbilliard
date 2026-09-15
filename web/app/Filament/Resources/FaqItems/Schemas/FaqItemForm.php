@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\FaqItems\Schemas;
 
 use App\Filament\Resources\FaqGroups\Schemas\FaqGroupForm;
+use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -14,11 +15,11 @@ class FaqItemForm
     {
         return $schema
             ->components([
-                TextInput::make('question')
-                    ->required()
+                TranslatableTabs::make('question', fn (string $locale) => TextInput::make('question')
+                    ->required($locale === 'cs'))
                     ->columnSpanFull(),
-                RichEditor::make('answer')
-                    ->required()
+                TranslatableTabs::make('answer', fn (string $locale) => RichEditor::make('answer')
+                    ->required($locale === 'cs'))
                     ->columnSpanFull(),
                 Select::make('groups')
                     ->label('Kde se zobrazí (skupiny)')

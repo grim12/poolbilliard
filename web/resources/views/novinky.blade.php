@@ -14,7 +14,7 @@
                             @foreach ($articles as $article)
                                 <x-article-card
                                     :title="$article->title"
-                                    :url="route('novinky.show', $article->slug)"
+                                    :url="route('novinky.show', $article->slug_cs)"
                                     :image="$article->image_url"
                                     :tag-text="$article->category?->name"
                                     :tag-color="$article->category?->color"
@@ -35,7 +35,7 @@
                             @foreach ($sidebarNotices as $notice)
                                 <x-notice-card
                                     :title="$notice->title"
-                                    :url="route('zpravodajstvi.vykonny-vybor.show', $notice->slug)"
+                                    :url="route('zpravodajstvi.vykonny-vybor.show', $notice->slug_cs)"
                                     :tag-text="$notice->is_important ? 'DŮLEŽITÉ' : ''"
                                     :date="$notice->date_text"
                                 />

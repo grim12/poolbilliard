@@ -56,8 +56,9 @@ class BannerSeeder extends Seeder
                 $disk->put($imagePath, file_get_contents(database_path('seeders/assets/banners/'.$imageFile)));
             }
 
-            Banner::updateOrCreate(
-                ['title' => $data['title']],
+            Banner::updateOrCreateByTranslation(
+                'title',
+                $data['title'],
                 [...$data, 'image' => $imagePath]
             );
         }

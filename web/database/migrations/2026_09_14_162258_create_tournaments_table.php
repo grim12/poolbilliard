@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->json('title');
             $table->string('url')->nullable();
             $table->foreignId('tournament_category_id')->nullable()->constrained()->nullOnDelete();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->string('location_text')->nullable();
+            $table->json('location_text')->nullable();
             $table->boolean('badge')->default(false);
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();

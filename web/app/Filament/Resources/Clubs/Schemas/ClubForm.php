@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Clubs\Schemas;
 
 use App\Enums\Region;
+use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -26,8 +27,13 @@ class ClubForm
                             ->required(),
                         TextInput::make('full_name')
                             ->label('Celý (oficiální) název'),
-                        TextInput::make('slug')
+                        TextInput::make('slug_cs')
+                            ->label('Slug (CZ)')
                             ->helperText('Generuje se automaticky z názvu při založení. Needituj bez rozmyslu, pokud už je klub publikovaný — mění se tím URL.')
+                            ->required(),
+                        TextInput::make('slug_en')
+                            ->label('Slug (EN)')
+                            ->helperText('Stejné pravidlo jako u CZ slugu.')
                             ->required(),
                         FileUpload::make('image')
                             ->label('Úvodní fotka')
@@ -35,8 +41,8 @@ class ClubForm
                             ->disk('public')
                             ->directory('clubs')
                             ->columnSpanFull(),
-                        RichEditor::make('about_text')
-                            ->label('O klubu')
+                        TranslatableTabs::make('about_text', fn (string $locale) => RichEditor::make('about_text')
+                            ->label('O klubu'))
                             ->columnSpanFull(),
                     ]),
                 Section::make('Adresa a poloha')
@@ -71,9 +77,9 @@ class ClubForm
                         Toggle::make('recruitment_open')
                             ->label('Nábor otevřen')
                             ->default(true),
-                        RichEditor::make('recruitment_text')
+                        TranslatableTabs::make('recruitment_text', fn (string $locale) => RichEditor::make('recruitment_text')
                             ->label('Vlastní text (nepovinné)')
-                            ->helperText('Když necháš prázdné, použije se výchozí text pro daný stav náboru (Nastavení > Nábor do klubů).'),
+                            ->helperText('Když necháš prázdné, použije se výchozí text pro daný stav náboru (Nastavení > Nábor do klubů).')),
                     ]),
                 Section::make('Členové klubu')
                     ->components([

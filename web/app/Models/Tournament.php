@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasTranslatableFormFields;
 use App\Settings\GeneralSettings;
 use Database\Factories\TournamentFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,13 +16,19 @@ class Tournament extends Model
     /** @use HasFactory<TournamentFactory> */
     use HasFactory;
 
+    use HasTranslatableFormFields;
+
+    public array $translatable = ['title', 'location_text'];
+
     protected $fillable = [
         'title',
+        'title_translations',
         'url',
         'tournament_category_id',
         'start_date',
         'end_date',
         'location_text',
+        'location_text_translations',
         'badge',
         'sort_order',
     ];

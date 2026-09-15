@@ -41,8 +41,9 @@ class NoticeSeeder extends Seeder
                 ? ['body' => self::MCR_9BALL_BODY]
                 : [];
 
-            Notice::updateOrCreate(
-                ['title' => $data['title']],
+            Notice::updateOrCreateByTranslation(
+                'title',
+                $data['title'],
                 [...$data, ...$extra]
             );
         }

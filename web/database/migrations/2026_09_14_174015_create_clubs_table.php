@@ -15,18 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('full_name')->nullable();
-            $table->string('slug')->unique();
+            $table->string('slug_cs')->unique();
+            $table->string('slug_en')->unique();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('region')->nullable();
             $table->string('image')->nullable();
             $table->decimal('lat', 10, 7)->nullable();
             $table->decimal('lng', 10, 7)->nullable();
-            $table->text('about_text')->nullable();
+            $table->json('about_text')->nullable();
             $table->string('ambassador_name')->nullable();
             $table->string('ambassador_website')->nullable();
             $table->boolean('recruitment_open')->default(true);
-            $table->text('recruitment_text')->nullable();
+            $table->json('recruitment_text')->nullable();
             $table->timestamps();
         });
     }

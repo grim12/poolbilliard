@@ -28,8 +28,9 @@ class ArticleCategorySeeder extends Seeder
     public function run(): void
     {
         foreach (self::CATEGORIES as $index => $category) {
-            ArticleCategory::updateOrCreate(
-                ['name' => $category['name']],
+            ArticleCategory::updateOrCreateByTranslation(
+                'name',
+                $category['name'],
                 ['color' => $category['color'], 'sort_order' => $index]
             );
         }

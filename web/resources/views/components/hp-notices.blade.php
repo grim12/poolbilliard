@@ -25,7 +25,7 @@
             @foreach ($items as $item)
                 <x-notice-card
                     :title="$item->title"
-                    :url="route('zpravodajstvi.vykonny-vybor.show', $item->slug)"
+                    :url="route('zpravodajstvi.vykonny-vybor.show', $item->slug_cs)"
                     :tag-text="$item->is_important ? 'DŮLEŽITÉ' : ''"
                     :date="$item->date_text"
                 />

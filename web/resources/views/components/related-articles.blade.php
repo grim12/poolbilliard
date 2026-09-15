@@ -17,7 +17,7 @@
             @foreach ($items as $item)
                 <x-article-card
                     :title="$item->title"
-                    :url="route('novinky.show', $item->slug)"
+                    :url="route('novinky.show', $item->slug_cs)"
                     :image="$item->image_url"
                     :tag-text="$item->category?->name"
                     :tag-color="$item->category?->color"

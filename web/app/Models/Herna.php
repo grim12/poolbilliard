@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\HernaStatus;
 use App\Enums\Region;
 use App\Models\Concerns\HasSlug;
+use App\Models\Concerns\HasTranslatableFormFields;
 use Database\Factories\HernaFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,16 +18,21 @@ class Herna extends Model
     use HasFactory;
 
     use HasSlug;
+    use HasTranslatableFormFields;
+
+    public array $translatable = ['about_text'];
 
     protected $fillable = [
         'name',
-        'slug',
+        'slug_cs',
+        'slug_en',
         'address',
         'city',
         'region',
         'lat',
         'lng',
         'about_text',
+        'about_text_translations',
         'phone',
         'email',
         'website',

@@ -21,8 +21,9 @@ class TournamentCategorySeeder extends Seeder
     public function run(): void
     {
         foreach (self::CATEGORIES as $index => $category) {
-            TournamentCategory::updateOrCreate(
-                ['name' => $category['name']],
+            TournamentCategory::updateOrCreateByTranslation(
+                'name',
+                $category['name'],
                 ['color' => $category['color'], 'sort_order' => $index]
             );
         }

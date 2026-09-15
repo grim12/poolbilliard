@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Hernas\Schemas;
 use App\Enums\HernaStatus;
 use App\Enums\Region;
 use App\Enums\Sport;
+use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
@@ -28,15 +29,20 @@ class HernaForm
                         TextInput::make('name')
                             ->label('Název')
                             ->required(),
-                        TextInput::make('slug')
+                        TextInput::make('slug_cs')
+                            ->label('Slug (CZ)')
                             ->helperText('Generuje se automaticky z názvu při založení. Needituj bez rozmyslu, pokud je herna už publikovaná — mění se tím URL.')
+                            ->required(),
+                        TextInput::make('slug_en')
+                            ->label('Slug (EN)')
+                            ->helperText('Stejné pravidlo jako u CZ slugu.')
                             ->required(),
                         Select::make('status')
                             ->label('Stav')
                             ->options(HernaStatus::class)
                             ->required(),
-                        RichEditor::make('about_text')
-                            ->label('O herně')
+                        TranslatableTabs::make('about_text', fn (string $locale) => RichEditor::make('about_text')
+                            ->label('O herně'))
                             ->columnSpanFull(),
                     ]),
                 Section::make('Adresa a poloha')

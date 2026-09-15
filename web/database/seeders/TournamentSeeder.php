@@ -61,11 +61,12 @@ class TournamentSeeder extends Seeder
             $categoryName = $tournament['category'];
             unset($tournament['category']);
 
-            Tournament::updateOrCreate(
-                ['title' => $tournament['title']],
+            Tournament::updateOrCreateByTranslation(
+                'title',
+                $tournament['title'],
                 [
                     ...$tournament,
-                    'tournament_category_id' => TournamentCategory::where('name', $categoryName)->value('id'),
+                    'tournament_category_id' => TournamentCategory::whereJsonContainsLocale('name', 'cs', $categoryName)->value('id'),
                     'sort_order' => $index,
                 ]
             );

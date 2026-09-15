@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\LinkTiles\Schemas;
 
+use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -12,9 +13,9 @@ class LinkTileForm
     {
         return $schema
             ->components([
-                TextInput::make('title')
+                TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
                     ->label('Titulek')
-                    ->required(),
+                    ->required($locale === 'cs')),
                 TextInput::make('url')
                     ->label('Odkaz')
                     ->required(),

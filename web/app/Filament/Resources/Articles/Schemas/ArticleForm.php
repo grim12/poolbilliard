@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Articles\Schemas;
 
 use App\Filament\Resources\ArticleCategories\Schemas\ArticleCategoryForm;
+use App\Filament\Support\TranslatableTabs;
+use App\Models\ArticleCategory;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -21,16 +23,22 @@ class ArticleForm
                 Section::make('Základní údaje')
                     ->columns(2)
                     ->components([
-                        TextInput::make('title')
+                        TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
                             ->label('Titulek')
-                            ->required()
+                            ->required($locale === 'cs'))
                             ->columnSpanFull(),
-                        TextInput::make('slug')
+                        TextInput::make('slug_cs')
+                            ->label('Slug (CZ)')
                             ->helperText('Generuje se automaticky z titulku při založení. Needituj bez rozmyslu, pokud je článek už publikovaný — mění se tím URL.')
+                            ->required(),
+                        TextInput::make('slug_en')
+                            ->label('Slug (EN)')
+                            ->helperText('Stejné pravidlo jako u CZ slugu.')
                             ->required(),
                         Select::make('article_category_id')
                             ->label('Kategorie')
                             ->relationship('category', 'name')
+                            ->getOptionLabelFromRecordUsing(fn (ArticleCategory $record) => $record->name)
                             ->searchable()
                             ->preload()
                             ->createOptionForm(ArticleCategoryForm::components()),
@@ -44,12 +52,12 @@ class ArticleForm
                             ->disk('public')
                             ->directory('articles')
                             ->columnSpanFull(),
-                        Textarea::make('excerpt')
+                        TranslatableTabs::make('excerpt', fn (string $locale) => Textarea::make('excerpt')
                             ->label('Perex (krátký úvodní text v přehledu)')
-                            ->rows(3)
+                            ->rows(3))
                             ->columnSpanFull(),
-                        RichEditor::make('body')
-                            ->label('Obsah článku')
+                        TranslatableTabs::make('body', fn (string $locale) => RichEditor::make('body')
+                            ->label('Obsah článku'))
                             ->columnSpanFull(),
                     ]),
                 Section::make('Fotogalerie')

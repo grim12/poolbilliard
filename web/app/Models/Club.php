@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Region;
 use App\Models\Concerns\HasSlug;
+use App\Models\Concerns\HasTranslatableFormFields;
 use App\Settings\GeneralSettings;
 use Database\Factories\ClubFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -18,11 +19,15 @@ class Club extends Model
     use HasFactory;
 
     use HasSlug;
+    use HasTranslatableFormFields;
+
+    public array $translatable = ['about_text', 'recruitment_text'];
 
     protected $fillable = [
         'name',
         'full_name',
-        'slug',
+        'slug_cs',
+        'slug_en',
         'address',
         'city',
         'region',
@@ -30,10 +35,12 @@ class Club extends Model
         'lat',
         'lng',
         'about_text',
+        'about_text_translations',
         'ambassador_name',
         'ambassador_website',
         'recruitment_open',
         'recruitment_text',
+        'recruitment_text_translations',
     ];
 
     protected function casts(): array

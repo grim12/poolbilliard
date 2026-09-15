@@ -154,7 +154,7 @@ class LeaderboardSeeder extends Seeder
     public function run(): void
     {
         foreach (self::LEADERBOARDS as $data) {
-            Leaderboard::updateOrCreate(['title' => $data['title']], $data);
+            Leaderboard::updateOrCreateByTranslation('title', $data['title'], $data);
         }
     }
 }

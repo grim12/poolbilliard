@@ -165,7 +165,7 @@ Viz i pravidlo v hlavním `README.md`. `ui/` je zdroj pravdy pro vzhled — v `w
 - `newsletter()` → `<x-newsletter />` (`components/newsletter.blade.php`), stejné propy jako makro.
 - Ověření: `tests/Feature/PublicPagesTest.php` kontroluje, že veřejné stránky vrací 200 **a** obsahují chrome markery (`c-header__nav`, `c-footer__nav`) — 200 samo o sobě neodhalí zapomenutý `<x-layouts.app>` wrapper.
 
-### Novinky / Článek (`/novinky`, `/novinky/{article:slug}`)
+### Novinky / Článek (`/novinky`, `/novinky/{article:slug_cs}`)
 
 Referenční příklad prvního **reálného list+detail páru** (na rozdíl od `/partneri`/`/faq`/`/turnaje`, což jsou pořád jen preview stránky bez plného obsahu okolo).
 
@@ -176,7 +176,7 @@ Referenční příklad prvního **reálného list+detail páru** (na rozdíl od 
 - Nové utility soubory poprvé portované touhle dávkou: `04_utils/{spacing,backgrounds,borders}.css` (`.pt-none`/`.pb-none`, `.bg-gradient-light`, `.border-top`/`.border-bottom`) — potřebné, jakmile se sekce s různým/stejným pozadím řadí za sebe (viz `skills/ui-component-guide.md`'s "PAST" o dvojitém paddingu/borderu).
 - **"Důležité zprávy" sidebar je hotový** — `.c-section__grid c-news-grid__layout` (dvousloupcový grid) + `<aside class="c-news-grid__sidebar">` s `notice-card`y, přesná struktura `widgets/news-grid.njk`'s `{% call %}` bloku. `ArticleController::index()` bere 4 nejnovější zprávy (`Notice::orderByDesc('published_at')->take(4)`) místo `ui/`'s 4 ručně vypsaných příkladů — stejný princip jako u "podobných článků".
 
-### Zprávy výboru (`/zpravodajstvi/vykonny-vybor`, `/zpravodajstvi/vykonny-vybor/{notice:slug}`)
+### Zprávy výboru (`/zpravodajstvi/vykonny-vybor`, `/zpravodajstvi/vykonny-vybor/{notice:slug_cs}`)
 
 - `components/notice-card.blade.php` mirrors `macros/card/notice.njk` (`size="md"` kompaktní řádek se šipkou | `size="lg"` větší karta s excerptem, bez šipky — na listing stránce používáme `size="lg"`, stejně jako `ui/`).
 - **Detail stránka nemá vlastní komponentu** — `ui/`'s `vykonny-vybor-detail.njk` přímo znovupoužívá `articleContent()` (jen `tagPosition="inline"`, `tagColor="accent"`), takže `zpravodajstvi/vykonny-vybor-detail.blade.php` dělá to samé s `<x-article-content>` — žádný nový "notice content" widget.
@@ -228,7 +228,7 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 * **`belongsTo` vs. `belongsToMany` u taxonomie/číselníku — podle toho, jestli záznam patří vždy jen na jedno místo, nebo může na víc zároveň.** Turnaj má vždy přesně jednu kategorii → `TournamentCategory` + `belongsTo` (cizí klíč přímo na turnaji). FAQ položka ale může dávat smysl na víc místech současně (obecná stránka FAQ i konkrétní stránka) → `FaqGroup` + `belongsToMany` (pivot tabulka), ať se stejná otázka nemusí duplikovat do víc řádků, když ji chceš zobrazit na dvou místech. Pivot tabulka: `php artisan make:migration create_<a>_<b>_table` (Laravel konvence názvu: singulární jména modelů podle abecedy, podtržítkem — `faq_group_faq_item`), `foreignId(...)->constrained()->cascadeOnDelete()` na obě strany + `unique([...])`. V Blade/Filamentu se to používá stejně jako `belongsTo` (`Select::make(...)->relationship(...)->multiple()`), jen výsledek je kolekce, ne jeden model. Referenční příklad: `FaqGroup` + `FaqItem::groups()`, filtr v `FaqController` (`whereHas('groups', fn ($q) => $q->where('slug', 'obecne'))`).
 * **Uzavřený/neměnný seznam hodnot → PHP backed enum, ne DB tabulka/taxonomie.** `TournamentCategory`/`FaqGroup` jsou admin-manageable (přibývají, admin je edituje) — ale český kraj nebo "sport, který herna nabízí" jsou uzavřené, dané seznamy, který se v reálném životě nemění a nikdo je nebude "spravovat" v adminu. Pro tyhle patří `enum <Name>: string implements \Filament\Support\Contracts\HasLabel` v `app/Enums/` (`getLabel()` vrací zobrazovaný text), ne další tabulka s `belongsTo`/`belongsToMany`. Filament `Select`/`CheckboxList` bere enum třídu přímo (`->options(Region::class)`), sloupec se castuje `'region' => Region::class` v modelu. Referenční příklad: `Region` (sdílený mezi `Club`/`Herna`), `Sport` (na `Herna::$sports`, viz níže), `HernaStatus` (implementuje i `HasColor` pro barevné badge v tabulce).
 * **Malá, vždy pohromadě patřící, ohraničená strukturovaná data (ne nezávisle spravovaný seznam) → obyčejný JSON sloupec, ne samostatná tabulka.** `Herna::$sports` (pole hodnot z `Sport` enumu), `$hours` (pole `{day, text}` pro 7 dní) a `$gallery` (pole cest k nahraným obrázkům, přes Filament `FileUpload::make('gallery')->multiple()` — **žádná samostatná `herna_images` tabulka, žádný Spatie Media Library**, i pro víc obrázků na entitu, pokud nejde o něco, co potřebuje vlastní řazení/metadata nad rámec pořadí v poli). Cast `'sports' => 'array'` atd. Accessor `galleryUrls()` mapuje uložené relativní cesty na plné `Storage::disk('public')->url(...)` (stejný princip jako `logo_url` u jednoho obrázku, jen na celé pole).
-* **Auto-generovaný `slug` pro entity s reálným per-záznamovým routováním** (na rozdíl od entit, které mají jen listing bez detailu) — sdílený `HasSlug` trait (`app/Models/Concerns/HasSlug.php`): `protected static function bootHasSlug()` s `static::creating(...)`, doplní `slug` ze zdrojového pole jen pokud není zadaný, s `-2`/`-3`... při kolizi. Zdrojové pole je defaultně `name` — pokud model nazývá svůj titulek jinak (`Article`/`Notice` mají `title`, ne `name`), přepiš `protected static function slugSourceField(): string { return 'title'; }` v modelu. Použij `use HasSlug;` v modelu + `slug` sloupec (`unique()`) v migraci.
+* **Auto-generovaný `slug_cs`/`slug_en` pro entity s reálným per-záznamovým routováním** (na rozdíl od entit, které mají jen listing bez detailu) — sdílený `HasSlug` trait (`app/Models/Concerns/HasSlug.php`): `protected static function bootHasSlug()` s `static::creating(...)`, doplní **oba** sloupce ze zdrojového pole jen pokud nejsou zadané, s `-2`/`-3`... při kolizi (řešeno zvlášť per sloupec). Zdrojové pole je defaultně `name` — pokud model nazývá svůj titulek jinak (`Article`/`Notice` mají `title`, ne `name`), přepiš `protected static function slugSourceField(): string { return 'title'; }` v modelu. Použij `use HasSlug;` v modelu + `slug_cs`/`slug_en` sloupce (obě `unique()`) v migraci. Slugy jsou **per jazyk** (dvě různé URL, ne jeden sdílený slug) — viz "Dvojjazyčný obsah (CZ/EN)" níže. Trait sám pozná, jestli je zdrojové pole translatable (např. `Article::title`) nebo obyčejný string (např. `Club::name`, `Herna::name` — vlastní jména se nepřekládají) a podle toho vezme CZ/EN text, nebo stejný text pro oba slugy.
 * **`Banner`** (`title`, `text` rich-text, `image`, `tag_text`, `meta_text`, `color`, `buttons` JSON, `sort_order`) — sdílená entita pro `ui/`'s `eventBanner()` i `cta()` widgety, oba jen tenké obálky nad stejné `macros/banner.njk` (2 reálné příklady z `index.njk`: "Federal Cup 2026" — `color=accent`, 1 tlačítko — a "Hraješ s kamarády..." — `color=primary`, 2 tlačítka). Žádný `is_active`/stavový sloupec a žádný slug/veřejná stránka — `Banner` je čistě obsahová knihovna k výběru, **umístění na homepage (které ze 2 "děr" ukazuje který banner, nebo žádný) bude řešit budoucí `HomepageSettings`** (nullable `banner_slot_1_id`/`banner_slot_2_id`, vybírané přes Filament `Select`), ne vlastnost samotného Banneru — vyhne se to nejednoznačnosti "víc aktivních najednou" u boolean flagu.
   - `color`: `BannerColor` PHP enum (`primary`/`accent`/`dark`) — uzavřený seznam přímo podle `button.njk`'s `color` parametru (`tag.njk` má navíc `gray`/`gold`/`gold-light`, ale Banner je nikdy nepoužívá, takže užší enum stačí). Implementuje `HasColor` pro barevný badge v tabulce/filtru, stejný vzor jako `HernaStatus`.
   - `buttons`: JSON sloupec, pole `{text, url, variant}` (max 2 položky, obě nepovinné) — malá ohraničená vždy-pohromadě data, stejný princip jako `Herna::$hours`. Ve Filamentu `Repeater::make('buttons')->maxItems(2)`, stejný vzor jako `HernaForm`'s `hours` repeater. `variant` (solid/outline/link) je jen inline `Select` options pole v `BannerForm`, ne vlastní enum třída — je to čistě vnitřní volba repeateru, nikde jinde se nepoužívá/nedotazuje.
@@ -244,7 +244,51 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 
 ---
 
-## 5. Filament Resources
+## 5. Dvojjazyčný obsah (CZ/EN)
+
+Web bude muset být CZ/EN. Zatím je připravená jen **datová vrstva + admin** (Filament formuláře) — **veřejný routing s `/en` prefixem, jazykový přepínač v headeru a překlad statických UI textů (`ui/`, Blade chrome) zatím NEJSOU** a přijdou až po dobudování správy obsahu. `app.locale`/`app.fallback_locale` jsou `cs` (viz `.env`) — veřejný web je tedy dál čistě český, jen editovatelný obsah je teď připravený na doplnění anglického překladu bez další migrace.
+
+* **Balíček: `spatie/laravel-translatable` (jen základní balíček, ne `filament/spatie-laravel-translatable-plugin`)** — ten oficiální Filament plugin zatím nepodporuje Filament v5 (`composer require` selže, vyžaduje `filament/support` v3.x; ověř před případnou aktualizací balíčků, jestli se to nezměnilo). Formát DB sloupce (`{"cs": "...", "en": "..."}` JSON) je záměrně identický s tím, co plugin očekává, takže až přidá podporu v5, přechod je jen výměna Filament-vrstvy (`App\Filament\Support\TranslatableTabs` → pluginové komponenty) — **žádná migrace dat**.
+* **Který sloupec je translatable a který ne:** volný prezentační text (`title`, `excerpt`, `body`, `about_text`, `question`/`answer`...) → translatable JSON sloupec. Vlastní jména, adresy, URL, barvy/enum hodnoty **ne** — `Club::name`, `Herna::name`, `Partner::name` apod. zůstávají obyčejný string (název klubu/herny/partnera se nepřekládá). `FaqGroup::name` taky zůstává plain — je to čistě interní admin/kód identifikátor (viz `FaqController`), nikdy se veřejně nevykresluje.
+* **Vzor na modelu** (referenční příklad: `app/Models/Article.php`):
+  ```php
+  use App\Models\Concerns\HasTranslatableFormFields;
+
+  class Article extends Model
+  {
+      use HasTranslatableFormFields;
+
+      public array $translatable = ['title', 'excerpt', 'body'];
+
+      protected $fillable = [
+          'title', 'title_translations',       // obojí fillable, viz níže
+          'excerpt', 'excerpt_translations',
+          'body', 'body_translations',
+          // ...ostatní sloupce
+      ];
+  }
+  ```
+  `HasTranslatableFormFields` (`app/Models/Concerns/HasTranslatableFormFields.php`) zabaluje `Spatie\Translatable\HasTranslations` a navíc pro každé translatable pole vystaví **virtuální** `{field}_translations` atribut (`['cs' => ..., 'en' => ...]`) — bez psaní per-pole `Attribute::make()` accessoru na každém modelu zvlášť. `$model->title` (bez suffixu) zůstává obyčejný string v aktuální lokalizaci (spatie magic accessor) — veřejný Blade/controller kód se díky tomu **vůbec nemusí měnit**, jen admin formuláře cílí na `{field}_translations.cs`/`.en`. Obě varianty (`title` i `title_translations`) patří do `$fillable` — `title` kvůli factories/seederům (obyčejný string → uloží se jen do `cs`, `en` zůstane nepřeložené a čte se přes fallback), `title_translations` kvůli Filament formulářům (viz níže).
+* **Vzor ve Filament formuláři** (referenční příklad: `app/Filament/Resources/Articles/Schemas/ArticleForm.php`):
+  ```php
+  TranslatableTabs::make('title', fn (string $locale) => TextInput::make('title')
+      ->label('Titulek')
+      ->required($locale === 'cs'))
+      ->columnSpanFull(),
+  ```
+  `App\Filament\Support\TranslatableTabs` zabalí libovolnou komponentu do CZ/EN `Tabs` a nastaví jí správný `statePath` (`{field}_translations.{locale}`) — closure dostane `$locale`, takže volající řídí per-jazyk detaily (`->required($locale === 'cs')`, jiný `->helperText()` apod.). Tabulky (`Tables/*Table.php`) se **nemění** — `TextColumn::make('title')` funguje beze změny (magic accessor).
+  * **PAST (velmi snadné zopakovat): field state se musí přepojit přes `->statePath(...)`, ne `->name(...)`.** `->name()` mění jen label/id komponenty, ne kam se váže její state — vypadá to, že to funguje (žádná chyba při vyplňování), ale ve skutečnosti oba jazykové taby zůstanou tiše navázané na původní `::make()` argument (tj. na sebe navzájem). Projeví se to různě podle typu pole — u `TextInput` prostě obě pole ukládají/čtou to samé, u `RichEditor` to spadne (Tiptap dostane pole místo stringu → `Undefined array key "content"`). Ověřeno end-to-end přes `Livewire::test(CreateXxx::class)->fillForm([...])->call('create')`, ne jen "stránka se načte" smoke testem — ten chybu neodhalí.
+  * **PAST: `RichEditor`/Tiptap (`ueberdosis/tiptap-php`) padá na prázdném **stringu** (`''`), ne na `null`.** Filament's `RichEditorStateCast` má `$state ?? [default doc]` fallback jen pro `null`. Proto `HasTranslatableFormFields::getAttribute()` pro nepřeloženou lokalizaci vrací `null` (přes `getTranslation($field, $locale, useFallbackLocale: false)`), **ne** `''`.
+  * `relationship('category', 'name')` selecty (a `Model::pluck('title', 'id')`) obcházejí magic accessor (SQL-level projekce) — u translatable cílového sloupce potřebují buď `->getOptionLabelFromRecordUsing(fn ($record) => $record->name)`, nebo `->get()->pluck('title', 'id')` místo přímého `pluck()` na query builderu. Referenční příklady: `ArticleForm`'s kategorie select, `ManageHomepageSettings`'s banner/link-tile selecty.
+* **Slugy jsou per jazyk** (`slug_cs`/`slug_en`, obě `unique()`) — viz `HasSlug` výše. Veřejné routy zatím používají jen `slug_cs` (`{article:slug_cs}` v `routes/web.php`) — `slug_en` existuje a je editovatelný v adminu, ale nic ho zatím nečte (čeká na budoucí `/en` routing).
+* **Seedery: `updateOrCreate(['title' => $x], ...)` na translatable poli tiše přestane fungovat** (vytváří duplikáty při každém `db:seed`, protože hledá přesnou shodu s celým JSON blobem, ne s CZ hodnotou uvnitř) — použij `Model::updateOrCreateByTranslation('title', $x, $attributes)` (na `HasTranslatableFormFields`, hledá přes `whereJsonContainsLocale($field, 'cs', $value)`). Stejně tak `Model::where('name', $x)` lookup (např. hledání kategorie podle jména) potřebuje `whereJsonContainsLocale('name', 'cs', $x)`. Referenční příklady: `database/seeders/ArticleSeeder.php`, `ArticleCategorySeeder.php`.
+* **Vědomě odložené (ne přehlédnuté):**
+  - `Banner::$buttons` (popisky tlačítek) a `Herna::$hours` (text u každého dne, např. "Zavřeno") jsou JSON pole s vnořeným textem — nepřekládají se zatím, řeší se až jako samostatné rozhodnutí u těch konkrétních widgetů.
+  - `ArticleCategory::$name`/`TournamentCategory::$name` měly dřív DB `unique()` — na JSON sloupci by to hlídalo unicitu celého blobu, ne per-jazyk, takže constraint byl při migraci na translatable sloupec odstraněný (editorská disciplína zatím, expression index při potřebě později).
+
+---
+
+## 6. Filament Resources
 
 * Generuj přes `php artisan make:filament-resource <Model> --generate` (odvodí formulář/tabulku z DB schématu), pak dolaď: `TextInput` pro cestu k obrázku přepiš na `FileUpload` (viz bod 4), přidej `ImageColumn` do tabulky pro náhled.
 * Konvence pojmenování a struktura souborů (Filament v5): `app/Filament/Resources/<Entity>/{<Entity>Resource.php, Pages/, Schemas/<Entity>Form.php, Tables/<Entity>sTable.php}` — necháváme, jak to generátor vytvoří.
@@ -252,7 +296,7 @@ Tvar polí vycházej z `ui/src/_data/*.json` (turnaje, kluby, herny, zebricky, k
 
 ---
 
-## 6. Ověření
+## 7. Ověření
 
 1. `php artisan serve` + `npm run dev` — ověřit stránku v prohlížeči vedle `ui/` verze.
 2. `vendor/bin/pint --dirty --format agent` po úpravě PHP souborů (Laravel Boost guideline).

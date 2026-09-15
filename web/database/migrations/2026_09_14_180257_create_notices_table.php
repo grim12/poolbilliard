@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('notices', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('excerpt')->nullable();
-            $table->text('body')->nullable();
+            $table->json('title');
+            $table->string('slug_cs')->unique();
+            $table->string('slug_en')->unique();
+            $table->json('excerpt')->nullable();
+            $table->json('body')->nullable();
             $table->boolean('is_important')->default(false);
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

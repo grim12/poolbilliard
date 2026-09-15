@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('hernas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug_cs')->unique();
+            $table->string('slug_en')->unique();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('region')->nullable();
             $table->decimal('lat', 10, 7)->nullable();
             $table->decimal('lng', 10, 7)->nullable();
-            $table->text('about_text')->nullable();
+            $table->json('about_text')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('website')->nullable();

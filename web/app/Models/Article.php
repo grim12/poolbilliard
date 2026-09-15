@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasSlug;
+use App\Models\Concerns\HasTranslatableFormFields;
 use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,14 +17,21 @@ class Article extends Model
     use HasFactory;
 
     use HasSlug;
+    use HasTranslatableFormFields;
+
+    public array $translatable = ['title', 'excerpt', 'body'];
 
     protected $fillable = [
         'title',
-        'slug',
+        'title_translations',
+        'slug_cs',
+        'slug_en',
         'article_category_id',
         'image',
         'excerpt',
+        'excerpt_translations',
         'body',
+        'body_translations',
         'gallery',
         'published_at',
     ];

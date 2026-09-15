@@ -60,8 +60,9 @@ class FaqItemSeeder extends Seeder
         $obecneGroupId = FaqGroup::where('slug', 'obecne')->value('id');
 
         foreach (self::ITEMS as $index => $item) {
-            $faqItem = FaqItem::updateOrCreate(
-                ['question' => $item['question']],
+            $faqItem = FaqItem::updateOrCreateByTranslation(
+                'question',
+                $item['question'],
                 ['answer' => $item['answer'], 'sort_order' => $index]
             );
 

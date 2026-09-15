@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('link_tiles', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->json('title');
             $table->string('url');
             $table->string('image')->nullable();
             $table->unsignedInteger('sort_order')->default(0);

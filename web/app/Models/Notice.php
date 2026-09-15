@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasSlug;
+use App\Models\Concerns\HasTranslatableFormFields;
 use Database\Factories\NoticeFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,12 +15,19 @@ class Notice extends Model
     use HasFactory;
 
     use HasSlug;
+    use HasTranslatableFormFields;
+
+    public array $translatable = ['title', 'excerpt', 'body'];
 
     protected $fillable = [
         'title',
-        'slug',
+        'title_translations',
+        'slug_cs',
+        'slug_en',
         'excerpt',
+        'excerpt_translations',
         'body',
+        'body_translations',
         'is_important',
         'published_at',
     ];

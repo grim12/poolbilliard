@@ -53,7 +53,7 @@ class PublicPagesTest extends TestCase
             'body' => '<p>Test body</p>',
         ]);
 
-        $response = $this->get(route('novinky.show', $article->slug));
+        $response = $this->get(route('novinky.show', $article->slug_cs));
 
         $response->assertOk();
         $response->assertSee($article->title);
@@ -67,7 +67,7 @@ class PublicPagesTest extends TestCase
             'body' => '<p>Test notice body</p>',
         ]);
 
-        $response = $this->get(route('zpravodajstvi.vykonny-vybor.show', $notice->slug));
+        $response = $this->get(route('zpravodajstvi.vykonny-vybor.show', $notice->slug_cs));
 
         $response->assertOk();
         $response->assertSee($notice->title);

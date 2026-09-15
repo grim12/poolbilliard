@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasTranslatableFormFields;
 use Database\Factories\FaqItemFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,9 +13,15 @@ class FaqItem extends Model
     /** @use HasFactory<FaqItemFactory> */
     use HasFactory;
 
+    use HasTranslatableFormFields;
+
+    public array $translatable = ['question', 'answer'];
+
     protected $fillable = [
         'question',
+        'question_translations',
         'answer',
+        'answer_translations',
         'sort_order',
     ];
 
