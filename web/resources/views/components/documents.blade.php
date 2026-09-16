@@ -40,7 +40,7 @@
                             <div class="c-faq__panel" id="doc-panel-{{ $yearPanel }}-group-{{ $loop->iteration }}" data-faq-panel>
                                 <div class="c-doc-groups__files">
                                     @foreach ($group['files'] as $file)
-                                        <a class="c-doc-file" href="{{ $file['url'] ?? '#' }}">
+                                        <a class="c-doc-file" href="{{ $file['url'] ?? '#' }}" target="_blank" rel="noopener noreferrer">
                                             <x-heroicon-m-document-text class="c-doc-file__icon" width="20" height="20" />
                                             <span class="c-doc-file__name">{{ $file['name'] }}</span>
                                             <span class="c-doc-file__meta">{{ $file['meta'] }}</span>
