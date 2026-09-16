@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\HernaStatus;
+use App\Filament\Resources\Hernas\Pages\ListHernas;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\Banner;
@@ -22,6 +24,7 @@ use App\Models\Tournament;
 use App\Models\TournamentCategory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class AdminResourcesTest extends TestCase
@@ -44,6 +47,7 @@ class AdminResourcesTest extends TestCase
         Tournament::factory()->create(['tournament_category_id' => $category->id]);
         Club::factory()->has(ClubMember::factory()->count(2), 'members')->create();
         Herna::factory()->create();
+        Herna::factory()->create(['status' => HernaStatus::Pending]);
         $articleCategory = ArticleCategory::factory()->create();
         Article::factory()->create(['article_category_id' => $articleCategory->id]);
         Notice::factory()->create();
@@ -137,5 +141,30 @@ class AdminResourcesTest extends TestCase
 
         $this->actingAs($user)->get('/admin/documents/create')->assertOk();
         $this->actingAs($user)->get("/admin/documents/{$document->id}/edit")->assertOk();
+    }
+
+    /**
+     * "Schválit"/"Zamítnout" are the one-click moderation actions for a pending public
+     * "Registrace herny" submission (see HernasTable) — worth testing the actions themselves,
+     * not just that the index page renders.
+     */
+    public function test_herna_approve_and_reject_actions_update_status(): void
+    {
+        $user = User::factory()->create();
+        $pending = Herna::factory()->create(['status' => HernaStatus::Pending]);
+
+        Livewire::actingAs($user)
+            ->test(ListHernas::class)
+            ->callTableAction('approve', $pending);
+
+        $this->assertSame(HernaStatus::Approved, $pending->refresh()->status);
+
+        $anotherPending = Herna::factory()->create(['status' => HernaStatus::Pending]);
+
+        Livewire::actingAs($user)
+            ->test(ListHernas::class)
+            ->callTableAction('reject', $anotherPending);
+
+        $this->assertSame(HernaStatus::Rejected, $anotherPending->refresh()->status);
     }
 }

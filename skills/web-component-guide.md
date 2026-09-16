@@ -259,7 +259,8 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   veřejné registrace (formulář samotný ještě není portovaný). `Region`/`Sport`/`HernaStatus`
   jsou PHP backed enumy v `app/Enums/`, ne DB taxonomie — viz bod 4. **Má teď i veřejné stránky**
   (`/kluby` + `/klub/{club:slug_cs}`, `/herny` + `/herna/{herna:slug_cs}`, vč. self-hosted
-  Leaflet mapy) — viz sekce 3 "Kluby / Herny".
+  Leaflet mapy) — viz sekce 3 "Kluby / Herny". **Veřejný registrační formulář (`/registrace-herny`)
+  je teď taky hotový** — viz sekce 3 "Registrace herny".
 * **Podmíněné třídy v Blade:** pro `class="a @if(...) b @endif"` použij radši `@class(['a', 'b' => $podminka])` direktivu (nedělá nadbytečné mezery v atributu) — viz `tournament-card.blade.php`.
 * **Brand ikonky (Simple Icons) jsou portované** (viz sekce 3, "Site chrome") — dostupné jako `<x-brand-facebook>` atd., ne přes shortcode syntaxi.
 * `Article` + `ArticleCategory` a `Notice` — další dvojice "má kategorii" vs. "nemá kategorii,
@@ -370,6 +371,45 @@ CSS pro tuhle dvojici (`02_components/section/{kluby,club-hero,club-detail,club-
 - Klubová `region` seskupovací tabulka (`club-directory`) řadí regiony/kluby abecedně (`Club::orderBy('region')->orderBy('name')`) — `ui/`'s mock měl regiony v ručně napsaném pořadí (Praha první), což nebylo záměrné rozhodnutí, jen pořadí psaní mock dat, takže abecední řazení je v pořádku.
 - **PAST: `about_text` (RichEditor, tedy HTML) se musí vypisovat přes `{!! !!}`, ne `{{ }}`** — první verze `club-detail.blade.php`/`herna-detail.blade.php` to měla escapované (zděděno z `ui/`'s mock dat, kde `aboutText` byl čistý text, takže `{{ }}` tam bylo správně) — na stránce se pak doslova zobrazovalo `<p>text</p>`. Stejný vzor jako `components/article-content.blade.php`/`banner.blade.php`. Bez obalujícího `<p>`/`<div class="...">{{ }}</p>` navíc — RichEditor obsah si vlastní blokové tagy nese sám, obalení by vytvořilo vnořené `<p><p>...`.
 - **`KlubySettings`/`HernySettings`** (dvě samostatné spatie-settings třídy, ne jedna kombinovaná — `/kluby` a `/herny` jsou dvě různé stránky, i když si jsou obsahově hodně podobné, takže mají i oddělenou správu obsahu/admin stránku, stejný `{field}_en` CZ/EN vzor jako `HomepageSettings`, `group()` `'kluby'`/`'herny'`, admin `ManageKlubySettings`/`ManageHernySettings` ve skupině "Stránky") — editovatelný hlavní titulek + info panel (štítek/titulek/text/tlačítko) pro danou listing stránku. **Vědomě mimo scope:** pevné UI popisky sdílené napříč komponentami (`"Zaregistrovat nový klub"`, `"Seznam klubů"`, `"Vyhledat hernu"`, `"Kraj"` — natvrdo v `club-directory.blade.php`/`herna-list.blade.php`) a info panelu 3 řádky výhod (ikona+text) — obojí je buď obecná UI/lokalizační vrstva (budoucí sitewide řešení, ne per-stránkové nastavení), nebo "strukturální design copy" stejného typu jako `GeneralSettings::$cmbs_tv_url`'s hardcoded věta v `components/tournaments.blade.php`.
+
+### Registrace herny (`/registrace-herny`)
+
+Mirrors `ui/src/registrace-herny.njk` — první veřejný **zápisový** formulář v projektu (dřív jen
+čtecí/obsahové stránky), žádný Filament ani admin-auth na téhle straně.
+
+- **Rovnou do `Herna` s `status = HernaStatus::Pending`, ne zvlášť staging tabulka** —
+  `HernaStatus` enum a `HernaController::index()`'s `where('status', Approved)` filtr už na tenhle
+  workflow byly připravené (viz `Herna`/`HernaStatus`'s docblocky), jen na ně nic nezapisovalo.
+  Schválení je pak jen změna jednoho sloupce na existujícím záznamu (viz níže), ne kopírování
+  polí ze staging tabulky do reálné. **`HernaController::show()`** teď navíc `abort_unless`uje
+  neschválené záznamy (404) — dřív šlo na pending/rejected hernu dojít přímo URL (jen nebyla v
+  seznamu), i když to nikde neodkazovalo.
+- **`RegistraceHernyController::create()`/`store()`** + `App\Http\Requests\StoreHernaRegistrationRequest`
+  (validace, `authorize()` `true` — veřejný formulář). "PSČ" pole z `ui/`'s mocku se nevaliduje
+  ani neukládá — `Herna` na něj nemá sloupec a nic ho nikde nečte, stejné zahazování jako
+  `RuleCard`'s nepoužitý `iconVariant="balls"`.
+- **Honeypot + rate limit jako minimální ochrana proti spamu** — skrytý input `company`
+  (`class="hidden"`, viditelný jen v DOMu/form datech, ne uživateli) s `prohibited` pravidlem ve
+  `FormRequest`u, plus `throttle:5,1` middleware na POST route. Žádná externí služba
+  (reCAPTCHA apod.) zatím není zapojená — tohle jsou nejlevnější dvě obrany, které nevyžadují
+  žádnou závislost navíc.
+- **Otevírací doba** je 7 pevných řádků (na rozdíl od adminového `HernaForm`'s reorderable
+  `Repeater`u) — veřejný formulář nepotřebuje měnit pořadí dnů, jen vyplnit/nevyplnit text u
+  každého; `hours[Pondělí]` atd. jako název inputu, `RegistraceHernyController::store()` sestaví
+  pole `[{day, text}]` jen z vyplněných řádků (`collect(...)->filter()`).
+- **Souřadnice (`lat`/`lng`) jsou nepovinné** — prázdné pole se uloží jako `0` (`$validated['lat']
+  ?? 0`, **ne** `?:` — to by na chybějícím klíči ve `validated()` poli spadlo na "Undefined array
+  key", protože `nullable` pravidlo bez odeslané hodnoty klíč do pole vůbec nepřidá). Formulář
+  admina instruuje, ať v tom případě doplní souřadnice při schvalování.
+- **Po úspěšném odeslání** — `submitted` session flash swapne formulář za `<x-alert>` s
+  poděkováním. **TODO (vědomě odložené, viz `RegistraceHernyController`):** vlastní děkovací
+  stránka/stav (`ui/`'s mock žádný nenavrhl), e-mail se shrnutím pro administrátora, kopie
+  e-mailu odesílateli.
+- **`HernasTable`** má nové `Action::make('approve')`/`Action::make('reject')` — jednokliková
+  moderace vedle stávající `EditAction` (ta zůstává pro úpravu obsahu před schválením), viditelná
+  jen když `status === Pending`. Otestováno přes `Livewire::test(ListHernas::class)
+  ->callTableAction('approve', $record)` (první použití Livewire testing helperu v projektu —
+  dosavadní Filament testy byly jen HTTP-úrovňové smoke testy stránek).
 
 ### Homepage (`/`)
 

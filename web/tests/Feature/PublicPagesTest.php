@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Enums\HernaStatus;
+use App\Enums\Region;
+use App\Enums\Sport;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\Banner;
@@ -54,7 +56,7 @@ class PublicPagesTest extends TestCase
         JakZacitSection::factory()->create();
         CommitteeMember::factory()->create();
 
-        foreach (['/', '/partneri', '/faq', '/pravidla', '/kalendar', '/souteze', '/jak-zacit', '/sportovni-svaz', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/pravidla', '/kalendar', '/souteze', '/jak-zacit', '/sportovni-svaz', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny', '/registrace-herny'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -76,6 +78,66 @@ class PublicPagesTest extends TestCase
         app(GeneralSettings::class)->save();
 
         $this->get('/')->assertSee('class="c-header t-dark"', false);
+    }
+
+    /**
+     * The public "Registrace herny" form creates the Herna directly with HernaStatus::Pending
+     * (same table real approved herny use — see RegistraceHernyController's docblock), so it
+     * must never appear on the public /herny listing until an admin approves it.
+     */
+    public function test_registrace_herny_form_creates_pending_herna_and_shows_thank_you(): void
+    {
+        $response = $this->post(route('registrace-herny.store'), [
+            'name' => 'Testovací herna',
+            'description' => 'Popis herny',
+            'address' => 'Ulice 1',
+            'city' => 'Testov',
+            'region' => Region::Praha->value,
+            'sports' => [Sport::Poolbilliard->value],
+        ]);
+
+        $response->assertRedirect(route('registrace-herny'));
+        $response->assertSessionHas('submitted', true);
+
+        $herna = Herna::where('name', 'Testovací herna')->firstOrFail();
+        $this->assertSame(HernaStatus::Pending, $herna->status);
+
+        // Must come first — the 'submitted' flash only survives one more request.
+        $this->get(route('registrace-herny'))->assertSee('Děkujeme za registraci');
+        $this->get('/herny')->assertDontSee('Testovací herna');
+    }
+
+    public function test_registrace_herny_form_requires_name_and_at_least_one_sport(): void
+    {
+        $response = $this->post(route('registrace-herny.store'), [
+            'description' => 'Popis herny',
+            'address' => 'Ulice 1',
+            'city' => 'Testov',
+            'region' => Region::Praha->value,
+        ]);
+
+        $response->assertSessionHasErrors(['name', 'sports']);
+        $this->assertSame(0, Herna::count());
+    }
+
+    /**
+     * The hidden "company" honeypot field must stay empty — a bot that fills every input trips
+     * it (App\Http\Requests\StoreHernaRegistrationRequest's `prohibited` rule).
+     */
+    public function test_registrace_herny_form_rejects_honeypot_submissions(): void
+    {
+        $response = $this->post(route('registrace-herny.store'), [
+            'company' => 'Not empty',
+            'name' => 'Testovací herna',
+            'description' => 'Popis herny',
+            'address' => 'Ulice 1',
+            'city' => 'Testov',
+            'region' => Region::Praha->value,
+            'sports' => [Sport::Poolbilliard->value],
+        ]);
+
+        $response->assertSessionHasErrors('company');
+        $this->assertSame(0, Herna::count());
     }
 
     public function test_article_detail_page_renders(): void

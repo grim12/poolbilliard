@@ -11,6 +11,7 @@ use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PravidlaController;
 use App\Http\Controllers\RecurringTournamentController;
+use App\Http\Controllers\RegistraceHernyController;
 use App\Http\Controllers\SoutezeController;
 use App\Http\Controllers\SvazController;
 use App\Http\Controllers\TournamentController;
@@ -37,3 +38,7 @@ Route::get('/kluby', [ClubController::class, 'index'])->name('kluby');
 Route::get('/klub/{club:slug_cs}', [ClubController::class, 'show'])->name('klub.show');
 Route::get('/herny', [HernaController::class, 'index'])->name('herny');
 Route::get('/herna/{herna:slug_cs}', [HernaController::class, 'show'])->name('herna.show');
+Route::get('/registrace-herny', [RegistraceHernyController::class, 'create'])->name('registrace-herny');
+Route::post('/registrace-herny', [RegistraceHernyController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('registrace-herny.store');
