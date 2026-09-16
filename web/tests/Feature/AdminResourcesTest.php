@@ -167,4 +167,22 @@ class AdminResourcesTest extends TestCase
 
         $this->assertSame(HernaStatus::Rejected, $anotherPending->refresh()->status);
     }
+
+    /**
+     * The dashboard's HernaStatsOverview widget — first widget in the project — surfaces the
+     * "Registrace herny" moderation queue size and links straight into the already-filtered
+     * Hernas list (Filament's `tableFilters` query-string deep link).
+     */
+    public function test_dashboard_shows_herna_moderation_stat(): void
+    {
+        $user = User::factory()->create();
+        Herna::factory()->count(2)->create(['status' => HernaStatus::Pending]);
+        Herna::factory()->create(['status' => HernaStatus::Approved]);
+
+        $response = $this->actingAs($user)->get('/admin');
+
+        $response->assertOk();
+        $response->assertSee('Herny ke schválení');
+        $response->assertSee('2');
+    }
 }
