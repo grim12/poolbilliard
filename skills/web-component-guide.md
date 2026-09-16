@@ -214,6 +214,35 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   uzavírací CTA sekce (Najít klub/hernu/turnaj) zůstávají napevno v Blade (strukturální
   navigace na existující stránky přes `route()`, stejný princip jako `GeneralSettings::$cmbs_tv_url`'s
   hardcoded věta).
+* **Sportovní svaz** (`/sportovni-svaz`, `SvazController`) mirrors `ui/src/sportovni-svaz.njk` —
+  `<x-page-hero>` (bez statů) + dvousloupcová info sekce (ČMBS text/odkazy/"vyřídit" odkazy +
+  logo | Výkonný výbor) + `<x-documents>` (archiv dokumentů podle roku) + `<x-hp-notices>`
+  (znovupoužitá homepage komponenta, žádná nová). Nové komponenty `committee-list`/`documents`
+  (`resources/views/components/`) mirrors stejnojmenná `ui/`'s makro/widget 1:1 — JS chování
+  (roky jako taby, kategorie jako `.c-faq` akordeon) bylo už dřív zkopírované do `app.js` beze
+  změny (`data-doc-tabs`/`data-doc-tab`/`data-doc-panel`).
+  **`CommitteeMember`** — vlastní model (name/role/email/photo/sort_order), stejný vzor jako
+  `Partner` (`role` translatable — editorial text — na rozdíl od `name`/`email`, které jsou
+  vlastní jména/kontaktní údaje).
+  **Archiv dokumentů je reálný, ne statický mock** — `DocumentCategory` (admin-manageable
+  taxonomie jako `ArticleCategory`, ne enum, protože svaz může časem přidat novou kategorii) +
+  `Document` (`document_category_id` `belongsTo`, `year` nullable — `null` = evergreen dokument
+  bez vazby na sezónu, ne chybějící údaj — `name`, skutečný `FileUpload`). `meta_text`
+  ("PDF · 850 KB") je computed z reálného nahraného souboru (`Number::fileSize()` + přípona), ne
+  ručně psané pole jako v `ui/`'s mocku — stejný princip jako `Tournament::dateText()`.
+  `SvazController::buildDocumentYears()` sestavuje `<x-documents>`'s `years` pole za běhu:
+  jeden panel na každý reálně existující rok (sestupně) + jeden trailing panel "Obecné" pro
+  dokumenty bez roku, kategorie/roky bez dokumentů se v přehledu vůbec nezobrazí. **Seed dat je
+  vědomě jen za aktuální sezónu (2026) + evergreen dokumenty**, ne celých 13 mock-rok let z
+  `ui/src/_data/svazDokumenty.js` (ten fejkuje stejné 4 soubory pro každý rok 2014–2026 jen aby
+  bylo co ukázat v každé záložce) — zpětné vyplnění 13 let placeholder PDF by byl jen seed šum,
+  reálné minulé roky nezpětně nezískají reálné soubory stejně; další roky přibydou přes admin,
+  jak která sezóna skončí (viz `DocumentSeeder`'s docblock). **`SvazSettings`** (stejný vzor jako
+  `SoutezeSettings`) drží hero, info sloupec (text + 2 externí odkazy + "Potřebuji vyřídit …"
+  repeater), a titulky sekcí dokumentů/zpráv — věty kolem `committee_email`/`committee_iban`
+  zůstávají napevno v Blade (strukturální text, stejný princip jako `GeneralSettings::$cmbs_tv_url`),
+  editovatelné jsou jen samotný e-mail a číslo účtu. Logo ČMBS je statický brand asset
+  (`public/uploads/cmbs-logo.png`), ne DB pole — stejný princip jako header/patička logo.
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.

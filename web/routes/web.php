@@ -12,6 +12,7 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PravidlaController;
 use App\Http\Controllers\RecurringTournamentController;
 use App\Http\Controllers\SoutezeController;
+use App\Http\Controllers\SvazController;
 use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::get('/pravidla', [PravidlaController::class, 'index'])->name('pravidla');
 Route::get('/kalendar', [CalendarController::class, 'index'])->name('kalendar');
 Route::get('/souteze', [SoutezeController::class, 'index'])->name('souteze');
 Route::get('/jak-zacit', [JakZacitController::class, 'index'])->name('jak-zacit');
+Route::get('/sportovni-svaz', [SvazController::class, 'index'])->name('sportovni-svaz');
 Route::get('/turnaj/{tournament:slug_cs}', [TournamentController::class, 'show'])->name('turnaj.show');
 Route::get('/pravidelny-turnaj/{recurringTournament:slug_cs}', [RecurringTournamentController::class, 'show'])->name('pravidelny-turnaj.show');
 Route::get('/novinky', [ArticleController::class, 'index'])->name('novinky');

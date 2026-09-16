@@ -7,6 +7,9 @@ use App\Models\ArticleCategory;
 use App\Models\Banner;
 use App\Models\Club;
 use App\Models\ClubMember;
+use App\Models\CommitteeMember;
+use App\Models\Document;
+use App\Models\DocumentCategory;
 use App\Models\FaqGroup;
 use App\Models\FaqItem;
 use App\Models\Herna;
@@ -48,6 +51,9 @@ class AdminResourcesTest extends TestCase
         Leaderboard::factory()->create();
         LinkTile::factory()->create();
         JakZacitSection::factory()->create();
+        CommitteeMember::factory()->create();
+        $documentCategory = DocumentCategory::factory()->create();
+        Document::factory()->create(['document_category_id' => $documentCategory->id]);
 
         $urls = [
             '/admin/partners',
@@ -64,9 +70,13 @@ class AdminResourcesTest extends TestCase
             '/admin/leaderboards',
             '/admin/link-tiles',
             '/admin/jak-zacit-sections',
+            '/admin/committee-members',
+            '/admin/document-categories',
+            '/admin/documents',
             '/admin/manage-general-settings',
             '/admin/manage-homepage-settings',
             '/admin/manage-jak-zacit-settings',
+            '/admin/manage-svaz-settings',
         ];
 
         foreach ($urls as $url) {
@@ -112,5 +122,20 @@ class AdminResourcesTest extends TestCase
 
         $this->actingAs($user)->get('/admin/jak-zacit-sections/create')->assertOk();
         $this->actingAs($user)->get("/admin/jak-zacit-sections/{$section->id}/edit")->assertOk();
+    }
+
+    /**
+     * Document's form combines a FileUpload with a ->relationship() Select that has a
+     * ->createOptionForm() (add a new DocumentCategory inline) — worth its own create/edit
+     * smoke test, same reasoning as Article's category select.
+     */
+    public function test_document_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $category = DocumentCategory::factory()->create();
+        $document = Document::factory()->create(['document_category_id' => $category->id]);
+
+        $this->actingAs($user)->get('/admin/documents/create')->assertOk();
+        $this->actingAs($user)->get("/admin/documents/{$document->id}/edit")->assertOk();
     }
 }

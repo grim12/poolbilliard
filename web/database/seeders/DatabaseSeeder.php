@@ -40,5 +40,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MythSeeder::class);
         $this->call(JakZacitSectionSeeder::class);
         $this->call(JakZacitFaqItemSeeder::class);
+        $this->call(CommitteeMemberSeeder::class);
+        $this->call(DocumentCategorySeeder::class);
+        $this->call(DocumentSeeder::class);
     }
 }

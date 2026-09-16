@@ -8,7 +8,10 @@ use App\Models\ArticleCategory;
 use App\Models\Banner;
 use App\Models\Club;
 use App\Models\ClubMember;
+use App\Models\CommitteeMember;
 use App\Models\CompetitionSection;
+use App\Models\Document;
+use App\Models\DocumentCategory;
 use App\Models\FaqGroup;
 use App\Models\FaqItem;
 use App\Models\Herna;
@@ -48,8 +51,9 @@ class PublicPagesTest extends TestCase
         Club::factory()->create();
         Herna::factory()->create(['status' => HernaStatus::Approved]);
         JakZacitSection::factory()->create();
+        CommitteeMember::factory()->create();
 
-        foreach (['/', '/partneri', '/faq', '/pravidla', '/kalendar', '/souteze', '/jak-zacit', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/pravidla', '/kalendar', '/souteze', '/jak-zacit', '/sportovni-svaz', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -289,6 +293,39 @@ class PublicPagesTest extends TestCase
         $response->assertSee('Testovací FAQ titulek');
         $response->assertSee('Testovací otázka');
         $response->assertSee('Testovací odpověď');
+    }
+
+    /**
+     * /sportovni-svaz: CommitteeMember records render via <x-committee-list>, and the document
+     * archive (<x-documents>) groups real Document records by year — a document with a year
+     * gets its own year tab, one without (year: null) falls into the trailing "Obecné" tab
+     * (SvazController::buildDocumentYears()).
+     */
+    public function test_svaz_page_renders_committee_members_and_document_archive(): void
+    {
+        CommitteeMember::factory()->create(['name' => 'Testovací člen', 'role' => 'Testovací role']);
+        $category = DocumentCategory::factory()->create(['name' => 'Testovací kategorie']);
+        Document::factory()->create([
+            'document_category_id' => $category->id,
+            'year' => 2026,
+            'name' => 'Testovací dokument 2026',
+        ]);
+        Document::factory()->create([
+            'document_category_id' => $category->id,
+            'year' => null,
+            'name' => 'Testovací evergreen dokument',
+        ]);
+
+        $response = $this->get('/sportovni-svaz');
+
+        $response->assertOk();
+        $response->assertSee('Testovací člen');
+        $response->assertSee('Testovací role');
+        $response->assertSee('2026');
+        $response->assertSee('Obecné');
+        $response->assertSee('Testovací kategorie');
+        $response->assertSee('Testovací dokument 2026');
+        $response->assertSee('Testovací evergreen dokument');
     }
 
     public function test_recurring_tournament_detail_page_renders_and_optionally_links_to_herna(): void
