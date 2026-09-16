@@ -1,6 +1,6 @@
 {{--
     Mirrors ui/src/sportovni-svaz.njk. $settings: App\Settings\SvazSettings — hero, the ČMBS
-    intro column (text/links/tasks), the Výkonný výbor column's intro (email/IBAN), and the
+    intro column (text/links/tasks), the Výkonný výbor column's intro text, and the
     documents/notices section titles. $members: CommitteeMember collection. $documentYears:
     built in SvazController from real Document/DocumentCategory records. $notices: latest 3
     Notice records (same query as the homepage's "Zprávy výkonného výboru" teaser).
@@ -37,8 +37,7 @@
 
                 <div>
                     <h2>{{ $settings->committee_title }}</h2>
-                    <p>Pro zprávy určené celému Výkonnému výboru sekce poolbilliard ČMBS můžete využívat emailovou adresu <a href="mailto:{{ $settings->committee_email }}">{{ $settings->committee_email }}</a>.</p>
-                    <p>Číslo účtu: <strong>{{ $settings->committee_iban }}</strong></p>
+                    {!! $settings->committee_text !!}
 
                     <x-committee-list :members="$members" />
                 </div>

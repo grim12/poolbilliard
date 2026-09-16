@@ -239,10 +239,13 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   reálné minulé roky nezpětně nezískají reálné soubory stejně; další roky přibydou přes admin,
   jak která sezóna skončí (viz `DocumentSeeder`'s docblock). **`SvazSettings`** (stejný vzor jako
   `SoutezeSettings`) drží hero, info sloupec (text + 2 externí odkazy + "Potřebuji vyřídit …"
-  repeater), a titulky sekcí dokumentů/zpráv — věty kolem `committee_email`/`committee_iban`
-  zůstávají napevno v Blade (strukturální text, stejný princip jako `GeneralSettings::$cmbs_tv_url`),
-  editovatelné jsou jen samotný e-mail a číslo účtu. Logo ČMBS je statický brand asset
-  (`public/uploads/cmbs-logo.png`), ne DB pole — stejný princip jako header/patička logo.
+  repeater), a titulky sekcí dokumentů/zpráv. **`committee_text`** (obyčejný RichEditor, ne
+  zvlášť pole pro e-mail a zvlášť pro číslo účtu) — první verze měla `committee_email`/
+  `committee_iban` jako dvě samostatná pole s větou napevno v Blade (stejný princip jako
+  `GeneralSettings::$cmbs_tv_url`), ale to rozdělení nebylo strukturální, jen to, jak `ui/`'s
+  mock text napsal (dva odstavce vedle sebe) — administrátor chtěl psát obojí (e-mail i číslo
+  účtu jako vlastní odstavec) přímo, ne přes dvě uzavřená pole. Logo ČMBS je statický brand
+  asset (`public/uploads/cmbs-logo.png`), ne DB pole — stejný princip jako header/patička logo.
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.

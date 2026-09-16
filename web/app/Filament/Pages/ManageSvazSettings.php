@@ -89,21 +89,17 @@ class ManageSvazSettings extends SettingsPage
                     ]),
                 Section::make('Sloupec "Výkonný výbor"')
                     ->description('Členové výboru se spravují samostatně (Správa Obsahu → Výkonný výbor). Zde jen úvodní texty sloupce.')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TranslatableTabs::makeForSettings([
                             'committee_title' => fn (string $locale) => TextInput::make('committee_title')
                                 ->label('Titulek')
-                                ->required($locale === 'cs')
-                                ->columnSpanFull(),
+                                ->required($locale === 'cs'),
+                            'committee_text' => fn (string $locale) => RichEditor::make('committee_text')
+                                ->label('Text')
+                                ->helperText('Např. kontaktní e-mail a číslo účtu, každé jako vlastní odstavec.')
+                                ->required($locale === 'cs'),
                         ]),
-                        TextInput::make('committee_email')
-                            ->label('Kontaktní e-mail výboru')
-                            ->email()
-                            ->required(),
-                        TextInput::make('committee_iban')
-                            ->label('Číslo účtu')
-                            ->required(),
                     ]),
                 Section::make('Sekce "Dokumenty"')
                     ->columns(1)

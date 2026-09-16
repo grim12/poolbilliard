@@ -7,9 +7,9 @@ use Spatie\LaravelSettings\Settings;
 /**
  * Editorial text for /sportovni-svaz that isn't one of the repeating models (CommitteeMember,
  * DocumentCategory/Document): the <x-page-hero>, the "Českomoravský billiardový svaz" intro
- * column (text + external links + task links), the "Výkonný výbor" column's intro (email/IBAN
- * — see below), and the section titles for the documents archive and the notices widget. Same
- * "{field}_en" nullable sibling CZ/EN pattern as SoutezeSettings/PravidlaSettings.
+ * column (text + external links + task links), the "Výkonný výbor" column's intro text, and the
+ * section titles for the documents archive and the notices widget. Same "{field}_en" nullable
+ * sibling CZ/EN pattern as SoutezeSettings/PravidlaSettings.
  */
 class SvazSettings extends Settings
 {
@@ -51,14 +51,14 @@ class SvazSettings extends Settings
     public ?string $committee_title_en;
 
     /**
-     * The surrounding sentences ("Pro zprávy určené celému Výkonnému výboru...", "Číslo účtu:
-     * ...") stay hardcoded in the Blade view — structural copy, same reasoning as
-     * GeneralSettings::$cmbs_tv_url's hardcoded note. Only the actual email/IBAN are editable,
-     * and neither is translated (contact data, not editorial text).
+     * Freeform rich text below the committee title — ui/'s mock hardcodes two separate
+     * sentences (a mailto link paragraph + a "Číslo účtu: ..." paragraph), but there's nothing
+     * structural about that split, so it's just one RichEditor field. An admin editing the
+     * account number types it as its own paragraph, same as ui/'s markup.
      */
-    public string $committee_email;
+    public string $committee_text;
 
-    public string $committee_iban;
+    public ?string $committee_text_en;
 
     public string $documents_title;
 

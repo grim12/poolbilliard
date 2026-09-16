@@ -39,8 +39,11 @@ return new class extends SettingsMigration
 
         $this->migrator->add('svaz.committee_title', 'Výkonný výbor sekce Český poolbilliard');
         $this->migrator->add('svaz.committee_title_en', null);
-        $this->migrator->add('svaz.committee_email', 'vvs.pool@cmbs.cz');
-        $this->migrator->add('svaz.committee_iban', '212931827/0600');
+        $this->migrator->add(
+            'svaz.committee_text',
+            '<p>Pro zprávy určené celému Výkonnému výboru sekce poolbilliard ČMBS můžete využívat emailovou adresu <a href="mailto:vvs.pool@cmbs.cz">vvs.pool@cmbs.cz</a>.</p><p>Číslo účtu: <strong>212931827/0600</strong></p>'
+        );
+        $this->migrator->add('svaz.committee_text_en', null);
 
         $this->migrator->add('svaz.documents_title', 'Dokumenty sekce Český poolbilliard');
         $this->migrator->add('svaz.documents_title_en', null);
