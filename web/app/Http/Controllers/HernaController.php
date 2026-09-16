@@ -12,8 +12,8 @@ class HernaController extends Controller
 {
     /**
      * "Herny" — mirrors ui/src/herny.njk. Only approved herny are public (HernaStatus::Pending/
-     * Rejected are moderation states for a future public submission form — not built yet, see
-     * skills/web-component-guide.md). Flat, ungrouped grid — unlike Kluby's directory, herny
+     * Rejected are moderation states for the public submission form, see
+     * RegistraceHernyController). Flat, ungrouped grid — unlike Kluby's directory, herny
      * aren't split by region (see ui/'s herna-list.njk doc comment).
      */
     public function index(HernySettings $settings): View
@@ -27,6 +27,8 @@ class HernaController extends Controller
 
     public function show(Herna $herna): View
     {
+        abort_unless($herna->status === HernaStatus::Approved, 404);
+
         return view('herna', [
             'herna' => $herna,
         ]);
