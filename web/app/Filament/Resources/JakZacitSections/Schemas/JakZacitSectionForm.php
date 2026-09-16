@@ -31,8 +31,7 @@ class JakZacitSectionForm
                             ->default(0),
                         TextInput::make('aside_panel_button_url')
                             ->label('Postranní panel — odkaz tlačítka')
-                            ->helperText('Např. "/herny/" nebo "/kluby/".')
-                            ->required(),
+                            ->helperText('Např. "/herny/" nebo "/kluby/". Nepovinné — panel může být i bez tlačítka (viz "Rodič").'),
                         TextInput::make('aside_card_button_url')
                             ->label('Postranní karta — odkaz tlačítka')
                             ->helperText('Např. "/pravidla/" nebo "/kalendar/".')
@@ -63,7 +62,7 @@ class JakZacitSectionForm
                                 ->required($locale === 'cs'),
                             'aside_panel_button_text' => fn (string $locale) => TextInput::make('aside_panel_button_text')
                                 ->label('Postranní panel — text tlačítka')
-                                ->required($locale === 'cs'),
+                                ->helperText('Nepovinné — necháno prázdné panel zobrazí bez tlačítka.'),
                             'aside_card_eyebrow' => fn (string $locale) => TextInput::make('aside_card_eyebrow')
                                 ->label('Postranní karta — nadtitulek'),
                             'aside_card_title' => fn (string $locale) => TextInput::make('aside_card_title')

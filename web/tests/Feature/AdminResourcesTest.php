@@ -10,6 +10,7 @@ use App\Models\ClubMember;
 use App\Models\FaqGroup;
 use App\Models\FaqItem;
 use App\Models\Herna;
+use App\Models\JakZacitSection;
 use App\Models\Leaderboard;
 use App\Models\LinkTile;
 use App\Models\Notice;
@@ -46,6 +47,7 @@ class AdminResourcesTest extends TestCase
         Banner::factory()->create();
         Leaderboard::factory()->create();
         LinkTile::factory()->create();
+        JakZacitSection::factory()->create();
 
         $urls = [
             '/admin/partners',
@@ -61,8 +63,10 @@ class AdminResourcesTest extends TestCase
             '/admin/banners',
             '/admin/leaderboards',
             '/admin/link-tiles',
+            '/admin/jak-zacit-sections',
             '/admin/manage-general-settings',
             '/admin/manage-homepage-settings',
+            '/admin/manage-jak-zacit-settings',
         ];
 
         foreach ($urls as $url) {
@@ -95,5 +99,18 @@ class AdminResourcesTest extends TestCase
 
         $this->actingAs($user)->get('/admin/leaderboards/create')->assertOk();
         $this->actingAs($user)->get("/admin/leaderboards/{$leaderboard->id}/edit")->assertOk();
+    }
+
+    /**
+     * JakZacitSection's `steps` Repeater nests a RichEditor per row (unlike Banner's plain
+     * TextInput rows) — worth its own create/edit smoke test.
+     */
+    public function test_jak_zacit_section_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $section = JakZacitSection::factory()->create();
+
+        $this->actingAs($user)->get('/admin/jak-zacit-sections/create')->assertOk();
+        $this->actingAs($user)->get("/admin/jak-zacit-sections/{$section->id}/edit")->assertOk();
     }
 }

@@ -38,5 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CompetitionSectionSeeder::class);
         $this->call(RuleCardSeeder::class);
         $this->call(MythSeeder::class);
+        $this->call(JakZacitSectionSeeder::class);
+        $this->call(JakZacitFaqItemSeeder::class);
     }
 }

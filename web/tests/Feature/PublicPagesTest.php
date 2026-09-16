@@ -9,8 +9,10 @@ use App\Models\Banner;
 use App\Models\Club;
 use App\Models\ClubMember;
 use App\Models\CompetitionSection;
+use App\Models\FaqGroup;
 use App\Models\FaqItem;
 use App\Models\Herna;
+use App\Models\JakZacitSection;
 use App\Models\Leaderboard;
 use App\Models\LinkTile;
 use App\Models\Myth;
@@ -45,8 +47,9 @@ class PublicPagesTest extends TestCase
         Notice::factory()->create();
         Club::factory()->create();
         Herna::factory()->create(['status' => HernaStatus::Approved]);
+        JakZacitSection::factory()->create();
 
-        foreach (['/', '/partneri', '/faq', '/pravidla', '/kalendar', '/souteze', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
+        foreach (['/', '/partneri', '/faq', '/pravidla', '/kalendar', '/souteze', '/jak-zacit', '/novinky', '/zpravodajstvi/vykonny-vybor', '/kluby', '/herny'] as $url) {
             $response = $this->get($url);
 
             $response->assertOk();
@@ -244,6 +247,48 @@ class PublicPagesTest extends TestCase
         $response->assertSee('Testovací správné pravidlo', false);
         // First item must be pre-opened, not just present.
         $response->assertSee('aria-expanded="true" aria-controls="mytus-panel-1"', false);
+    }
+
+    /**
+     * /jak-zacit: JakZacitSection records render their steps (<x-steps>), structured aside
+     * (info panel + link card, chosen over a freeform RichEditor to keep 1:1 visual fidelity —
+     * see JakZacitSection's docblock), and a per-section FAQ block sourced from a FaqGroup whose
+     * slug matches the section's anchor (JakZacitSection::faqItems()).
+     */
+    public function test_jak_zacit_page_renders_section_steps_aside_and_faq(): void
+    {
+        JakZacitSection::factory()->create([
+            'anchor' => 'test-cesta',
+            'nav_label' => 'Test cesta',
+            'title' => 'Testovací cesta',
+            'intro' => '<p>Testovací úvodní text</p>',
+            'steps' => [
+                ['icon' => 'map-pin', 'title' => '1. Testovací krok', 'text' => '<p>Text testovacího kroku</p>'],
+            ],
+            'aside_panel_title' => 'Testovací panel',
+            'aside_card_title' => 'Testovací karta',
+            'faq_title' => 'Testovací FAQ titulek',
+        ]);
+        $group = FaqGroup::factory()->create(['slug' => 'test-cesta']);
+        $faqItem = FaqItem::factory()->create([
+            'question' => 'Testovací otázka',
+            'answer' => 'Testovací odpověď',
+        ]);
+        $faqItem->groups()->attach($group);
+
+        $response = $this->get('/jak-zacit');
+
+        $response->assertOk();
+        $response->assertSee('Testovací cesta');
+        $response->assertSee('id="test-cesta"', false);
+        $response->assertSee('Testovací úvodní text', false);
+        $response->assertSee('1. Testovací krok');
+        $response->assertSee('Text testovacího kroku', false);
+        $response->assertSee('Testovací panel');
+        $response->assertSee('Testovací karta');
+        $response->assertSee('Testovací FAQ titulek');
+        $response->assertSee('Testovací otázka');
+        $response->assertSee('Testovací odpověď');
     }
 
     public function test_recurring_tournament_detail_page_renders_and_optionally_links_to_herna(): void

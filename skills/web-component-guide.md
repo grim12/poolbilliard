@@ -188,6 +188,32 @@ widgety ještě ne, doplňují se postupně, jak na ně dojde řada.
   kde `belongsToMany` řeší umístění na víc místech) — až se reálně objeví druhé místo, kde se
   mýty mají vypisovat, přidá se stejný `belongsToMany` vzor, ne dřív (viz bod 4 "Uzavřený/
   neměnný seznam..." — tady je to spíš "zatím jen jedno umístění, neřeš to předem").
+* **Jak začít** (`/jak-zacit`, `JakZacitController`) mirrors `ui/src/jak-zacit.njk` — `<x-page-hero>`
+  (bez statů) + 4 `<x-feature-card>` quick-select dlaždice + 3 `<x-content-section>` bloky (jeden
+  na "cestu": Úplný začátečník/Rekreační hráč/Rodič) + `<x-form-section>` s `<x-match-form>` +
+  napevno psaná uzavírací CTA sekce. Nové komponenty `feature-card`/`steps`/`match-form`/
+  `form-section` (`resources/views/components/`) mirrors stejnojmenná `ui/`'s makra/widget 1:1.
+  **`JakZacitSection`** — vlastní model pro každou "cestu" (na rozdíl od `CompetitionSection`u,
+  který svůj `aside`/`below` zjednodušuje na freeform RichEditor, tahle stránka měla explicitně
+  zůstat vizuálně věrná šabloně) — `steps` je JSON repeater (`icon`/`title`/`text`, plochý
+  `_en` sourozenec na pole, stejná konvence jako `KalendarSettings::$calendar_sources`, žádné
+  `TranslatableTabs` uvnitř Repeateru), `aside_panel_*`/`aside_card_*` jsou strukturovaná pole
+  (ne rich-text karta) — replikují `infoPanel()` (tmavá karta, `aside_panel_button_text`/`_url`
+  nepovinné — sekce "Rodič" panel bez tlačítka nemá) a druhou menší kartu (`aside_card_*`,
+  tlačítko vždy vyplněné). **FAQ per sekce znovupoužívá `FaqItem`/`FaqGroup`** — žádné nové pole
+  na modelu, `JakZacitSection::faqItems()` dotazuje `FaqGroup` se `slug` shodným s `anchor`
+  (`FaqGroupSeeder`'s `zacatecnik`/`rekreacni-hrac`/`rodic` skupiny, `JakZacitFaqItemSeeder`).
+  Sdílené otázky s odlišnou odpovědí napříč skupinami (např. "Jak probíhá registrace?" u
+  Rekreačního hráče i Rodiče) si vynutily vlastní matching logiku v seederu místo
+  `updateOrCreateByTranslation('question', ...)` — ten matchuje globálně podle textu otázky, což
+  by dvě různé odpovědi se stejným zněním otázky zkolabovalo do jednoho sdíleného řádku (viz
+  `JakZacitFaqItemSeeder`'s docblock). **`JakZacitSettings`** (stejný vzor jako
+  `SoutezeSettings`) drží hero titulek/text, `feature_cards` repeater (4 dlaždice, `link_url`
+  neschválně 1:1 navázané na sekce — dvě dlaždice v `ui/`'s mocku cílí na stejnou kotvu
+  `#rekreacni-hrac`), a texty uzavírací CTA sekce + hlavičky formuláře poptávky. Tlačítka
+  uzavírací CTA sekce (Najít klub/hernu/turnaj) zůstávají napevno v Blade (strukturální
+  navigace na existující stránky přes `route()`, stejný princip jako `GeneralSettings::$cmbs_tv_url`'s
+  hardcoded věta).
 * Atomické komponenty `tag` a `button` (`resources/views/components/{tag,button}.blade.php`)
   jsou portované jako samostatné, znovupoužitelné Blade komponenty (ne duplikované do každého
   widgetu) — viz jejich použití v `info-panel.blade.php` i `tournament-card.blade.php`.
