@@ -7,6 +7,7 @@ use App\Settings\GeneralSettings;
 use BackedEnum;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Pages\SettingsPage;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -31,6 +32,13 @@ class ManageGeneralSettings extends SettingsPage
     {
         return $schema
             ->components([
+                Section::make('Vzhled')
+                    ->columns(1)
+                    ->components([
+                        Toggle::make('header_dark')
+                            ->label('Tmavá hlavička')
+                            ->helperText('Vypnuto = světlá hlavička (výchozí vzhled webu). Zapnuto = tmavá varianta hlavičky.'),
+                    ]),
                 Section::make('Turnaje')
                     ->columns(1)
                     ->components([

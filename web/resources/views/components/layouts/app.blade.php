@@ -6,13 +6,20 @@
     <div class="c-page-wrapper"> + header/footer wiring every ui/ page repeats inline.
     hasGallery/hasMap are accepted for parity with ui/'s front-matter flags but don't gate
     anything yet — GLightbox/Leaflet aren't ported (no vendor asset pipeline for them here yet).
+    headerDark: omit it (the default) to use the sitewide GeneralSettings::$header_dark toggle
+    (admin-editable, light by default) — pass true/false explicitly only if one specific page
+    needs to override that global choice, which no page does today.
 --}}
 @props([
     'title' => 'Poolbilliard',
-    'headerDark' => false,
+    'headerDark' => null,
     'hasGallery' => false,
     'hasMap' => false,
 ])
+
+@php
+    $headerDark ??= app(\App\Settings\GeneralSettings::class)->header_dark;
+@endphp
 
 <!doctype html>
 <html lang="cs">

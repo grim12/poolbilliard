@@ -25,6 +25,7 @@ use App\Models\RecurringTournament;
 use App\Models\RuleCard;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
+use App\Settings\GeneralSettings;
 use App\Settings\HomepageSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -60,6 +61,21 @@ class PublicPagesTest extends TestCase
             $response->assertSee('c-header__nav', false);
             $response->assertSee('c-footer__nav', false);
         }
+    }
+
+    /**
+     * The header's light/dark variant (.c-header vs. .c-header.t-dark) is driven sitewide by
+     * GeneralSettings::$header_dark (see <x-layouts.app>'s docblock), not a per-page choice —
+     * light is the default/primary look.
+     */
+    public function test_header_dark_variant_follows_general_settings_toggle(): void
+    {
+        $this->get('/')->assertSee('class="c-header"', false);
+
+        app(GeneralSettings::class)->header_dark = true;
+        app(GeneralSettings::class)->save();
+
+        $this->get('/')->assertSee('class="c-header t-dark"', false);
     }
 
     public function test_article_detail_page_renders(): void

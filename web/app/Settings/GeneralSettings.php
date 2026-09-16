@@ -33,6 +33,14 @@ class GeneralSettings extends Settings
      */
     public string $cmbs_tv_url;
 
+    /**
+     * Sitewide chrome toggle for <x-layouts.app>'s header — light (false, the default/primary
+     * look) or dark (true, ui/'s "t-dark" variant, see demo-dark-header.njk). A page can still
+     * force one or the other via <x-layouts.app :header-dark="...">, but no page does that
+     * today — this setting is the only thing that decides it in practice.
+     */
+    public bool $header_dark;
+
     public static function group(): string
     {
         return 'general';

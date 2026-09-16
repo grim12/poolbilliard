@@ -1,6 +1,7 @@
 {{--
-    Mirrors ui/src/_includes/layouts/header.njk. Included via @include('layouts.header',
-    ['headerDark' => true]) for the (not yet used) dark variant — defaults to false.
+    Mirrors ui/src/_includes/layouts/header.njk. `headerDark` is passed in by
+    <x-layouts.app> — see its docblock — and normally reflects
+    GeneralSettings::$header_dark.
 --}}
 @php
     $headerDark ??= false;
