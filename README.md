@@ -67,7 +67,7 @@ Všech 14 stránek z `designs/pages/` (Home, Kluby, Klub, Herny, Herna, Registra
 Otevřené věci k dořešení:
 * **Registrace herny** — e-mailová notifikace sekci a potvrzení odesílateli po odeslání formuláře (viz TODO v `web/app/Http/Controllers/RegistraceHernyController.php`); zatím žádný Mailable, `MAIL_MAILER=log`. Potvrzovací flash zpráva ve formuláři zůstává tak, jak je — dedikovaná potvrzovací stránka se neplánuje.
 * **Testy** — pokrytí je zatím tenké vzhledem k rozsahu appky (jen pár feature testů na desítky resources/stránek).
-* **Anglická verze webu** — zatím neexistuje; CZ/EN pole ve Filamentu jsou zatím jen příprava obsahu, veřejné stránky/routy jsou pořád jen české.
+* **Anglická verze webu** — routing/i18n scaffold hotový, viz sekce níže; obsah stránek (kromě titulků a nastavovaných modelů) se zatím z větší části dotahuje.
 * **SEO/launch-readiness** — probíhá, viz níže.
 * Veřejné přihlášení pro kluby/hráče zatím neexistuje, jen Filament admin panel.
 
@@ -87,7 +87,21 @@ Zbývá:
 * **TODO: sehnat větší zdrojovou ikonu/logo** (ideálně čtvercové SVG nebo alespoň 512×512 PNG) a přegenerovat `apple-touch-icon.png`/`android-chrome-*.png` z ní — současná 512px varianta je viditelně měkká, protože je upscalovaná ~8× ze 64×64 zdroje (`web/favicon.ico`).
 * Analytika zatím žádná (vědomé rozhodnutí, zatím neřešeno).
 
-Tím je uzavřená locale-nezávislá část SEO. Zbývá EN routing/i18n scaffold jako samostatný úkol, po kterém přijdou na řadu locale-závislé kousky (hreflang, alternate odkazy v sitemapě, canonical per jazyk).
+### EN routing / i18n scaffold
+
+Hotovo:
+* **`/en/...` routing** s přeloženými segmenty cesty (např. `/en/clubs`, `/en/venue/{slug_en}`) — mirror každé veřejné routy, viz `routes/web.php`. Route names mají konzistentní `en.` prefix (`klub.show` ↔ `en.klub.show`), na čemž stojí generické dopočítávání hreflang/přepínače jazyka v `<x-layouts.app>` — žádná stránka to neřeší sama.
+* **`App\Http\Middleware\SetLocale`** (alias `locale:en`) na `/en` skupině nastavuje `app()->setLocale('en')` pro celý request — translatable atributy modelů (`spatie/laravel-translatable`) se tím přepnou automaticky, bez úprav v controllerech/views.
+* **Header/footer** — nav, přepínač jazyka (byl už navržený v `ui/`, jen neožívený), aria-labels a placeholder přeloženy přes `lang/en.json` (`__()`), odkazy vedou přes locale-aware route helper místo natvrdo českých cest.
+* **Enumy** (`Region`, `Sport`, `HernaStatus`) mají anglické varianty `getLabel()` podle `app()->getLocale()` — Filament admin běží vždy v cs, takže administraci to neovlivní.
+* **`App\Support\Locale::field()`** zpřístupňuje `{field}_en` sesterské vlastnosti na Settings třídách (byly připravené dřív, nečtené — viz `TranslatableTabs::makeForSettings()`), stejný fallback na cs jako u modelů. Zapojeno zatím jen do `<title>` stránek (`herny`, `kluby`, `kalendar`, `souteze`, `jak-zacit`, `pravidla`, `sportovni-svaz`).
+* **`sitemap.xml`** obsahuje `en.` mirror každé URL vedle cs varianty.
+
+Zbývá (obsahová/i18n práce, ne infrastruktura):
+* **Hlubší nastavovaná pole** (hero podtitulky, tituly jednotlivých sekcí uvnitř stránek) a **repeater/array pole** (feature_cards, stats, tasks, calendar_sources...) na `_en` zatím nenapojené.
+* **Natvrdo české texty uvnitř těl šablon** (nadpisy, popisky, tlačítka mimo hlavičku/patičku) — desítky řetězců napříč ~18 šablonami, potřeba systematický průchod + `__()`/`lang/en.json`.
+* **Interní odkazy uvnitř stránek** (tlačítka, back-linky, stránkování) zatím nejsou locale-aware — pořád vedou na cs cestu i z EN stránky.
+* Skutečný anglický obsah (translatable pole modelů i `_en` pole nastavení) musí ještě někdo v adminu vyplnit — dokud nebude, `/en/...` correctně funguje, ale zobrazuje český fallback text.
 
 ---
 
