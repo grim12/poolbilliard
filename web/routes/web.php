@@ -12,11 +12,14 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PravidlaController;
 use App\Http\Controllers\RecurringTournamentController;
 use App\Http\Controllers\RegistraceHernyController;
+use App\Http\Controllers\SeoController;
 use App\Http\Controllers\SiteLockController;
 use App\Http\Controllers\SoutezeController;
 use App\Http\Controllers\SvazController;
 use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 
 Route::get('/pristup', [SiteLockController::class, 'show'])->name('site-lock.show');
 Route::post('/pristup', [SiteLockController::class, 'attempt'])

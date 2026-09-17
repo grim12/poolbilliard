@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Support\Launch;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,21 +18,15 @@ class SiteLock
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $this->isLocked() || $request->is('admin*', 'up') || $request->routeIs('site-lock.*') || Auth::check()) {
+        if (
+            ! Launch::siteLocked()
+            || $request->is('admin*', 'up', 'robots.txt')
+            || $request->routeIs('site-lock.*')
+            || Auth::check()
+        ) {
             return $next($request);
         }
 
         return redirect()->guest(route('site-lock.show'));
-    }
-
-    private function isLocked(): bool
-    {
-        $override = config('sitelock.enabled');
-
-        if ($override !== null) {
-            return $override;
-        }
-
-        return ! app()->environment('local', 'testing');
     }
 }
