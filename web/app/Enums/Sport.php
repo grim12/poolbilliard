@@ -18,6 +18,16 @@ enum Sport: string implements HasLabel
 
     public function getLabel(): string
     {
+        if (app()->getLocale() === 'en') {
+            return match ($this) {
+                self::Poolbilliard => 'Pool',
+                self::Karambol => 'Carom',
+                self::Snooker => 'Snooker',
+                self::Pyramida => 'Pyramid',
+                self::Heyball => 'Heyball',
+            };
+        }
+
         return $this->value;
     }
 }

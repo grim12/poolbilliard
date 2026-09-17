@@ -16,6 +16,12 @@
     structuredData: optional JSON-LD array (schema.org) specific to the page — e.g. a
     NewsArticle/Event — rendered alongside the sitewide SportsOrganization block every page
     already gets.
+    Locale/hreflang: every /en/... route pairs 1:1 with its cs counterpart by route name
+    ('en.klub.show' <-> 'klub.show', see routes/web.php) — this component uses that pairing to
+    compute the current page's URL in the other locale generically, for both the hreflang tags
+    below and the header's language switcher (passed through as `altLocaleUrl`). A page whose
+    route has no such counterpart (or no matched route at all, e.g. a 404) just gets no
+    hreflang/switcher target beyond that locale's homepage.
 --}}
 @props([
     'title' => 'Poolbilliard',
@@ -33,10 +39,21 @@
     $headerDark ??= app(\App\Settings\GeneralSettings::class)->header_dark;
     $canonicalUrl = $canonical ?? url()->current();
     $ogImageUrl = $ogImage ?? asset('uploads/cesky_pool.png');
+
+    $isEn = app()->getLocale() === 'en';
+    $currentRouteName = request()->route()?->getName();
+    $altRouteName = $currentRouteName
+        ? ($isEn ? \Illuminate\Support\Str::after($currentRouteName, 'en.') : 'en.'.$currentRouteName)
+        : null;
+    $altLocaleUrl = ($altRouteName && \Illuminate\Support\Facades\Route::has($altRouteName))
+        ? route($altRouteName, request()->route()->parameters())
+        : null;
+    $csUrl = $isEn ? $altLocaleUrl : $canonicalUrl;
+    $enUrl = $isEn ? $canonicalUrl : $altLocaleUrl;
 @endphp
 
 <!doctype html>
-<html lang="cs">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -56,10 +73,20 @@
         <meta name="description" content="{{ $description }}" />
     @endif
     <link rel="canonical" href="{{ $canonicalUrl }}" />
+    @if ($csUrl)
+        <link rel="alternate" hreflang="cs" href="{{ $csUrl }}" />
+        <link rel="alternate" hreflang="x-default" href="{{ $csUrl }}" />
+    @endif
+    @if ($enUrl)
+        <link rel="alternate" hreflang="en" href="{{ $enUrl }}" />
+    @endif
 
     <meta property="og:type" content="{{ $ogType }}" />
     <meta property="og:site_name" content="Český Poolbilliard" />
-    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:locale" content="{{ $isEn ? 'en_US' : 'cs_CZ' }}" />
+    @if ($isEn ? $csUrl : $enUrl)
+        <meta property="og:locale:alternate" content="{{ $isEn ? 'cs_CZ' : 'en_US' }}" />
+    @endif
     <meta property="og:title" content="{{ $title }}" />
     <meta property="og:url" content="{{ $canonicalUrl }}" />
     <meta property="og:image" content="{{ $ogImageUrl }}" />
@@ -93,7 +120,7 @@
 </head>
 <body class="min-h-screen bg-white text-body-main antialiased font-sans">
     <div class="c-page-wrapper">
-        @include('layouts.header', ['headerDark' => $headerDark])
+        @include('layouts.header', ['headerDark' => $headerDark, 'altLocaleUrl' => $altLocaleUrl])
 
         <main id="main-content">
             {{ $slot }}

@@ -20,6 +20,14 @@ enum HernaStatus: string implements HasColor, HasLabel
 
     public function getLabel(): string
     {
+        if (app()->getLocale() === 'en') {
+            return match ($this) {
+                self::Pending => 'Awaiting approval',
+                self::Approved => 'Approved',
+                self::Rejected => 'Rejected',
+            };
+        }
+
         return match ($this) {
             self::Pending => 'Čeká na schválení',
             self::Approved => 'Schváleno',

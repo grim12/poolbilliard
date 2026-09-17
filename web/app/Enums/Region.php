@@ -28,6 +28,25 @@ enum Region: string implements HasLabel
 
     public function getLabel(): string
     {
+        if (app()->getLocale() === 'en') {
+            return match ($this) {
+                self::Praha => 'Prague',
+                self::Stredocesky => 'Central Bohemian',
+                self::Jihocesky => 'South Bohemian',
+                self::Plzensky => 'Plzeň',
+                self::Karlovarsky => 'Karlovy Vary',
+                self::Ustecky => 'Ústí nad Labem',
+                self::Liberecky => 'Liberec',
+                self::Kralovehradecky => 'Hradec Králové',
+                self::Pardubicky => 'Pardubice',
+                self::Vysocina => 'Vysočina (Highlands)',
+                self::Jihomoravsky => 'South Moravian',
+                self::Olomoucky => 'Olomouc',
+                self::Zlinsky => 'Zlín',
+                self::Moravskoslezsky => 'Moravian-Silesian',
+            };
+        }
+
         return $this->value;
     }
 }

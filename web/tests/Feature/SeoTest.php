@@ -206,6 +206,9 @@ class SeoTest extends TestCase
         $response->assertSee('<loc>'.route('home').'</loc>', false);
         $response->assertSee('<loc>'.route('klub.show', $club).'</loc>', false);
         $response->assertSee('<loc>'.route('herna.show', $approvedHerna).'</loc>', false);
+        // The 'en.' mirror (translated path segments — see routes/web.php) is listed too.
+        $response->assertSee('<loc>'.route('en.home').'</loc>', false);
+        $response->assertSee('<loc>'.route('en.klub.show', $club).'</loc>', false);
         $response->assertSee('<loc>'.route('novinky.show', $publishedArticle->slug_cs).'</loc>', false);
         $response->assertDontSee(route('herna.show', $pendingHerna), false);
         $response->assertDontSee(route('novinky.show', $unpublishedArticle->slug_cs), false);

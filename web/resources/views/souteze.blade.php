@@ -7,7 +7,7 @@
     since this is the real, complete rankings listing.
 --}}
 <x-layouts.app
-    :title="$settings->title.' — Poolbilliard'"
+    :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
     description="Přehled soutěží a žebříčků Českého svazu poolbilliardu."
 >
     <x-page-hero

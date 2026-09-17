@@ -4,7 +4,7 @@
     RuleCard collection, ordered.
 --}}
 <x-layouts.app
-    :title="$settings->hero_title.' — Poolbilliard'"
+    :title="\App\Support\Locale::field($settings, 'hero_title').' — Poolbilliard'"
     description="Pravidla poolbilliardu, vyvrácené mýty a přehled jednotlivých disciplín podle Českého svazu poolbilliardu."
 >
     <x-page-hero

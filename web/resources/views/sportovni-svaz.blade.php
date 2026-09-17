@@ -6,7 +6,7 @@
     Notice records (same query as the homepage's "Zprávy výkonného výboru" teaser).
 --}}
 <x-layouts.app
-    :title="$settings->hero_title.' — Poolbilliard'"
+    :title="\App\Support\Locale::field($settings, 'hero_title').' — Poolbilliard'"
     description="Výkonný výbor, dokumenty a organizační struktura Českého svazu poolbilliardu."
 >
     <x-page-hero :title="$settings->hero_title" :text="$settings->hero_text" />

@@ -15,7 +15,7 @@
 @endphp
 
 <x-layouts.app
-    :title="$settings->title.' — Poolbilliard'"
+    :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
     description="Přehled klubů Českého svazu poolbilliardu — najděte klub ve svém okolí a připojte se k hráčské komunitě."
 >
     <div class="bg-gradient-light">

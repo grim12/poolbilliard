@@ -10,7 +10,7 @@
     tournaments card (tag/title/text), and the calendar_sources repeater.
 --}}
 <x-layouts.app
-    :title="$settings->title.' — Poolbilliard'"
+    :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
     description="Kalendář turnajů a pravidelných akcí Českého svazu poolbilliardu — přehled podle měsíců."
 >
     <div class="bg-gradient-light">

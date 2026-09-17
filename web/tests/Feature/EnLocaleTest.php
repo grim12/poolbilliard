@@ -11,6 +11,8 @@ use App\Models\Notice;
 use App\Models\RecurringTournament;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
+use App\Settings\HernySettings;
+use App\Support\Locale;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -88,5 +90,40 @@ class EnLocaleTest extends TestCase
         $response->assertOk();
         $response->assertSee('English headline');
         $response->assertDontSee('Český titulek');
+    }
+
+    /**
+     * App\Support\Locale::field() is what makes a spatie/laravel-settings class's `_en` sibling
+     * (see TranslatableTabs::makeForSettings()'s docblock) actually readable — same
+     * cs/en-with-fallback behavior as spatie/laravel-translatable's own getTranslation(), just
+     * for plain Settings properties instead of an Eloquent JSON column.
+     */
+    public function test_locale_field_helper_prefers_english_but_falls_back_to_czech(): void
+    {
+        $settings = app(HernySettings::class);
+        $settings->title = 'Kulečníkové herny';
+        $settings->title_en = null;
+
+        $this->assertSame('Kulečníkové herny', Locale::field($settings, 'title'));
+
+        app()->setLocale('en');
+        $this->assertSame('Kulečníkové herny', Locale::field($settings, 'title'), 'must fall back to cs when title_en is empty');
+
+        $settings->title_en = 'Billiard Venues';
+        $this->assertSame('Billiard Venues', Locale::field($settings, 'title'));
+    }
+
+    /**
+     * End-to-end: /en/venues' <title> (HernySettings::$title/$title_en, wired in
+     * herny.blade.php) follows the same cs-fallback-until-translated rule as the unit test
+     * above, through the real settings store this time instead of a bare object.
+     */
+    public function test_en_venues_page_title_falls_back_to_czech_until_translated(): void
+    {
+        $this->get('/en/venues')->assertSee('<title>Kulečníkové herny — Poolbilliard', false);
+
+        app(HernySettings::class)->fill(['title_en' => 'Billiard Venues'])->save();
+
+        $this->get('/en/venues')->assertSee('<title>Billiard Venues — Poolbilliard', false);
     }
 }

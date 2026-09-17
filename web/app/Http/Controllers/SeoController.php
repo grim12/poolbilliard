@@ -32,8 +32,10 @@ class SeoController extends Controller
     /**
      * Only the URLs a visitor (or crawler) can actually reach: no /admin, no pending Herna
      * submissions, no unpublished Article/Notice — same visibility rules their own controllers
-     * already enforce. 404s while the site isn't indexable (see App\Support\Launch) instead of
-     * publishing a list of URLs nothing should be crawling yet.
+     * already enforce. 404s while the site isn't indexable (see App\Support\Launch). Lists both
+     * the cs and en (see routes/web.php's 'en.' mirror) version of every URL — passing a model
+     * straight to route() picks up whichever slug column that specific route's binding uses
+     * ({club:slug_cs} vs. {club:slug_en}), so the same code covers both locales.
      */
     public function sitemap(): Response
     {
@@ -45,19 +47,23 @@ class SeoController extends Controller
             'partneri', 'registrace-herny',
         ];
 
-        $urls = collect($staticRoutes)->map(fn (string $name) => ['loc' => route($name)])
-            ->concat(Club::all()->map(fn (Club $club) => ['loc' => route('klub.show', $club)]))
-            ->concat(
-                Herna::where('status', HernaStatus::Approved)->get()
-                    ->map(fn (Herna $herna) => ['loc' => route('herna.show', $herna)])
-            )
-            ->concat(Tournament::all()->map(fn (Tournament $t) => ['loc' => route('turnaj.show', $t)]))
-            ->concat(
-                RecurringTournament::all()
-                    ->map(fn (RecurringTournament $t) => ['loc' => route('pravidelny-turnaj.show', $t)])
-            )
-            ->concat($this->publishedUrls(Article::query(), 'novinky.show'))
-            ->concat($this->publishedUrls(Notice::query(), 'zpravodajstvi.vykonny-vybor.show'));
+        $approvedHernas = Herna::where('status', HernaStatus::Approved)->get();
+        $clubs = Club::all();
+        $tournaments = Tournament::all();
+        $recurringTournaments = RecurringTournament::all();
+
+        $urls = collect();
+
+        foreach (['', 'en.'] as $prefix) {
+            $urls = $urls
+                ->concat(collect($staticRoutes)->map(fn (string $name) => ['loc' => route($prefix.$name)]))
+                ->concat($clubs->map(fn (Club $club) => ['loc' => route($prefix.'klub.show', $club)]))
+                ->concat($approvedHernas->map(fn (Herna $herna) => ['loc' => route($prefix.'herna.show', $herna)]))
+                ->concat($tournaments->map(fn (Tournament $t) => ['loc' => route($prefix.'turnaj.show', $t)]))
+                ->concat($recurringTournaments->map(fn (RecurringTournament $t) => ['loc' => route($prefix.'pravidelny-turnaj.show', $t)]))
+                ->concat($this->publishedUrls(Article::query(), $prefix.'novinky.show'))
+                ->concat($this->publishedUrls(Notice::query(), $prefix.'zpravodajstvi.vykonny-vybor.show'));
+        }
 
         return response()
             ->view('sitemap', ['urls' => $urls])
@@ -71,7 +77,7 @@ class SeoController extends Controller
     {
         return $query->whereNotNull('published_at')->get()
             ->map(fn ($model) => [
-                'loc' => route($routeName, $model->slug_cs),
+                'loc' => route($routeName, $model),
                 'lastmod' => $model->published_at?->toAtomString(),
             ]);
     }
