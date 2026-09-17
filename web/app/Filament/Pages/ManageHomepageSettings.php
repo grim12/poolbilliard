@@ -71,32 +71,25 @@ class ManageHomepageSettings extends SettingsPage
                                 ->required($locale === 'cs'),
                         ]),
                     ]),
-                Section::make('Banner 1')
-                    ->description('Zobrazí se hned pod sekcí Zprávy výkonného výboru. Bez výběru se sekce vůbec nevypíše.')
+                Section::make('Propojené položky')
+                    ->description('Bannery a dlaždice zobrazené na homepage. Prázdný výběr = daná sekce se na stránce vůbec nevypíše.')
                     ->columns(1)
                     ->components([
                         Select::make('banner_1_id')
-                            ->label('Banner')
+                            ->label('Banner 1')
+                            ->helperText('Zobrazí se hned pod sekcí Zprávy výkonného výboru.')
                             ->options(fn () => Banner::orderBy('sort_order')->get()->pluck('title', 'id'))
                             ->placeholder('— žádný banner —')
                             ->searchable(),
-                    ]),
-                Section::make('Banner 2')
-                    ->description('Zobrazí se hned pod sekcí Turnaje. Bez výběru se sekce vůbec nevypíše.')
-                    ->columns(1)
-                    ->components([
                         Select::make('banner_2_id')
-                            ->label('Banner')
+                            ->label('Banner 2')
+                            ->helperText('Zobrazí se hned pod sekcí Turnaje.')
                             ->options(fn () => Banner::orderBy('sort_order')->get()->pluck('title', 'id'))
                             ->placeholder('— žádný banner —')
                             ->searchable(),
-                    ]),
-                Section::make('Dlaždice')
-                    ->description('Výběr a pořadí dlaždic zobrazených na homepage. Prázdný výběr = sekce se nevypíše.')
-                    ->columns(1)
-                    ->components([
                         Select::make('link_tile_ids')
-                            ->hiddenLabel()
+                            ->label('Dlaždice')
+                            ->helperText('Výběr a pořadí dlaždic.')
                             ->options(fn () => LinkTile::orderBy('sort_order')->get()->pluck('title', 'id'))
                             ->multiple()
                             ->reorderable(),
