@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Enums\HernaStatus;
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Models\Club;
+use App\Models\Herna;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,6 +34,7 @@ class SeoTest extends TestCase
         $response->assertOk();
         $response->assertSee('Disallow: /admin', false);
         $response->assertDontSee('Disallow: /'."\n", false);
+        $response->assertSee('Sitemap: '.route('sitemap'), false);
     }
 
     /**
@@ -135,5 +139,58 @@ class SeoTest extends TestCase
         $response->assertSee('"@type":"SportsEvent"', false);
         $response->assertSee('"name":"Testovací turnaj"', false);
         $response->assertSee('"startDate":"2026-11-01"', false);
+    }
+
+    public function test_sitemap_is_not_available_while_not_indexable(): void
+    {
+        config(['seo.indexable' => false]);
+
+        $this->get('/sitemap.xml')->assertNotFound();
+    }
+
+    /**
+     * Also covers that SiteLock lets /sitemap.xml through on its own merits (a plain redirect
+     * to the unlock screen wouldn't be a 404) — see SiteLock's bypass list.
+     */
+    public function test_sitemap_is_not_available_while_the_site_is_locked(): void
+    {
+        config(['sitelock.enabled' => true]);
+
+        $this->get('/sitemap.xml')->assertNotFound();
+    }
+
+    /**
+     * Only what a visitor can actually reach: an approved Herna and a published Article are in,
+     * a pending Herna (public submission not yet moderated) and an unpublished Article are out —
+     * same visibility rules ArticleController/HernaController already enforce on the pages
+     * themselves (see SeoController::sitemap()'s docblock).
+     */
+    public function test_sitemap_lists_public_urls_and_excludes_unpublished_ones(): void
+    {
+        config(['seo.indexable' => true]);
+
+        $club = Club::factory()->create();
+        $approvedHerna = Herna::factory()->create(['status' => HernaStatus::Approved]);
+        $pendingHerna = Herna::factory()->create(['status' => HernaStatus::Pending]);
+        $category = ArticleCategory::factory()->create();
+        $publishedArticle = Article::factory()->create([
+            'article_category_id' => $category->id,
+            'published_at' => now(),
+        ]);
+        $unpublishedArticle = Article::factory()->create([
+            'article_category_id' => $category->id,
+            'published_at' => null,
+        ]);
+
+        $response = $this->get('/sitemap.xml');
+
+        $response->assertOk();
+        $response->assertHeader('Content-Type', 'text/xml; charset=UTF-8');
+        $response->assertSee('<loc>'.route('home').'</loc>', false);
+        $response->assertSee('<loc>'.route('klub.show', $club).'</loc>', false);
+        $response->assertSee('<loc>'.route('herna.show', $approvedHerna).'</loc>', false);
+        $response->assertSee('<loc>'.route('novinky.show', $publishedArticle->slug_cs).'</loc>', false);
+        $response->assertDontSee(route('herna.show', $pendingHerna), false);
+        $response->assertDontSee(route('novinky.show', $unpublishedArticle->slug_cs), false);
     }
 }

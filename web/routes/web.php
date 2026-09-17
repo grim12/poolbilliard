@@ -20,6 +20,7 @@ use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 
 Route::get('/pristup', [SiteLockController::class, 'show'])->name('site-lock.show');
 Route::post('/pristup', [SiteLockController::class, 'attempt'])
