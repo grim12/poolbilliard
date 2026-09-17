@@ -59,6 +59,23 @@ class SeoTest extends TestCase
     }
 
     /**
+     * The favicon/manifest links (and the files they point at) are shared sitewide markup, not
+     * per-page content — the homepage stands in for every page here too.
+     */
+    public function test_homepage_links_the_favicon_set_and_manifest(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertSee('<link rel="icon" href="'.asset('favicon.ico').'"', false);
+        $response->assertSee('<link rel="apple-touch-icon" sizes="180x180" href="'.asset('apple-touch-icon.png').'"', false);
+        $response->assertSee('<link rel="manifest" href="'.asset('site.webmanifest').'"', false);
+
+        foreach (['favicon.ico', 'favicon-16x16.png', 'favicon-32x32.png', 'apple-touch-icon.png', 'android-chrome-192x192.png', 'android-chrome-512x512.png', 'site.webmanifest'] as $file) {
+            $this->assertFileExists(public_path($file));
+        }
+    }
+
+    /**
      * Every page goes through <x-layouts.app>, so the homepage stands in for the shared
      * description/canonical/OG/Twitter markup every other page also gets.
      */

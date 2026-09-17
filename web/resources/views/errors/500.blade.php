@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Chyba serveru — Poolbilliard</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-white text-body-main antialiased font-sans flex items-center justify-center p-4">

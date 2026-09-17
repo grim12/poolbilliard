@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     <title>Přístup — Poolbilliard</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-white text-body-main antialiased font-sans flex items-center justify-center p-4">
