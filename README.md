@@ -92,15 +92,21 @@ Zbývá:
 Hotovo:
 * **`/en/...` routing** s přeloženými segmenty cesty (např. `/en/clubs`, `/en/venue/{slug_en}`) — mirror každé veřejné routy, viz `routes/web.php`. Route names mají konzistentní `en.` prefix (`klub.show` ↔ `en.klub.show`), na čemž stojí generické dopočítávání hreflang/přepínače jazyka v `<x-layouts.app>` — žádná stránka to neřeší sama.
 * **`App\Http\Middleware\SetLocale`** (alias `locale:en`) na `/en` skupině nastavuje `app()->setLocale('en')` pro celý request — translatable atributy modelů (`spatie/laravel-translatable`) se tím přepnou automaticky, bez úprav v controllerech/views.
-* **Header/footer** — nav, přepínač jazyka (byl už navržený v `ui/`, jen neožívený), aria-labels a placeholder přeloženy přes `lang/en.json` (`__()`), odkazy vedou přes locale-aware route helper místo natvrdo českých cest.
+* **Header/footer** — nav, přepínač jazyka (byl už navržený v `ui/`, jen neožívený), aria-labels a placeholder přeloženy přes `__()` (DB-backed překlady, viz sekce „Správa lokalizací v adminu" níže), odkazy vedou přes locale-aware route helper místo natvrdo českých cest.
 * **Enumy** (`Region`, `Sport`, `HernaStatus`) mají anglické varianty `getLabel()` podle `app()->getLocale()` — Filament admin běží vždy v cs, takže administraci to neovlivní.
 * **`App\Support\Locale::field()`** zpřístupňuje `{field}_en` sesterské vlastnosti na Settings třídách (byly připravené dřív, nečtené — viz `TranslatableTabs::makeForSettings()`), stejný fallback na cs jako u modelů. Zapojeno zatím jen do `<title>` stránek (`herny`, `kluby`, `kalendar`, `souteze`, `jak-zacit`, `pravidla`, `sportovni-svaz`).
 * **`sitemap.xml`** obsahuje `en.` mirror každé URL vedle cs varianty.
 
 Zbývá (obsahová/i18n práce, ne infrastruktura):
 * **Hlubší nastavovaná pole** (hero podtitulky, tituly jednotlivých sekcí uvnitř stránek) a **repeater/array pole** (feature_cards, stats, tasks, calendar_sources...) na `_en` zatím nenapojené.
-* **Natvrdo české texty uvnitř těl šablon** (nadpisy, popisky, tlačítka mimo hlavičku/patičku) — desítky řetězců napříč ~18 šablonami, potřeba systematický průchod + `__()`/`lang/en.json`.
 * **Natvrdo odkazy přímo v šablonách** (back-linky, stránkování — ne admin-editovatelná pole) zatím nejsou locale-aware — pořád vedou na cs cestu i z EN stránky.
+
+Hotovo od poslední revize:
+* **Natvrdo české texty uvnitř těl šablon** — systematický průchod přes všechny stránky a sdílené komponenty ve `web/resources/views/`, každý zbylý natvrdo psaný český řetězec (nadpisy, popisky, tlačítka, aria-labels, placeholdery) je teď zabalený v `__()`. Vyjma dvou vědomých výjimek: `errors/500.blade.php` (záměrně bez DB závislosti, viz jeho docblock) a `site-lock.blade.php` (provozní odemykací stránka, ne součást veřejného webu).
+
+### Správa lokalizací v adminu
+
+Všechny `__('...')` řetězce ze šablon (mimo translatable atributy modelů, které mají vlastní CZ/EN pole) se řeší přes `spatie/laravel-translation-loader` — anglické překlady žijí v DB tabulce `language_lines`, ne v `lang/en.json` (ten byl odstraněn). Admin je může upravovat na `/admin/translations` (`App\Filament\Resources\Translations\TranslationResource`), včetně volitelného přepisu českého originálu. `database/seeders/LanguageLineSeeder.php` obsahuje anglický překlad pro každý řetězec, který se kdy zabalil do `__()` — při přidání nového je potřeba doplnit ho tam i do seederu.
 
 ### Interní odkazy v adminu (LinkTile, RuleCard, JakZacitSection, Banner)
 
