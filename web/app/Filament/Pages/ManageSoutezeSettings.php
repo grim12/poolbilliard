@@ -61,7 +61,7 @@ class ManageSoutezeSettings extends SettingsPage
                                 TextInput::make('label_en')
                                     ->label('Popisek (EN)'),
                             ])
-                            ->columns(3)
+                            ->columns(1)
                             ->reorderable()
                             ->maxItems(4)
                             ->itemLabel(fn (array $state): ?string => $state['value'] ?? null)

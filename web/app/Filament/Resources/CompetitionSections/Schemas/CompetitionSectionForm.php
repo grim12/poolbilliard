@@ -15,7 +15,7 @@ class CompetitionSectionForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('anchor')
                             ->label('Kotva (#anchor)')

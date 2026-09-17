@@ -17,7 +17,7 @@ class JakZacitSectionForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('anchor')
                             ->label('Kotva (#anchor)')
@@ -102,7 +102,7 @@ class JakZacitSectionForm
                                 RichEditor::make('text_en')
                                     ->label('Text (EN)'),
                             ])
-                            ->columns(2)
+                            ->columns(1)
                             ->reorderable()
                             ->addActionLabel('Přidat krok'),
                     ]),

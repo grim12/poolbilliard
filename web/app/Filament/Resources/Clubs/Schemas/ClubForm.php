@@ -20,7 +20,7 @@ class ClubForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('name')
                             ->label('Krátký název')
@@ -53,7 +53,7 @@ class ClubForm
                         ]),
                     ]),
                 Section::make('Adresa a poloha')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('address')
                             ->label('Ulice a číslo'),
@@ -70,7 +70,7 @@ class ClubForm
                             ->numeric(),
                     ]),
                 Section::make('Ambasador')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('ambassador_name')
                             ->label('Jméno'),
@@ -100,7 +100,7 @@ class ClubForm
                                     ->disk('public')
                                     ->directory('club-members'),
                             ])
-                            ->columns(2)
+                            ->columns(1)
                             ->collapsible()
                             ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
                             ->addActionLabel('Přidat člena'),

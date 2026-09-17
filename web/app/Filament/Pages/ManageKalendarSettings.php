@@ -72,7 +72,7 @@ class ManageKalendarSettings extends SettingsPage
                                     ->required()
                                     ->columnSpanFull(),
                             ])
-                            ->columns(2)
+                            ->columns(1)
                             ->reorderable()
                             ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
                             ->addActionLabel('Přidat kalendář'),

@@ -24,7 +24,7 @@ class HernaForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('name')
                             ->label('Název')
@@ -50,7 +50,7 @@ class HernaForm
                         ]),
                     ]),
                 Section::make('Adresa a poloha')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('address')
                             ->label('Ulice a číslo'),
@@ -67,7 +67,7 @@ class HernaForm
                             ->numeric(),
                     ]),
                 Section::make('Kontakt')
-                    ->columns(3)
+                    ->columns(1)
                     ->components([
                         TextInput::make('phone')
                             ->label('Telefon')
@@ -84,7 +84,7 @@ class HernaForm
                         CheckboxList::make('sports')
                             ->hiddenLabel()
                             ->options(Sport::class)
-                            ->columns(3),
+                            ->columns(1),
                     ]),
                 Section::make('Otevírací doba')
                     ->components([
@@ -99,7 +99,7 @@ class HernaForm
                                     ->label('Otevírací doba')
                                     ->placeholder('14:00–24:00 nebo Zavřeno'),
                             ])
-                            ->columns(2)
+                            ->columns(1)
                             ->defaultItems(0)
                             ->addActionLabel('Přidat den')
                             ->helperText('Nech prázdné, pokud otevírací dobu nechceš zobrazovat.'),

@@ -21,7 +21,7 @@ class ArticleForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('slug_cs')
                             ->label('Slug (CZ)')

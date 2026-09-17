@@ -31,7 +31,7 @@ class BannerForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         FileUpload::make('image')
                             ->label('Obrázek na pozadí')
@@ -86,7 +86,7 @@ class BannerForm
                                     ->required(),
                                 ...InternalLinkFields::make(),
                             ])
-                            ->columns(4)
+                            ->columns(1)
                             ->defaultItems(0)
                             ->maxItems(2)
                             ->addActionLabel('Přidat tlačítko')

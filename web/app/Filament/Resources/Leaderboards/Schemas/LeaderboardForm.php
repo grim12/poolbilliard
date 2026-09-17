@@ -16,7 +16,7 @@ class LeaderboardForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         Toggle::make('featured')
                             ->label('Zvýraznit 1. místo')
@@ -47,7 +47,7 @@ class LeaderboardForm
                                     ->label('Klub')
                                     ->helperText('Nech prázdné u týmových žebříčků, kde je "hráčem" už celý tým.'),
                             ])
-                            ->columns(2)
+                            ->columns(1)
                             ->reorderable()
                             ->defaultItems(0)
                             ->maxItems(10)

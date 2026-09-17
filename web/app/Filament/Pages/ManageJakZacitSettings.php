@@ -73,7 +73,7 @@ class ManageJakZacitSettings extends SettingsPage
                                     ->helperText('Např. "#zacatecnik" — kotva jedné z níže spravovaných sekcí.')
                                     ->required(),
                             ])
-                            ->columns(2)
+                            ->columns(1)
                             ->reorderable()
                             ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
                             ->addActionLabel('Přidat dlaždici'),

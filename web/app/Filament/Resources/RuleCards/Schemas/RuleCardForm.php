@@ -17,7 +17,7 @@ class RuleCardForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         FileUpload::make('image')
                             ->label('Obrázek disciplíny')

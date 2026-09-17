@@ -82,7 +82,7 @@ class ManageSvazSettings extends SettingsPage
                                     ->label('Odkaz')
                                     ->required(),
                             ])
-                            ->columns(3)
+                            ->columns(1)
                             ->reorderable()
                             ->itemLabel(fn (array $state): ?string => $state['text'] ?? null)
                             ->addActionLabel('Přidat odkaz'),

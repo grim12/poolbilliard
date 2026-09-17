@@ -17,7 +17,7 @@ class DocumentForm
         return $schema
             ->components([
                 Section::make('Základní údaje')
-                    ->columns(2)
+                    ->columns(1)
                     ->components([
                         TextInput::make('name')
                             ->label('Název dokumentu')
