@@ -41,7 +41,7 @@
                         ]"
                         :foot-text="$settings->info_foot_text"
                         :button-text="$settings->info_button_text"
-                        button-url="/jak-zacit"
+                        :button-url="\App\Support\Locale::route('jak-zacit')"
                     />
                 </div>
             </div>

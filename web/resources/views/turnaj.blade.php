@@ -13,13 +13,13 @@
         'endDate' => $tournament->end_date?->toDateString(),
         'location' => [
             '@type' => 'Place',
-            'name' => $tournament->location_text ?: 'Česká republika',
+            'name' => $tournament->location_text ?: __('Česká republika'),
         ],
         'organizer' => [
             '@type' => 'Organization',
-            'name' => 'Český svaz poolbilliardu',
+            'name' => __('Český svaz poolbilliardu'),
         ],
-        'url' => $tournament->url ?: route('turnaj.show', $tournament),
+        'url' => $tournament->url ?: url()->current(),
     ] : null;
 @endphp
 <x-layouts.app
@@ -29,7 +29,7 @@
     :structured-data="$structuredData"
 >
     <x-tournament-content
-        back-url="{{ route('kalendar') }}"
+        :back-url="\App\Support\Locale::route('kalendar')"
         :tag-text="$tournament->category?->name"
         :tag-color="$tournament->category?->color"
         :title="$tournament->title"

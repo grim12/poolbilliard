@@ -91,8 +91,8 @@
                                     'url' => route('pravidelny-turnaj.show', $item),
                                 ])->all()"
                                 :buttons="[
-                                    ['text' => __('Kulečníkové kluby'), 'url' => route('kluby')],
-                                    ['text' => __('Kulečníkové herny'), 'url' => route('herny')],
+                                    ['text' => __('Kulečníkové kluby'), 'url' => \App\Support\Locale::route('kluby')],
+                                    ['text' => __('Kulečníkové herny'), 'url' => \App\Support\Locale::route('herny')],
                                 ]"
                             />
                         @endif

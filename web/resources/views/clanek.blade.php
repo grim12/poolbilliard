@@ -8,10 +8,10 @@
         'headline' => $article->title,
         'datePublished' => $article->published_at?->toIso8601String(),
         'image' => $article->image_url,
-        'url' => route('novinky.show', $article->slug_cs),
+        'url' => url()->current(),
         'publisher' => [
             '@type' => 'Organization',
-            'name' => 'Český svaz poolbilliardu',
+            'name' => __('Český svaz poolbilliardu'),
         ],
     ];
 @endphp
@@ -24,7 +24,7 @@
 >
     <x-article-content
         class="bg-gradient-light"
-        :back-url="route('novinky')"
+        :back-url="\App\Support\Locale::route('novinky')"
         :tag-text="$article->category?->name"
         :tag-color="$article->category?->color ?? 'primary'"
         :title="$article->title"

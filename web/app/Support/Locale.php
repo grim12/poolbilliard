@@ -24,4 +24,17 @@ class Locale
 
         return $settings->{$field};
     }
+
+    /**
+     * Locale-aware equivalent of route() for the routes mirrored under the 'en.' group in
+     * routes/web.php (see that group's docblock) — resolves to the current locale's own
+     * route/URL instead of always the Czech one, for internal links used by templates shared
+     * between both locales (back-links, section links, form actions...).
+     */
+    public static function route(string $name, mixed $parameters = [], bool $absolute = true): string
+    {
+        $name = app()->getLocale() === 'en' ? "en.{$name}" : $name;
+
+        return route($name, $parameters, $absolute);
+    }
 }

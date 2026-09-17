@@ -53,7 +53,7 @@
         :subtitle="__('Aktuální pořadí ve všech sériích a kategoriích — TOP 10 hráčů.')"
         :items="$leaderboards"
         :more-text="__('Kalendář soutěží')"
-        :more-url="route('kalendar')"
+        :more-url="\App\Support\Locale::route('kalendar')"
     />
 
     <x-newsletter />

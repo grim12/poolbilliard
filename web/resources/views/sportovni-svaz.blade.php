@@ -54,7 +54,7 @@
         :title="$settings->notices_title"
         :subtitle="$settings->notices_subtitle"
         :items="$notices"
-        :more-url="route('zpravodajstvi.vykonny-vybor')"
+        :more-url="\App\Support\Locale::route('zpravodajstvi.vykonny-vybor')"
         class="pt-none"
     />
 

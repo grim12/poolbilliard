@@ -9,7 +9,7 @@
         :city="$club->city"
         :region="$club->region?->getLabel()"
         :image="$club->image_url"
-        back-url="/kluby"
+        :back-url="\App\Support\Locale::route('kluby')"
     />
 
     <x-club-detail :club="$club" />

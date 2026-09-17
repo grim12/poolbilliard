@@ -13,7 +13,7 @@
     <div class="bg-gradient-light">
         <section class="c-section pb-none">
             <div class="c-container">
-                <x-back-link :text="__('Zpět na seznam heren')" :url="route('herny')" />
+                <x-back-link :text="__('Zpět na seznam heren')" :url="\App\Support\Locale::route('herny')" />
             </div>
         </section>
 
@@ -46,7 +46,7 @@
     @unless (session('submitted'))
         <section class="c-section c-section--form pt-none">
             <div class="c-container c-section__inner">
-                <form class="c-form" method="POST" action="{{ route('registrace-herny.store') }}">
+                <form class="c-form" method="POST" action="{{ \App\Support\Locale::route('registrace-herny.store') }}">
                     @csrf
 
                     <div class="hidden" aria-hidden="true">

@@ -36,7 +36,7 @@
                         :title="$settings->info_title"
                         :text="$settings->info_text"
                         :button-text="$settings->info_button_text"
-                        button-url="/registrace-herny"
+                        :button-url="\App\Support\Locale::route('registrace-herny')"
                     />
                 </div>
             </div>

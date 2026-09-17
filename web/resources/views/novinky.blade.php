@@ -45,7 +45,7 @@
                             @endforeach
                         </div>
 
-                        <x-button :text="__('Archiv všech zpráv')" :url="route('zpravodajstvi.vykonny-vybor')" variant="link" class="w-full" />
+                        <x-button :text="__('Archiv všech zpráv')" :url="\App\Support\Locale::route('zpravodajstvi.vykonny-vybor')" variant="link" class="w-full" />
                     </aside>
                 </div>
             </div>

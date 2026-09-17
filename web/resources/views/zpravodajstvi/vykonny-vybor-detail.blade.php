@@ -8,10 +8,10 @@
         '@type' => 'Article',
         'headline' => $notice->title,
         'datePublished' => $notice->published_at?->toIso8601String(),
-        'url' => route('zpravodajstvi.vykonny-vybor.show', $notice->slug_cs),
+        'url' => url()->current(),
         'publisher' => [
             '@type' => 'Organization',
-            'name' => 'Český svaz poolbilliardu',
+            'name' => __('Český svaz poolbilliardu'),
         ],
     ];
 @endphp
@@ -24,7 +24,7 @@
     <x-article-content
         class="bg-gradient-light"
         :back-text="__('Zpět na zprávy výboru')"
-        :back-url="route('zpravodajstvi.vykonny-vybor')"
+        :back-url="\App\Support\Locale::route('zpravodajstvi.vykonny-vybor')"
         :tag-text="$notice->is_important ? __('Důležité') : ''"
         tag-color="accent"
         tag-position="inline"

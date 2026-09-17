@@ -15,7 +15,7 @@
                 :featured="$featuredArticle"
                 :items="$featuredArticleItems"
                 :more-text="$settings->featured_articles_button_text"
-                :more-url="route('novinky')"
+                :more-url="\App\Support\Locale::route('novinky')"
                 class="pb-none"
             />
         @endif
@@ -25,7 +25,7 @@
             :subtitle="$settings->notices_subtitle"
             :items="$notices"
             :more-text="$settings->notices_button_text"
-            :more-url="route('zpravodajstvi.vykonny-vybor')"
+            :more-url="\App\Support\Locale::route('zpravodajstvi.vykonny-vybor')"
         />
 
         @if ($banner1)
@@ -50,7 +50,7 @@
         :title="$settings->tournaments_title"
         :items="$tournaments"
         :calendar-text="$settings->tournaments_button_text"
-        calendar-url="/kalendar"
+        :calendar-url="\App\Support\Locale::route('kalendar')"
         :stream-url="$cmbsTvUrl"
         @class(['bg-gray-100', 'border-top', 'border-bottom' => $banner2])
     />
@@ -68,7 +68,7 @@
         :subtitle="$settings->leaderboards_subtitle"
         :items="$leaderboards"
         :more-text="$settings->leaderboards_button_text"
-        more-url="/souteze"
+        :more-url="\App\Support\Locale::route('souteze')"
         :max-entries="5"
         @class(['bg-gray-100', 'border-bottom', 'border-top' => $banner2, 'pt-none' => ! $banner2])
     />
@@ -81,7 +81,7 @@
         :title="$settings->partners_title"
         :items="$partners"
         :more-text="$settings->partners_button_text"
-        :more-url="route('partneri')"
+        :more-url="\App\Support\Locale::route('partneri')"
         class="bg-white pt-none"
     />
 

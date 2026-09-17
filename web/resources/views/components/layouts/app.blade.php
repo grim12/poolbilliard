@@ -104,7 +104,7 @@
     <script type="application/ld+json">{!! json_encode([
         '@context' => 'https://schema.org',
         '@type' => 'SportsOrganization',
-        'name' => 'Český svaz poolbilliardu',
+        'name' => __('Český svaz poolbilliardu'),
         'url' => url('/'),
         'logo' => asset('uploads/cesky_pool.png'),
         'sameAs' => [

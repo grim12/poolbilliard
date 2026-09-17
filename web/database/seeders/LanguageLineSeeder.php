@@ -225,6 +225,10 @@ class LanguageLineSeeder extends Seeder
         'Přihlášením k odběru vyjadřujete' => 'By subscribing you express',
         'souhlas se zpracováním osobních údajů' => 'consent to personal data processing',
 
+        // JSON-LD / structured data
+        'Český svaz poolbilliardu' => 'Czech Pool Federation',
+        'Česká republika' => 'Czech Republic',
+
         // Misc
         'Vše' => 'All',
         'Rok dokumentů' => 'Document year',

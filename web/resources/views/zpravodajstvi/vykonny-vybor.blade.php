@@ -12,7 +12,7 @@
         <x-news-header
             :title="__('Zprávy výboru')"
             :back-text="__('Zpět na novinky')"
-            :back-url="route('novinky')"
+            :back-url="\App\Support\Locale::route('novinky')"
             :show-search="false"
             class="pb-none"
         />

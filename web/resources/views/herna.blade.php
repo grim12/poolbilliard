@@ -8,7 +8,7 @@
         :city="$herna->city"
         :region="$herna->region?->getLabel()"
         :back-text="__('Zpět na herny')"
-        back-url="/herny"
+        :back-url="\App\Support\Locale::route('herny')"
     />
 
     <x-herna-detail :herna="$herna" />

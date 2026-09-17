@@ -11,7 +11,7 @@
     og-type="article"
 >
     <x-tournament-content
-        back-url="{{ route('kalendar') }}"
+        :back-url="\App\Support\Locale::route('kalendar')"
         :tag-text="__('Amatérský turnaj')"
         tag-color="gold"
         :title="$tournament->title"

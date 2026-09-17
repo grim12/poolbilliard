@@ -73,9 +73,9 @@
             <h2 class="mb-3">{{ $settings->cta_title }}</h2>
             <p class="p--lg max-w-2xl mx-auto mb-8">{{ $settings->cta_text }}</p>
             <div class="flex flex-wrap items-center justify-center gap-3">
-                <x-button :text="__('Najít klub')" :url="route('kluby')" variant="outline" size="sm" />
-                <x-button :text="__('Najít hernu')" :url="route('herny')" variant="outline" size="sm" />
-                <x-button :text="__('Najít turnaj')" :url="route('kalendar')" variant="outline" size="sm" />
+                <x-button :text="__('Najít klub')" :url="\App\Support\Locale::route('kluby')" variant="outline" size="sm" />
+                <x-button :text="__('Najít hernu')" :url="\App\Support\Locale::route('herny')" variant="outline" size="sm" />
+                <x-button :text="__('Najít turnaj')" :url="\App\Support\Locale::route('kalendar')" variant="outline" size="sm" />
                 <x-button :text="__('Chci se zlepšit')" url="#doporuceni" variant="outline" size="sm" />
             </div>
         </div>
