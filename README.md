@@ -101,7 +101,12 @@ Zbývá (obsahová/i18n práce, ne infrastruktura):
 * **Hlubší nastavovaná pole** (hero podtitulky, tituly jednotlivých sekcí uvnitř stránek) a **repeater/array pole** (feature_cards, stats, tasks, calendar_sources...) na `_en` zatím nenapojené.
 * **Natvrdo české texty uvnitř těl šablon** (nadpisy, popisky, tlačítka mimo hlavičku/patičku) — desítky řetězců napříč ~18 šablonami, potřeba systematický průchod + `__()`/`lang/en.json`.
 * **Interní odkazy uvnitř stránek** (tlačítka, back-linky, stránkování) zatím nejsou locale-aware — pořád vedou na cs cestu i z EN stránky.
-* Skutečný anglický obsah (translatable pole modelů i `_en` pole nastavení) musí ještě někdo v adminu vyplnit — dokud nebude, `/en/...` correctně funguje, ale zobrazuje český fallback text.
+
+### Demo obsah (seedery)
+
+`database/seeders/` obsahuje reprezentativní demo data pro každou entitu (kluby, herny, turnaje, žebříčky, články, zprávy VV, FAQ, dokumenty, partneři, jak-zacit sekce...), adaptovaná z mock dat v `ui/` — spustitelné přes `php artisan db:seed` (idempotentní, bezpečné spouštět opakovaně). Každé pole má i anglický překlad (`_en`/`title_en`/...), takže `/en/...` stránky zobrazují reálný anglický text, ne jen český fallback, u všeho, co seedery pokrývají.
+
+⚠️ Lokální dev databáze (`web/database/database.sqlite`) je v `.gitignore` a nemá zálohu jinde než v souborovém backupu (Time Machine apod.) — `php artisan migrate:fresh` ji nenávratně smaže. Pokud se to stane, `php artisan migrate && php artisan db:seed` obnoví admin účet (`ugrin@nittin.cz`) i demo obsah, ale ne žádná ručně zadaná produkční data.
 
 ---
 
