@@ -36,7 +36,7 @@
                         :title="$ruleCard->title"
                         :subtitle="$ruleCard->subtitle"
                         :text="$ruleCard->text"
-                        :button-url="$ruleCard->button_url"
+                        :button-url="$ruleCard->resolved_button_url"
                     />
                 @endforeach
             </div>

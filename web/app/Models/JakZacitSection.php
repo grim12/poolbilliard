@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasTranslatableFormFields;
+use App\Support\InternalLink;
 use Database\Factories\JakZacitSectionFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * One "Kde začít" audience path on /jak-zacit (Úplný začátečník, Rekreační hráč, Rodič) —
@@ -65,6 +68,9 @@ class JakZacitSection extends Model
         'aside_panel_button_text',
         'aside_panel_button_text_translations',
         'aside_panel_button_url',
+        'aside_panel_link_route',
+        'aside_panel_linkable_type',
+        'aside_panel_linkable_id',
         'aside_card_eyebrow',
         'aside_card_eyebrow_translations',
         'aside_card_title',
@@ -74,6 +80,9 @@ class JakZacitSection extends Model
         'aside_card_button_text',
         'aside_card_button_text_translations',
         'aside_card_button_url',
+        'aside_card_link_route',
+        'aside_card_linkable_type',
+        'aside_card_linkable_id',
         'faq_title',
         'faq_title_translations',
         'sort_order',
@@ -94,5 +103,29 @@ class JakZacitSection extends Model
         return FaqItem::whereHas('groups', fn ($query) => $query->where('slug', $this->anchor))
             ->orderBy('sort_order')
             ->get();
+    }
+
+    public function asidePanelLinkable(): MorphTo
+    {
+        return $this->morphTo('aside_panel_linkable', 'aside_panel_linkable_type', 'aside_panel_linkable_id');
+    }
+
+    public function asideCardLinkable(): MorphTo
+    {
+        return $this->morphTo('aside_card_linkable', 'aside_card_linkable_type', 'aside_card_linkable_id');
+    }
+
+    /**
+     * The URL the aside panel's button should actually link to — see App\Support\InternalLink's
+     * docblock for why link_route/linkable win over a manually typed `aside_panel_button_url`.
+     */
+    protected function asidePanelResolvedUrl(): Attribute
+    {
+        return Attribute::get(fn () => InternalLink::resolve($this->aside_panel_link_route, $this->asidePanelLinkable, $this->aside_panel_button_url));
+    }
+
+    protected function asideCardResolvedUrl(): Attribute
+    {
+        return Attribute::get(fn () => InternalLink::resolve($this->aside_card_link_route, $this->asideCardLinkable, $this->aside_card_button_url));
     }
 }

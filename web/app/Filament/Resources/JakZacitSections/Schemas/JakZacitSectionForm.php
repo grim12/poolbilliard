@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\JakZacitSections\Schemas;
 
+use App\Filament\Support\InternalLinkFields;
 use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -30,12 +31,13 @@ class JakZacitSectionForm
                             ->numeric()
                             ->default(0),
                         TextInput::make('aside_panel_button_url')
-                            ->label('Postranní panel — odkaz tlačítka')
-                            ->helperText('Např. "/herny/" nebo "/kluby/". Nepovinné — panel může být i bez tlačítka (viz "Rodič").'),
+                            ->label('Postranní panel — ruční URL')
+                            ->helperText('Použije se jen když níže není vybraná interní stránka ani záznam. Nepovinné — panel může být i bez tlačítka (viz "Rodič").'),
+                        ...InternalLinkFields::make('aside_panel_'),
                         TextInput::make('aside_card_button_url')
-                            ->label('Postranní karta — odkaz tlačítka')
-                            ->helperText('Např. "/pravidla/" nebo "/kalendar/".')
-                            ->required(),
+                            ->label('Postranní karta — ruční URL')
+                            ->helperText('Použije se jen když níže není vybraná interní stránka ani záznam.'),
+                        ...InternalLinkFields::make('aside_card_'),
                     ]),
                 Section::make('Obsah')
                     ->description('Veškerý překladatelný text sekce na jednom místě — jeden přepínač jazyka pro celou sekci.')

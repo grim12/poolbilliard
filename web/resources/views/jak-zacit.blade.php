@@ -51,14 +51,14 @@
                     :title="$section->aside_panel_title"
                     :text="$section->aside_panel_text"
                     :button-text="$section->aside_panel_button_text"
-                    :button-url="$section->aside_panel_button_url"
+                    :button-url="$section->aside_panel_resolved_url"
                     heading-level="h3"
                 />
                 <div class="c-section__card mt-6">
                     <p class="c-section__eyebrow mb-2">{{ $section->aside_card_eyebrow }}</p>
                     <h3 class="mb-3">{{ $section->aside_card_title }}</h3>
                     <p>{{ $section->aside_card_text }}</p>
-                    <x-button :text="$section->aside_card_button_text" :url="$section->aside_card_button_url" variant="link" size="sm" />
+                    <x-button :text="$section->aside_card_button_text" :url="$section->aside_card_resolved_url" variant="link" size="sm" />
                 </div>
             </x-slot:aside>
         </x-content-section>

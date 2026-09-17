@@ -14,7 +14,7 @@
             @foreach ($items as $item)
                 <x-link-tile
                     :title="$item->title"
-                    :url="$item->url"
+                    :url="$item->resolved_url"
                     :image="$item->image_url"
                 />
             @endforeach

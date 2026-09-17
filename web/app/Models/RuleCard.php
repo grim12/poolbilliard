@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasTranslatableFormFields;
+use App\Support\InternalLink;
 use Database\Factories\RuleCardFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -37,11 +39,28 @@ class RuleCard extends Model
         'image',
         'image_alt',
         'button_url',
+        'link_route',
+        'linkable_type',
+        'linkable_id',
         'sort_order',
     ];
 
     protected function imageUrl(): Attribute
     {
         return Attribute::get(fn () => $this->image ? Storage::disk('public')->url($this->image) : null);
+    }
+
+    public function linkable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
+     * The URL this card's button should actually link to — see App\Support\InternalLink's
+     * docblock for why link_route/linkable win over a manually typed `button_url`.
+     */
+    protected function resolvedButtonUrl(): Attribute
+    {
+        return Attribute::get(fn () => InternalLink::resolve($this->link_route, $this->linkable, $this->button_url));
     }
 }

@@ -20,6 +20,7 @@ use App\Models\Leaderboard;
 use App\Models\LinkTile;
 use App\Models\Notice;
 use App\Models\Partner;
+use App\Models\RuleCard;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
 use App\Models\User;
@@ -141,6 +142,29 @@ class AdminResourcesTest extends TestCase
 
         $this->actingAs($user)->get('/admin/documents/create')->assertOk();
         $this->actingAs($user)->get("/admin/documents/{$document->id}/edit")->assertOk();
+    }
+
+    /**
+     * LinkTile/RuleCard both gained the "Interní stránka"/"Konkrétní záznam" picker
+     * (App\Filament\Support\InternalLinkFields) alongside their existing manual URL field —
+     * worth their own create/edit smoke test, same reasoning as Banner's above.
+     */
+    public function test_link_tile_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $tile = LinkTile::factory()->create();
+
+        $this->actingAs($user)->get('/admin/link-tiles/create')->assertOk();
+        $this->actingAs($user)->get("/admin/link-tiles/{$tile->id}/edit")->assertOk();
+    }
+
+    public function test_rule_card_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $card = RuleCard::factory()->create();
+
+        $this->actingAs($user)->get('/admin/rule-cards/create')->assertOk();
+        $this->actingAs($user)->get("/admin/rule-cards/{$card->id}/edit")->assertOk();
     }
 
     /**

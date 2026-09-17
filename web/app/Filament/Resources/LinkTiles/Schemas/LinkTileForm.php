@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\LinkTiles\Schemas;
 
+use App\Filament\Support\InternalLinkFields;
 use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
@@ -19,8 +20,9 @@ class LinkTileForm
                         ->required($locale === 'cs'),
                 ]),
                 TextInput::make('url')
-                    ->label('Odkaz')
-                    ->required(),
+                    ->label('Ruční URL')
+                    ->helperText('Použije se jen když níže není vybraná interní stránka ani záznam.'),
+                ...InternalLinkFields::make(),
                 FileUpload::make('image')
                     ->label('Obrázek na pozadí')
                     ->image()

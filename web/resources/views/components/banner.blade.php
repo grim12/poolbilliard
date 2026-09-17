@@ -41,7 +41,7 @@
                 @foreach ($banner->buttons as $button)
                     <x-button
                         :text="$button['text'][app()->getLocale()] ?? $button['text']['cs'] ?? ''"
-                        :url="$button['url']"
+                        :url="\App\Support\InternalLink::resolveFromArray($button)"
                         :color="$color"
                         :variant="$button['variant'] ?? 'solid'"
                     />

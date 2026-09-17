@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Banners\Schemas;
 
 use App\Enums\BannerColor;
+use App\Filament\Support\InternalLinkFields;
 use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
@@ -76,19 +77,20 @@ class BannerForm
                                 TextInput::make('text.en')
                                     ->label('Text tlačítka (EN)'),
                                 TextInput::make('url')
-                                    ->label('Odkaz')
-                                    ->required(),
+                                    ->label('Ruční URL')
+                                    ->helperText('Použije se jen když níže není vybraná interní stránka ani záznam.'),
                                 Select::make('variant')
                                     ->label('Varianta')
                                     ->options(self::BUTTON_VARIANTS)
                                     ->default('solid')
                                     ->required(),
+                                ...InternalLinkFields::make(),
                             ])
                             ->columns(4)
                             ->defaultItems(0)
                             ->maxItems(2)
                             ->addActionLabel('Přidat tlačítko')
-                            ->helperText('Nejvýše 2 tlačítka, obě nepovinná. Text tlačítka jde vyplnit zvlášť pro CZ/EN, odkaz a varianta jsou společné pro oba jazyky.'),
+                            ->helperText('Nejvýše 2 tlačítka, obě nepovinná. Text tlačítka jde vyplnit zvlášť pro CZ/EN; odkaz (ruční URL, interní stránka nebo záznam) a varianta jsou společné pro oba jazyky.'),
                     ]),
             ]);
     }

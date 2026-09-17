@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\RuleCards\Schemas;
 
+use App\Filament\Support\InternalLinkFields;
 use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -31,9 +32,11 @@ class RuleCardForm
                             ->label('Ikona (heroicon)')
                             ->helperText('Použije se jen když není vyplněný obrázek výše, např. "book-open".'),
                         TextInput::make('button_url')
-                            ->label('Odkaz na kompletní pravidla')
+                            ->label('Ruční URL')
+                            ->helperText('Použije se jen když níže není vybraná interní stránka ani záznam.')
                             ->url()
                             ->columnSpanFull(),
+                        ...InternalLinkFields::make(),
                         TextInput::make('sort_order')
                             ->label('Pořadí')
                             ->required()
