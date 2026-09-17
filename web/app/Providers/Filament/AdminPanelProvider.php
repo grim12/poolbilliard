@@ -29,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('Český Poolbilliard')
             ->colors([
                 'primary' => Color::Amber,
             ])
