@@ -99,10 +99,11 @@ Hotovo:
 
 Zbývá (obsahová/i18n práce, ne infrastruktura):
 * **Hlubší nastavovaná pole** (hero podtitulky, tituly jednotlivých sekcí uvnitř stránek) a **repeater/array pole** (feature_cards, stats, tasks, calendar_sources...) na `_en` zatím nenapojené.
-* **Natvrdo odkazy přímo v šablonách** (back-linky, stránkování — ne admin-editovatelná pole) zatím nejsou locale-aware — pořád vedou na cs cestu i z EN stránky.
 
 Hotovo od poslední revize:
 * **Natvrdo české texty uvnitř těl šablon** — systematický průchod přes všechny stránky a sdílené komponenty ve `web/resources/views/`, každý zbylý natvrdo psaný český řetězec (nadpisy, popisky, tlačítka, aria-labels, placeholdery) je teď zabalený v `__()`. Vyjma dvou vědomých výjimek: `errors/500.blade.php` (záměrně bez DB závislosti, viz jeho docblock) a `site-lock.blade.php` (provozní odemykací stránka, ne součást veřejného webu).
+* **Natvrdo odkazy přímo v šablonách** (back-linky, sekce/CTA odkazy, akce formuláře registrace herny) byly locale-unaware — vždy vedly na cs cestu i z EN stránky. `App\Support\Locale::route()` je locale-aware obdoba `route()` (prefixuje `en.` podle `app()->getLocale()`, stejná konvence jako `routes/web.php`) — nasazeno na všech dotčených místech ve sdílených cs/en šablonách.
+* **JSON-LD** — organizátor/vydavatel (`'Český svaz poolbilliardu'`) a fallback lokace (`'Česká republika'`) byly natvrdo česky bez ohledu na jazyk stránky; teď přes `__()`. Per-page `'url'` pole (článek/zpráva/turnaj) používalo natvrdo cs route+slug i na EN stránce — nahrazeno `url()->current()`.
 
 ### Správa lokalizací v adminu
 
