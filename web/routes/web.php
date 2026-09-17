@@ -12,10 +12,16 @@ use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\PravidlaController;
 use App\Http\Controllers\RecurringTournamentController;
 use App\Http\Controllers\RegistraceHernyController;
+use App\Http\Controllers\SiteLockController;
 use App\Http\Controllers\SoutezeController;
 use App\Http\Controllers\SvazController;
 use App\Http\Controllers\TournamentController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/pristup', [SiteLockController::class, 'show'])->name('site-lock.show');
+Route::post('/pristup', [SiteLockController::class, 'attempt'])
+    ->middleware('throttle:5,1')
+    ->name('site-lock.attempt');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

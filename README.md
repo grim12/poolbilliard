@@ -67,8 +67,21 @@ Všech 14 stránek z `designs/pages/` (Home, Kluby, Klub, Herny, Herna, Registra
 Otevřené věci k dořešení:
 * **Registrace herny** — e-mailová notifikace sekci a potvrzení odesílateli po odeslání formuláře (viz TODO v `web/app/Http/Controllers/RegistraceHernyController.php`); zatím žádný Mailable, `MAIL_MAILER=log`. Potvrzovací flash zpráva ve formuláři zůstává tak, jak je — dedikovaná potvrzovací stránka se neplánuje.
 * **Testy** — pokrytí je zatím tenké vzhledem k rozsahu appky (jen pár feature testů na desítky resources/stránek).
-* **SEO/launch-readiness** — layout má natvrdo `noindex, nofollow`, chybí sitemap a OG tagy; řešit až před ostrým spuštěním.
+* **Anglická verze webu** — zatím neexistuje; CZ/EN pole ve Filamentu jsou zatím jen příprava obsahu, veřejné stránky/routy jsou pořád jen české.
+* **SEO/launch-readiness** — probíhá, viz níže.
 * Veřejné přihlášení pro kluby/hráče zatím neexistuje, jen Filament admin panel.
+
+### SEO / launch-readiness
+
+Celý veřejný web je teď zamčený za přihlášením (`App\Http\Middleware\SiteLock`) — stejné přihlašovací údaje jako do Filament administrace (`App\Models\User`), odemykací obrazovka na `/pristup` (`resources/views/site-lock.blade.php`, bez `ui/` protějšku — je to provozní stránka, ne navržená stránka webu). Zamčeno je vše mimo `/admin*`, `/up` a odemykací routy; výchozí chování je zamčeno všude kromě `local` a `testing` prostředí, `SITE_LOCK_ENABLED` v `.env` to jde přebít (nastavit na `false`, až půjde web ostře spustit).
+
+Zbývá:
+* Meta `robots` tag v `<x-layouts.app>` je pořád natvrdo `noindex, nofollow, noarchive, nosnippet` — potřeba udělat env-aware (spolu s `public/robots.txt`, který je zatím statický a povoluje vše).
+* Meta description, canonical URL, OG/Twitter tagy — žádná stránka je zatím nemá.
+* Favicon sada (jen `favicon.ico`, chybí apple-touch-icon/manifest).
+* `sitemap.xml`, JSON-LD strukturovaná data.
+* Vlastní branded 404/500 stránky, vynucení HTTPS v produkci.
+* Analytika zatím žádná (vědomé rozhodnutí, zatím neřešeno).
 
 ---
 
