@@ -60,6 +60,18 @@ poolbilliard/
 
 ---
 
+## Aktuální stav
+
+Všech 14 stránek z `designs/pages/` (Home, Kluby, Klub, Herny, Herna, Registrace herny, Kalendář, Turnaj, Pravidelný turnaj, Soutěže, Pravidla, Jak začít, Sportovní svaz, Novinky/Článek, Partneři, Zpravodajství VV) je hotovo end-to-end — návrh v `ui/`, přenesená Blade šablona ve `web/`, a kde stránka obsahuje spravovatelný obsah, i odpovídající Filament resource/nastavovací stránka v adminu.
+
+Otevřené věci k dořešení:
+* **Registrace herny** — e-mailová notifikace sekci a potvrzení odesílateli po odeslání formuláře (viz TODO v `web/app/Http/Controllers/RegistraceHernyController.php`); zatím žádný Mailable, `MAIL_MAILER=log`. Potvrzovací flash zpráva ve formuláři zůstává tak, jak je — dedikovaná potvrzovací stránka se neplánuje.
+* **Testy** — pokrytí je zatím tenké vzhledem k rozsahu appky (jen pár feature testů na desítky resources/stránek).
+* **SEO/launch-readiness** — layout má natvrdo `noindex, nofollow`, chybí sitemap a OG tagy; řešit až před ostrým spuštěním.
+* Veřejné přihlášení pro kluby/hráče zatím neexistuje, jen Filament admin panel.
+
+---
+
 ## 1. Fáze: Vývoj UI šablon (`ui/`)
 
 Prototypování a tvorba frontendových šablon probíhá v adresáři `ui/`.
@@ -144,3 +156,4 @@ Kompletní metodika a detailní kódové vzory jsou uloženy ve složce **`skill
 2. **Stylování přes `@apply`:** Styly komponent píšeme do `ui/src/styles/02_components/<component>.css` v `@layer components` pomocí Tailwind utilit.
 3. **Nunjucks Makra:** Pro komponenty s logikou a parametry vytváříme makra v `ui/src/_includes/macros/<component>.njk`.
 4. **Showcase & Testování:** Každá nová komponenta se ihned zařazuje do přehledu v `ui/src/index.njk` se všemi stavy a variantami.
+5. **Dokumentace se udržuje průběžně:** `README.md` (hlavně sekce „Aktuální stav") a soubory ve `skills/` popisují skutečný stav a pravidla projektu, ne stav ke dni založení. Po dokončení netriviální úlohy (nová stránka, změna workflow, nové pravidlo) je uprav tak, aby odpovídaly realitě — ať už na tom pracuje člověk, nebo AI asistent.
