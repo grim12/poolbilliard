@@ -84,6 +84,7 @@ Hotovo:
 * **Favicon sada** — vygenerováno z čtvercového loga (`web/favicon.ico`, 64×64) přes `sips` (žádný ImageMagick k dispozici): `favicon.ico`, 16/32px PNG, apple-touch-icon (180px), Android Chrome ikony (192/512px) + `site.webmanifest`. 512px varianta je znatelně měkká (upscale ~8× ze 64px zdroje) — časem by chtělo ostřejší zdrojový soubor.
 
 Zbývá:
+* **TODO: sehnat větší zdrojovou ikonu/logo** (ideálně čtvercové SVG nebo alespoň 512×512 PNG) a přegenerovat `apple-touch-icon.png`/`android-chrome-*.png` z ní — současná 512px varianta je viditelně měkká, protože je upscalovaná ~8× ze 64×64 zdroje (`web/favicon.ico`).
 * Analytika zatím žádná (vědomé rozhodnutí, zatím neřešeno).
 
 Tím je uzavřená locale-nezávislá část SEO. Zbývá EN routing/i18n scaffold jako samostatný úkol, po kterém přijdou na řadu locale-závislé kousky (hreflang, alternate odkazy v sitemapě, canonical per jazyk).
