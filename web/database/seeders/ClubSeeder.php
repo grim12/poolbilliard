@@ -104,6 +104,13 @@ class ClubSeeder extends Seeder
                 }
 
                 $extra['image'] = $heroPath;
+            } else {
+                // Short generic bilingual placeholder — every club should have *some* about_text
+                // in both locales for dev/demo purposes, not just the one detail example above.
+                $extra['about_text'] = [
+                    'cs' => "<p>Klub sdružuje hráče poolbilliardu v {$data['city']} a okolí. Pořádáme pravidelné tréninky a účastníme se ligových i turnajových soutěží.</p>",
+                    'en' => "<p>The club brings together pool billiards players in and around {$data['city']}. We run regular training sessions and take part in league and tournament competitions.</p>",
+                ];
             }
 
             $club = Club::updateOrCreate(['name' => $data['name']], [...$data, ...$extra]);

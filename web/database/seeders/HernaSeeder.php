@@ -93,6 +93,14 @@ class HernaSeeder extends Seeder
 
                     return $path;
                 })->all();
+            } else {
+                // Short generic bilingual placeholder — every herna should have *some*
+                // about_text in both locales for dev/demo purposes, not just the one detail
+                // example above.
+                $extra['about_text'] = [
+                    'cs' => "<p>Kulečníková herna v {$data['city']} nabízející kvalitní stoly pro rekreační i soutěžní hráče.</p>",
+                    'en' => "<p>A billiards venue in {$data['city']} offering quality tables for recreational and competitive players alike.</p>",
+                ];
             }
 
             Herna::updateOrCreate(

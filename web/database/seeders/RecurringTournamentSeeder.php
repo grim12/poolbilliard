@@ -22,6 +22,8 @@ class RecurringTournamentSeeder extends Seeder
             'frequency_en' => 'Every Wednesday',
             'location_text' => 'Praha',
             'location_text_en' => 'Prague',
+            'description' => '<p>Pravidelný amatérský turnaj otevřený všem hráčům, prezence na místě.</p>',
+            'description_en' => '<p>A regular amateur tournament open to all players, on-site check-in.</p>',
             'herna' => 'Billiard Club Balabuška Bohdalec',
         ],
         [
@@ -31,6 +33,8 @@ class RecurringTournamentSeeder extends Seeder
             'frequency_en' => 'Every Sunday',
             'location_text' => 'Praha',
             'location_text_en' => 'Prague',
+            'description' => '<p>Pravidelný amatérský turnaj otevřený všem hráčům, prezence na místě.</p>',
+            'description_en' => '<p>A regular amateur tournament open to all players, on-site check-in.</p>',
             'herna' => 'Billiard Club Harlequin Praha',
         ],
         [
@@ -40,6 +44,8 @@ class RecurringTournamentSeeder extends Seeder
             'frequency_en' => 'Every Thursday',
             'location_text' => 'Pardubice',
             'location_text_en' => 'Pardubice',
+            'description' => '<p>Pravidelný amatérský turnaj otevřený všem hráčům, prezence na místě.</p>',
+            'description_en' => '<p>A regular amateur tournament open to all players, on-site check-in.</p>',
             'herna' => null,
         ],
     ];
@@ -57,7 +63,8 @@ class RecurringTournamentSeeder extends Seeder
             $tournament['title'] = ['cs' => $tournament['title'], 'en' => $tournament['title_en']];
             $tournament['frequency'] = ['cs' => $tournament['frequency'], 'en' => $tournament['frequency_en']];
             $tournament['location_text'] = ['cs' => $tournament['location_text'], 'en' => $tournament['location_text_en']];
-            unset($tournament['title_en'], $tournament['frequency_en'], $tournament['location_text_en']);
+            $tournament['description'] = ['cs' => $tournament['description'], 'en' => $tournament['description_en']];
+            unset($tournament['title_en'], $tournament['frequency_en'], $tournament['location_text_en'], $tournament['description_en']);
 
             RecurringTournament::updateOrCreateByTranslation(
                 'title',
