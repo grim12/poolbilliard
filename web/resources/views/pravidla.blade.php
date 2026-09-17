@@ -3,7 +3,10 @@
     headers (hero, myth intro, rule-cards intro). $myths: Myth collection, ordered. $ruleCards:
     RuleCard collection, ordered.
 --}}
-<x-layouts.app :title="$settings->hero_title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$settings->hero_title.' — Poolbilliard'"
+    description="Pravidla poolbilliardu, vyvrácené mýty a přehled jednotlivých disciplín podle Českého svazu poolbilliardu."
+>
     <x-page-hero
         :title="$settings->hero_title"
         :text="$settings->hero_text"

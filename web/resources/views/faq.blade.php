@@ -2,7 +2,10 @@
     Mirrors ui/src/faq.njk. Site chrome (header/footer) now wired via <x-layouts.app>;
     pageHero() and linkTiles() aren't ported yet — see skills/web-component-guide.md.
 --}}
-<x-layouts.app title="Časté dotazy — Poolbilliard">
+<x-layouts.app
+    title="Časté dotazy — Poolbilliard"
+    description="Odpovědi na nejčastější dotazy o poolbilliardu, registraci, soutěžích a členství v Českém svazu poolbilliardu."
+>
     <section class="c-section c-section--faq">
         <div class="c-container">
             <div class="c-section__grid">

@@ -1,5 +1,5 @@
 {{--
-    <x-layouts.app :title="..." :has-gallery="true" :has-map="true">
+    <x-layouts.app :title="..." :description="..." :has-gallery="true" :has-map="true">
         ...page content...
     </x-layouts.app>
     Mirrors ui/src/_includes/layouts/base.njk (the <html>/<head>/<body> shell) plus the
@@ -9,9 +9,17 @@
     headerDark: omit it (the default) to use the sitewide GeneralSettings::$header_dark toggle
     (admin-editable, light by default) — pass true/false explicitly only if one specific page
     needs to override that global choice, which no page does today.
+    description: plain-text meta/OG/Twitter description — every page should pass one.
+    ogImage/ogType/canonical: optional overrides; ogImage falls back to the site logo (no
+    dedicated 1200x630 social image exists yet — see README's SEO section), canonical falls
+    back to the current URL without its query string.
 --}}
 @props([
     'title' => 'Poolbilliard',
+    'description' => null,
+    'ogImage' => null,
+    'ogType' => 'website',
+    'canonical' => null,
     'headerDark' => null,
     'hasGallery' => false,
     'hasMap' => false,
@@ -19,6 +27,8 @@
 
 @php
     $headerDark ??= app(\App\Settings\GeneralSettings::class)->header_dark;
+    $canonicalUrl = $canonical ?? url()->current();
+    $ogImageUrl = $ogImage ?? asset('uploads/cesky_pool.png');
 @endphp
 
 <!doctype html>
@@ -32,6 +42,28 @@
         <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     @endif
     <title>{{ $title }}</title>
+    @if ($description)
+        <meta name="description" content="{{ $description }}" />
+    @endif
+    <link rel="canonical" href="{{ $canonicalUrl }}" />
+
+    <meta property="og:type" content="{{ $ogType }}" />
+    <meta property="og:site_name" content="Český Poolbilliard" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:title" content="{{ $title }}" />
+    <meta property="og:url" content="{{ $canonicalUrl }}" />
+    <meta property="og:image" content="{{ $ogImageUrl }}" />
+    @if ($description)
+        <meta property="og:description" content="{{ $description }}" />
+    @endif
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ $title }}" />
+    <meta name="twitter:image" content="{{ $ogImageUrl }}" />
+    @if ($description)
+        <meta name="twitter:description" content="{{ $description }}" />
+    @endif
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-white text-body-main antialiased font-sans">

@@ -4,7 +4,10 @@
     a plain contact block instead of notice cards — no sidebarTagText/sidebarTitle here, same
     as ui/'s own newsGrid() call).
 --}}
-<x-layouts.app title="Zprávy výboru — Poolbilliard">
+<x-layouts.app
+    title="Zprávy výboru — Poolbilliard"
+    description="Zprávy a oznámení výkonného výboru Českého svazu poolbilliardu."
+>
     <div class="bg-gradient-light">
         <x-news-header
             title="Zprávy výboru"

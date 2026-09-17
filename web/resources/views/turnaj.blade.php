@@ -4,7 +4,11 @@
     tournamentContent() widget; here it's one real per-record detail page instead (see
     TournamentController::show()). $tournament: App\Models\Tournament, eager-loaded category.
 --}}
-<x-layouts.app :title="$tournament->title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$tournament->title.' — Poolbilliard'"
+    :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — turnaj v kalendáři Českého poolbilliardu.'"
+    og-type="article"
+>
     <x-tournament-content
         back-url="{{ route('kalendar') }}"
         :tag-text="$tournament->category?->name"

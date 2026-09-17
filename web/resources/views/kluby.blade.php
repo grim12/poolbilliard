@@ -14,7 +14,10 @@
     ])->filter(fn ($club) => $club['lat'] && $club['lng'])->values();
 @endphp
 
-<x-layouts.app :title="$settings->title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$settings->title.' — Poolbilliard'"
+    description="Přehled klubů Českého svazu poolbilliardu — najděte klub ve svém okolí a připojte se k hráčské komunitě."
+>
     <div class="bg-gradient-light">
         <x-news-header
             :title="$settings->title"

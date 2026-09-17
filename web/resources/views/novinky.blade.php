@@ -2,7 +2,10 @@
     Mirrors ui/src/novinky.njk — article grid + real pagination + "Důležité zprávy" sidebar
     (real Notice query instead of ui/'s hand-picked static list).
 --}}
-<x-layouts.app title="Novinky — Poolbilliard">
+<x-layouts.app
+    title="Novinky — Poolbilliard"
+    description="Aktuality a novinky ze světa Českého poolbilliardu — výsledky turnajů, reportáže a dění ve svazu."
+>
     <div class="bg-gradient-light">
         <x-news-header title="Novinky" :categories="$categoryTabs" class="pb-none" />
 

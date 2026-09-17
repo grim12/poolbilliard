@@ -2,7 +2,11 @@
     Mirrors ui/src/zpravodajstvi/vykonny-vybor-detail.njk — reuses <x-article-content>
     (tagPosition="inline", accent color), same as ui/'s own reuse of articleContent() there.
 --}}
-<x-layouts.app :title="$notice->title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$notice->title.' — Poolbilliard'"
+    :description="\Illuminate\Support\Str::of($notice->excerpt ?: $notice->body)->stripTags()->squish()->limit(155)->toString()"
+    og-type="article"
+>
     <x-article-content
         class="bg-gradient-light"
         back-text="Zpět na zprávy výboru"

@@ -6,7 +6,10 @@
     A `submitted` session flash (set after a successful POST) swaps the form for a thank-you
     notice — the e-mail notifications noted in the controller are still an open follow-up.
 --}}
-<x-layouts.app title="Registrace herny — Poolbilliard">
+<x-layouts.app
+    title="Registrace herny — Poolbilliard"
+    description="Zaregistrujte svou kulečníkovou hernu zdarma do katalogu Českého poolbilliardu."
+>
     <div class="bg-gradient-light">
         <section class="c-section pb-none">
             <div class="c-container">

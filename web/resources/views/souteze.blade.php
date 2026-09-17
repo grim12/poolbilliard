@@ -6,7 +6,10 @@
     Leaderboard collection — same model/component the homepage uses, but full (no max-entries),
     since this is the real, complete rankings listing.
 --}}
-<x-layouts.app :title="$settings->title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$settings->title.' — Poolbilliard'"
+    description="Přehled soutěží a žebříčků Českého svazu poolbilliardu."
+>
     <x-page-hero
         :title="$settings->title"
         :subtitle="$settings->subtitle"

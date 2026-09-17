@@ -3,7 +3,10 @@
     admin-configurable) or reads from HomepageSettings ($settings) — see
     skills/web-component-guide.md for the full breakdown of what's automatic vs. editable.
 --}}
-<x-layouts.app title="Poolbilliard — Český svaz poolbilliardu">
+<x-layouts.app
+    title="Poolbilliard — Český svaz poolbilliardu"
+    description="Oficiální web Českého svazu poolbilliardu — turnaje, žebříčky, kluby, herny a vše, co potřebujete k začátku s poolbilliardem."
+>
     <h1 class="sr-only">Poolbilliard — Český svaz poolbilliardu</h1>
 
     <div class="c-hp-intro bg-gradient-light">

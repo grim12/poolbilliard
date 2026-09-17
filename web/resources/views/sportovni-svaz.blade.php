@@ -5,7 +5,10 @@
     built in SvazController from real Document/DocumentCategory records. $notices: latest 3
     Notice records (same query as the homepage's "Zprávy výkonného výboru" teaser).
 --}}
-<x-layouts.app :title="$settings->hero_title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$settings->hero_title.' — Poolbilliard'"
+    description="Výkonný výbor, dokumenty a organizační struktura Českého svazu poolbilliardu."
+>
     <x-page-hero :title="$settings->hero_title" :text="$settings->hero_text" />
 
     <section class="c-section c-section--svaz-info">

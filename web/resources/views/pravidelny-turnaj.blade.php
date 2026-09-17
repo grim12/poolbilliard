@@ -5,7 +5,11 @@
     gold) is fixed, since every RecurringTournament is inherently this kind (unlike Tournament,
     which has its own admin-managed category).
 --}}
-<x-layouts.app :title="$tournament->title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$tournament->title.' — Poolbilliard'"
+    :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — pravidelný turnaj v kalendáři Českého poolbilliardu.'"
+    og-type="article"
+>
     <x-tournament-content
         back-url="{{ route('kalendar') }}"
         tag-text="Amatérský turnaj"

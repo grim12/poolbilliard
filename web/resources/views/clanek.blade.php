@@ -1,7 +1,12 @@
 {{--
     Mirrors ui/src/article-detail.njk. Route: /novinky/{article:slug}.
 --}}
-<x-layouts.app :title="$article->title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$article->title.' — Poolbilliard'"
+    :description="\Illuminate\Support\Str::of($article->excerpt ?: $article->body)->stripTags()->squish()->limit(155)->toString()"
+    og-type="article"
+    :og-image="$article->image_url"
+>
     <x-article-content
         class="bg-gradient-light"
         :back-url="route('novinky')"

@@ -14,7 +14,10 @@
     ])->filter(fn ($herna) => $herna['lat'] && $herna['lng'])->values();
 @endphp
 
-<x-layouts.app :title="$settings->title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$settings->title.' — Poolbilliard'"
+    description="Katalog kulečníkových heren v Česku — najděte hernu ve svém okolí, otevírací dobu i nabízené sporty."
+>
     <div class="bg-gradient-light">
         <x-news-header
             :title="$settings->title"

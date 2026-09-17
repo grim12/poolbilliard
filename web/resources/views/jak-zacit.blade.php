@@ -6,7 +6,10 @@
     JakZacitController from the sections' nav_label/anchor plus a trailing "Chci se zlepšit"
     pill pointing at the match-form section below them.
 --}}
-<x-layouts.app :title="$settings->hero_title.' — Poolbilliard'">
+<x-layouts.app
+    :title="$settings->hero_title.' — Poolbilliard'"
+    description="Chcete začít hrát poolbilliard? Zjistěte, jak najít klub, přihlásit se k prvnímu turnaji a zorientovat se v soutěžích."
+>
     <x-page-hero :title="$settings->hero_title" :text="$settings->hero_text" />
 
     <x-jump-nav :items="$jumpNavItems" />
