@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Admin', 'password' => Hash::make('password')]
         );
 
+        $this->call(LanguageLineSeeder::class);
         $this->call(PartnerSeeder::class);
         $this->call(FaqGroupSeeder::class);
         $this->call(FaqItemSeeder::class);
