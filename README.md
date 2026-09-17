@@ -81,9 +81,9 @@ Hotovo:
 * **Branded 404/500** (`resources/views/errors/`) — 404 používá běžný layout, 500 je záměrně statický bez DB závislosti (viz jeho docblock).
 * **HTTPS v produkci** — `AppServiceProvider::boot()` vynucuje `https://` na generovaných URL (`URL::forceScheme`) v `production`; skutečný redirect příchozích HTTP requestů a trusted proxies nastavení je na tom, kdo bude řešit produkční hosting (viz komentář v kódu).
 * **`sitemap.xml`** (`SeoController::sitemap()`) — statické stránky + kluby/schválené herny/turnaje/publikované články a zprávy VV, stejná viditelnostní pravidla jako mají jejich vlastní controllery. 404 dokud web není indexovatelný; `robots.txt` na něj odkazuje.
+* **Favicon sada** — vygenerováno z čtvercového loga (`web/favicon.ico`, 64×64) přes `sips` (žádný ImageMagick k dispozici): `favicon.ico`, 16/32px PNG, apple-touch-icon (180px), Android Chrome ikony (192/512px) + `site.webmanifest`. 512px varianta je znatelně měkká (upscale ~8× ze 64px zdroje) — časem by chtělo ostřejší zdrojový soubor.
 
 Zbývá:
-* **Favicon sada** — blokováno na assetu: existující logo (`web/public/uploads/cesky_pool.png`) je široký wordmark (756×367), ne čtvercová značka vhodná pro ikonu; navíc tu není image nástroj (ImageMagick) na generování variant. Potřebuje čtvercové logo/značku od designu.
 * Analytika zatím žádná (vědomé rozhodnutí, zatím neřešeno).
 
 Tím je uzavřená locale-nezávislá část SEO. Zbývá EN routing/i18n scaffold jako samostatný úkol, po kterém přijdou na řadu locale-závislé kousky (hreflang, alternate odkazy v sitemapě, canonical per jazyk).
