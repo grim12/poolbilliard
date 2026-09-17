@@ -4,9 +4,7 @@
     RegistraceHernyController::store(), which creates the Herna directly with
     HernaStatus::Pending (see that controller's docblock) — nothing here talks to Filament.
     A `submitted` session flash (set after a successful POST) swaps the form for a thank-you
-    notice instead of a dedicated confirmation page/state, which ui/'s mock never designed —
-    TODO: a real confirmation page/state, plus the e-mail notifications noted in the
-    controller, are still open follow-ups.
+    notice — the e-mail notifications noted in the controller are still an open follow-up.
 --}}
 <x-layouts.app title="Registrace herny — Poolbilliard">
     <div class="bg-gradient-light">
