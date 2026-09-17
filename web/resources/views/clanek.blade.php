@@ -1,11 +1,26 @@
 {{--
     Mirrors ui/src/article-detail.njk. Route: /novinky/{article:slug}.
 --}}
+@php
+    $structuredData = [
+        '@context' => 'https://schema.org',
+        '@type' => 'NewsArticle',
+        'headline' => $article->title,
+        'datePublished' => $article->published_at?->toIso8601String(),
+        'image' => $article->image_url,
+        'url' => route('novinky.show', $article->slug_cs),
+        'publisher' => [
+            '@type' => 'Organization',
+            'name' => 'Český svaz poolbilliardu',
+        ],
+    ];
+@endphp
 <x-layouts.app
     :title="$article->title.' — Poolbilliard'"
     :description="\Illuminate\Support\Str::of($article->excerpt ?: $article->body)->stripTags()->squish()->limit(155)->toString()"
     og-type="article"
     :og-image="$article->image_url"
+    :structured-data="$structuredData"
 >
     <x-article-content
         class="bg-gradient-light"

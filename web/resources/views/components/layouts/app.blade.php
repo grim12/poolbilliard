@@ -13,6 +13,9 @@
     ogImage/ogType/canonical: optional overrides; ogImage falls back to the site logo (no
     dedicated 1200x630 social image exists yet — see README's SEO section), canonical falls
     back to the current URL without its query string.
+    structuredData: optional JSON-LD array (schema.org) specific to the page — e.g. a
+    NewsArticle/Event — rendered alongside the sitewide SportsOrganization block every page
+    already gets.
 --}}
 @props([
     'title' => 'Poolbilliard',
@@ -20,6 +23,7 @@
     'ogImage' => null,
     'ogType' => 'website',
     'canonical' => null,
+    'structuredData' => null,
     'headerDark' => null,
     'hasGallery' => false,
     'hasMap' => false,
@@ -62,6 +66,21 @@
     <meta name="twitter:image" content="{{ $ogImageUrl }}" />
     @if ($description)
         <meta name="twitter:description" content="{{ $description }}" />
+    @endif
+
+    <script type="application/ld+json">{!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'SportsOrganization',
+        'name' => 'Český svaz poolbilliardu',
+        'url' => url('/'),
+        'logo' => asset('uploads/cesky_pool.png'),
+        'sameAs' => [
+            'https://www.facebook.com/ceskypool',
+            'https://www.instagram.com/ceskypool/',
+        ],
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @if ($structuredData)
+        <script type="application/ld+json">{!! json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
     @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])

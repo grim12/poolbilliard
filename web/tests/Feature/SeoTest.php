@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\ArticleCategory;
+use App\Models\Tournament;
+use App\Models\TournamentCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -85,5 +87,53 @@ class SeoTest extends TestCase
         $response->assertOk();
         $response->assertSee('<meta property="og:type" content="article"', false);
         $response->assertSee('<meta name="description" content="Testovací perex článku pro SEO popis."', false);
+    }
+
+    /**
+     * Every page gets the sitewide SportsOrganization JSON-LD block (see <x-layouts.app>);
+     * the homepage stands in for any page that doesn't add its own on top of it.
+     */
+    public function test_every_page_includes_the_sitewide_organization_structured_data(): void
+    {
+        $this->get('/')->assertSee('"@type":"SportsOrganization"', false);
+    }
+
+    /**
+     * A News/Article-type page's JSON-LD headline must match the record it's actually for,
+     * not just be present — otherwise a copy-paste mistake between pages would go unnoticed.
+     */
+    public function test_article_detail_page_includes_matching_news_article_structured_data(): void
+    {
+        $category = ArticleCategory::factory()->create();
+        $article = Article::factory()->create([
+            'article_category_id' => $category->id,
+            'title' => 'Testovací titulek článku',
+        ]);
+
+        $response = $this->get(route('novinky.show', $article->slug_cs));
+
+        $response->assertSee('"@type":"NewsArticle"', false);
+        $response->assertSee('"headline":"Testovací titulek článku"', false);
+    }
+
+    /**
+     * A tournament with a start_date gets a SportsEvent block; RecurringTournament has no single
+     * date to put in one, so tournament pages are the only ones that need covering here.
+     */
+    public function test_tournament_detail_page_includes_sports_event_structured_data(): void
+    {
+        $category = TournamentCategory::factory()->create();
+        $tournament = Tournament::factory()->create([
+            'tournament_category_id' => $category->id,
+            'title' => 'Testovací turnaj',
+            'start_date' => '2026-11-01',
+            'location_text' => 'Testovací herna, Praha',
+        ]);
+
+        $response = $this->get(route('turnaj.show', $tournament));
+
+        $response->assertSee('"@type":"SportsEvent"', false);
+        $response->assertSee('"name":"Testovací turnaj"', false);
+        $response->assertSee('"startDate":"2026-11-01"', false);
     }
 }

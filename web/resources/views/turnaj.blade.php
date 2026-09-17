@@ -4,10 +4,29 @@
     tournamentContent() widget; here it's one real per-record detail page instead (see
     TournamentController::show()). $tournament: App\Models\Tournament, eager-loaded category.
 --}}
+@php
+    $structuredData = $tournament->start_date ? [
+        '@context' => 'https://schema.org',
+        '@type' => 'SportsEvent',
+        'name' => $tournament->title,
+        'startDate' => $tournament->start_date->toDateString(),
+        'endDate' => $tournament->end_date?->toDateString(),
+        'location' => [
+            '@type' => 'Place',
+            'name' => $tournament->location_text ?: 'Česká republika',
+        ],
+        'organizer' => [
+            '@type' => 'Organization',
+            'name' => 'Český svaz poolbilliardu',
+        ],
+        'url' => $tournament->url ?: route('turnaj.show', $tournament),
+    ] : null;
+@endphp
 <x-layouts.app
     :title="$tournament->title.' — Poolbilliard'"
     :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — turnaj v kalendáři Českého poolbilliardu.'"
     og-type="article"
+    :structured-data="$structuredData"
 >
     <x-tournament-content
         back-url="{{ route('kalendar') }}"
