@@ -12,12 +12,12 @@ class DocumentCategorySeeder extends Seeder
      * (yearGroups()) plus the evergreen "Základní dokumenty"/"Formuláře" groups.
      */
     private const CATEGORIES = [
-        'Soutěžní předpisy',
-        'Zápisy ze schůzí VVS',
-        'Zápisy z VH sekce',
-        'Hospodaření sekce',
-        'Základní dokumenty',
-        'Formuláře',
+        'Soutěžní předpisy' => 'Competition regulations',
+        'Zápisy ze schůzí VVS' => 'Executive committee meeting minutes',
+        'Zápisy z VH sekce' => 'General assembly minutes',
+        'Hospodaření sekce' => 'Section finances',
+        'Základní dokumenty' => 'Core documents',
+        'Formuláře' => 'Forms',
     ];
 
     /**
@@ -25,8 +25,10 @@ class DocumentCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        foreach (self::CATEGORIES as $index => $name) {
-            DocumentCategory::updateOrCreateByTranslation('name', $name, ['sort_order' => $index]);
+        $index = 0;
+        foreach (self::CATEGORIES as $name => $nameEn) {
+            DocumentCategory::updateOrCreateByTranslation('name', $name, ['name' => ['cs' => $name, 'en' => $nameEn], 'sort_order' => $index]);
+            $index++;
         }
     }
 }

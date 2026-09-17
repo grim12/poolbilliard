@@ -11,8 +11,8 @@ class TournamentCategorySeeder extends Seeder
      * Mirrors the tagText/tagColor values used across ui/src/_data/turnaje.json.
      */
     private const CATEGORIES = [
-        ['name' => 'ČMBS', 'color' => 'primary'],
-        ['name' => 'MEZINÁRODNÍ', 'color' => 'gold'],
+        ['name' => 'ČMBS', 'name_en' => 'ČMBS', 'color' => 'primary'],
+        ['name' => 'MEZINÁRODNÍ', 'name_en' => 'INTERNATIONAL', 'color' => 'gold'],
     ];
 
     /**
@@ -24,7 +24,7 @@ class TournamentCategorySeeder extends Seeder
             TournamentCategory::updateOrCreateByTranslation(
                 'name',
                 $category['name'],
-                ['color' => $category['color'], 'sort_order' => $index]
+                ['name' => ['cs' => $category['name'], 'en' => $category['name_en']], 'color' => $category['color'], 'sort_order' => $index]
             );
         }
     }

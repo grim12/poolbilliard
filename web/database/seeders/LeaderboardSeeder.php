@@ -14,7 +14,7 @@ class LeaderboardSeeder extends Seeder
      */
     private const LEADERBOARDS = [
         [
-            'title' => 'Celostátní roční žebříček',
+            'title' => 'Celostátní roční žebříček', 'title_en' => 'National annual ranking',
             'featured' => true,
             'entries' => [
                 ['name' => 'Roman Hybler', 'club' => 'MPC Pardubice'],
@@ -31,7 +31,7 @@ class LeaderboardSeeder extends Seeder
             'sort_order' => 0,
         ],
         [
-            'title' => 'Česká Poolová Tour 2026',
+            'title' => 'Česká Poolová Tour 2026', 'title_en' => 'Czech Pool Tour 2026',
             'featured' => false,
             'entries' => [
                 ['name' => 'Petr Urban', 'club' => 'MPC Pardubice'],
@@ -48,7 +48,7 @@ class LeaderboardSeeder extends Seeder
             'sort_order' => 1,
         ],
         [
-            'title' => 'MČR Juniorů 2026',
+            'title' => 'MČR Juniorů 2026', 'title_en' => '2026 Czech Junior Championship',
             'featured' => false,
             'entries' => [
                 ['name' => 'Alexandr Hofmann', 'club' => 'Řipská BC'],
@@ -65,7 +65,7 @@ class LeaderboardSeeder extends Seeder
             'sort_order' => 2,
         ],
         [
-            'title' => 'MČR Veteránů 2026',
+            'title' => 'MČR Veteránů 2026', 'title_en' => '2026 Czech Veterans Championship',
             'featured' => false,
             'entries' => [
                 ['name' => 'Christos Seizis', 'club' => 'BC Balabuška'],
@@ -82,7 +82,7 @@ class LeaderboardSeeder extends Seeder
             'sort_order' => 3,
         ],
         [
-            'title' => 'ČMBS Junior Open 2026',
+            'title' => 'ČMBS Junior Open 2026', 'title_en' => '2026 ČMBS Junior Open',
             'featured' => false,
             'entries' => [
                 ['name' => 'Alexandr Hofmann', 'club' => 'Řipská BC'],
@@ -99,7 +99,7 @@ class LeaderboardSeeder extends Seeder
             'sort_order' => 4,
         ],
         [
-            'title' => 'Extraliga Týmů 2026',
+            'title' => 'Extraliga Týmů 2026', 'title_en' => '2026 Team Extraliga',
             'featured' => false,
             'entries' => [
                 ['name' => 'BC Řipská Praha A', 'club' => null],
@@ -116,7 +116,7 @@ class LeaderboardSeeder extends Seeder
             'sort_order' => 5,
         ],
         [
-            'title' => 'Mistrovství ČR 2025',
+            'title' => 'Mistrovství ČR 2025', 'title_en' => '2025 Czech Championship',
             'featured' => false,
             'entries' => [
                 ['name' => 'Martin Forman', 'club' => 'SC Rozmarýn Brno'],
@@ -133,7 +133,7 @@ class LeaderboardSeeder extends Seeder
             'sort_order' => 6,
         ],
         [
-            'title' => 'MČR Žen 2025',
+            'title' => 'MČR Žen 2025', 'title_en' => "2025 Czech Women's Championship",
             'featured' => false,
             'entries' => [
                 ['name' => 'Veronika Hubrtová', 'club' => 'MPC Pardubice'],
@@ -154,7 +154,11 @@ class LeaderboardSeeder extends Seeder
     public function run(): void
     {
         foreach (self::LEADERBOARDS as $data) {
-            Leaderboard::updateOrCreateByTranslation('title', $data['title'], $data);
+            $title = $data['title'];
+            $data['title'] = ['cs' => $data['title'], 'en' => $data['title_en']];
+            unset($data['title_en']);
+
+            Leaderboard::updateOrCreateByTranslation('title', $title, $data);
         }
     }
 }

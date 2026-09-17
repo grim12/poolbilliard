@@ -15,10 +15,10 @@ class LinkTileSeeder extends Seeder
      * skills/web-component-guide.md.
      */
     private const TILES = [
-        ['title' => 'Začni hrát', 'url' => '/jak-zacit', 'image' => 'zacni-hrat.jpg'],
-        ['title' => 'Pravidla', 'url' => '/pravidla', 'image' => 'pravidla.jpg'],
-        ['title' => 'Systémy soutěží', 'url' => '/souteze', 'image' => 'systemy-soutezi.jpg'],
-        ['title' => 'O svazu', 'url' => '/sportovni-svaz', 'image' => 'o-svazu.jpg'],
+        ['title' => 'Začni hrát', 'title_en' => 'Get started', 'url' => '/jak-zacit', 'image' => 'zacni-hrat.jpg'],
+        ['title' => 'Pravidla', 'title_en' => 'Rules', 'url' => '/pravidla', 'image' => 'pravidla.jpg'],
+        ['title' => 'Systémy soutěží', 'title_en' => 'Competition systems', 'url' => '/souteze', 'image' => 'systemy-soutezi.jpg'],
+        ['title' => 'O svazu', 'title_en' => 'About the federation', 'url' => '/sportovni-svaz', 'image' => 'o-svazu.jpg'],
     ];
 
     public function run(): void
@@ -37,6 +37,7 @@ class LinkTileSeeder extends Seeder
                 'title',
                 $data['title'],
                 [
+                    'title' => ['cs' => $data['title'], 'en' => $data['title_en']],
                     'url' => $data['url'],
                     'image' => $imagePath,
                     'sort_order' => $index,

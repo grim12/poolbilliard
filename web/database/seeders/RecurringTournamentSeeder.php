@@ -17,20 +17,29 @@ class RecurringTournamentSeeder extends Seeder
     private const TOURNAMENTS = [
         [
             'title' => 'Turnaje v Balabušce',
+            'title_en' => 'Tournaments at Balabuška',
             'frequency' => 'Každá středa',
+            'frequency_en' => 'Every Wednesday',
             'location_text' => 'Praha',
+            'location_text_en' => 'Prague',
             'herna' => 'Billiard Club Balabuška Bohdalec',
         ],
         [
             'title' => 'Turnaje v Harlequinu',
+            'title_en' => 'Tournaments at Harlequin',
             'frequency' => 'Každá neděle',
+            'frequency_en' => 'Every Sunday',
             'location_text' => 'Praha',
+            'location_text_en' => 'Prague',
             'herna' => 'Billiard Club Harlequin Praha',
         ],
         [
             'title' => 'Turnaje v Maple Pool Club',
+            'title_en' => 'Tournaments at Maple Pool Club',
             'frequency' => 'Každý čtvrtek',
+            'frequency_en' => 'Every Thursday',
             'location_text' => 'Pardubice',
+            'location_text_en' => 'Pardubice',
             'herna' => null,
         ],
     ];
@@ -41,12 +50,18 @@ class RecurringTournamentSeeder extends Seeder
     public function run(): void
     {
         foreach (self::TOURNAMENTS as $index => $tournament) {
+            $title = $tournament['title'];
             $hernaName = $tournament['herna'];
             unset($tournament['herna']);
 
+            $tournament['title'] = ['cs' => $tournament['title'], 'en' => $tournament['title_en']];
+            $tournament['frequency'] = ['cs' => $tournament['frequency'], 'en' => $tournament['frequency_en']];
+            $tournament['location_text'] = ['cs' => $tournament['location_text'], 'en' => $tournament['location_text_en']];
+            unset($tournament['title_en'], $tournament['frequency_en'], $tournament['location_text_en']);
+
             RecurringTournament::updateOrCreateByTranslation(
                 'title',
-                $tournament['title'],
+                $title,
                 [
                     ...$tournament,
                     'herna_id' => $hernaName ? Herna::where('name', $hernaName)->value('id') : null,

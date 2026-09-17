@@ -64,9 +64,11 @@ class ClubSeeder extends Seeder
      */
     private const SMICHOFF_EXTRA = [
         'about_text' => '<p>Sportovní klub, který sídlí na pražském Smíchově a je uzavřený pouze pro členy a jejich hosty. Zaměřujeme se na úzký kolektiv hráčů, kteří mají velký zájem o trénink a zlepšování se. Naší prioritou je kvalitní hráčské zázemí a vybavení srovnatelné s evropskou úrovní.</p>',
+        'about_text_en' => '<p>A sports club based in Prague\'s Smíchov district, open only to members and their guests. We focus on a tight-knit group of players who are serious about training and improving. Our priority is quality playing facilities and equipment on a par with the European level.</p>',
         'ambassador_name' => 'Jan Strádal',
         'recruitment_open' => false,
         'recruitment_text' => '<p>Nábor je v tuto chvíli uzavřený z důvodu tréninkových kapacit, ale v případě zájmu neváhejte kontaktovat klubového předsedu Honzu Strádala, který sdělí případné možnosti.</p>',
+        'recruitment_text_en' => '<p>Recruitment is currently closed due to training capacity, but if you\'re interested, feel free to contact club chairman Honza Strádal, who can tell you about any available options.</p>',
     ];
 
     private const SMICHOFF_MEMBERS = [
@@ -91,6 +93,10 @@ class ClubSeeder extends Seeder
             $extra = $data['name'] === 'SMÍCHOFF Billiard Club Praha' ? self::SMICHOFF_EXTRA : [];
 
             if ($extra) {
+                $extra['about_text'] = ['cs' => $extra['about_text'], 'en' => $extra['about_text_en']];
+                $extra['recruitment_text'] = ['cs' => $extra['recruitment_text'], 'en' => $extra['recruitment_text_en']];
+                unset($extra['about_text_en'], $extra['recruitment_text_en']);
+
                 $heroPath = 'clubs/smichoff-hero.jpg';
 
                 if (! $disk->exists($heroPath)) {

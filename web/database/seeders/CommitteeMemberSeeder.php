@@ -15,10 +15,10 @@ class CommitteeMemberSeeder extends Seeder
      * PartnerSeeder.
      */
     private const MEMBERS = [
-        ['name' => 'Robin Vladyka', 'role' => 'Prezident sekce', 'email' => 'robin.vladyka@cmbs.cz', 'photo' => 'vv-robin-vladyka.png'],
-        ['name' => 'Tomáš Vančura', 'role' => 'Rozvoj a podpora mládeže', 'email' => 'tomas.vancura@poolbilliard.cz', 'photo' => 'vv-tomas-vancura.png'],
-        ['name' => 'Milan Ugrin', 'role' => 'Organizace soutěží a propagace', 'email' => 'milan.ugrin@poolbilliard.cz', 'photo' => 'vv-milan-ugrin.png'],
-        ['name' => 'Jan Strádal', 'role' => 'Komunikace, strategické plánování a fundraising', 'email' => 'jan.stradal@poolbilliard.cz', 'photo' => 'vv-jan-stradal.png'],
+        ['name' => 'Robin Vladyka', 'role' => 'Prezident sekce', 'role_en' => 'Section President', 'email' => 'robin.vladyka@cmbs.cz', 'photo' => 'vv-robin-vladyka.png'],
+        ['name' => 'Tomáš Vančura', 'role' => 'Rozvoj a podpora mládeže', 'role_en' => 'Youth development and support', 'email' => 'tomas.vancura@poolbilliard.cz', 'photo' => 'vv-tomas-vancura.png'],
+        ['name' => 'Milan Ugrin', 'role' => 'Organizace soutěží a propagace', 'role_en' => 'Competition organization and promotion', 'email' => 'milan.ugrin@poolbilliard.cz', 'photo' => 'vv-milan-ugrin.png'],
+        ['name' => 'Jan Strádal', 'role' => 'Komunikace, strategické plánování a fundraising', 'role_en' => 'Communications, strategic planning, and fundraising', 'email' => 'jan.stradal@poolbilliard.cz', 'photo' => 'vv-jan-stradal.png'],
     ];
 
     /**
@@ -40,7 +40,7 @@ class CommitteeMemberSeeder extends Seeder
                 ['email' => $member['email']],
                 [
                     'name' => $member['name'],
-                    'role' => $member['role'],
+                    'role' => ['cs' => $member['role'], 'en' => $member['role_en']],
                     'photo' => $storagePath,
                     'sort_order' => $index,
                 ]

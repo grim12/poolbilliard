@@ -53,6 +53,7 @@ class HernaSeeder extends Seeder
 
     private const HARLEQUIN_EXTRA = [
         'about_text' => '<p>Kulečníková herna v centru Prahy se šesti profesionálními stoly a příjemnou atmosférou pro rekreační i soutěžní hráče. Nabízíme pronájem stolů, prodej vybavení i drobné občerstvení — vhodné pro trénink, přátelské zápasy i firemní akce.</p>',
+        'about_text_en' => '<p>A billiards venue in the center of Prague with six professional tables and a welcoming atmosphere for recreational and competitive players alike. We offer table rentals, equipment sales, and light refreshments — suitable for training, friendly matches, and corporate events.</p>',
         'phone' => '+420 123 456 789',
         'email' => 'info@demoherna.cz',
         'sports' => ['Poolbilliard', 'Karambol', 'Snooker'],
@@ -80,6 +81,9 @@ class HernaSeeder extends Seeder
             $extra = $data['name'] === 'Billiard Club Harlequin Praha' ? self::HARLEQUIN_EXTRA : [];
 
             if ($extra) {
+                $extra['about_text'] = ['cs' => $extra['about_text'], 'en' => $extra['about_text_en']];
+                unset($extra['about_text_en']);
+
                 $extra['gallery'] = collect(self::HARLEQUIN_GALLERY)->map(function (string $file) use ($disk) {
                     $path = 'herny/'.$file;
 

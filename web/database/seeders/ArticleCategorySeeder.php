@@ -15,11 +15,11 @@ class ArticleCategorySeeder extends Seeder
      * everywhere else for that same category) and resolved in favor of the majority usage.
      */
     private const CATEGORIES = [
-        ['name' => 'Reprezentace', 'color' => 'accent'],
-        ['name' => 'Junior Open', 'color' => 'gold'],
-        ['name' => 'ČPTour', 'color' => 'primary'],
-        ['name' => 'Mistrovství ČR', 'color' => 'primary'],
-        ['name' => 'Zpravodajství', 'color' => 'gray'],
+        ['name' => 'Reprezentace', 'name_en' => 'National team', 'color' => 'accent'],
+        ['name' => 'Junior Open', 'name_en' => 'Junior Open', 'color' => 'gold'],
+        ['name' => 'ČPTour', 'name_en' => 'Czech Pool Tour', 'color' => 'primary'],
+        ['name' => 'Mistrovství ČR', 'name_en' => 'Czech Championship', 'color' => 'primary'],
+        ['name' => 'Zpravodajství', 'name_en' => 'News', 'color' => 'gray'],
     ];
 
     /**
@@ -31,7 +31,7 @@ class ArticleCategorySeeder extends Seeder
             ArticleCategory::updateOrCreateByTranslation(
                 'name',
                 $category['name'],
-                ['color' => $category['color'], 'sort_order' => $index]
+                ['name' => ['cs' => $category['name'], 'en' => $category['name_en']], 'color' => $category['color'], 'sort_order' => $index]
             );
         }
     }
