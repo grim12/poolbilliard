@@ -100,7 +100,13 @@ Hotovo:
 Zbývá (obsahová/i18n práce, ne infrastruktura):
 * **Hlubší nastavovaná pole** (hero podtitulky, tituly jednotlivých sekcí uvnitř stránek) a **repeater/array pole** (feature_cards, stats, tasks, calendar_sources...) na `_en` zatím nenapojené.
 * **Natvrdo české texty uvnitř těl šablon** (nadpisy, popisky, tlačítka mimo hlavičku/patičku) — desítky řetězců napříč ~18 šablonami, potřeba systematický průchod + `__()`/`lang/en.json`.
-* **Interní odkazy uvnitř stránek** (tlačítka, back-linky, stránkování) zatím nejsou locale-aware — pořád vedou na cs cestu i z EN stránky.
+* **Natvrdo odkazy přímo v šablonách** (back-linky, stránkování — ne admin-editovatelná pole) zatím nejsou locale-aware — pořád vedou na cs cestu i z EN stránky.
+
+### Interní odkazy v adminu (LinkTile, RuleCard, JakZacitSection, Banner)
+
+Tlačítka/dlaždice, kde admin dřív musel zadávat URL ručně, teď mají vedle textového pole i výběr **"Interní stránka"** (statická stránka, např. Kluby/Kalendář) nebo **"Konkrétní záznam"** (typ + konkrétní klub/herna/článek/zpráva/turnaj/pravidelný turnaj) — `App\Filament\Support\InternalLinkFields`. Výběr má přednost před ruční URL a `App\Support\InternalLink::resolve()` ho při vykreslení přeloží na správnou `cs`/`en` URL podle aktuálního jazyka — stejná volba v adminu, jiná výsledná URL podle jazyka, žádné ruční dvojí zadávání.
+
+Zapojeno u: `LinkTile.url`, `RuleCard.button_url`, `JakZacitSection.aside_panel_button_url`/`aside_card_button_url`, `Banner.buttons[].url`. Ostatní URL pole (`Tournament.url`, `Partner.url`, `RecurringTournament.url`, `SvazSettings::cmbs_website_url`...) jsou záměrně beze změny — jde o skutečně externí odkazy.
 
 ### Demo obsah (seedery)
 
