@@ -9,7 +9,7 @@
     - tagColor: "primary" (Svaz) | "accent" (Klub) | "gold" (Zahraniční) — matches tournament-card.
 --}}
 @props([
-    'backText' => 'Zpět na kalendář',
+    'backText' => null,
     'backUrl' => '#',
     'tagText' => '',
     'tagColor' => 'primary',
@@ -17,6 +17,10 @@
     'dateText' => '',
     'locationText' => '',
 ])
+
+@php
+    $backText ??= __('Zpět na kalendář');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-tournament-detail']) }}>
     <div class="c-container">

@@ -28,14 +28,14 @@
             <div class="c-club-detail__main">
                 @if ($club->about_text)
                     <div>
-                        <h2>O klubu</h2>
+                        <h2>{{ __('O klubu') }}</h2>
                         <div class="c-club-detail__text">{!! $club->about_text !!}</div>
                     </div>
                 @endif
 
                 @if ($club->members->isNotEmpty())
                     <div>
-                        <h2>Členové klubu</h2>
+                        <h2>{{ __('Členové klubu') }}</h2>
                         <div class="c-club-members">
                             @foreach ($club->members as $member)
                                 <div class="c-club-member">
@@ -56,7 +56,7 @@
                 <div class="c-club-detail__notices">
                     <x-alert
                         :icon="$club->recruitment_open ? 'lock-open' : 'lock-closed'"
-                        :title="$club->recruitment_open ? 'Nábor otevřen' : 'Nábor uzavřen'"
+                        :title="$club->recruitment_open ? __('Nábor otevřen') : __('Nábor uzavřen')"
                         :text="$club->recruitment_message"
                         :color="$club->recruitment_open ? 'primary' : 'gold'"
                         size="lg"
@@ -84,7 +84,7 @@
                     @if ($hasAmbassadorCard)
                         <div class="c-club-ambassador">
                             @if ($club->ambassador_name)
-                                <div><x-tag text="Ambasador klubu" color="gold" size="sm" class="mb-3" /></div>
+                                <div><x-tag :text="__('Ambasador klubu')" color="gold" size="sm" class="mb-3" /></div>
                                 <p class="c-club-ambassador__name">
                                     <x-heroicon-m-user-circle width="20" height="20" />
                                     {{ $club->ambassador_name }}
@@ -96,7 +96,7 @@
                             @if ($club->ambassador_website)
                                 <a class="c-club-ambassador__link" href="{{ $club->ambassador_website }}" target="_blank" rel="noopener noreferrer">
                                     <x-heroicon-m-globe-alt width="18" height="18" />
-                                    Web klubu
+                                    {{ __('Web klubu') }}
                                 </a>
                             @endif
                         </div>

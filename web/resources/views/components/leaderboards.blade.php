@@ -10,10 +10,14 @@
     'subtitle' => '',
     'items' => [],
     'moreUrl' => '#',
-    'moreText' => 'Systémy soutěží',
+    'moreText' => null,
     'maxEntries' => null,
     'id' => '',
 ])
+
+@php
+    $moreText ??= __('Systémy soutěží');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--leaderboards']) }} @if ($id) id="{{ $id }}" @endif>
     <div class="c-container">
@@ -29,7 +33,7 @@
                     :title="$item->title"
                     :entries="$item->entries"
                     :featured="$item->featured"
-                    :link-text="$item->featured ? 'Celý žebříček' : 'Detail série'"
+                    :link-text="$item->featured ? __('Celý žebříček') : __('Detail série')"
                     :max-entries="$maxEntries"
                 />
             @endforeach

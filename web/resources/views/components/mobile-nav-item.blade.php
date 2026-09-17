@@ -17,7 +17,7 @@
     <div class="c-header__mobile-nav-item" data-accordion>
         <div class="c-header__mobile-nav-row">
             <a @class(['c-header__nav-link', 'c-header__nav-link--is-active' => $isActive]) href="{{ $url }}">{{ $text }}</a>
-            <button type="button" class="c-header__mobile-nav-toggle" data-accordion-toggle aria-expanded="false" aria-label="Rozbalit podnabídku {{ $text }}">
+            <button type="button" class="c-header__mobile-nav-toggle" data-accordion-toggle aria-expanded="false" aria-label="{{ __('Rozbalit podnabídku :text', ['text' => $text]) }}">
                 <x-heroicon-m-chevron-down class="c-header__nav-chevron" width="16" height="16" />
             </button>
         </div>

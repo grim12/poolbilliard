@@ -25,7 +25,7 @@ class ArticleController extends Controller
             ->paginate(9)
             ->withQueryString();
 
-        $categoryTabs = collect([['text' => 'Vše', 'value' => 'all', 'isActive' => true]])
+        $categoryTabs = collect([['text' => __('Vše'), 'value' => 'all', 'isActive' => true]])
             ->concat(
                 ArticleCategory::orderBy('sort_order')->get()->map(fn (ArticleCategory $category) => [
                     'text' => $category->name,

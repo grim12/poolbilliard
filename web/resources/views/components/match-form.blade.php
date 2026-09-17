@@ -6,8 +6,12 @@
 @props([
     'title' => '',
     'text' => '',
-    'buttonText' => 'Odeslat poptávku',
+    'buttonText' => null,
 ])
+
+@php
+    $buttonText ??= __('Odeslat poptávku');
+@endphp
 
 <div {{ $attributes->merge(['class' => 'c-form']) }}>
     @if ($title)
@@ -18,24 +22,24 @@
     @endif
     <form class="c-form__grid">
         <label class="c-form__field">
-            <span class="c-form__label">Jméno</span>
-            <input type="text" class="c-input" placeholder="Vaše jméno" />
+            <span class="c-form__label">{{ __('Jméno') }}</span>
+            <input type="text" class="c-input" placeholder="{{ __('Vaše jméno') }}" />
         </label>
         <label class="c-form__field">
-            <span class="c-form__label">E-mail</span>
+            <span class="c-form__label">{{ __('E-mail') }}</span>
             <input type="email" class="c-input" placeholder="vas@email.cz" />
         </label>
         <label class="c-form__field">
-            <span class="c-form__label">Telefon (volitelné)</span>
+            <span class="c-form__label">{{ __('Telefon (volitelné)') }}</span>
             <input type="tel" class="c-input" placeholder="+420 123 456 789" />
         </label>
         <label class="c-form__field">
-            <span class="c-form__label">Lokalita</span>
-            <input type="text" class="c-input" placeholder="Město nebo region" />
+            <span class="c-form__label">{{ __('Lokalita') }}</span>
+            <input type="text" class="c-input" placeholder="{{ __('Město nebo region') }}" />
         </label>
         <label class="c-form__field c-form__field--full">
-            <span class="c-form__label">Co hledáte?</span>
-            <textarea class="c-input c-form__textarea" rows="3" placeholder="Popište, co byste chtěli — trénink, klub, kroužek pro dítě, apod."></textarea>
+            <span class="c-form__label">{{ __('Co hledáte?') }}</span>
+            <textarea class="c-input c-form__textarea" rows="3" placeholder="{{ __('Popište, co byste chtěli — trénink, klub, kroužek pro dítě, apod.') }}"></textarea>
         </label>
         <x-button :text="$buttonText" type="submit" class="sm:col-span-2 sm:w-fit" />
     </form>

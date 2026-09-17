@@ -11,7 +11,7 @@
 --}}
 <x-layouts.app
     :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
-    description="Kalendář turnajů a pravidelných akcí Českého svazu poolbilliardu — přehled podle měsíců."
+    :description="__('Kalendář turnajů a pravidelných akcí Českého svazu poolbilliardu — přehled podle měsíců.')"
 >
     <div class="bg-gradient-light">
         <x-news-header
@@ -21,21 +21,21 @@
             class="pb-none"
         >
             <x-slot:aside>
-                <div class="c-check-pills" role="group" aria-label="Filtrovat podle typu akce">
+                <div class="c-check-pills" role="group" aria-label="{{ __('Filtrovat podle typu akce') }}">
                     <label class="c-check-pill c-check-pill--primary">
                         <input type="checkbox" class="c-check-pill__input" checked disabled />
                         <span class="c-check-pill__box"><x-heroicon-m-check width="12" height="12" /></span>
-                        Svaz
+                        {{ __('Svaz') }}
                     </label>
                     <label class="c-check-pill c-check-pill--accent">
                         <input type="checkbox" class="c-check-pill__input" checked disabled />
                         <span class="c-check-pill__box"><x-heroicon-m-check width="12" height="12" /></span>
-                        Klub
+                        {{ __('Klub') }}
                     </label>
                     <label class="c-check-pill c-check-pill--gold">
                         <input type="checkbox" class="c-check-pill__input" disabled />
                         <span class="c-check-pill__box"><x-heroicon-m-check width="12" height="12" /></span>
-                        Zahraniční
+                        {{ __('Zahraniční') }}
                     </label>
                 </div>
             </x-slot:aside>
@@ -62,7 +62,7 @@
 
                         @if ($tournaments->isEmpty())
                             <x-no-results
-                                title="Žádné akce neodpovídají zvoleným filtrům."
+                                :title="__('Žádné akce neodpovídají zvoleným filtrům.')"
                                 icon="calendar-days"
                                 class="mt-3 lg:mt-4"
                             />
@@ -91,8 +91,8 @@
                                     'url' => route('pravidelny-turnaj.show', $item),
                                 ])->all()"
                                 :buttons="[
-                                    ['text' => 'Kulečníkové kluby', 'url' => route('kluby')],
-                                    ['text' => 'Kulečníkové herny', 'url' => route('herny')],
+                                    ['text' => __('Kulečníkové kluby'), 'url' => route('kluby')],
+                                    ['text' => __('Kulečníkové herny'), 'url' => route('herny')],
                                 ]"
                             />
                         @endif

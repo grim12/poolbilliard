@@ -4,9 +4,13 @@
     — category->name/color map onto article-card's generic tagText/tagColor props.
 --}}
 @props([
-    'title' => 'Další články',
+    'title' => null,
     'items' => [],
 ])
+
+@php
+    $title ??= __('Další články');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--related-articles']) }}>
     <div class="c-container">

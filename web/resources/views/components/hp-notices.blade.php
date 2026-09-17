@@ -10,8 +10,12 @@
     'subtitle' => '',
     'items' => [],
     'moreUrl' => '#',
-    'moreText' => 'Všechny zprávy VV',
+    'moreText' => null,
 ])
+
+@php
+    $moreText ??= __('Všechny zprávy VV');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--notices']) }}>
     <div class="c-container">
@@ -26,7 +30,7 @@
                 <x-notice-card
                     :title="$item->title"
                     :url="route('zpravodajstvi.vykonny-vybor.show', $item->slug_cs)"
-                    :tag-text="$item->is_important ? 'DŮLEŽITÉ' : ''"
+                    :tag-text="$item->is_important ? __('DŮLEŽITÉ') : ''"
                     :date="$item->date_text"
                 />
             @endforeach

@@ -16,7 +16,7 @@
 
 <x-layouts.app
     :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
-    description="Přehled klubů Českého svazu poolbilliardu — najděte klub ve svém okolí a připojte se k hráčské komunitě."
+    :description="__('Přehled klubů Českého svazu poolbilliardu — najděte klub ve svém okolí a připojte se k hráčské komunitě.')"
 >
     <div class="bg-gradient-light">
         <x-news-header
@@ -28,16 +28,16 @@
         <section class="c-section pt-none">
             <div class="c-container">
                 <div class="c-section__grid c-kluby-hero">
-                    <div class="c-club-map" data-club-map='{{ json_encode($mapClubs) }}' role="application" aria-label="Mapa klubů v České republice"></div>
+                    <div class="c-club-map" data-club-map='{{ json_encode($mapClubs) }}' role="application" aria-label="{{ __('Mapa klubů v České republice') }}"></div>
 
                     <x-info-panel
                         :tag-text="$settings->info_tag_text"
                         :title="$settings->info_title"
                         :text="$settings->info_text"
                         :items="[
-                            ['icon' => 'user-group', 'text' => 'Přátelská komunita všech úrovní'],
-                            ['icon' => 'trophy', 'text' => 'Tréninky, ligy i turnaje pro každého'],
-                            ['icon' => 'map-pin', 'text' => 'Kluby po celé České republice'],
+                            ['icon' => 'user-group', 'text' => __('Přátelská komunita všech úrovní')],
+                            ['icon' => 'trophy', 'text' => __('Tréninky, ligy i turnaje pro každého')],
+                            ['icon' => 'map-pin', 'text' => __('Kluby po celé České republice')],
                         ]"
                         :foot-text="$settings->info_foot_text"
                         :button-text="$settings->info_button_text"

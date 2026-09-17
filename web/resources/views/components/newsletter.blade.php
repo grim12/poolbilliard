@@ -6,15 +6,24 @@
 --}}
 @props([
     'tagText' => '',
-    'title' => 'Newsletter',
-    'subtitle' => 'Nenech si ujít žádnou novinku. Přihlas se k odběru newsletteru a dostávej přehled turnajů, výsledků a zpráv ze světa českého poolbilliardu.',
-    'placeholder' => 'Vložte svůj e-mail',
-    'buttonText' => 'Odebírat',
-    'legalText' => 'Přihlášením k odběru vyjadřujete',
-    'legalLinkText' => 'souhlas se zpracováním osobních údajů',
+    'title' => null,
+    'subtitle' => null,
+    'placeholder' => null,
+    'buttonText' => null,
+    'legalText' => null,
+    'legalLinkText' => null,
     'legalLinkUrl' => '#',
     'formAction' => '#',
 ])
+
+@php
+    $title ??= __('Newsletter');
+    $subtitle ??= __('Nenech si ujít žádnou novinku. Přihlas se k odběru newsletteru a dostávej přehled turnajů, výsledků a zpráv ze světa českého poolbilliardu.');
+    $placeholder ??= __('Vložte svůj e-mail');
+    $buttonText ??= __('Odebírat');
+    $legalText ??= __('Přihlášením k odběru vyjadřujete');
+    $legalLinkText ??= __('souhlas se zpracováním osobních údajů');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--newsletter t-dark']) }}>
     <div class="c-container">

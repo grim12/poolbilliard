@@ -28,7 +28,7 @@ class SoutezeController extends Controller
                     'text' => $section->nav_label,
                     'url' => '#'.$section->anchor,
                 ])->all(),
-                ['text' => 'Žebříčky', 'url' => '#zebricky'],
+                ['text' => __('Žebříčky'), 'url' => '#zebricky'],
             ],
             'leaderboards' => Leaderboard::orderBy('sort_order')->get(),
         ]);

@@ -8,7 +8,7 @@
 --}}
 <x-layouts.app
     :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
-    description="Přehled soutěží a žebříčků Českého svazu poolbilliardu."
+    :description="__('Přehled soutěží a žebříčků Českého svazu poolbilliardu.')"
 >
     <x-page-hero
         :title="$settings->title"
@@ -49,10 +49,10 @@
 
     <x-leaderboards
         id="zebricky"
-        title="Žebříčky"
-        subtitle="Aktuální pořadí ve všech sériích a kategoriích — TOP 10 hráčů."
+        :title="__('Žebříčky')"
+        :subtitle="__('Aktuální pořadí ve všech sériích a kategoriích — TOP 10 hráčů.')"
         :items="$leaderboards"
-        more-text="Kalendář soutěží"
+        :more-text="__('Kalendář soutěží')"
         :more-url="route('kalendar')"
     />
 

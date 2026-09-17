@@ -8,13 +8,13 @@
 --}}
 <x-layouts.app
     :title="\App\Support\Locale::field($settings, 'hero_title').' — Poolbilliard'"
-    description="Chcete začít hrát poolbilliard? Zjistěte, jak najít klub, přihlásit se k prvnímu turnaji a zorientovat se v soutěžích."
+    :description="__('Chcete začít hrát poolbilliard? Zjistěte, jak najít klub, přihlásit se k prvnímu turnaji a zorientovat se v soutěžích.')"
 >
     <x-page-hero :title="$settings->hero_title" :text="$settings->hero_text" />
 
     <x-jump-nav :items="$jumpNavItems" />
 
-    <x-content-section eyebrow="Kde začít" title="Která situace vás nejlépe vystihuje?" full-width>
+    <x-content-section :eyebrow="__('Kde začít')" :title="__('Která situace vás nejlépe vystihuje?')" full-width>
         <div class="c-feature-cards">
             @foreach ($settings->feature_cards as $card)
                 <x-feature-card
@@ -73,10 +73,10 @@
             <h2 class="mb-3">{{ $settings->cta_title }}</h2>
             <p class="p--lg max-w-2xl mx-auto mb-8">{{ $settings->cta_text }}</p>
             <div class="flex flex-wrap items-center justify-center gap-3">
-                <x-button text="Najít klub" :url="route('kluby')" variant="outline" size="sm" />
-                <x-button text="Najít hernu" :url="route('herny')" variant="outline" size="sm" />
-                <x-button text="Najít turnaj" :url="route('kalendar')" variant="outline" size="sm" />
-                <x-button text="Chci se zlepšit" url="#doporuceni" variant="outline" size="sm" />
+                <x-button :text="__('Najít klub')" :url="route('kluby')" variant="outline" size="sm" />
+                <x-button :text="__('Najít hernu')" :url="route('herny')" variant="outline" size="sm" />
+                <x-button :text="__('Najít turnaj')" :url="route('kalendar')" variant="outline" size="sm" />
+                <x-button :text="__('Chci se zlepšit')" url="#doporuceni" variant="outline" size="sm" />
             </div>
         </div>
     </section>

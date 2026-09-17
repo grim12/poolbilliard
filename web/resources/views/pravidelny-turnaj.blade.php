@@ -7,12 +7,12 @@
 --}}
 <x-layouts.app
     :title="$tournament->title.' — Poolbilliard'"
-    :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — pravidelný turnaj v kalendáři Českého poolbilliardu.'"
+    :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — '.__('pravidelný turnaj v kalendáři Českého poolbilliardu.')"
     og-type="article"
 >
     <x-tournament-content
         back-url="{{ route('kalendar') }}"
-        tag-text="Amatérský turnaj"
+        :tag-text="__('Amatérský turnaj')"
         tag-color="gold"
         :title="$tournament->title"
         :date-text="$tournament->frequency"
@@ -27,17 +27,17 @@
 
         @if ($tournament->herna)
             <div class="c-tournament-detail__card">
-                <h2 class="c-tournament-detail__card-title">Odkazy</h2>
+                <h2 class="c-tournament-detail__card-title">{{ __('Odkazy') }}</h2>
                 <a href="{{ route('herna.show', $tournament->herna) }}" class="c-tournament-detail__link">
                     <x-heroicon-m-map-pin width="18" height="18" />
-                    Detail herny — {{ $tournament->herna->name }}
+                    {{ __('Detail herny — :name', ['name' => $tournament->herna->name]) }}
                 </a>
             </div>
         @endif
 
         @if ($tournament->url)
             <x-button
-                text="Kontaktovat organizátora"
+                :text="__('Kontaktovat organizátora')"
                 :url="$tournament->url"
                 color="primary"
                 icon="chevron-right"

@@ -24,7 +24,7 @@
 @endphp
 <x-layouts.app
     :title="$tournament->title.' — Poolbilliard'"
-    :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — turnaj v kalendáři Českého poolbilliardu.'"
+    :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — '.__('turnaj v kalendáři Českého poolbilliardu.')"
     og-type="article"
     :structured-data="$structuredData"
 >
@@ -45,7 +45,7 @@
 
         @if ($tournament->url)
             <x-button
-                text="Přihlášky a detail turnaje"
+                :text="__('Přihlášky a detail turnaje')"
                 :url="$tournament->url"
                 color="primary"
                 icon="arrow-top-right-on-square"

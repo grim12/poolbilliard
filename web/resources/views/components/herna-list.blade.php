@@ -12,14 +12,18 @@
 @props([
     'items' => [],
     'regions' => [],
-    'searchPlaceholder' => 'Hledat podle názvu, města, adresy…',
+    'searchPlaceholder' => null,
 ])
+
+@php
+    $searchPlaceholder ??= __('Hledat podle názvu, města, adresy…');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--herna-list']) }}>
     <div class="c-container">
         <div class="c-herna-filter">
             <div class="c-herna-filter__field c-herna-filter__field--search">
-                <label class="c-herna-filter__label" for="herna-search">Vyhledat hernu</label>
+                <label class="c-herna-filter__label" for="herna-search">{{ __('Vyhledat hernu') }}</label>
                 <div class="c-herna-filter__input-wrap">
                     <x-heroicon-m-magnifying-glass width="18" height="18" class="c-herna-filter__icon" />
                     <input type="search" id="herna-search" class="c-herna-filter__input" placeholder="{{ $searchPlaceholder }}" data-herna-search />
@@ -27,9 +31,9 @@
             </div>
             @if (count($regions))
                 <div class="c-herna-filter__field c-herna-filter__field--region">
-                    <label class="c-herna-filter__label" for="herna-region">Kraj</label>
+                    <label class="c-herna-filter__label" for="herna-region">{{ __('Kraj') }}</label>
                     <select id="herna-region" class="c-herna-filter__select" data-herna-region>
-                        <option value="">Vše</option>
+                        <option value="">{{ __('Vše') }}</option>
                         @foreach ($regions as $region)
                             <option value="{{ $region->value }}">{{ $region->getLabel() }}</option>
                         @endforeach
@@ -55,7 +59,7 @@
                         <div class="c-herna-card__divider"></div>
                         <a class="c-herna-card__link" href="{{ $herna->website }}" target="_blank" rel="noopener noreferrer">
                             <x-heroicon-m-globe-alt width="14" height="14" />
-                            Web
+                            {{ __('Web') }}
                         </a>
                     @endif
                 </div>

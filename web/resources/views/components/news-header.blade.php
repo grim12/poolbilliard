@@ -10,14 +10,20 @@
     Mirrors ui/src/_includes/widgets/news-header.njk.
 --}}
 @props([
-    'title' => 'Novinky',
+    'title' => null,
     'subtitle' => '',
-    'backText' => 'Zpět na novinky',
+    'backText' => null,
     'backUrl' => '',
     'showSearch' => true,
-    'searchPlaceholder' => 'Hledej ve zprávách',
+    'searchPlaceholder' => null,
     'categories' => [],
 ])
+
+@php
+    $title ??= __('Novinky');
+    $backText ??= __('Zpět na novinky');
+    $searchPlaceholder ??= __('Hledej ve zprávách');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--news-header']) }}>
     <div class="c-container">
@@ -47,7 +53,7 @@
         @endif
 
         @if (count($categories))
-            <div class="c-news-header__filters" role="group" aria-label="Filtrovat podle kategorie">
+            <div class="c-news-header__filters" role="group" aria-label="{{ __('Filtrovat podle kategorie') }}">
                 @foreach ($categories as $cat)
                     <button type="button" class="c-news-header__filter" aria-pressed="{{ ($cat['isActive'] ?? false) ? 'true' : 'false' }}" data-category="{{ $cat['value'] }}">{{ $cat['text'] }}</button>
                 @endforeach

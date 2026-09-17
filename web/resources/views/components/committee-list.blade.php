@@ -13,8 +13,8 @@
 @if (count($members))
     <div {{ $attributes->merge(['class' => 'c-committee-list']) }}>
         <div class="c-committee-list__head">
-            <span>Jméno</span>
-            <span>E-mail</span>
+            <span>{{ __('Jméno') }}</span>
+            <span>{{ __('E-mail') }}</span>
         </div>
         @foreach ($members as $member)
             <div class="c-committee-list__row">

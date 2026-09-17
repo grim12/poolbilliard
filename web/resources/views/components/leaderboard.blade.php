@@ -13,13 +13,14 @@
     'title',
     'entries' => [],
     'featured' => false,
-    'linkText' => 'Detail série',
+    'linkText' => null,
     'linkUrl' => '#',
     'maxEntries' => null,
     'headingLevel' => 'h3',
 ])
 
 @php
+    $linkText ??= __('Detail série');
     $visibleEntries = $maxEntries !== null ? array_slice($entries, 0, $maxEntries) : $entries;
 @endphp
 

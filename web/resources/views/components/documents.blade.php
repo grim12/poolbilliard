@@ -22,7 +22,7 @@
         </div>
 
         @if (count($years))
-            <div class="c-doc-tabs" role="tablist" aria-label="Rok dokumentů" data-doc-tabs>
+            <div class="c-doc-tabs" role="tablist" aria-label="{{ __('Rok dokumentů') }}" data-doc-tabs>
                 @foreach ($years as $year)
                     <button type="button" class="c-doc-tabs__pill @if ($year['active']) is-active @endif" role="tab" aria-selected="{{ $year['active'] ? 'true' : 'false' }}" aria-controls="doc-panel-{{ $loop->iteration }}" data-doc-tab>{{ $year['label'] }}</button>
                 @endforeach

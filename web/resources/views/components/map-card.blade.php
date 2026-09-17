@@ -14,7 +14,7 @@
 --}}
 @props([
     'items' => [],
-    'label' => 'Kde nás najdeš',
+    'label' => null,
     'fullName' => '',
     'address' => '',
     'mapsUrl' => '',
@@ -22,6 +22,7 @@
 ])
 
 @php
+    $label ??= __('Kde nás najdeš');
     $item = $items[0] ?? null;
     $hasCoords = $item && isset($item['lat'], $item['lng']);
 @endphp
@@ -37,7 +38,7 @@
         </p>
         @if ($mapsUrl)
             <a class="c-map-card__link" href="{{ $mapsUrl }}" target="_blank" rel="noopener noreferrer">
-                Navigovat
+                {{ __('Navigovat') }}
                 <x-heroicon-m-chevron-right width="16" height="16" />
             </a>
         @endif
@@ -48,7 +49,7 @@
             data-club-map='{{ json_encode($items) }}'
             @if ($pinColor) data-pin-color="{{ $pinColor }}" @endif
             role="application"
-            aria-label="Mapa – {{ $fullName ?: $address }}"
+            aria-label="{{ __('Mapa – :place', ['place' => $fullName ?: $address]) }}"
         ></div>
     @endif
 </div>

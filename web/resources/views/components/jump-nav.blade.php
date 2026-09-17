@@ -13,7 +13,7 @@
 ])
 
 @if (count($items))
-    <nav {{ $attributes->merge(['class' => 'c-jump-nav']) }} aria-label="Rychlá navigace na sekce stránky" data-jump-nav>
+    <nav {{ $attributes->merge(['class' => 'c-jump-nav']) }} aria-label="{{ __('Rychlá navigace na sekce stránky') }}" data-jump-nav>
         <div class="c-container c-jump-nav__inner">
             @foreach ($items as $item)
                 <a href="{{ $item['url'] }}" class="c-jump-nav__pill" data-jump-link>{{ $item['text'] }}</a>

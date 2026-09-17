@@ -20,11 +20,11 @@
     <div class="c-calendar__header">
         <h2 class="c-calendar__title">{{ $label }}</h2>
         <div class="c-calendar__nav">
-            <a href="{{ $prevUrl }}" class="c-calendar__nav-btn" aria-label="Předchozí měsíc">
+            <a href="{{ $prevUrl }}" class="c-calendar__nav-btn" aria-label="{{ __('Předchozí měsíc') }}">
                 <x-heroicon-m-chevron-left width="18" height="18" />
             </a>
-            <a href="{{ $todayUrl }}" class="c-calendar__today-btn">Dnes</a>
-            <a href="{{ $nextUrl }}" class="c-calendar__nav-btn" aria-label="Následující měsíc">
+            <a href="{{ $todayUrl }}" class="c-calendar__today-btn">{{ __('Dnes') }}</a>
+            <a href="{{ $nextUrl }}" class="c-calendar__nav-btn" aria-label="{{ __('Následující měsíc') }}">
                 <x-heroicon-m-chevron-right width="18" height="18" />
             </a>
         </div>

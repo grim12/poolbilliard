@@ -4,8 +4,8 @@
     skills/web-component-guide.md.
 --}}
 <x-layouts.app
-    title="Partneři — Poolbilliard"
-    description="Partneři a sponzoři Českého svazu poolbilliardu, kteří podporují rozvoj poolbilliardu v Česku."
+    :title="__('Partneři').' — Poolbilliard'"
+    :description="__('Partneři a sponzoři Českého svazu poolbilliardu, kteří podporují rozvoj poolbilliardu v Česku.')"
 >
     <section class="c-section c-section--partner-directory">
         <div class="c-container">

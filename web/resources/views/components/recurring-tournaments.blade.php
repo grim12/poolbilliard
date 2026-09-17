@@ -8,12 +8,18 @@
     Mirrors ui/src/_includes/macros/recurring-tournaments.njk.
 --}}
 @props([
-    'tagText' => 'Amatérské turnaje',
-    'title' => 'Chceš si zahrát?',
-    'text' => 'Vyzkoušej si sportovní atmosféru a šanci uhrát výsledek, i jako začátečník.',
+    'tagText' => null,
+    'title' => null,
+    'text' => null,
     'items' => [],
     'buttons' => [],
 ])
+
+@php
+    $tagText ??= __('Amatérské turnaje');
+    $title ??= __('Chceš si zahrát?');
+    $text ??= __('Vyzkoušej si sportovní atmosféru a šanci uhrát výsledek, i jako začátečník.');
+@endphp
 
 <div {{ $attributes->merge(['class' => 'c-recurring t-dark']) }}>
     @if ($tagText)
@@ -36,7 +42,7 @@
                     </span>
                 </span>
                 <span class="c-recurring__item-link">
-                    Více
+                    {{ __('Více') }}
                     <x-heroicon-m-chevron-right width="16" height="16" />
                 </span>
             </a>

@@ -6,17 +6,17 @@
     app/DB is broken (see errors/500.blade.php's docblock for why that one can't do the same).
 --}}
 <x-layouts.app
-    title="Stránka nenalezena — Poolbilliard"
-    description="Hledaná stránka neexistuje nebo byla přesunuta."
+    :title="__('Stránka nenalezena').' — Poolbilliard'"
+    :description="__('Hledaná stránka neexistuje nebo byla přesunuta.')"
 >
     <section class="c-section">
         <div class="c-container text-center">
             <x-no-results
                 icon="face-frown"
-                title="Stránka nenalezena (404)"
-                text="Zkontrolujte prosím adresu v prohlížeči, nebo se vraťte na hlavní stránku."
+                :title="__('Stránka nenalezena (404)')"
+                :text="__('Zkontrolujte prosím adresu v prohlížeči, nebo se vraťte na hlavní stránku.')"
             />
-            <x-button text="Zpět na hlavní stránku" :url="route('home')" class="mt-6" />
+            <x-button :text="__('Zpět na hlavní stránku')" :url="route('home')" class="mt-6" />
         </div>
     </section>
 </x-layouts.app>

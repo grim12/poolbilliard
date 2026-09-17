@@ -90,7 +90,7 @@ class Tournament extends Model
             $end = $this->end_date;
 
             if (! $start) {
-                return 'Termín bude upřesněn';
+                return __('Termín bude upřesněn');
             }
 
             if (! $end || $end->equalTo($start)) {

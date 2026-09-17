@@ -7,8 +7,12 @@
     'title',
     'items' => [],
     'moreUrl' => '#',
-    'moreText' => 'Partneři a sponzoři',
+    'moreText' => null,
 ])
+
+@php
+    $moreText ??= __('Partneři a sponzoři');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--partners']) }}>
     <div class="c-container">

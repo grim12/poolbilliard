@@ -6,12 +6,18 @@
       controller since it's a real Eloquent collection, not a plain mock array).
 --}}
 @props([
-    'title' => 'Seznam klubů',
-    'subtitle' => 'Vyber si klub ve svém okolí a udělej první krok do světa závodního poolbilliardu.',
+    'title' => null,
+    'subtitle' => null,
     'clubs' => [],
-    'addButtonText' => 'Zaregistrovat nový klub',
+    'addButtonText' => null,
     'addButtonUrl' => '#',
 ])
+
+@php
+    $title ??= __('Seznam klubů');
+    $subtitle ??= __('Vyber si klub ve svém okolí a udělej první krok do světa závodního poolbilliardu.');
+    $addButtonText ??= __('Zaregistrovat nový klub');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--club-directory']) }}>
     <div class="c-container">
@@ -27,12 +33,15 @@
 
         <div class="c-club-directory__groups">
             @foreach ($clubs as $region => $items)
+                @php
+                    $regionLabel = $region ? \App\Enums\Region::from($region)->getLabel() : $region;
+                @endphp
                 <div class="c-club-group">
-                    <h3 class="c-club-group__title">{{ $region }}</h3>
-                    <div class="c-club-group__table" role="table" aria-label="Kluby v regionu {{ $region }}">
+                    <h3 class="c-club-group__title">{{ $regionLabel }}</h3>
+                    <div class="c-club-group__table" role="table" aria-label="{{ __('Kluby v regionu :region', ['region' => $regionLabel]) }}">
                         <div class="c-club-group__row c-club-group__row--head" role="row">
-                            <span class="c-club-group__cell c-club-group__cell--head" role="columnheader">Název klubu</span>
-                            <span class="c-club-group__cell c-club-group__cell--head" role="columnheader">Město</span>
+                            <span class="c-club-group__cell c-club-group__cell--head" role="columnheader">{{ __('Název klubu') }}</span>
+                            <span class="c-club-group__cell c-club-group__cell--head" role="columnheader">{{ __('Město') }}</span>
                             <span class="c-club-group__cell c-club-group__cell--head" role="columnheader" aria-hidden="true"></span>
                         </div>
                         @foreach ($items as $club)
@@ -43,7 +52,7 @@
                                     {{ $club->city }}
                                 </span>
                                 <span class="c-club-group__cell c-club-group__cell--action" role="cell">
-                                    Detail
+                                    {{ __('Detail') }}
                                     <x-heroicon-m-chevron-right width="16" height="16" />
                                 </span>
                             </a>

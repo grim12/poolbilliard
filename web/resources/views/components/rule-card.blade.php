@@ -14,9 +14,13 @@
     'title' => '',
     'subtitle' => '',
     'text' => '',
-    'buttonText' => 'Zobrazit pravidla',
+    'buttonText' => null,
     'buttonUrl' => '#',
 ])
+
+@php
+    $buttonText ??= __('Zobrazit pravidla');
+@endphp
 
 <div {{ $attributes->merge(['class' => 'c-rule-card']) }}>
     <div class="c-rule-card__top">

@@ -23,9 +23,9 @@
 >
     <x-article-content
         class="bg-gradient-light"
-        back-text="Zpět na zprávy výboru"
+        :back-text="__('Zpět na zprávy výboru')"
         :back-url="route('zpravodajstvi.vykonny-vybor')"
-        :tag-text="$notice->is_important ? 'Důležité' : ''"
+        :tag-text="$notice->is_important ? __('Důležité') : ''"
         tag-color="accent"
         tag-position="inline"
         :title="$notice->title"

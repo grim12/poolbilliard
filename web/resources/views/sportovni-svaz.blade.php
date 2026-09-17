@@ -7,7 +7,7 @@
 --}}
 <x-layouts.app
     :title="\App\Support\Locale::field($settings, 'hero_title').' — Poolbilliard'"
-    description="Výkonný výbor, dokumenty a organizační struktura Českého svazu poolbilliardu."
+    :description="__('Výkonný výbor, dokumenty a organizační struktura Českého svazu poolbilliardu.')"
 >
     <x-page-hero :title="$settings->hero_title" :text="$settings->hero_text" />
 
@@ -19,8 +19,8 @@
                     {!! $settings->info_text !!}
 
                     <div class="c-svaz-info__links">
-                        <x-button text="Oficiální web ČMBS" :url="$settings->cmbs_website_url" variant="link" size="sm" icon="arrow-top-right-on-square" target="_blank" />
-                        <x-button text="Stanovy ČMBS" :url="$settings->cmbs_bylaws_url" variant="link" size="sm" icon="arrow-top-right-on-square" target="_blank" />
+                        <x-button :text="__('Oficiální web ČMBS')" :url="$settings->cmbs_website_url" variant="link" size="sm" icon="arrow-top-right-on-square" target="_blank" />
+                        <x-button :text="__('Stanovy ČMBS')" :url="$settings->cmbs_bylaws_url" variant="link" size="sm" icon="arrow-top-right-on-square" target="_blank" />
                     </div>
 
                     <div class="c-svaz-info__divider"></div>

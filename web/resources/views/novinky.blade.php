@@ -3,11 +3,11 @@
     (real Notice query instead of ui/'s hand-picked static list).
 --}}
 <x-layouts.app
-    title="Novinky — Poolbilliard"
-    description="Aktuality a novinky ze světa Českého poolbilliardu — výsledky turnajů, reportáže a dění ve svazu."
+    :title="__('Novinky').' — Poolbilliard'"
+    :description="__('Aktuality a novinky ze světa Českého poolbilliardu — výsledky turnajů, reportáže a dění ve svazu.')"
 >
     <div class="bg-gradient-light">
-        <x-news-header title="Novinky" :categories="$categoryTabs" class="pb-none" />
+        <x-news-header :title="__('Novinky')" :categories="$categoryTabs" class="pb-none" />
 
         <section class="c-section c-section--news-grid">
             <div class="c-container">
@@ -31,21 +31,21 @@
                     </div>
 
                     <aside class="c-news-grid__sidebar">
-                        <x-tag text="Výkonný výbor" color="primary" variant="plain" size="sm" class="c-news-grid__sidebar-tag" />
-                        <h2 class="h4 c-news-grid__sidebar-title">Důležité zprávy</h2>
+                        <x-tag :text="__('Výkonný výbor')" color="primary" variant="plain" size="sm" class="c-news-grid__sidebar-tag" />
+                        <h2 class="h4 c-news-grid__sidebar-title">{{ __('Důležité zprávy') }}</h2>
 
                         <div class="c-news-grid__sidebar-list">
                             @foreach ($sidebarNotices as $notice)
                                 <x-notice-card
                                     :title="$notice->title"
                                     :url="route('zpravodajstvi.vykonny-vybor.show', $notice->slug_cs)"
-                                    :tag-text="$notice->is_important ? 'DŮLEŽITÉ' : ''"
+                                    :tag-text="$notice->is_important ? __('DŮLEŽITÉ') : ''"
                                     :date="$notice->date_text"
                                 />
                             @endforeach
                         </div>
 
-                        <x-button text="Archiv všech zpráv" :url="route('zpravodajstvi.vykonny-vybor')" variant="link" class="w-full" />
+                        <x-button :text="__('Archiv všech zpráv')" :url="route('zpravodajstvi.vykonny-vybor')" variant="link" class="w-full" />
                     </aside>
                 </div>
             </div>

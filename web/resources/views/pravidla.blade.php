@@ -5,7 +5,7 @@
 --}}
 <x-layouts.app
     :title="\App\Support\Locale::field($settings, 'hero_title').' — Poolbilliard'"
-    description="Pravidla poolbilliardu, vyvrácené mýty a přehled jednotlivých disciplín podle Českého svazu poolbilliardu."
+    :description="__('Pravidla poolbilliardu, vyvrácené mýty a přehled jednotlivých disciplín podle Českého svazu poolbilliardu.')"
 >
     <x-page-hero
         :title="$settings->hero_title"

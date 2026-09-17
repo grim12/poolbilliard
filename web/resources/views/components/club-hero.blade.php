@@ -7,7 +7,7 @@
     Mirrors ui/src/_includes/widgets/club-hero.njk.
 --}}
 @props([
-    'backText' => 'Zpět na kluby',
+    'backText' => null,
     'backUrl' => '/kluby',
     'title' => '',
     'city' => '',
@@ -15,6 +15,10 @@
     'image' => '',
     'imageAlt' => '',
 ])
+
+@php
+    $backText ??= __('Zpět na kluby');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--club-hero t-dark']) }}>
     @if ($image)

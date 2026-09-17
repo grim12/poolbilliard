@@ -4,10 +4,10 @@
     skills/web-component-guide.md for the full breakdown of what's automatic vs. editable.
 --}}
 <x-layouts.app
-    title="Poolbilliard — Český svaz poolbilliardu"
-    description="Oficiální web Českého svazu poolbilliardu — turnaje, žebříčky, kluby, herny a vše, co potřebujete k začátku s poolbilliardem."
+    :title="__('Poolbilliard — Český svaz poolbilliardu')"
+    :description="__('Oficiální web Českého svazu poolbilliardu — turnaje, žebříčky, kluby, herny a vše, co potřebujete k začátku s poolbilliardem.')"
 >
-    <h1 class="sr-only">Poolbilliard — Český svaz poolbilliardu</h1>
+    <h1 class="sr-only">{{ __('Poolbilliard — Český svaz poolbilliardu') }}</h1>
 
     <div class="c-hp-intro bg-gradient-light">
         @if ($featuredArticle)

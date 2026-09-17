@@ -5,13 +5,13 @@
     as ui/'s own newsGrid() call).
 --}}
 <x-layouts.app
-    title="Zprávy výboru — Poolbilliard"
-    description="Zprávy a oznámení výkonného výboru Českého svazu poolbilliardu."
+    :title="__('Zprávy výboru').' — Poolbilliard'"
+    :description="__('Zprávy a oznámení výkonného výboru Českého svazu poolbilliardu.')"
 >
     <div class="bg-gradient-light">
         <x-news-header
-            title="Zprávy výboru"
-            back-text="Zpět na novinky"
+            :title="__('Zprávy výboru')"
+            :back-text="__('Zpět na novinky')"
             :back-url="route('novinky')"
             :show-search="false"
             class="pb-none"
@@ -26,7 +26,7 @@
                                 <x-notice-card
                                     :title="$notice->title"
                                     :url="route('zpravodajstvi.vykonny-vybor.show', $notice->slug_cs)"
-                                    :tag-text="$notice->is_important ? 'DŮLEŽITÉ' : ''"
+                                    :tag-text="$notice->is_important ? __('DŮLEŽITÉ') : ''"
                                     :date="$notice->date_text"
                                     :excerpt="$notice->excerpt"
                                     size="lg"
@@ -41,9 +41,9 @@
                         <div class="c-news-grid__info">
                             <h3 class="c-news-grid__info-heading">
                                 <x-heroicon-m-envelope width="18" height="18" />
-                                Kontakt
+                                {{ __('Kontakt') }}
                             </h3>
-                            <p>Pro jakékoliv informace od Sportovního svazu kontaktujte výkonný výbor na emailu <a href="mailto:vvs.pool@cmbs.cz">vvs.pool@cmbs.cz</a></p>
+                            <p>{!! __('Pro jakékoliv informace od Sportovního svazu kontaktujte výkonný výbor na emailu :link', ['link' => '<a href="mailto:vvs.pool@cmbs.cz">vvs.pool@cmbs.cz</a>']) !!}</p>
                         </div>
                     </aside>
                 </div>

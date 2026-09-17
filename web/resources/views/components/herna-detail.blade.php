@@ -26,14 +26,14 @@
             <div class="c-section__body">
                 @if ($herna->about_text)
                     <div>
-                        <h2>O herně</h2>
+                        <h2>{{ __('O herně') }}</h2>
                         {!! $herna->about_text !!}
                     </div>
                 @endif
 
                 @if (count($herna->sports ?? []))
                     <div>
-                        <h2>Nabízené sporty</h2>
+                        <h2>{{ __('Nabízené sporty') }}</h2>
                         <div class="c-herna-tags">
                             @foreach ($herna->sports as $sport)
                                 <x-tag :text="$sport" color="primary" variant="subtle" />
@@ -44,7 +44,7 @@
 
                 @if (count($herna->gallery_urls))
                     <div>
-                        <h2>Fotogalerie</h2>
+                        <h2>{{ __('Fotogalerie') }}</h2>
                         <div class="c-herna-gallery">
                             @foreach ($herna->gallery_urls as $image)
                                 <a href="{{ $image }}" target="_blank" rel="noopener noreferrer" class="c-herna-gallery__item" aria-label="{{ $herna->name }}">
@@ -76,7 +76,7 @@
 
                     @if (count($herna->hours ?? []))
                         <div class="c-herna-aside-card">
-                            <p class="c-section__eyebrow">Otevírací doba</p>
+                            <p class="c-section__eyebrow">{{ __('Otevírací doba') }}</p>
                             <div class="c-herna-hours">
                                 @foreach ($herna->hours as $row)
                                     <div class="c-herna-hours__row">
@@ -91,7 +91,7 @@
 
                     @if ($hasContactCard)
                         <div class="c-herna-aside-card">
-                            <p class="c-section__eyebrow">Kontakt</p>
+                            <p class="c-section__eyebrow">{{ __('Kontakt') }}</p>
                             <div class="c-herna-aside-card__contact">
                                 @if ($herna->phone)
                                     <a class="c-herna-aside-card__contact-link" href="tel:{{ $herna->phone }}"><x-heroicon-m-phone width="18" height="18" /> {{ $herna->phone }}</a>
@@ -100,7 +100,7 @@
                                     <a class="c-herna-aside-card__contact-link" href="mailto:{{ $herna->email }}"><x-heroicon-m-envelope width="18" height="18" /> {{ $herna->email }}</a>
                                 @endif
                                 @if ($herna->website)
-                                    <a class="c-herna-aside-card__contact-link" href="{{ $herna->website }}" target="_blank" rel="noopener noreferrer"><x-heroicon-m-globe-alt width="18" height="18" /> Web herny</a>
+                                    <a class="c-herna-aside-card__contact-link" href="{{ $herna->website }}" target="_blank" rel="noopener noreferrer"><x-heroicon-m-globe-alt width="18" height="18" /> {{ __('Web herny') }}</a>
                                 @endif
                             </div>
                         </div>

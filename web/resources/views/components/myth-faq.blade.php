@@ -24,7 +24,7 @@
                 <button type="button" class="c-faq__question" aria-expanded="{{ $index === 0 ? 'true' : 'false' }}" aria-controls="{{ $idPrefix }}-panel-{{ $index + 1 }}" data-faq-toggle>
                     <span class="c-faq__badge c-faq__badge--myth">
                         <x-heroicon-m-exclamation-triangle width="12" height="12" />
-                        Mýtus
+                        {{ __('Mýtus') }}
                     </span>
                     <span class="c-faq__question-text">„{{ $item->myth_text }}“</span>
                     <x-heroicon-m-chevron-down class="c-faq__chevron" width="20" height="20" />
@@ -33,7 +33,7 @@
                     <div class="c-faq__answer">
                         <span class="c-faq__badge c-faq__badge--correct">
                             <x-heroicon-m-check-circle width="12" height="12" />
-                            Správně
+                            {{ __('Správně') }}
                         </span>
                         {{-- correct_text is RichEditor-authored HTML (own <p> tags already) —
                              no wrapping <p>, same pitfall as about_text/description elsewhere. --}}

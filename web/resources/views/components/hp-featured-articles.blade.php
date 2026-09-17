@@ -9,12 +9,16 @@
     'featured',
     'items' => [],
     'moreUrl' => '#',
-    'moreText' => 'Další novinky',
+    'moreText' => null,
 ])
+
+@php
+    $moreText ??= __('Další novinky');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--hp-featured-articles']) }}>
     <div class="c-container">
-        <h2 class="sr-only">Novinky</h2>
+        <h2 class="sr-only">{{ __('Novinky') }}</h2>
         <div class="c-section__grid">
             <div class="c-section__featured">
                 <x-article-card-main

@@ -16,7 +16,7 @@
 
 <x-layouts.app
     :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
-    description="Katalog kulečníkových heren v Česku — najděte hernu ve svém okolí, otevírací dobu i nabízené sporty."
+    :description="__('Katalog kulečníkových heren v Česku — najděte hernu ve svém okolí, otevírací dobu i nabízené sporty.')"
 >
     <div class="bg-gradient-light">
         <x-news-header
@@ -29,7 +29,7 @@
         <section class="c-section pt-none">
             <div class="c-container">
                 <div class="c-section__grid lg:grid-cols-[1.7fr_1fr] items-stretch gap-6 lg:gap-8">
-                    <div class="c-club-map" data-club-map='{{ json_encode($mapHernas) }}' data-pin-color="primary" role="application" aria-label="Mapa heren v České republice"></div>
+                    <div class="c-club-map" data-club-map='{{ json_encode($mapHernas) }}' data-pin-color="primary" role="application" aria-label="{{ __('Mapa heren v České republice') }}"></div>
 
                     <x-info-panel
                         :tag-text="$settings->info_tag_text"

@@ -11,7 +11,7 @@
       next to the date, below the title
 --}}
 @props([
-    'backText' => 'Zpět na novinky',
+    'backText' => null,
     'backUrl' => '#',
     'tagText' => '',
     'tagColor' => 'primary',
@@ -21,6 +21,10 @@
     'image' => '',
     'imageAlt' => '',
 ])
+
+@php
+    $backText ??= __('Zpět na novinky');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--article']) }}>
     <div class="c-container">

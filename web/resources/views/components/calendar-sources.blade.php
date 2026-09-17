@@ -7,9 +7,13 @@
     Mirrors ui/src/_includes/macros/calendar-sources.njk.
 --}}
 @props([
-    'title' => 'Zdrojové kalendáře',
+    'title' => null,
     'sources' => [],
 ])
+
+@php
+    $title ??= __('Zdrojové kalendáře');
+@endphp
 
 <div {{ $attributes->merge(['class' => 'c-calendar-sources']) }}>
     <h3 class="c-calendar-sources__title">

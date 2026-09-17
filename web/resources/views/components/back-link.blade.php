@@ -4,9 +4,13 @@
     Mirrors ui/src/_includes/macros/back-link.njk.
 --}}
 @props([
-    'text' => 'Zpět',
+    'text' => null,
     'url' => '#',
 ])
+
+@php
+    $text ??= __('Zpět');
+@endphp
 
 <a href="{{ $url }}" {{ $attributes->merge(['class' => 'c-back-link']) }}>
     <x-heroicon-m-arrow-left width="18" height="18" />

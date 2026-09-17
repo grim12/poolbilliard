@@ -8,13 +8,13 @@
 @props(['paginator'])
 
 @if ($paginator->hasPages())
-    <nav class="c-pagination" aria-label="Stránkování">
+    <nav class="c-pagination" aria-label="{{ __('Stránkování') }}">
         @if ($paginator->onFirstPage())
             <span class="c-pagination__nav c-pagination__nav--is-disabled" aria-hidden="true">
                 <x-heroicon-m-chevron-left width="18" height="18" />
             </span>
         @else
-            <a href="{{ $paginator->previousPageUrl() }}" class="c-pagination__nav" aria-label="Předchozí stránka">
+            <a href="{{ $paginator->previousPageUrl() }}" class="c-pagination__nav" aria-label="{{ __('Předchozí stránka') }}">
                 <x-heroicon-m-chevron-left width="18" height="18" />
             </a>
         @endif
@@ -32,7 +32,7 @@
         </ul>
 
         @if ($paginator->hasMorePages())
-            <a href="{{ $paginator->nextPageUrl() }}" class="c-pagination__nav" aria-label="Další stránka">
+            <a href="{{ $paginator->nextPageUrl() }}" class="c-pagination__nav" aria-label="{{ __('Další stránka') }}">
                 <x-heroicon-m-chevron-right width="18" height="18" />
             </a>
         @else

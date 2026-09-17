@@ -13,9 +13,13 @@
     'title' => '',
     'items' => [],
     'calendarUrl' => '#',
-    'calendarText' => 'Kompletní kalendář',
+    'calendarText' => null,
     'streamUrl' => '#',
 ])
+
+@php
+    $calendarText ??= __('Kompletní kalendář');
+@endphp
 
 <section {{ $attributes->merge(['class' => 'c-section c-section--tournaments']) }}>
     <div class="c-container">
@@ -40,7 +44,7 @@
             <x-button :text="$calendarText" :url="$calendarUrl" variant="outline" />
             <p class="c-section__note">
                 <x-brand-youtube width="20" height="20" />
-                <span>Přímé přenosy z turnajů sledujte na <a href="{{ $streamUrl }}">ČMBS TV</a></span>
+                <span>{!! __('Přímé přenosy z turnajů sledujte na :link', ['link' => '<a href="'.e($streamUrl).'">ČMBS TV</a>']) !!}</span>
             </p>
         </div>
     </div>

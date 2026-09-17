@@ -28,7 +28,7 @@ class JakZacitController extends Controller
                     'text' => $section->nav_label,
                     'url' => '#'.$section->anchor,
                 ])->all(),
-                ['text' => 'Chci se zlepšit', 'url' => '#doporuceni'],
+                ['text' => __('Chci se zlepšit'), 'url' => '#doporuceni'],
             ],
         ]);
     }
