@@ -16,10 +16,10 @@
     ];
 @endphp
 <x-layouts.app
-    :title="$article->title.' — Poolbilliard'"
-    :description="\Illuminate\Support\Str::of($article->excerpt ?: $article->body)->stripTags()->squish()->limit(155)->toString()"
+    :title="$article->seo_title ?: $article->title"
+    :description="$article->seo_description ?: \Illuminate\Support\Str::of($article->excerpt ?: $article->body)->stripTags()->squish()->limit(155)->toString()"
     og-type="article"
-    :og-image="$article->image_url"
+    :og-image="$article->seo_image_url ?: $article->image_url"
     :structured-data="$structuredData"
 >
     <x-article-content

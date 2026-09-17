@@ -7,8 +7,9 @@
     since this is the real, complete rankings listing.
 --}}
 <x-layouts.app
-    :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
-    :description="__('Přehled soutěží a žebříčků Českého svazu poolbilliardu.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: \App\Support\Locale::field($settings, 'title')"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Přehled soutěží a žebříčků Českého svazu poolbilliardu.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <x-page-hero
         :title="$settings->title"

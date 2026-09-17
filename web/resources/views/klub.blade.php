@@ -1,8 +1,8 @@
 {{-- Mirrors ui/src/klub.njk — club-hero + club-detail. --}}
 <x-layouts.app
-    :title="$club->name.' — Poolbilliard'"
-    :description="$club->about_text ? \Illuminate\Support\Str::of($club->about_text)->stripTags()->squish()->limit(155)->toString() : $club->name.', '.$club->city.' — '.__('klub Českého poolbilliardu.')"
-    :og-image="$club->image_url"
+    :title="$club->seo_title ?: $club->name"
+    :description="$club->seo_description ?: ($club->about_text ? \Illuminate\Support\Str::of($club->about_text)->stripTags()->squish()->limit(155)->toString() : $club->name.', '.$club->city.' — '.__('klub Českého poolbilliardu.'))"
+    :og-image="$club->seo_image_url ?: $club->image_url"
 >
     <x-club-hero
         :title="$club->name"

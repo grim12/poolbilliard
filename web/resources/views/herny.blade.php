@@ -15,8 +15,9 @@
 @endphp
 
 <x-layouts.app
-    :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
-    :description="__('Katalog kulečníkových heren v Česku — najděte hernu ve svém okolí, otevírací dobu i nabízené sporty.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: \App\Support\Locale::field($settings, 'title')"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Katalog kulečníkových heren v Česku — najděte hernu ve svém okolí, otevírací dobu i nabízené sporty.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <div class="bg-gradient-light">
         <x-news-header

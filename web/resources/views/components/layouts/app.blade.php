@@ -22,9 +22,17 @@
     below and the header's language switcher (passed through as `altLocaleUrl`). A page whose
     route has no such counterpart (or no matched route at all, e.g. a 404) just gets no
     hreflang/switcher target beyond that locale's homepage.
+    titleSuffix: appends GeneralSettings::$seo_title_suffix to `title` as " — {suffix}" (also
+    used as `og:site_name`) — every page passes its own bare title and lets this happen
+    centrally, except the homepage (`:title-suffix="false"`), which already spells out the full
+    brand name itself.
+    ogImage: pass the page/entity's own resolved image (already falling back to its own
+    seo_image override where one exists, see e.g. klub.blade.php) — GeneralSettings'
+    sitewide default only kicks in when that's still null.
 --}}
 @props([
     'title' => 'Poolbilliard',
+    'titleSuffix' => true,
     'description' => null,
     'ogImage' => null,
     'ogType' => 'website',
@@ -36,9 +44,15 @@
 ])
 
 @php
-    $headerDark ??= app(\App\Settings\GeneralSettings::class)->header_dark;
+    $generalSettings = app(\App\Settings\GeneralSettings::class);
+    $headerDark ??= $generalSettings->header_dark;
     $canonicalUrl = $canonical ?? url()->current();
-    $ogImageUrl = $ogImage ?? asset('uploads/cesky_pool.png');
+    $ogImageUrl = $ogImage
+        ?? \App\Support\Seo::imageUrl($generalSettings->seo_default_og_image)
+        ?? asset('uploads/cesky_pool.png');
+    $fullTitle = $titleSuffix && $generalSettings->seo_title_suffix
+        ? "{$title} — {$generalSettings->seo_title_suffix}"
+        : $title;
 
     $isEn = app()->getLocale() === 'en';
     $currentRouteName = request()->route()?->getName();
@@ -62,7 +76,7 @@
     @else
         <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
     @endif
-    <title>{{ $title }}</title>
+    <title>{{ $fullTitle }}</title>
     <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}" />
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}" />
@@ -82,12 +96,12 @@
     @endif
 
     <meta property="og:type" content="{{ $ogType }}" />
-    <meta property="og:site_name" content="Český Poolbilliard" />
+    <meta property="og:site_name" content="{{ $generalSettings->seo_title_suffix }}" />
     <meta property="og:locale" content="{{ $isEn ? 'en_US' : 'cs_CZ' }}" />
     @if ($isEn ? $csUrl : $enUrl)
         <meta property="og:locale:alternate" content="{{ $isEn ? 'cs_CZ' : 'en_US' }}" />
     @endif
-    <meta property="og:title" content="{{ $title }}" />
+    <meta property="og:title" content="{{ $fullTitle }}" />
     <meta property="og:url" content="{{ $canonicalUrl }}" />
     <meta property="og:image" content="{{ $ogImageUrl }}" />
     @if ($description)
@@ -95,7 +109,7 @@
     @endif
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{{ $title }}" />
+    <meta name="twitter:title" content="{{ $fullTitle }}" />
     <meta name="twitter:image" content="{{ $ogImageUrl }}" />
     @if ($description)
         <meta name="twitter:description" content="{{ $description }}" />

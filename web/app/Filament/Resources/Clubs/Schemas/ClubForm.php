@@ -8,6 +8,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
@@ -84,6 +85,24 @@ class ClubForm
                         Toggle::make('recruitment_open')
                             ->label('Nábor otevřen')
                             ->default(true),
+                    ]),
+                Section::make('SEO')
+                    ->description('Nepovinné přepsání výchozích SEO hodnot — necháš-li prázdné, použije se automaticky vypočtený titulek/popis a úvodní fotka klubu.')
+                    ->collapsed()
+                    ->components([
+                        TranslatableTabs::make([
+                            'seo_title' => fn (string $locale) => TextInput::make('seo_title')
+                                ->label('SEO titulek'),
+                            'seo_description' => fn (string $locale) => Textarea::make('seo_description')
+                                ->label('SEO popis (meta description)')
+                                ->rows(2),
+                        ]),
+                        FileUpload::make('seo_image')
+                            ->label('SEO obrázek (og:image)')
+                            ->helperText('Necháš-li prázdné, použije se úvodní fotka klubu, jinak sitewide výchozí obrázek (Nastavení > SEO).')
+                            ->image()
+                            ->disk('public')
+                            ->directory('seo'),
                     ]),
                 Section::make('Členové klubu')
                     ->components([

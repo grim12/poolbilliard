@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notice;
+use App\Settings\VykonnyVyborSettings;
 use Illuminate\View\View;
 
 class NoticeController extends Controller
@@ -12,7 +13,7 @@ class NoticeController extends Controller
      * "Kontakt" info box ui/ places in newsGrid's sidebar is skipped for now, same scope cut
      * as Novinky's "Důležité zprávy" sidebar — no sidebar layout exists yet).
      */
-    public function index(): View
+    public function index(VykonnyVyborSettings $settings): View
     {
         $notices = Notice::whereNotNull('published_at')
             ->orderByDesc('published_at')
@@ -20,6 +21,7 @@ class NoticeController extends Controller
 
         return view('zpravodajstvi.vykonny-vybor', [
             'notices' => $notices,
+            'settings' => $settings,
         ]);
     }
 

@@ -6,6 +6,7 @@ use App\Enums\Region;
 use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\HasTranslatableFormFields;
 use App\Settings\GeneralSettings;
+use App\Support\Seo;
 use Database\Factories\ClubFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,7 +22,7 @@ class Club extends Model
     use HasSlug;
     use HasTranslatableFormFields;
 
-    public array $translatable = ['about_text', 'recruitment_text'];
+    public array $translatable = ['about_text', 'recruitment_text', 'seo_title', 'seo_description'];
 
     protected $fillable = [
         'name',
@@ -41,6 +42,11 @@ class Club extends Model
         'recruitment_open',
         'recruitment_text',
         'recruitment_text_translations',
+        'seo_title',
+        'seo_title_translations',
+        'seo_description',
+        'seo_description_translations',
+        'seo_image',
     ];
 
     protected function casts(): array
@@ -61,6 +67,11 @@ class Club extends Model
     protected function imageUrl(): Attribute
     {
         return Attribute::get(fn () => $this->image ? Storage::disk('public')->url($this->image) : null);
+    }
+
+    protected function seoImageUrl(): Attribute
+    {
+        return Attribute::get(fn () => Seo::imageUrl($this->seo_image));
     }
 
     /**

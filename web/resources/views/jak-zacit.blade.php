@@ -7,8 +7,9 @@
     pill pointing at the match-form section below them.
 --}}
 <x-layouts.app
-    :title="\App\Support\Locale::field($settings, 'hero_title').' — Poolbilliard'"
-    :description="__('Chcete začít hrát poolbilliard? Zjistěte, jak najít klub, přihlásit se k prvnímu turnaji a zorientovat se v soutěžích.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: \App\Support\Locale::field($settings, 'hero_title')"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Chcete začít hrát poolbilliard? Zjistěte, jak najít klub, přihlásit se k prvnímu turnaji a zorientovat se v soutěžích.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <x-page-hero :title="$settings->hero_title" :text="$settings->hero_text" />
 

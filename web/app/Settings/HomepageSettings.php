@@ -76,6 +76,20 @@ class HomepageSettings extends Settings
 
     public ?string $partners_button_text_en;
 
+    /**
+     * Nepovinné přepsání výchozích SEO hodnot (viz App\Support\Seo) — necháš-li prázdné, homepage
+     * použije svůj vlastní pevný titulek/popis (viz home.blade.php).
+     */
+    public ?string $seo_title;
+
+    public ?string $seo_title_en;
+
+    public ?string $seo_description;
+
+    public ?string $seo_description_en;
+
+    public ?string $seo_image;
+
     public static function group(): string
     {
         return 'homepage';

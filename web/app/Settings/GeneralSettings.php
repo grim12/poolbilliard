@@ -41,6 +41,22 @@ class GeneralSettings extends Settings
      */
     public bool $header_dark;
 
+    /**
+     * Appended to every page's <title> as " — {suffix}" (see <x-layouts.app>'s `titleSuffix`
+     * prop) — centralizes what used to be a literal " — Poolbilliard" hardcoded into every
+     * page's own blade file. Also doubles as `og:site_name`, since both are the same "brand
+     * name shown after the page's own title" concept. The homepage is the one page that opts
+     * out (`:title-suffix="false"`) — its own title already spells out the full brand name.
+     */
+    public string $seo_title_suffix;
+
+    /**
+     * Sitewide fallback `og:image`/`twitter:image` — used by <x-layouts.app> only when neither
+     * the current page nor entity has its own `seo_image` (or other content image) set. Stores
+     * a relative disk path, same convention as every other image field — see App\Support\Seo.
+     */
+    public ?string $seo_default_og_image;
+
     public static function group(): string
     {
         return 'general';

@@ -4,8 +4,9 @@
     skills/web-component-guide.md.
 --}}
 <x-layouts.app
-    :title="__('Partneři').' — Poolbilliard'"
-    :description="__('Partneři a sponzoři Českého svazu poolbilliardu, kteří podporují rozvoj poolbilliardu v Česku.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: __('Partneři')"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Partneři a sponzoři Českého svazu poolbilliardu, kteří podporují rozvoj poolbilliardu v Česku.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <section class="c-section c-section--partner-directory">
         <div class="c-container">

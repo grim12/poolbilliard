@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\HasTranslatableFormFields;
+use App\Support\Seo;
 use Database\Factories\NoticeFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,7 @@ class Notice extends Model
     use HasSlug;
     use HasTranslatableFormFields;
 
-    public array $translatable = ['title', 'excerpt', 'body'];
+    public array $translatable = ['title', 'excerpt', 'body', 'seo_title', 'seo_description'];
 
     protected $fillable = [
         'title',
@@ -30,6 +31,11 @@ class Notice extends Model
         'body_translations',
         'is_important',
         'published_at',
+        'seo_title',
+        'seo_title_translations',
+        'seo_description',
+        'seo_description_translations',
+        'seo_image',
     ];
 
     protected function casts(): array
@@ -47,6 +53,11 @@ class Notice extends Model
     protected function dateText(): Attribute
     {
         return Attribute::get(fn () => $this->published_at?->locale('cs')->translatedFormat('j. F Y'));
+    }
+
+    protected function seoImageUrl(): Attribute
+    {
+        return Attribute::get(fn () => Seo::imageUrl($this->seo_image));
     }
 
     protected static function slugSourceField(): string

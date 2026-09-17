@@ -52,6 +52,20 @@ class JakZacitSettings extends Settings
 
     public ?string $match_form_text_en;
 
+    /**
+     * Nepovinné přepsání výchozích SEO hodnot (viz App\Support\Seo) — necháš-li prázdné, použije
+     * se automaticky vypočtený titulek/popis (viz jak-zacit.blade.php).
+     */
+    public ?string $seo_title;
+
+    public ?string $seo_title_en;
+
+    public ?string $seo_description;
+
+    public ?string $seo_description_en;
+
+    public ?string $seo_image;
+
     public static function group(): string
     {
         return 'jak_zacit';

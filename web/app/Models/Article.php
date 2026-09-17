@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\HasTranslatableFormFields;
+use App\Support\Seo;
 use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +20,7 @@ class Article extends Model
     use HasSlug;
     use HasTranslatableFormFields;
 
-    public array $translatable = ['title', 'excerpt', 'body'];
+    public array $translatable = ['title', 'excerpt', 'body', 'seo_title', 'seo_description'];
 
     protected $fillable = [
         'title',
@@ -34,6 +35,11 @@ class Article extends Model
         'body_translations',
         'gallery',
         'published_at',
+        'seo_title',
+        'seo_title_translations',
+        'seo_description',
+        'seo_description_translations',
+        'seo_image',
     ];
 
     protected function casts(): array
@@ -57,6 +63,11 @@ class Article extends Model
     protected function imageUrl(): Attribute
     {
         return Attribute::get(fn () => $this->image ? Storage::disk('public')->url($this->image) : null);
+    }
+
+    protected function seoImageUrl(): Attribute
+    {
+        return Attribute::get(fn () => Seo::imageUrl($this->seo_image));
     }
 
     /**

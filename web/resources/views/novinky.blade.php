@@ -3,8 +3,9 @@
     (real Notice query instead of ui/'s hand-picked static list).
 --}}
 <x-layouts.app
-    :title="__('Novinky').' — Poolbilliard'"
-    :description="__('Aktuality a novinky ze světa Českého poolbilliardu — výsledky turnajů, reportáže a dění ve svazu.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: __('Novinky')"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Aktuality a novinky ze světa Českého poolbilliardu — výsledky turnajů, reportáže a dění ve svazu.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <div class="bg-gradient-light">
         <x-news-header :title="__('Novinky')" :categories="$categoryTabs" class="pb-none" />

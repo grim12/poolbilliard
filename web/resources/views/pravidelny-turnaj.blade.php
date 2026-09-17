@@ -6,9 +6,10 @@
     which has its own admin-managed category).
 --}}
 <x-layouts.app
-    :title="$tournament->title.' — Poolbilliard'"
-    :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — '.__('pravidelný turnaj v kalendáři Českého poolbilliardu.')"
+    :title="$tournament->seo_title ?: $tournament->title"
+    :description="$tournament->seo_description ?: ($tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — '.__('pravidelný turnaj v kalendáři Českého poolbilliardu.'))"
     og-type="article"
+    :og-image="$tournament->seo_image_url"
 >
     <x-tournament-content
         :back-url="\App\Support\Locale::route('kalendar')"

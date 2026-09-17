@@ -23,9 +23,10 @@
     ] : null;
 @endphp
 <x-layouts.app
-    :title="$tournament->title.' — Poolbilliard'"
-    :description="$tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — '.__('turnaj v kalendáři Českého poolbilliardu.')"
+    :title="$tournament->seo_title ?: $tournament->title"
+    :description="$tournament->seo_description ?: ($tournament->description ? \Illuminate\Support\Str::of($tournament->description)->stripTags()->squish()->limit(155)->toString() : $tournament->title.' — '.__('turnaj v kalendáři Českého poolbilliardu.'))"
     og-type="article"
+    :og-image="$tournament->seo_image_url"
     :structured-data="$structuredData"
 >
     <x-tournament-content

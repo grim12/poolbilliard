@@ -3,8 +3,9 @@
     pageHero() and linkTiles() aren't ported yet — see skills/web-component-guide.md.
 --}}
 <x-layouts.app
-    :title="__('Časté dotazy').' — Poolbilliard'"
-    :description="__('Odpovědi na nejčastější dotazy o poolbilliardu, registraci, soutěžích a členství v Českém svazu poolbilliardu.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: __('Časté dotazy')"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Odpovědi na nejčastější dotazy o poolbilliardu, registraci, soutěžích a členství v Českém svazu poolbilliardu.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <section class="c-section c-section--faq">
         <div class="c-container">

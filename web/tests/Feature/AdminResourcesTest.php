@@ -80,8 +80,17 @@ class AdminResourcesTest extends TestCase
             '/admin/documents',
             '/admin/manage-general-settings',
             '/admin/manage-homepage-settings',
+            '/admin/manage-kluby-settings',
+            '/admin/manage-herny-settings',
+            '/admin/manage-kalendar-settings',
+            '/admin/manage-souteze-settings',
             '/admin/manage-jak-zacit-settings',
+            '/admin/manage-pravidla-settings',
             '/admin/manage-svaz-settings',
+            '/admin/manage-partneri-settings',
+            '/admin/manage-faq-settings',
+            '/admin/manage-novinky-settings',
+            '/admin/manage-vykonny-vybor-settings',
         ];
 
         foreach ($urls as $url) {
@@ -165,6 +174,34 @@ class AdminResourcesTest extends TestCase
 
         $this->actingAs($user)->get('/admin/rule-cards/create')->assertOk();
         $this->actingAs($user)->get("/admin/rule-cards/{$card->id}/edit")->assertOk();
+    }
+
+    /**
+     * Club's form just gained a new "SEO" Section (seo_title/seo_description TranslatableTabs +
+     * seo_image FileUpload) — worth its own create/edit smoke test, same reasoning as Banner's.
+     */
+    public function test_club_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $club = Club::factory()->create();
+
+        $this->actingAs($user)->get('/admin/clubs/create')->assertOk();
+        $this->actingAs($user)->get("/admin/clubs/{$club->id}/edit")->assertOk();
+    }
+
+    /**
+     * Tournament's form was entirely flat (no Section wrapper at all) until it gained its first
+     * one for the new "SEO" fields — worth its own create/edit smoke test to confirm mixing a
+     * Section into a previously flat schema doesn't break anything.
+     */
+    public function test_tournament_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $category = TournamentCategory::factory()->create();
+        $tournament = Tournament::factory()->create(['tournament_category_id' => $category->id]);
+
+        $this->actingAs($user)->get('/admin/tournaments/create')->assertOk();
+        $this->actingAs($user)->get("/admin/tournaments/{$tournament->id}/edit")->assertOk();
     }
 
     /**

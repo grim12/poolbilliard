@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\HasTranslatableFormFields;
+use App\Support\Seo;
 use Database\Factories\RecurringTournamentFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,7 +28,7 @@ class RecurringTournament extends Model
     use HasSlug;
     use HasTranslatableFormFields;
 
-    public array $translatable = ['title', 'frequency', 'location_text', 'description'];
+    public array $translatable = ['title', 'frequency', 'location_text', 'description', 'seo_title', 'seo_description'];
 
     protected $fillable = [
         'title',
@@ -42,6 +44,11 @@ class RecurringTournament extends Model
         'description',
         'description_translations',
         'sort_order',
+        'seo_title',
+        'seo_title_translations',
+        'seo_description',
+        'seo_description_translations',
+        'seo_image',
     ];
 
     protected static function slugSourceField(): string
@@ -52,5 +59,10 @@ class RecurringTournament extends Model
     public function herna(): BelongsTo
     {
         return $this->belongsTo(Herna::class);
+    }
+
+    protected function seoImageUrl(): Attribute
+    {
+        return Attribute::get(fn () => Seo::imageUrl($this->seo_image));
     }
 }

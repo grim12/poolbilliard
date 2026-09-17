@@ -5,8 +5,9 @@
     as ui/'s own newsGrid() call).
 --}}
 <x-layouts.app
-    :title="__('Zprávy výboru').' — Poolbilliard'"
-    :description="__('Zprávy a oznámení výkonného výboru Českého svazu poolbilliardu.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: __('Zprávy výboru')"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Zprávy a oznámení výkonného výboru Českého svazu poolbilliardu.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <div class="bg-gradient-light">
         <x-news-header

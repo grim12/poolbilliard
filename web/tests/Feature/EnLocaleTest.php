@@ -120,10 +120,10 @@ class EnLocaleTest extends TestCase
      */
     public function test_en_venues_page_title_falls_back_to_czech_until_translated(): void
     {
-        $this->get('/en/venues')->assertSee('<title>Kulečníkové herny — Poolbilliard', false);
+        $this->get('/en/venues')->assertSee('<title>Kulečníkové herny — Český Poolbilliard', false);
 
         app(HernySettings::class)->fill(['title_en' => 'Billiard Venues'])->save();
 
-        $this->get('/en/venues')->assertSee('<title>Billiard Venues — Poolbilliard', false);
+        $this->get('/en/venues')->assertSee('<title>Billiard Venues — Český Poolbilliard', false);
     }
 }

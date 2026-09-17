@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\Notice;
+use App\Settings\NovinkySettings;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -17,7 +18,7 @@ class ArticleController extends Controller
      * (search/filter aren't wired up to real filtering there either — see
      * components/news-header.blade.php).
      */
-    public function index(): View
+    public function index(NovinkySettings $settings): View
     {
         $articles = Article::with('category')
             ->whereNotNull('published_at')
@@ -43,6 +44,7 @@ class ArticleController extends Controller
             'articles' => $articles,
             'categoryTabs' => $categoryTabs,
             'sidebarNotices' => $sidebarNotices,
+            'settings' => $settings,
         ]);
     }
 

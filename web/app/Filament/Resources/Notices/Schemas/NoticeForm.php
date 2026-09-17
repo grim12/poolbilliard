@@ -4,10 +4,12 @@ namespace App\Filament\Resources\Notices\Schemas;
 
 use App\Filament\Support\TranslatableTabs;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class NoticeForm
@@ -40,6 +42,24 @@ class NoticeForm
                     'body' => fn (string $locale) => RichEditor::make('body')
                         ->label('Obsah zprávy'),
                 ])->columnSpanFull(),
+                Section::make('SEO')
+                    ->description('Nepovinné přepsání výchozích SEO hodnot — necháš-li prázdné, použije se automaticky vypočtený titulek/popis.')
+                    ->collapsed()
+                    ->components([
+                        TranslatableTabs::make([
+                            'seo_title' => fn (string $locale) => TextInput::make('seo_title')
+                                ->label('SEO titulek'),
+                            'seo_description' => fn (string $locale) => Textarea::make('seo_description')
+                                ->label('SEO popis (meta description)')
+                                ->rows(2),
+                        ]),
+                        FileUpload::make('seo_image')
+                            ->label('SEO obrázek (og:image)')
+                            ->helperText('Necháš-li prázdné, použije se sitewide výchozí obrázek (Nastavení > SEO) — zpráva nemá vlastní obrázek.')
+                            ->image()
+                            ->disk('public')
+                            ->directory('seo'),
+                    ]),
             ]);
     }
 }

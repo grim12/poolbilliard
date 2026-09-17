@@ -9,7 +9,9 @@ use App\Models\Club;
 use App\Models\Herna;
 use App\Models\Tournament;
 use App\Models\TournamentCategory;
+use App\Settings\GeneralSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SeoTest extends TestCase
@@ -89,6 +91,90 @@ class SeoTest extends TestCase
         $response->assertSee('<meta property="og:title" content="Poolbilliard — Český svaz poolbilliardu"', false);
         $response->assertSee('<meta property="og:type" content="website"', false);
         $response->assertSee('<meta name="twitter:card" content="summary_large_image"', false);
+    }
+
+    /**
+     * GeneralSettings::$seo_title_suffix is appended as " — {suffix}" to every page's <title>
+     * (and doubles as og:site_name) — the homepage is the one exception (own full title, see
+     * home.blade.php's `:title-suffix="false"`), so a settings-backed page stands in here.
+     */
+    public function test_page_title_gets_the_sitewide_seo_suffix_appended(): void
+    {
+        app(GeneralSettings::class)->fill(['seo_title_suffix' => 'Testovací Přípona'])->save();
+
+        $response = $this->get('/kluby');
+
+        $response->assertSee('<title>Sportovní kluby — Testovací Přípona</title>', false);
+        $response->assertSee('<meta property="og:site_name" content="Testovací Přípona"', false);
+    }
+
+    /**
+     * Homepage opts out of the sitewide suffix — its own title already spells out the full
+     * brand name (see home.blade.php's `:title-suffix="false"`). og:site_name still reflects
+     * the suffix setting regardless (it's a separate, always-shown field).
+     */
+    public function test_homepage_title_does_not_get_the_sitewide_seo_suffix_appended(): void
+    {
+        app(GeneralSettings::class)->fill(['seo_title_suffix' => 'Testovací Přípona'])->save();
+
+        $this->get('/')->assertSee('<title>Poolbilliard — Český svaz poolbilliardu</title>', false);
+    }
+
+    /**
+     * Club::$seo_title/$seo_description/$seo_image (App\Filament\Resources\Clubs\Schemas\
+     * ClubForm's "SEO" section) override the automatically computed title/description/og:image
+     * when filled in — see klub.blade.php.
+     */
+    public function test_club_seo_overrides_win_over_the_computed_defaults(): void
+    {
+        $club = Club::factory()->create([
+            'name' => 'Klub Testovací',
+            'seo_title' => 'Vlastní SEO titulek klubu',
+            'seo_description' => 'Vlastní SEO popis klubu.',
+            'seo_image' => 'clubs/custom-seo-image.jpg',
+        ]);
+
+        $response = $this->get(route('klub.show', $club));
+
+        $response->assertOk();
+        $response->assertSee('<title>Vlastní SEO titulek klubu — Český Poolbilliard</title>', false);
+        $response->assertSee('<meta name="description" content="Vlastní SEO popis klubu."', false);
+        $response->assertSee('<meta property="og:image" content="'.Storage::disk('public')->url('clubs/custom-seo-image.jpg').'"', false);
+    }
+
+    /**
+     * Without any seo_title/seo_description override, a club still falls back to its own
+     * computed title/description (same behavior as before this feature existed).
+     */
+    public function test_club_without_seo_overrides_falls_back_to_computed_title_and_description(): void
+    {
+        $club = Club::factory()->create([
+            'name' => 'Klub Bez SEO',
+            'city' => 'Ostrava',
+            'about_text' => null,
+            'seo_title' => null,
+            'seo_description' => null,
+        ]);
+
+        $response = $this->get(route('klub.show', $club));
+
+        $response->assertSee('<title>Klub Bez SEO — Český Poolbilliard</title>', false);
+        $response->assertSee('<meta name="description" content="Klub Bez SEO, Ostrava — klub Českého poolbilliardu."', false);
+    }
+
+    /**
+     * A herna has no content image field of its own — GeneralSettings::$seo_default_og_image is
+     * the only fallback once neither the page nor the entity has a seo_image override.
+     */
+    public function test_sitewide_default_og_image_is_used_when_nothing_more_specific_is_set(): void
+    {
+        app(GeneralSettings::class)->fill(['seo_default_og_image' => 'seo/default-og.jpg'])->save();
+
+        $herna = Herna::factory()->create(['seo_image' => null]);
+
+        $response = $this->get(route('herna.show', $herna));
+
+        $response->assertSee('<meta property="og:image" content="'.Storage::disk('public')->url('seo/default-og.jpg').'"', false);
     }
 
     /**

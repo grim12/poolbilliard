@@ -4,8 +4,10 @@
     skills/web-component-guide.md for the full breakdown of what's automatic vs. editable.
 --}}
 <x-layouts.app
-    :title="__('Poolbilliard — Český svaz poolbilliardu')"
-    :description="__('Oficiální web Českého svazu poolbilliardu — turnaje, žebříčky, kluby, herny a vše, co potřebujete k začátku s poolbilliardem.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: __('Poolbilliard — Český svaz poolbilliardu')"
+    :title-suffix="false"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Oficiální web Českého svazu poolbilliardu — turnaje, žebříčky, kluby, herny a vše, co potřebujete k začátku s poolbilliardem.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <h1 class="sr-only">{{ __('Poolbilliard — Český svaz poolbilliardu') }}</h1>
 

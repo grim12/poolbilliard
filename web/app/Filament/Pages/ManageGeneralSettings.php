@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Filament\Support\TranslatableTabs;
 use App\Settings\GeneralSettings;
 use BackedEnum;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -65,6 +66,21 @@ class ManageGeneralSettings extends SettingsPage
                                 ->label('Výchozí text — nábor uzavřen')
                                 ->required($locale === 'cs'),
                         ]),
+                    ]),
+                Section::make('SEO')
+                    ->description('Výchozí hodnoty pro celý web — jednotlivé stránky a záznamy (kluby, herny, turnaje, články...) je můžou ve svém vlastním SEO panelu přepsat.')
+                    ->columns(1)
+                    ->components([
+                        TextInput::make('seo_title_suffix')
+                            ->label('Přípona titulku stránek')
+                            ->helperText('Připojí se za titulek každé stránky jako " — přípona" (např. "Kluby — Český Poolbilliard"). Homepage má vlastní kompletní titulek a příponu nedostává.')
+                            ->required(),
+                        FileUpload::make('seo_default_og_image')
+                            ->label('Výchozí obrázek pro sdílení (og:image)')
+                            ->helperText('Použije se všude tam, kde stránka ani záznam nemá vlastní obrázek.')
+                            ->image()
+                            ->disk('public')
+                            ->directory('seo'),
                     ]),
             ]);
     }

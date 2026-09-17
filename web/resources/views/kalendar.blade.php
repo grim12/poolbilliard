@@ -10,8 +10,9 @@
     tournaments card (tag/title/text), and the calendar_sources repeater.
 --}}
 <x-layouts.app
-    :title="\App\Support\Locale::field($settings, 'title').' — Poolbilliard'"
-    :description="__('Kalendář turnajů a pravidelných akcí Českého svazu poolbilliardu — přehled podle měsíců.')"
+    :title="\App\Support\Locale::field($settings, 'seo_title') ?: \App\Support\Locale::field($settings, 'title')"
+    :description="\App\Support\Locale::field($settings, 'seo_description') ?: __('Kalendář turnajů a pravidelných akcí Českého svazu poolbilliardu — přehled podle měsíců.')"
+    :og-image="\App\Support\Seo::imageUrl($settings->seo_image)"
 >
     <div class="bg-gradient-light">
         <x-news-header

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\HasTranslatableFormFields;
 use App\Settings\GeneralSettings;
+use App\Support\Seo;
 use Database\Factories\TournamentFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -20,7 +21,7 @@ class Tournament extends Model
     use HasSlug;
     use HasTranslatableFormFields;
 
-    public array $translatable = ['title', 'location_text', 'description'];
+    public array $translatable = ['title', 'location_text', 'description', 'seo_title', 'seo_description'];
 
     protected $fillable = [
         'title',
@@ -37,11 +38,21 @@ class Tournament extends Model
         'description_translations',
         'badge',
         'sort_order',
+        'seo_title',
+        'seo_title_translations',
+        'seo_description',
+        'seo_description_translations',
+        'seo_image',
     ];
 
     public function category(): BelongsTo
     {
         return $this->belongsTo(TournamentCategory::class, 'tournament_category_id');
+    }
+
+    protected function seoImageUrl(): Attribute
+    {
+        return Attribute::get(fn () => Seo::imageUrl($this->seo_image));
     }
 
     protected static function slugSourceField(): string

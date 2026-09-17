@@ -6,6 +6,7 @@ use App\Enums\HernaStatus;
 use App\Enums\Region;
 use App\Models\Concerns\HasSlug;
 use App\Models\Concerns\HasTranslatableFormFields;
+use App\Support\Seo;
 use Database\Factories\HernaFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ class Herna extends Model
     use HasSlug;
     use HasTranslatableFormFields;
 
-    public array $translatable = ['about_text'];
+    public array $translatable = ['about_text', 'seo_title', 'seo_description'];
 
     protected $fillable = [
         'name',
@@ -40,6 +41,11 @@ class Herna extends Model
         'hours',
         'gallery',
         'status',
+        'seo_title',
+        'seo_title_translations',
+        'seo_description',
+        'seo_description_translations',
+        'seo_image',
     ];
 
     protected function casts(): array
@@ -66,5 +72,10 @@ class Herna extends Model
         return Attribute::get(fn () => collect($this->gallery ?? [])
             ->map(fn (string $path) => Storage::disk('public')->url($path))
             ->all());
+    }
+
+    protected function seoImageUrl(): Attribute
+    {
+        return Attribute::get(fn () => Seo::imageUrl($this->seo_image));
     }
 }

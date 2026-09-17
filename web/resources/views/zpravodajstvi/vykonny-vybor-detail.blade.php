@@ -16,9 +16,10 @@
     ];
 @endphp
 <x-layouts.app
-    :title="$notice->title.' — Poolbilliard'"
-    :description="\Illuminate\Support\Str::of($notice->excerpt ?: $notice->body)->stripTags()->squish()->limit(155)->toString()"
+    :title="$notice->seo_title ?: $notice->title"
+    :description="$notice->seo_description ?: \Illuminate\Support\Str::of($notice->excerpt ?: $notice->body)->stripTags()->squish()->limit(155)->toString()"
     og-type="article"
+    :og-image="$notice->seo_image_url"
     :structured-data="$structuredData"
 >
     <x-article-content
