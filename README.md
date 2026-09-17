@@ -73,14 +73,17 @@ Otevřené věci k dořešení:
 
 ### SEO / launch-readiness
 
-Celý veřejný web je teď zamčený za přihlášením (`App\Http\Middleware\SiteLock`) — stejné přihlašovací údaje jako do Filament administrace (`App\Models\User`), odemykací obrazovka na `/pristup` (`resources/views/site-lock.blade.php`, bez `ui/` protějšku — je to provozní stránka, ne navržená stránka webu). Zamčeno je vše mimo `/admin*`, `/up` a odemykací routy; výchozí chování je zamčeno všude kromě `local` a `testing` prostředí, `SITE_LOCK_ENABLED` v `.env` to jde přebít (nastavit na `false`, až půjde web ostře spustit).
+Hotovo:
+* **Site lock** — celý veřejný web je zamčený za přihlášením (`App\Http\Middleware\SiteLock`), stejné přihlašovací údaje jako do Filament administrace (`App\Models\User`), odemykací obrazovka na `/pristup` (`resources/views/site-lock.blade.php`, bez `ui/` protějšku — je to provozní stránka, ne navržená stránka webu). Zamčeno je vše mimo `/admin*`, `/up` a odemykací routy; výchozí chování je zamčeno všude kromě `local` a `testing` prostředí, `SITE_LOCK_ENABLED` v `.env` to jde přebít (nastavit na `false`, až půjde web ostře spustit).
+* **Env-aware indexace** — `App\Support\Launch::indexable()` (řízeno `SEO_INDEXABLE`, jinak odvozeno ze stavu site locku) rozhoduje meta `robots` tag i obsah dynamické routy `/robots.txt` (nahradila statický soubor).
+* **Meta description, canonical, OG/Twitter tagy** — `<x-layouts.app>` má `description`/`ogImage`/`ogType`/`canonical` props, vyplněné na všech stránkách (u dynamických stránek odvozené z obsahu záznamu).
+* **JSON-LD** — sitewide `SportsOrganization` blok v layoutu, plus `NewsArticle` (články), `Article` (zprávy VV) a `SportsEvent` (turnaje s `start_date`) na příslušných stránkách.
+* **Branded 404/500** (`resources/views/errors/`) — 404 používá běžný layout, 500 je záměrně statický bez DB závislosti (viz jeho docblock).
+* **HTTPS v produkci** — `AppServiceProvider::boot()` vynucuje `https://` na generovaných URL (`URL::forceScheme`) v `production`; skutečný redirect příchozích HTTP requestů a trusted proxies nastavení je na tom, kdo bude řešit produkční hosting (viz komentář v kódu).
 
 Zbývá:
-* Meta `robots` tag v `<x-layouts.app>` je pořád natvrdo `noindex, nofollow, noarchive, nosnippet` — potřeba udělat env-aware (spolu s `public/robots.txt`, který je zatím statický a povoluje vše).
-* Meta description, canonical URL, OG/Twitter tagy — žádná stránka je zatím nemá.
-* Favicon sada (jen `favicon.ico`, chybí apple-touch-icon/manifest).
-* `sitemap.xml`, JSON-LD strukturovaná data.
-* Vlastní branded 404/500 stránky, vynucení HTTPS v produkci.
+* **Favicon sada** — blokováno na assetu: existující logo (`web/public/uploads/cesky_pool.png`) je široký wordmark (756×367), ne čtvercová značka vhodná pro ikonu; navíc tu není image nástroj (ImageMagick) na generování variant. Potřebuje čtvercové logo/značku od designu.
+* `sitemap.xml`.
 * Analytika zatím žádná (vědomé rozhodnutí, zatím neřešeno).
 
 ---
