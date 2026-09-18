@@ -1,0 +1,32 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Tournament;
+use App\Models\TournamentCategory;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<Tournament>
+ */
+class TournamentFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'title' => $this->faker->sentence(3),
+            'url' => '#',
+            'tournament_category_id' => TournamentCategory::factory(),
+            'start_date' => $this->faker->dateTimeBetween('now', '+2 months'),
+            'end_date' => null,
+            'location_text' => $this->faker->city(),
+            'badge' => false,
+            'sort_order' => 0,
+        ];
+    }
+}

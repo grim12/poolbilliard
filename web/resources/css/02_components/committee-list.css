@@ -1,0 +1,45 @@
+@layer components {
+  /* ==========================================================================
+     Committee list — avatar + name/role + email rows, see macros/committee-list.njk
+     ========================================================================== */
+
+  .c-committee-list {
+    @apply rounded-3xl border border-gray-200 bg-white overflow-hidden divide-y divide-gray-100;
+  }
+
+  .c-committee-list__head {
+    @apply hidden sm:grid grid-cols-2 gap-4 px-5 py-3 text-xs font-bold uppercase tracking-wider text-body-500 bg-gray-50;
+  }
+
+  .c-committee-list__row {
+    @apply grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 px-5 py-4 items-center;
+  }
+
+  .c-committee-list__person {
+    @apply flex items-center gap-3 min-w-0;
+  }
+
+  .c-committee-list__photo {
+    @apply size-10 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center shrink-0;
+
+    img {
+      @apply w-full h-full object-cover;
+    }
+  }
+
+  .c-committee-list__placeholder {
+    @apply text-gray-300;
+  }
+
+  .c-committee-list__name {
+    @apply font-bold text-body-main m-0;
+  }
+
+  .c-committee-list__role {
+    @apply text-sm text-body-600 m-0;
+  }
+
+  .c-committee-list__email {
+    @apply text-sm font-semibold text-primary-600 no-underline hover:underline truncate;
+  }
+}

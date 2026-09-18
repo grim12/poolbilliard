@@ -1,0 +1,87 @@
+@layer components {
+  /* Base button styling: Primary + Solid + MD (default without extra classes) */
+  .c-button {
+    @apply inline-flex items-center justify-center gap-3 h-12 font-bold text-base leading-tight rounded-xl px-6 bg-primary-600 text-white border border-transparent shadow-xs transition-all duration-200 cursor-pointer select-none no-underline hover:bg-primary-700 active:bg-primary-800;
+
+    /* Disabled state */
+    &:disabled,
+    &[aria-disabled="true"] {
+      @apply opacity-50 cursor-not-allowed pointer-events-none shadow-none;
+    }
+  }
+
+  /* --- Color Overrides --- */
+  .c-button--primary {
+    @apply bg-primary-600 text-white border-transparent hover:bg-primary-700 active:bg-primary-800;
+  }
+
+  .c-button--accent {
+    @apply bg-accent-500 text-white border-transparent hover:bg-accent-600 active:bg-accent-700;
+  }
+
+  .c-button--dark {
+    @apply bg-dark text-white border-transparent hover:bg-dark-hover active:bg-slate-950;
+  }
+
+  /* --- Style Overrides: Outline --- */
+  .c-button--outline {
+    @apply bg-white text-primary-600 border-primary-300 shadow-xs hover:bg-primary-50 hover:border-primary-300 active:bg-primary-100;
+
+    &.c-button--accent {
+      @apply text-accent-500 border-accent-200 hover:bg-accent-50 hover:border-accent-300 active:bg-accent-100;
+    }
+
+    &.c-button--dark {
+      @apply text-dark border-gray-300 hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200;
+    }
+  }
+
+  /* --- Style Overrides: Link (Underline) --- */
+  .c-button--link {
+    @apply bg-transparent text-primary-600 border-transparent shadow-none px-0 py-1 rounded-none underline underline-offset-4 decoration-primary-600 hover:bg-transparent hover:text-primary-700 hover:no-underline active:bg-transparent;
+
+    &.c-button--accent {
+      @apply text-accent-500 decoration-accent-500 hover:text-accent-600;
+    }
+
+    &.c-button--dark {
+      @apply text-dark decoration-dark hover:text-dark-hover;
+    }
+  }
+
+  /* --- Size Overrides (md is default) --- */
+  .c-button--sm {
+    @apply h-10 px-4 py-2 text-sm rounded-lg;
+  }
+
+  .c-button--lg {
+    @apply h-14 px-8 py-4 text-lg rounded-2xl;
+  }
+
+  /* --- Arrow / Icon modifier & hover animation --- */
+  .c-button {
+    svg,
+    .c-button_icon {
+      @apply transition-transform duration-200 shrink-0 -mr-2;
+    }
+
+    &:hover {
+      .c-button_icon,
+      svg {
+        @apply translate-x-0.5;
+      }
+    }
+  }
+
+  /* Leading icon (before the text, e.g. "plus" on an "add new" button) — mirrors the trailing
+     icon's edge-hugging negative margin on the other side, and opts out of the hover
+     translate-x (that "moves forward" affordance only makes sense for a trailing/directional
+     icon like the chevron arrow). */
+  .c-button_icon--leading {
+    @apply mr-0 -ml-2;
+  }
+
+  .c-button:hover .c-button_icon--leading {
+    @apply translate-x-0;
+  }
+}

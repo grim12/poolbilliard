@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Concerns\HasSlug;
+use App\Models\Concerns\HasTranslatableFormFields;
+use App\Support\Seo;
+use Database\Factories\NoticeFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Notice extends Model
+{
+    /** @use HasFactory<NoticeFactory> */
+    use HasFactory;
+
+    use HasSlug;
+    use HasTranslatableFormFields;
+
+    public array $translatable = ['title', 'excerpt', 'body', 'seo_title', 'seo_description'];
+
+    protected $fillable = [
+        'title',
+        'title_translations',
+        'slug_cs',
+        'slug_en',
+        'excerpt',
+        'excerpt_translations',
+        'body',
+        'body_translations',
+        'is_important',
+        'published_at',
+        'seo_title',
+        'seo_title_translations',
+        'seo_description',
+        'seo_description_translations',
+        'seo_image',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'is_important' => 'boolean',
+            'published_at' => 'datetime',
+        ];
+    }
+
+    /**
+     * Computed, not stored — Czech-formatted publish date, same reasoning as
+     * Article::dateText()/Tournament::dateText().
+     */
+    protected function dateText(): Attribute
+    {
+        return Attribute::get(fn () => $this->published_at?->locale('cs')->translatedFormat('j. F Y'));
+    }
+
+    protected function seoImageUrl(): Attribute
+    {
+        return Attribute::get(fn () => Seo::imageUrl($this->seo_image));
+    }
+
+    protected static function slugSourceField(): string
+    {
+        return 'title';
+    }
+}

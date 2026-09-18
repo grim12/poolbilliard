@@ -1,0 +1,79 @@
+@layer components {
+  /* ==========================================================================
+     Alert — horizontal icon + title + text notice card (e.g. "Nábor uzavřen")
+     ========================================================================== */
+
+  .c-alert {
+    @apply flex items-start gap-4 rounded-3xl border border-gray-200 bg-white p-5 sm:p-6;
+  }
+
+  .c-alert__icon {
+    @apply inline-flex items-center justify-center size-10 rounded-full bg-gray-100 text-gray-500 shrink-0;
+  }
+
+  .c-alert__body {
+    @apply min-w-0;
+  }
+
+  .c-alert__title {
+    @apply font-extrabold text-primary-800 text-base m-0 mb-1;
+  }
+
+  .c-alert__text {
+    @apply text-sm text-body-600 m-0;
+  }
+
+  /* --- Color overrides --- */
+  .c-alert--primary {
+    @apply border-primary-100 bg-primary-50;
+
+    .c-alert__icon {
+      @apply bg-primary-600 text-white;
+    }
+
+    .c-alert__title {
+      @apply text-primary-900;
+    }
+  }
+
+  .c-alert--accent {
+    @apply border-accent-100 bg-accent-50;
+
+    .c-alert__icon {
+      @apply bg-accent-500 text-white;
+    }
+
+    .c-alert__title {
+      @apply text-accent-700;
+    }
+  }
+
+  .c-alert--gold {
+    @apply border-gold-200 bg-gold-50;
+
+    .c-alert__icon {
+      @apply bg-gold-600 text-white;
+    }
+
+    .c-alert__title {
+      @apply text-gold-900;
+    }
+  }
+
+  /* --- Size: lg — bigger icon badge + title, for a more prominent notice --- */
+  .c-alert--lg {
+    @apply gap-5 p-6 sm:p-7;
+
+    .c-alert__icon {
+      @apply size-14;
+    }
+
+    .c-alert__title {
+      @apply text-xl mb-1.5;
+    }
+
+    .c-alert__text {
+      @apply text-base;
+    }
+  }
+}

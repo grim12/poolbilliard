@@ -35,7 +35,7 @@
                             <div class="c-faq__panel" id="doc-panel-{{ yearIndex }}-group-{{ loop.index }}" data-faq-panel>
                                 <div class="c-doc-groups__files">
                                     {% for file in group.files %}
-                                        <a class="c-doc-file" href="{{ file.url or '#' }}">
+                                        <a class="c-doc-file" href="{{ file.url or '#' }}" target="_blank" rel="noopener noreferrer">
                                             {% icon "document-text", 20, "c-doc-file__icon" %}
                                             <span class="c-doc-file__name">{{ file.name }}</span>
                                             <span class="c-doc-file__meta">{{ file.meta }}</span>

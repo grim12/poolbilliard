@@ -1,0 +1,31 @@
+@layer components {
+  /* ==========================================================================
+     Section: Svaz info — "O svazu" + "Výkonný výbor" two-column intro (Svaz page)
+     ========================================================================== */
+
+  .c-section--svaz-info {
+    .c-section__grid {
+      @apply lg:grid-cols-2 gap-10 lg:gap-16 items-start;
+    }
+
+    .c-svaz-info__links {
+      @apply flex flex-wrap items-center gap-x-6 gap-y-2 mb-6;
+    }
+
+    .c-svaz-info__links--stacked {
+      @apply flex-col items-start gap-2;
+    }
+
+    .c-svaz-info__divider {
+      @apply border-t border-divider my-6;
+    }
+
+    .c-svaz-info__tasks {
+      @apply flex items-start justify-between gap-6;
+    }
+
+    .c-svaz-info__logo {
+      @apply w-16 h-16 shrink-0 object-contain;
+    }
+  }
+}

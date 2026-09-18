@@ -31,11 +31,24 @@ poolbilliard/
 │   ├── postcss.config.js   # Konfigurace Tailwind CSS v4 PostCSS pluginu
 │   └── package.json
 │
-├── web/                    # Backend / produkční webová aplikace (Laravel + Filament)
-│   └── (připraveno pro inicializaci backendové aplikace)
+├── web/                    # Backend / produkční webová aplikace (Laravel + Filament) — 2. fáze
+│   ├── app/
+│   │   ├── Filament/       # Filament Resources (admin CRUD pro turnaje, kluby, herny...)
+│   │   ├── Models/         # Eloquent modely
+│   │   └── Providers/Filament/AdminPanelProvider.php
+│   ├── resources/
+│   │   ├── views/          # Blade šablony a komponenty — zrcadlené z ui/src/_includes
+│   │   └── css/, js/       # Zrcadlené Tailwind styly a JS z ui/src/styles, ui/src/js
+│   ├── database/
+│   │   ├── migrations/
+│   │   └── database.sqlite # Lokální dev DB (viz sekce 2. Fáze níže)
+│   ├── routes/web.php
+│   ├── AGENTS.md, CLAUDE.md # Laravel Boost — obecné Laravel/PHP konvence (auto-generováno, needitovat ručně)
+│   └── composer.json
 │
 ├── skills/                 # Pravidla, konvence a instrukce pro vývojáře a AI asistenty
-│   └── ui-component-guide.md # Návod pro tvorbu UI komponent a šablon
+│   ├── ui-component-guide.md  # Návod pro tvorbu UI komponent a šablon (ui/)
+│   └── web-component-guide.md # Návod pro Blade komponenty, Filament resources a workflow ui/ → web/
 │
 ├── designs/                # Podklady z grafiky a screenshoty komponent (Figma)
 │   ├── components/
@@ -44,6 +57,99 @@ poolbilliard/
 ├── .gitignore              # Ignorování závislostí a build artefaktů
 └── README.md               # Hlavní dokumentace projektu
 ```
+
+---
+
+## Aktuální stav
+
+Všech 14 stránek z `designs/pages/` (Home, Kluby, Klub, Herny, Herna, Registrace herny, Kalendář, Turnaj, Pravidelný turnaj, Soutěže, Pravidla, Jak začít, Sportovní svaz, Novinky/Článek, Partneři, Zpravodajství VV) je hotovo end-to-end — návrh v `ui/`, přenesená Blade šablona ve `web/`, a kde stránka obsahuje spravovatelný obsah, i odpovídající Filament resource/nastavovací stránka v adminu.
+
+Otevřené věci k dořešení:
+* **Registrace herny** — e-mailová notifikace sekci a potvrzení odesílateli po odeslání formuláře (viz TODO v `web/app/Http/Controllers/RegistraceHernyController.php`); zatím žádný Mailable, `MAIL_MAILER=log`. Potvrzovací flash zpráva ve formuláři zůstává tak, jak je — dedikovaná potvrzovací stránka se neplánuje.
+* **Testy** — pokrytí je zatím tenké vzhledem k rozsahu appky (jen pár feature testů na desítky resources/stránek).
+* **Anglická verze webu** — routing/i18n scaffold hotový, viz sekce níže; obsah stránek (kromě titulků a nastavovaných modelů) se zatím z větší části dotahuje.
+* **SEO/launch-readiness** — probíhá, viz níže.
+* **Nasazení na testovací prostředí** — postup naplánovaný, viz níže; provedení ještě neproběhlo.
+* Veřejné přihlášení pro kluby/hráče zatím neexistuje, jen Filament admin panel.
+
+### SEO / launch-readiness
+
+Hotovo:
+* **Site lock** — celý veřejný web je zamčený za přihlášením (`App\Http\Middleware\SiteLock`), stejné přihlašovací údaje jako do Filament administrace (`App\Models\User`), odemykací obrazovka na `/pristup` (`resources/views/site-lock.blade.php`, bez `ui/` protějšku — je to provozní stránka, ne navržená stránka webu). Zamčeno je vše mimo `/admin*`, `/up` a odemykací routy; výchozí chování je zamčeno všude kromě `local` a `testing` prostředí, `SITE_LOCK_ENABLED` v `.env` to jde přebít (nastavit na `false`, až půjde web ostře spustit).
+* **Env-aware indexace** — `App\Support\Launch::indexable()` (řízeno `SEO_INDEXABLE`, jinak odvozeno ze stavu site locku) rozhoduje meta `robots` tag i obsah dynamické routy `/robots.txt` (nahradila statický soubor).
+* **Meta description, canonical, OG/Twitter tagy** — `<x-layouts.app>` má `description`/`ogImage`/`ogType`/`canonical` props, vyplněné na všech stránkách (u dynamických stránek odvozené z obsahu záznamu).
+* **SEO panel v adminu** — každá entita s vlastní veřejnou stránkou (Klub, Herna, Turnaj, Pravidelný turnaj, Článek, Zpráva VV) a každá stránka se Settings třídou (Home, Kluby, Herny, Kalendář, Soutěže, Jak začít, Pravidla, Sportovní svaz, plus nové Partneři/FAQ/Novinky/Zprávy výboru) má nepovinnou sekci "SEO" — `seo_title`/`seo_description` (CZ/EN) a `seo_image`, které při vyplnění přebijí automaticky vypočtený titulek/popis/obrázek. `Nastavení > SEO` (`GeneralSettings`) drží sitewide výchozí hodnoty — `seo_title_suffix` (nahrazuje dřívější natvrdo psané "— Poolbilliard" v každé šabloně, teď centrálně v `<x-layouts.app>`, který ho zároveň používá jako `og:site_name`) a `seo_default_og_image` (poslední záchrana, když nemá vlastní obrázek ani stránka, ani záznam) — viz `App\Support\Seo`.
+* **JSON-LD** — sitewide `SportsOrganization` blok v layoutu, plus `NewsArticle` (články), `Article` (zprávy VV) a `SportsEvent` (turnaje s `start_date`) na příslušných stránkách.
+* **Branded 404/500** (`resources/views/errors/`) — 404 používá běžný layout, 500 je záměrně statický bez DB závislosti (viz jeho docblock).
+* **HTTPS v produkci** — `AppServiceProvider::boot()` vynucuje `https://` na generovaných URL (`URL::forceScheme`) v `production`; skutečný redirect příchozích HTTP requestů a trusted proxies nastavení je na tom, kdo bude řešit produkční hosting (viz komentář v kódu).
+* **`sitemap.xml`** (`SeoController::sitemap()`) — statické stránky + kluby/schválené herny/turnaje/publikované články a zprávy VV, stejná viditelnostní pravidla jako mají jejich vlastní controllery. 404 dokud web není indexovatelný; `robots.txt` na něj odkazuje.
+* **Favicon sada** — vygenerováno z čtvercového loga (`web/favicon.ico`, 64×64) přes `sips` (žádný ImageMagick k dispozici): `favicon.ico`, 16/32px PNG, apple-touch-icon (180px), Android Chrome ikony (192/512px) + `site.webmanifest`. 512px varianta je znatelně měkká (upscale ~8× ze 64px zdroje) — časem by chtělo ostřejší zdrojový soubor.
+
+Zbývá:
+* **TODO: sehnat větší zdrojovou ikonu/logo** (ideálně čtvercové SVG nebo alespoň 512×512 PNG) a přegenerovat `apple-touch-icon.png`/`android-chrome-*.png` z ní — současná 512px varianta je viditelně měkká, protože je upscalovaná ~8× ze 64×64 zdroje (`web/favicon.ico`).
+* Analytika zatím žádná (vědomé rozhodnutí, zatím neřešeno).
+
+### EN routing / i18n scaffold
+
+Hotovo:
+* **`/en/...` routing** s přeloženými segmenty cesty (např. `/en/clubs`, `/en/venue/{slug_en}`) — mirror každé veřejné routy, viz `routes/web.php`. Route names mají konzistentní `en.` prefix (`klub.show` ↔ `en.klub.show`), na čemž stojí generické dopočítávání hreflang/přepínače jazyka v `<x-layouts.app>` — žádná stránka to neřeší sama.
+* **`App\Http\Middleware\SetLocale`** (alias `locale:en`) na `/en` skupině nastavuje `app()->setLocale('en')` pro celý request — translatable atributy modelů (`spatie/laravel-translatable`) se tím přepnou automaticky, bez úprav v controllerech/views.
+* **Header/footer** — nav, přepínač jazyka (byl už navržený v `ui/`, jen neožívený), aria-labels a placeholder přeloženy přes `__()` (DB-backed překlady, viz sekce „Správa lokalizací v adminu" níže), odkazy vedou přes locale-aware route helper místo natvrdo českých cest.
+* **Enumy** (`Region`, `Sport`, `HernaStatus`) mají anglické varianty `getLabel()` podle `app()->getLocale()` — Filament admin běží vždy v cs, takže administraci to neovlivní.
+* **`App\Support\Locale::field()`** zpřístupňuje `{field}_en` sesterské vlastnosti na Settings třídách (byly připravené dřív, nečtené — viz `TranslatableTabs::makeForSettings()`), stejný fallback na cs jako u modelů. Zapojeno zatím jen do `<title>` stránek (`herny`, `kluby`, `kalendar`, `souteze`, `jak-zacit`, `pravidla`, `sportovni-svaz`).
+* **`sitemap.xml`** obsahuje `en.` mirror každé URL vedle cs varianty.
+
+Zbývá (obsahová/i18n práce, ne infrastruktura):
+* **Hlubší nastavovaná pole** (hero podtitulky, tituly jednotlivých sekcí uvnitř stránek) a **repeater/array pole** (feature_cards, stats, tasks, calendar_sources...) na `_en` zatím nenapojené.
+
+Hotovo od poslední revize:
+* **Natvrdo české texty uvnitř těl šablon** — systematický průchod přes všechny stránky a sdílené komponenty ve `web/resources/views/`, každý zbylý natvrdo psaný český řetězec (nadpisy, popisky, tlačítka, aria-labels, placeholdery) je teď zabalený v `__()`. Vyjma dvou vědomých výjimek: `errors/500.blade.php` (záměrně bez DB závislosti, viz jeho docblock) a `site-lock.blade.php` (provozní odemykací stránka, ne součást veřejného webu).
+* **Natvrdo odkazy přímo v šablonách** (back-linky, sekce/CTA odkazy, akce formuláře registrace herny) byly locale-unaware — vždy vedly na cs cestu i z EN stránky. `App\Support\Locale::route()` je locale-aware obdoba `route()` (prefixuje `en.` podle `app()->getLocale()`, stejná konvence jako `routes/web.php`) — nasazeno na všech dotčených místech ve sdílených cs/en šablonách.
+* **JSON-LD** — organizátor/vydavatel (`'Český svaz poolbilliardu'`) a fallback lokace (`'Česká republika'`) byly natvrdo česky bez ohledu na jazyk stránky; teď přes `__()`. Per-page `'url'` pole (článek/zpráva/turnaj) používalo natvrdo cs route+slug i na EN stránce — nahrazeno `url()->current()`.
+
+### Správa lokalizací v adminu
+
+Všechny `__('...')` řetězce ze šablon (mimo translatable atributy modelů, které mají vlastní CZ/EN pole) se řeší přes `spatie/laravel-translation-loader` — anglické překlady žijí v DB tabulce `language_lines`, ne v `lang/en.json` (ten byl odstraněn). Admin je může upravovat na `/admin/translations` (`App\Filament\Resources\Translations\TranslationResource`), včetně volitelného přepisu českého originálu. `database/seeders/LanguageLineSeeder.php` obsahuje anglický překlad pro každý řetězec, který se kdy zabalil do `__()` — při přidání nového je potřeba doplnit ho tam i do seederu.
+
+### Interní odkazy v adminu (LinkTile, RuleCard, JakZacitSection, Banner)
+
+Tlačítka/dlaždice, kde admin dřív musel zadávat URL ručně, teď mají vedle textového pole i výběr **"Interní stránka"** (statická stránka, např. Kluby/Kalendář) nebo **"Konkrétní záznam"** (typ + konkrétní klub/herna/článek/zpráva/turnaj/pravidelný turnaj) — `App\Filament\Support\InternalLinkFields`. Výběr má přednost před ruční URL a `App\Support\InternalLink::resolve()` ho při vykreslení přeloží na správnou `cs`/`en` URL podle aktuálního jazyka — stejná volba v adminu, jiná výsledná URL podle jazyka, žádné ruční dvojí zadávání.
+
+Zapojeno u: `LinkTile.url`, `RuleCard.button_url`, `JakZacitSection.aside_panel_button_url`/`aside_card_button_url`, `Banner.buttons[].url`. Ostatní URL pole (`Tournament.url`, `Partner.url`, `RecurringTournament.url`, `SvazSettings::cmbs_website_url`...) jsou záměrně beze změny — jde o skutečně externí odkazy.
+
+### Demo obsah (seedery)
+
+`database/seeders/` obsahuje reprezentativní demo data pro každou entitu (kluby, herny, turnaje, žebříčky, články, zprávy VV, FAQ, dokumenty, partneři, jak-zacit sekce...), adaptovaná z mock dat v `ui/` — spustitelné přes `php artisan db:seed` (idempotentní, bezpečné spouštět opakovaně). Každé pole má i anglický překlad (`_en`/`title_en`/...), takže `/en/...` stránky zobrazují reálný anglický text, ne jen český fallback, u všeho, co seedery pokrývají.
+
+⚠️ Lokální dev databáze (`web/database/database.sqlite`) je v `.gitignore` a nemá zálohu jinde než v souborovém backupu (Time Machine apod.) — `php artisan migrate:fresh` ji nenávratně smaže. Pokud se to stane, `php artisan migrate && php artisan db:seed` obnoví admin účet (`ugrin@nittin.cz`) i demo obsah, ale ne žádná ručně zadaná produkční data.
+
+### Nasazení na testovací prostředí (naplánováno, neprovedeno)
+
+Zatím žádná vlastní (sub)domena — dostupný je jen FTP na hostingu `federalcup.cz` (root obsahuje složky `_log` a `www`, `www` je docroot federalcup webu) a samostatná čistá databáze pro tento projekt. Bez SSH/panelu správy hostingu. Plán je nasadit dočasně do `federalcup.cz/newpool/`, aniž by to ovlivnilo běžící federalcup web.
+
+**Prověřeno:**
+* Verze PHP na hostingu: **8.4.25** — vyhovuje (Laravel 13 chce PHP 8.3+).
+
+**Prověřit před spuštěním:**
+* Jde nastavit PHP verze per-složka, nebo je to jedna verze pro celý hosting účet (relevantní jen pokud by federalcup běžel na starší PHP než 8.3 a bylo by to potřeba odlišit).
+
+**Struktura na FTP** — využívá toho, že `_log` a `www` jsou sourozenci v rootu (tzn. lze nahrát mimo `www`, mimo dosah webu):
+* Celá aplikace (vše mimo `web/public/`) → nová složka v rootu, sourozenec `www`, např. `newpool-app/` (nikdy web-přístupná).
+* Obsah `web/public/` (index.php, .htaccess, sestavené assety) → `www/newpool/`.
+* V nahraném `www/newpool/index.php` upravit dvě `require` cesty (`vendor/autoload.php`, `bootstrap/app.php`) tak, aby ukazovaly do `../../newpool-app/...` (relativní vzdálenost dle skutečné struktury).
+* `www/newpool/.htaccess` — případně doplnit/ověřit `RewriteBase /newpool/`.
+
+**`.env` pro tuto instanci:**
+* `APP_URL=https://federalcup.cz/newpool`
+* `SESSION_PATH=/newpool` (už parametrizované, `config/session.php:146`) — scopne cookie SiteLocku jen na `/newpool/*`, žádná kolize s federalcup.cz.
+* `DB_*` na dedikovanou čistou databázi.
+* `SITE_LOCK_ENABLED` — nechat výchozí (zamčeno mimo `local`/`testing`), přesně to je žádaný stav pro test prostředí.
+
+`route()`/`asset()`/Vite tagy se odvozují od `APP_URL` a reálné cesty k `index.php` na disku — SiteLock, interní linky i JS/CSS by tedy měly fungovat správně bez zásahu do kódu, žádná úprava `vite.config.js` není potřeba.
+
+**Composer/migrace bez SSH:**
+* Lokálně `composer install --no-dev --optimize-autoloader` a `npm run build`, nahrát hotové `vendor/` a `public/build/` přes FTP.
+* Pro `migrate`/`storage:link`/`db:seed` bez shellu: potřeba **webový "artisan runner"** — chráněná route/controller volající `Artisan::call('migrate', ['--force' => true])`, výstup vrátit jako text. Zabezpečit dlouhým tajným tokenem v `.env` (ne v gitu), po použití vypnout/smazat — je to efektivně vzdálené spouštění příkazů, nesmí zůstat volně přístupné. **Zatím neimplementováno.**
 
 ---
 
@@ -79,7 +185,43 @@ Vygeneruje optimalizovaný statický web do složky `ui/_site/` a zkompilované 
 
 ## 2. Fáze: Backend aplikace (`web/`)
 
-V další fázi bude do složky `web/` integrován backendový framework (Laravel + Filament admin). Šablony a komponenty z `ui/` budou přímo převzaty nebo zrcadleny do Blade komponent.
+Do složky `web/` je integrován backendový framework Laravel + Filament (admin panel).
+
+### Technologický stack
+* **Framework:** [Laravel 13](https://laravel.com/)
+* **Admin panel:** [Filament v5](https://filamentphp.com/)
+* **PHP:** 8.5 (Homebrew — `brew install composer` si PHP 8.5 vytáhne jako závislost)
+* **Databáze (lokálně):** SQLite (`database/database.sqlite`) — zatím, pro rychlý start bez závislosti na běžícím DB serveru. Až bude potřeba testovat proti stejnému enginu jako produkce (MySQL, spravováno přes phpMyAdmin u hostingu), přepneme `.env` na MySQL (lokálně např. přes MAMP).
+* **AI asistence:** [Laravel Boost](https://github.com/laravel/boost) — generuje/aktualizuje `web/AGENTS.md` a `web/CLAUDE.md` s obecnými Laravel/PHP/testing konvencemi (needitovat ručně, spravuje `php artisan boost:install`). Projektově specifické konvence (Blade komponenty, Filament resources, workflow `ui/` → `web/`) jsou v [`skills/web-component-guide.md`](skills/web-component-guide.md).
+
+### Požadavky
+* PHP 8.3+ (v projektu použito 8.5)
+* [Composer](https://getcomposer.org/)
+* Node.js + npm (pro Vite build CSS/JS)
+
+### Spuštění vývoje
+```bash
+cd web
+composer install
+npm install
+php artisan serve      # http://localhost:8000
+npm run dev             # Vite dev server pro CSS/JS (samostatně, nebo `composer run dev` spustí obojí + queue listener najednou)
+```
+Admin panel běží na `http://localhost:8000/admin`. První přihlašovací účet se zakládá přes:
+```bash
+php artisan make:filament-user
+```
+Další uživatele (žádné role zatím — kdo se přihlásí, má plný přístup) lze přidávat přímo v adminu (`Systém > Uživatelé`, `App\Filament\Resources\Users\UserResource`) — bez nutnosti CLI. Uživatel si nemůže smazat vlastní účet (ochrana proti zamčení sebe sama mimo admin).
+
+### `ui/` a `web/` — směr workflow
+
+`ui/` a `web/` **nejsou dva nezávislé projekty se sdíleným zdrojem** — `ui/` je rychlý, samostatný sandbox pro návrh a ladění UI (Eleventy dev server, live reload, mock data, žádná závislost na PHP/DB), `web/` je zrcadlená produkční implementace v Blade.
+
+> ⚠️ **Závazné pravidlo: veškeré úpravy vzhledu/UI se dělají nejprve v `ui/`, teprve hotové (odladěné, schválené) se ručně přenášejí (portují) do `web/` jako Blade komponenty/views.**
+> - `ui/` je zdroj pravdy pro vzhled — nikdy needitujeme Blade šablonu jako první místo pro vizuální změnu.
+> - Přenos je **ruční zrcadlení**, ne sdílený include/symlink — Nunjucks makro/widget a jeho Blade protějšek jsou dva samostatné soubory, které je nutné udržovat v souladu.
+> - Po portování komponenty do `web/` si oba stavy (ui/ i web/) musí vizuálně odpovídat — postup a konvence pro Blade stranu jsou ve [`skills/web-component-guide.md`](skills/web-component-guide.md).
+> - Pokud se v `web/` najde nutná drobná úprava (např. kvůli reálným datům), přenáší se **zpět** do `ui/` co nejdřív, aby `ui/` zůstal aktuální referencí — neroztéká se vzhled do dvou verzí pravdy.
 
 ---
 
@@ -88,10 +230,12 @@ V další fázi bude do složky `web/` integrován backendový framework (Larave
 Projekt je navržen tak, aby na něm mohl kdokoliv plynule navázat – ať už samostatně, nebo s libovolným AI asistentem (Claude, Junie, Cursor, Copilot atd.).
 
 Kompletní metodika a detailní kódové vzory jsou uloženy ve složce **`skills/`**:
-* **[`skills/ui-component-guide.md`](skills/ui-component-guide.md)** – Podrobný návod pro tvorbu komponent, Nunjucks maker, kompozičních BEM tříd a Tailwind 4 stylů s `@apply`.
+* **[`skills/ui-component-guide.md`](skills/ui-component-guide.md)** – Podrobný návod pro tvorbu komponent, Nunjucks maker, kompozičních BEM tříd a Tailwind 4 stylů s `@apply` (`ui/`).
+* **[`skills/web-component-guide.md`](skills/web-component-guide.md)** – Návod pro Blade komponenty, Eloquent modely, Filament resources a workflow přenosu hotových úprav z `ui/` do `web/`.
 
 ### Rychlý přehled klíčových pravidel:
 1. **Kompoziční (ortogonální) BEM třídy:** Výchozí třída komponenty (např. `.c-button`) nese kompletní výchozí vzhled (primary + solid + md). Modifikátory (`--accent`, `--outline`, `--sm`, `--lg`...) pouze přepisují konkrétní vlastnosti.
 2. **Stylování přes `@apply`:** Styly komponent píšeme do `ui/src/styles/02_components/<component>.css` v `@layer components` pomocí Tailwind utilit.
 3. **Nunjucks Makra:** Pro komponenty s logikou a parametry vytváříme makra v `ui/src/_includes/macros/<component>.njk`.
 4. **Showcase & Testování:** Každá nová komponenta se ihned zařazuje do přehledu v `ui/src/index.njk` se všemi stavy a variantami.
+5. **Dokumentace se udržuje průběžně:** `README.md` (hlavně sekce „Aktuální stav") a soubory ve `skills/` popisují skutečný stav a pravidla projektu, ne stav ke dni založení. Po dokončení netriviální úlohy (nová stránka, změna workflow, nové pravidlo) je uprav tak, aby odpovídaly realitě — ať už na tom pracuje člověk, nebo AI asistent.
