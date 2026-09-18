@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ClubController;
+use App\Http\Controllers\DeployRunnerController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HernaController;
 use App\Http\Controllers\HomeController;
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+
+Route::get('/system/deploy-runner', [DeployRunnerController::class, 'run'])->name('deploy-runner.run');
 
 Route::get('/pristup', [SiteLockController::class, 'show'])->name('site-lock.show');
 Route::post('/pristup', [SiteLockController::class, 'attempt'])

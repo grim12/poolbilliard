@@ -129,14 +129,15 @@ Zatím žádná vlastní (sub)domena — dostupný je jen FTP na hostingu `feder
 
 **Prověřeno:**
 * Verze PHP na hostingu: **8.4.25** — vyhovuje (Laravel 13 chce PHP 8.3+).
+* Databáze je zamčená na `localhost` — jde na ni jen z PHP běžícího na tom samém serveru, ne zvenčí (přímé připojení z lokálního počítače/DB nástroje nejde). Migrace/seed tedy musí proběhnout na serveru — viz "Composer/migrace bez SSH" níže.
 
 **Prověřit před spuštěním:**
 * Jde nastavit PHP verze per-složka, nebo je to jedna verze pro celý hosting účet (relevantní jen pokud by federalcup běžel na starší PHP než 8.3 a bylo by to potřeba odlišit).
 
 **Struktura na FTP** — využívá toho, že `_log` a `www` jsou sourozenci v rootu (tzn. lze nahrát mimo `www`, mimo dosah webu):
-* Celá aplikace (vše mimo `web/public/`) → nová složka v rootu, sourozenec `www`, např. `newpool-app/` (nikdy web-přístupná).
-* Obsah `web/public/` (index.php, .htaccess, sestavené assety) → `www/newpool/`.
-* V nahraném `www/newpool/index.php` upravit dvě `require` cesty (`vendor/autoload.php`, `bootstrap/app.php`) tak, aby ukazovaly do `../../newpool-app/...` (relativní vzdálenost dle skutečné struktury).
+* **Celá aplikace** (`app/`, `bootstrap/`, `config/`, `database/`, `resources/`, `routes/`, **`vendor/`**, `artisan`, `composer.json`, `.env`...) — **vše mimo obsah `web/public/`** → nová složka v rootu, sourozenec `www`, např. `newpool-app/` (nikdy web-přístupná). `vendor/` je součást aplikace, ne veřejné části — nepatří do `www/newpool/`.
+* Jen **obsah** `web/public/` (`index.php`, `.htaccess`, sestavené assety ve `build/`, favicon...) → `www/newpool/`.
+* V nahraném `www/newpool/index.php` upravit dvě `require` cesty (`vendor/autoload.php`, `bootstrap/app.php`) tak, aby ukazovaly do `../../newpool-app/...` (relativní vzdálenost dle skutečné struktury — z `www/newpool/` nahoru do `www/`, nahoru do rootu, dovnitř `newpool-app/`).
 * `www/newpool/.htaccess` — případně doplnit/ověřit `RewriteBase /newpool/`.
 
 **`.env` pro tuto instanci:**
@@ -144,12 +145,14 @@ Zatím žádná vlastní (sub)domena — dostupný je jen FTP na hostingu `feder
 * `SESSION_PATH=/newpool` (už parametrizované, `config/session.php:146`) — scopne cookie SiteLocku jen na `/newpool/*`, žádná kolize s federalcup.cz.
 * `DB_*` na dedikovanou čistou databázi.
 * `SITE_LOCK_ENABLED` — nechat výchozí (zamčeno mimo `local`/`testing`), přesně to je žádaný stav pro test prostředí.
+* `DEPLOY_RUNNER_TOKEN` — nastavit na dlouhý náhodný string jen na dobu nasazení (viz níže), pak z `.env` na serveru zase smazat.
 
 `route()`/`asset()`/Vite tagy se odvozují od `APP_URL` a reálné cesty k `index.php` na disku — SiteLock, interní linky i JS/CSS by tedy měly fungovat správně bez zásahu do kódu, žádná úprava `vite.config.js` není potřeba.
 
-**Composer/migrace bez SSH:**
-* Lokálně `composer install --no-dev --optimize-autoloader` a `npm run build`, nahrát hotové `vendor/` a `public/build/` přes FTP.
-* Pro `migrate`/`storage:link`/`db:seed` bez shellu: potřeba **webový "artisan runner"** — chráněná route/controller volající `Artisan::call('migrate', ['--force' => true])`, výstup vrátit jako text. Zabezpečit dlouhým tajným tokenem v `.env` (ne v gitu), po použití vypnout/smazat — je to efektivně vzdálené spouštění příkazů, nesmí zůstat volně přístupné. **Zatím neimplementováno.**
+**Composer/migrace bez SSH — hotovo:**
+* Lokálně `composer install --no-dev --optimize-autoloader` a `npm run build`, nahrát hotové `vendor/` (do `newpool-app/`, viz struktura výše) a `public/build/` (do `www/newpool/build/`) přes FTP.
+* Pro `migrate`/`storage:link`/`db:seed` bez shellu: **`/system/deploy-runner`** (`App\Http\Controllers\DeployRunnerController`) — chráněná route, běží nezávisle na SiteLocku (viz jeho výjimka), volá jeden z fixního allow-listu artisan příkazů přes `?run=<klíč>&token=<DEPLOY_RUNNER_TOKEN>`: `migrate`, `migrate-status`, `storage-link`, `db-seed`, `optimize-clear`. Příkaz nikdy nepřichází jako volný text z requestu, takže tímhle nejde spustit nic mimo ten allow-list. Bez `DEPLOY_RUNNER_TOKEN` v `.env` route vždy vrací 404 — je to dočasný nástroj na dobu nasazení, ne trvalá součást provozu.
+  * Pořadí po prvním uploadu: navštívit `.../system/deploy-runner?run=migrate&token=...`, pak `.../system/deploy-runner?run=storage-link&token=...` (vytvoří symlink `public/storage` → `storage/app/public`, potřebné pro `FileUpload` obrázky), případně `.../system/deploy-runner?run=db-seed&token=...` pro demo obsah.
 
 ---
 

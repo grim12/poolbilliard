@@ -20,7 +20,7 @@ class SiteLock
     {
         if (
             ! Launch::siteLocked()
-            || $request->is('admin*', 'up', 'robots.txt', 'sitemap.xml')
+            || $request->is('admin*', 'up', 'robots.txt', 'sitemap.xml', 'system/deploy-runner')
             || $request->routeIs('site-lock.*')
             || Auth::check()
         ) {
