@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Enums\HernaStatus;
 use App\Filament\Resources\Hernas\Pages\ListHernas;
+use App\Filament\Resources\Users\Pages\EditUser;
+use App\Filament\Resources\Users\Pages\ListUsers;
 use App\Models\Article;
 use App\Models\ArticleCategory;
 use App\Models\Banner;
@@ -91,6 +93,7 @@ class AdminResourcesTest extends TestCase
             '/admin/manage-faq-settings',
             '/admin/manage-novinky-settings',
             '/admin/manage-vykonny-vybor-settings',
+            '/admin/users',
         ];
 
         foreach ($urls as $url) {
@@ -227,6 +230,35 @@ class AdminResourcesTest extends TestCase
             ->callTableAction('reject', $anotherPending);
 
         $this->assertSame(HernaStatus::Rejected, $anotherPending->refresh()->status);
+    }
+
+    /**
+     * No roles yet — every admin user has full access — but a user still must not be able to
+     * delete their own account (UsersTable/EditUser hide the delete action for `auth()->user()`),
+     * since that would lock them out of the admin with no way back in.
+     */
+    public function test_user_cannot_delete_their_own_account(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(ListUsers::class)
+            ->assertTableActionHidden('delete', $user)
+            ->assertTableActionVisible('delete', $otherUser);
+
+        Livewire::actingAs($user)
+            ->test(EditUser::class, ['record' => $user->getRouteKey()])
+            ->assertActionHidden('delete');
+    }
+
+    public function test_user_create_and_edit_pages_render(): void
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+
+        $this->actingAs($user)->get('/admin/users/create')->assertOk();
+        $this->actingAs($user)->get("/admin/users/{$otherUser->id}/edit")->assertOk();
     }
 
     /**

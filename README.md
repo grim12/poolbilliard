@@ -207,10 +207,11 @@ npm install
 php artisan serve      # http://localhost:8000
 npm run dev             # Vite dev server pro CSS/JS (samostatně, nebo `composer run dev` spustí obojí + queue listener najednou)
 ```
-Admin panel běží na `http://localhost:8000/admin`. Přihlašovací účet se zakládá přes:
+Admin panel běží na `http://localhost:8000/admin`. První přihlašovací účet se zakládá přes:
 ```bash
 php artisan make:filament-user
 ```
+Další uživatele (žádné role zatím — kdo se přihlásí, má plný přístup) lze přidávat přímo v adminu (`Systém > Uživatelé`, `App\Filament\Resources\Users\UserResource`) — bez nutnosti CLI. Uživatel si nemůže smazat vlastní účet (ochrana proti zamčení sebe sama mimo admin).
 
 ### `ui/` a `web/` — směr workflow
 

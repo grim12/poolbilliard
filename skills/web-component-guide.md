@@ -292,7 +292,7 @@ php artisan serve      # http://localhost:8000 (admin: /admin)
 npm run dev             # Vite dev server, nebo `composer run dev` spustí server+vite+queue najednou
 ```
 
-Admin uživatel: `php artisan make:filament-user`.
+První admin uživatel: `php artisan make:filament-user`. Další se přidávají přímo v adminu (`Systém > Uživatelé`, `App\Filament\Resources\Users\UserResource`) — žádné role zatím, kdo se přihlásí má plný přístup; jediná ochrana je, že si uživatel nemůže smazat vlastní účet (`UsersTable`/`EditUser` skrývají delete akci pro `auth()->user()`).
 
 DB je zatím SQLite (`database/database.sqlite`) — žádná závislost na běžícím MySQL serveru. Přepnutí na MySQL (až bude potřeba): upravit `DB_CONNECTION`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` v `.env` a spustit `php artisan migrate:fresh`.
 
