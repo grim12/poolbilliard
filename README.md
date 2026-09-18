@@ -69,6 +69,7 @@ Otevřené věci k dořešení:
 * **Testy** — pokrytí je zatím tenké vzhledem k rozsahu appky (jen pár feature testů na desítky resources/stránek).
 * **Anglická verze webu** — routing/i18n scaffold hotový, viz sekce níže; obsah stránek (kromě titulků a nastavovaných modelů) se zatím z větší části dotahuje.
 * **SEO/launch-readiness** — probíhá, viz níže.
+* **Nasazení na testovací prostředí** — postup naplánovaný, viz níže; provedení ještě neproběhlo.
 * Veřejné přihlášení pro kluby/hráče zatím neexistuje, jen Filament admin panel.
 
 ### SEO / launch-readiness
@@ -121,6 +122,34 @@ Zapojeno u: `LinkTile.url`, `RuleCard.button_url`, `JakZacitSection.aside_panel_
 `database/seeders/` obsahuje reprezentativní demo data pro každou entitu (kluby, herny, turnaje, žebříčky, články, zprávy VV, FAQ, dokumenty, partneři, jak-zacit sekce...), adaptovaná z mock dat v `ui/` — spustitelné přes `php artisan db:seed` (idempotentní, bezpečné spouštět opakovaně). Každé pole má i anglický překlad (`_en`/`title_en`/...), takže `/en/...` stránky zobrazují reálný anglický text, ne jen český fallback, u všeho, co seedery pokrývají.
 
 ⚠️ Lokální dev databáze (`web/database/database.sqlite`) je v `.gitignore` a nemá zálohu jinde než v souborovém backupu (Time Machine apod.) — `php artisan migrate:fresh` ji nenávratně smaže. Pokud se to stane, `php artisan migrate && php artisan db:seed` obnoví admin účet (`ugrin@nittin.cz`) i demo obsah, ale ne žádná ručně zadaná produkční data.
+
+### Nasazení na testovací prostředí (naplánováno, neprovedeno)
+
+Zatím žádná vlastní (sub)domena — dostupný je jen FTP na hostingu `federalcup.cz` (root obsahuje složky `_log` a `www`, `www` je docroot federalcup webu) a samostatná čistá databáze pro tento projekt. Bez SSH/panelu správy hostingu. Plán je nasadit dočasně do `federalcup.cz/newpool/`, aniž by to ovlivnilo běžící federalcup web.
+
+**Prověřeno:**
+* Verze PHP na hostingu: **8.4.25** — vyhovuje (Laravel 13 chce PHP 8.3+).
+
+**Prověřit před spuštěním:**
+* Jde nastavit PHP verze per-složka, nebo je to jedna verze pro celý hosting účet (relevantní jen pokud by federalcup běžel na starší PHP než 8.3 a bylo by to potřeba odlišit).
+
+**Struktura na FTP** — využívá toho, že `_log` a `www` jsou sourozenci v rootu (tzn. lze nahrát mimo `www`, mimo dosah webu):
+* Celá aplikace (vše mimo `web/public/`) → nová složka v rootu, sourozenec `www`, např. `newpool-app/` (nikdy web-přístupná).
+* Obsah `web/public/` (index.php, .htaccess, sestavené assety) → `www/newpool/`.
+* V nahraném `www/newpool/index.php` upravit dvě `require` cesty (`vendor/autoload.php`, `bootstrap/app.php`) tak, aby ukazovaly do `../../newpool-app/...` (relativní vzdálenost dle skutečné struktury).
+* `www/newpool/.htaccess` — případně doplnit/ověřit `RewriteBase /newpool/`.
+
+**`.env` pro tuto instanci:**
+* `APP_URL=https://federalcup.cz/newpool`
+* `SESSION_PATH=/newpool` (už parametrizované, `config/session.php:146`) — scopne cookie SiteLocku jen na `/newpool/*`, žádná kolize s federalcup.cz.
+* `DB_*` na dedikovanou čistou databázi.
+* `SITE_LOCK_ENABLED` — nechat výchozí (zamčeno mimo `local`/`testing`), přesně to je žádaný stav pro test prostředí.
+
+`route()`/`asset()`/Vite tagy se odvozují od `APP_URL` a reálné cesty k `index.php` na disku — SiteLock, interní linky i JS/CSS by tedy měly fungovat správně bez zásahu do kódu, žádná úprava `vite.config.js` není potřeba.
+
+**Composer/migrace bez SSH:**
+* Lokálně `composer install --no-dev --optimize-autoloader` a `npm run build`, nahrát hotové `vendor/` a `public/build/` přes FTP.
+* Pro `migrate`/`storage:link`/`db:seed` bez shellu: potřeba **webový "artisan runner"** — chráněná route/controller volající `Artisan::call('migrate', ['--force' => true])`, výstup vrátit jako text. Zabezpečit dlouhým tajným tokenem v `.env` (ne v gitu), po použití vypnout/smazat — je to efektivně vzdálené spouštění příkazů, nesmí zůstat volně přístupné. **Zatím neimplementováno.**
 
 ---
 
